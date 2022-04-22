@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin/login');
-});
-Route::get('/coba-via-controller', 'App\Http\Controllers\CobaController@Coba');
+// Auth 
+Route::get('/login', [AuthController::class, 'LoginView']);
+Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.login');
+Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
