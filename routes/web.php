@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin/login');
 });
+Route::get('/coba-via-controller', 'App\Http\Controllers\CobaController@Coba');

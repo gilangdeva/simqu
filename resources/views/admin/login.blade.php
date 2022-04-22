@@ -40,14 +40,14 @@
                 <div align="center">
                     <img src="{{ url('/') }}/images/web/logo-kiky.png" width="85px" height="auto">
                 </div>
-                <h3 class="box-title m-b-0">LOGIN PAGE</h3>
-                <small>Please insert your valid account information</small>
+                <h3 class="box-title m-b-0">HALAMAN LOGIN</h3>
+                <small>Mohon Masukkan Informasi Akun Valid Anda</small>
                     
                 <form class="form-horizontal new-lg-form" id="loginform" action="" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
-                            <label>Username</label>
+                            <label>NIK</label>
                             <input class="form-control" type="text" name="username" required="" autocomplete="false">
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                         </div>
                         
                         <div class="col-xs-12" align="center">
-                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-center"><i class="fa fa-lock m-r-5"></i> Forgot Password?</a>
+                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-center"><i class="fa fa-lock m-r-5"></i> Lupa Password?</a>
                         </div>
                     </div>
                 </form>
