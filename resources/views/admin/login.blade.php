@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="PT Bintang Cakra Kencana">
-    <meta name="author" content="Kurniawan E. Yulianto">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/images/web/bck-icon.png">
-    <title>Login - PT. Bintang Cakra Kencana</title>
+    <meta name="description" content="PT Solo Murni">
+    <meta name="author" content="HRBA">
+    <link rel="icon" type="image/png" sizes="16x16" href="">
+    <title>Login - PT Solo Murni</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ url('/') }}/admin/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Animation CSS -->
@@ -16,14 +16,10 @@
     <link href="{{ url('/') }}/admin/css/style.css" rel="stylesheet">
     <!-- Color CSS -->
     <link href="{{ url('/') }}/admin/css/colors/default.css" id="theme"  rel="stylesheet">
-    <!-- Sweet Alert -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-	<script src="//malsup.github.com/jquery.form.js"></script>
 </head>
 
 <body>
-    @include('sweet::alert')
+    @include('sweetalert::alert')
     <!-- Preloader -->
     <div class="preloader">
         <div class="cssload-speeding-wheel"></div>
@@ -31,20 +27,23 @@
     <section id="wrapper" class="new-login-register">
         <div class="lg-info-panel">
             <div class="inner-panel">
-                <a href="/" class="p-20 di"><img src="{{ url('/') }}/images/web/bck-title-white.png""></a>
+                <a href="/" class="p-20 di"><img src="{{ url('/') }}/images/web/simqu-title-white.png""></a>
                 <div class="lg-content">
-                    <h2>ADMINISTRATION PANEL<br><b>PT. BINTANG CAKRA KENCANA</b></h2>
-                    <p class="text-muted">Official Website of BCKGUNS Digital Catalogue <br> Copyright &copy; 2021 - PT. Bintang Cakra Kencana </p>
-                    <a href="/" class="btn btn-rounded btn-danger p-l-20 p-r-20">Home</a>
+                    <h2>PANEL ADMINISTRASI<br><b>SISTEM INFORMASI MANAGEMENT QUALITY CONTROL</b></h2>
+                    <p class="text-muted">SIMQU - Modul Inspeksi <br> Copyright &copy; 2022 - PT. Bintang Cakra Kencana </p>
+                    <a href="/" class="btn btn-rounded btn-danger p-l-20 p-r-20">Bantuan</a>
                 </div>
             </div>
         </div>
         <div class="new-login-box">
             <div class="white-box">
+                <div align="center">
+                    <img src="{{ url('/') }}/images/web/logo-kiky.png" width="85px" height="auto">
+                </div>
                 <h3 class="box-title m-b-0">LOGIN PAGE</h3>
                 <small>Please insert your valid account information</small>
                     
-                <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('auth.login') }}" method="POST">
+                <form class="form-horizontal new-lg-form" id="loginform" action="" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
@@ -71,7 +70,7 @@
                     </div>
                 </form>
 
-                <form class="form-horizontal" id="recoverform" action="{{ route('auth.reset') }}" method="POST">
+                <form class="form-horizontal" id="recoverform" action="" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group ">
                         <div class="col-xs-12">
