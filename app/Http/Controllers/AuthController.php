@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\SendResetPassword;
-use App\Models\UsersModel;
+use App\Models\UsersModel; //Tambahkan folder models
 use Redirect;
 use Mail;
 use DB;
@@ -17,9 +17,7 @@ class AuthController extends Controller
         if (session()->get('username') <> '') {
             return Redirect('/dashboard');
         } else {
-            //return view('admin.login');
-            $coba = UsersModel::where('kode_user', '1')->where('password', '1')->get();
-            return $coba;
+            return view('admin.login');
         }
     }
 

@@ -13,7 +13,10 @@ class UsersModel extends Model
     	'kode_user',
     	'nama_user',
         'jenis_user',
-    	'password'
-    	
+    	'password',
+    	'token',
+        'id_departemen',
+        'id_sub_departemen',
+        'picture'
     ];
 }
