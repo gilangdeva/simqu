@@ -18,7 +18,8 @@ class AuthController extends Controller
             return Redirect('/dashboard');
         } else {
             //return view('admin.login');
-            $coba=UsersModel::where('username', '1')->where('password', '1')->get();
+            $coba = UsersModel::where('kode_user', '1')->where('password', '1')->get();
+            return $coba;
         }
     }
 
