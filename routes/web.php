@@ -18,3 +18,5 @@ use App\Http\Controllers\AuthController;
 Route::get('/login', [AuthController::class, 'LoginView']);
 Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.login');
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
+
+Route::get('/uefa', [BelajarController::class, 'index']); 
