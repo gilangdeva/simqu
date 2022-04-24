@@ -19,4 +19,8 @@ Route::get('/login', [AuthController::class, 'LoginView']);
 Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.login'); // auth.login digunakan untuk validasi, ketika belum login maka akan diarahkan ke halaman login
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
+// Users
+Route::get('/users', 'UsersController@users');
+
+
 // Dashboard
