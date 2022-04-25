@@ -21,11 +21,13 @@ Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Users
 Route::get('/users', 'App\Http\Controllers\UsersController@users');
-//add user
+// Add user
 Route::get('/users/adduser', 'App\Http\Controllers\UsersController@adduser');
 Route::post('/users/store', 'App\Http\Controllers\UsersController@store');
-//edit user
+// Edit user
 Route::get('/users/edit_user/{id}','App\Http\Controllers\UsersController@edit_user');
 Route::post('/users/update','App\Http\Controllers\UsersController@update');
+// Delete User
+Route::get('/users/delete_user/{id}', 'App\Http\Controllers\UsersController@delete_user');
 
 // Dashboard

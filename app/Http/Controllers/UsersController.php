@@ -58,4 +58,10 @@ class UsersController extends Controller
         return redirect('/users');
     }
     
+    public function delete_user($id)
+    {
+        DB::table('tb_master_users')->where('id_user',$id)->delete();
+
+        return redirect('/users');
+    }
 }

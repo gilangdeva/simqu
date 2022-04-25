@@ -25,7 +25,7 @@
 			<td>
 				<a href="/users/edit_user/{{ $u->id_user }}">Edit</a>
 				|
-				<a href="/users/hapus/{{ $u->id_user }}">Hapus</a>
+				<a href="/users/delete_user/{{ $u->id_user }}">Hapus</a>
 			</td>
 		</tr>
 		@endforeach
