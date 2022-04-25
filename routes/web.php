@@ -20,7 +20,7 @@ Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.log
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Users
-Route::get('/users', 'UsersController@users');
+Route::get('/users', 'App\Http\Controllers\UsersController@users');
 
 
 // Dashboard
