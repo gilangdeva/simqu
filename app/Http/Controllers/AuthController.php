@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades;
 use Illuminate\Support\Str;
 use App\Mail\SendResetPassword;
 use App\Models\UsersModel; //Tambahkan folder models
 use Redirect;
 use Mail;
-use DB;
 use Crypt;
+use DB;
 
 class AuthController extends Controller
 {
@@ -23,8 +24,8 @@ class AuthController extends Controller
 
     public function AuthLogin(Request $request){
         $this->validate($request, [
-            'username' => 'required',
-            'password' => 'required',
+            'kode_user' => 'required',
+            'password'  => 'required',
         ]);
         
         $username = $request->username;
@@ -33,7 +34,7 @@ class AuthController extends Controller
 
         // check access on database
         // $usersValidation = DB::select("SELECT * FROM vw_master_users WHERE identity_number = '". $identity_number."' AND password ='".$password."'");
-        $usersValidation = UsersModel::where('username', $username)->where('password', $password)->get();
+        $usersValidation = UsersModel::where('kode_user', $kode_user)->where('password', $password)->get();
         // show all menus according with identity number
 
         // if all data already exist on array or have not null value
@@ -42,10 +43,10 @@ class AuthController extends Controller
             if (($usersValidation[0]->username <> '') && ($usersValidation[0]->password <> '')) {
                 session([
                     'user_id'       => $usersValidation[0]->user_id,
-                    'username'      => $usersValidation[0]->username,
-                    'complete_name' => $usersValidation[0]->complete_name,
-                    'img'           => $usersValidation[0]->picture,
-                    'user_default'  => $usersValidation[0]->user_default,
+                    'kode_user'     => $usersValidation[0]->kode_user,
+                    'nama_user'     => $usersValidation[0]->nama_user,
+                    'jenis_user'    => $usersValidation[0]->jenis_user,
+                    'picture'       => $usersValidation[0]->picture,
                 ]);
                 
                 return redirect('/dashboard');
@@ -63,15 +64,15 @@ class AuthController extends Controller
         // Clear session
         session()->forget([
             'user_id',
-            'username',
-            'complete_name',
-            'img',
-            'user_default',
+            'kode_user',
+            'nama_user',
+            'jenis_user',
+            'picture',
         ]);
         session()->flush();
 
-        alert()->success("You're logout from system!", 'Success');
-        return redirect('/panel');
+        alert()->success("Anda logout dari sistem", 'Sukses');
+        return redirect('/login');
     }
 
     public function SendTokenReset(Request $request) {
