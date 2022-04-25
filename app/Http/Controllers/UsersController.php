@@ -35,6 +35,27 @@ class UsersController extends Controller
             'id_departemen' => $request->id_departemen,
             'id_sub_departemen' => $request->id_sub_departemen
         ]);
-        return redirect('/admin.users');
+        return redirect('/users');
     }
+
+    public function edit_user($id)
+    {
+        $users = DB::table('tb_master_users')->where('id_user',$id)->get();
+
+        return view('admin.edit_user',['users' => $users]);
+    }
+
+    public function update(Request $request)
+    {
+        DB::table('tb_master_users')->where('id_user',$request->id)->update([
+            'nama_user' => $request->nama,
+            'password' => $request->password,
+            'kode_user' => $request->kode_user,
+            'jenis_user' => $request->jabatan,
+            'id_departemen' => $request->id_departemen,
+            'id_sub_departemen' => $request->id_sub_departemen    
+        ]);
+        return redirect('/users');
+    }
+    
 }

@@ -23,7 +23,7 @@
 			<td>{{ $u->nama_user }}</td>
 			<td>{{ $u->password }}</td>
 			<td>
-				<a href="/users/edit/{{ $u->id_user }}">Edit</a>
+				<a href="/users/edit_user/{{ $u->id_user }}">Edit</a>
 				|
 				<a href="/users/hapus/{{ $u->id_user }}">Hapus</a>
 			</td>

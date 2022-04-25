@@ -13,6 +13,7 @@
 	<br/>
 
 	<form action="/users/store" method="post">
+		{{ csrf_field() }}
 		Nama <input type="text" name="nama" required="required"> <br/>
         Password <input type="text" name="password" required="required"> <br/>
         Kode User <input type="text" name="kode_user" required="required"> <br/>
