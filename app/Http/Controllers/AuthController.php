@@ -17,12 +17,7 @@ class AuthController extends Controller
         if (session()->get('username') <> '') {
             return Redirect('/dashboard');
         } else {
-            return view('admin\login');
-            // ini sudahh bener
-            $coba = UsersModel::where('kode_user', '1')->where('password', '1')->get();
-
-            // Terus kamu return variable $coba untuk cek hasilnya
-            return $coba;
+            return view('admin.login');
         }
     }
 

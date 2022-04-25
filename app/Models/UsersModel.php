@@ -1,6 +1,5 @@
 <?php
 
-//Tambahkan folder model
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
