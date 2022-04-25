@@ -19,4 +19,22 @@ class UsersController extends Controller
 
         return view('admin.users', ['users' => $users]);
     }
+
+    public function adduser()
+    {
+        return view('admin.adduser');
+    }
+
+    public function store(Request $request)
+    {
+        DB::table('tb_master_users')->insert([
+            'nama_user' => $request->nama,
+            'password' => $request->password,
+            'kode_user' => $request->kode_user,
+            'jenis_user' => $request->jabatan,
+            'id_departemen' => $request->id_departemen,
+            'id_sub_departemen' => $request->id_sub_departemen
+        ]);
+        return redirect('/admin.users');
+    }
 }

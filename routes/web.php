@@ -21,6 +21,8 @@ Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Users
 Route::get('/users', 'App\Http\Controllers\UsersController@users');
+Route::get('/users/adduser', 'App\Http\Controllers\UsersController@adduser');
+Route::post('/users/store', 'App\Http\Controllers\UsersController@store')->name('store');
 
 
 // Dashboard
