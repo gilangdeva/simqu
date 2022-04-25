@@ -17,6 +17,11 @@ class UsersModel extends Model
     	'token',
         'id_departemen',
         'id_sub_departemen',
-        'picture'
+        'picture',
+        'email',
+        'created_at',
+        'creator',
+        'updated_at',
+        'pic'
     ];
 }
