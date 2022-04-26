@@ -70,7 +70,7 @@
                             <!--This is dark logo icon--><img src="{{ url('/') }}/images/web/menu-icon.png" alt="home" class="dark-logo" /><!--This is light logo icon--><img src="{{ url('/') }}/images/web/menu-icon.png" alt="home" class="light-logo" />
                         </b>
                         <!-- Logo text image you can use text also --><span class="hidden-xs">
-                        <!--This is dark logo text--><img src="{{ url('/') }}/images/web/bck-header-small.png" alt="home" class="dark-logo" /><!--This is light logo text--><img src="{{ url('/') }}/images/web/bck-header-small.png" alt="home" class="light-logo" />
+                        <!--This is dark logo text--><img src="{{ url('/') }}/images/web/simqu-header-small.png" alt="home" class="dark-logo" /><!--This is light logo text--><img src="{{ url('/') }}/images/web/simqu-header-small.png" alt="home" class="light-logo" />
                      </span> </a>
                 </div>
                 <!-- /Logo -->
@@ -143,7 +143,7 @@
                             <li><a href="/merk"><i class="mdi mdi-certificate fa-fw"></i><span class="hide-menu">Merk</span></a></li>
                             <li><a href="/products"><i class="mdi mdi-pistol fa-fw"></i><span class="hide-menu">Products</span></a></li>
                             <li><a href="/title"><i class="mdi mdi-format-title fa-fw"></i> <span class="hide-menu">Title Specification</span></a></li>
-                            <li><a href="/spec"><i class="mdi mdi-format-float-left fa-fw"></i> <span class="hide-menu">Specification</span></a></li>
+                            <li><a href="/department"><i class="mdi mdi-format-float-left fa-fw"></i> <span class="hide-menu">Departement</span></a></li>
                             <li><a href="/users"><i class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Users</span></a></li>
                         </ul>
                     </li>

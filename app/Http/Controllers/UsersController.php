@@ -42,7 +42,7 @@ class UsersController extends Controller
     // Redirect ke window input users
     public function UsersInput(){
         return view('admin.master.users-input',[
-            'menu'  => 'master',
+            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'   => '/users'
         ]);
     }
@@ -122,6 +122,131 @@ class UsersController extends Controller
             alert()->success('Berhasil!', 'Data sukses disimpan!');
             return redirect('/users');
         }
+    }
+
+    // fungsi untuk redirect ke halaman edit
+    public function EditUserData($id){
+        $id = Crypt::decrypt($id);
+
+        // Select data based on ID
+        $user = UsersModel::find($id);
+        
+        return view('admin.master.users-edit', [
+            'menu'  => 'master',
+            'sub'   => '/users',
+            'users' => $user,
+        ]);
+    }
+
+    // simpan perubahan dari data yang sudah di edit
+    public function SaveEditUserData(Request $request){
+        $id_user = $request->id_user;
+        $kode_user = strtolower($request->kode_user);
+        $nama_user = strtoupper($request->nama_user);
+        $email = $request->email;
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $pic = session()->get('id_user');
+        $file_picture = $request->file('picture'); 
+        $file_original_picture = $request->original_picture; 
+
+        // return $request;
+
+        // Is there a change in picture file?
+        if ($file_picture <> '') {
+            $this->validate($request, [
+                'picture' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
+            
+            $file = $file_picture;
+
+            // Create filename with merging the timestamp and unique ID
+            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            
+            // Upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
+
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                // Create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
+                
+                // Rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // Insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
+
+                // Move image in folder
+                $canvas->save($this->path . '/' . $f_name);
+            }
+        } else {
+            $f_name = $file_original_picture;
+        }
+
+        // Is there a change in email data?
+        if ($request->email <> $request->original_email){
+            // Check duplicate email
+            $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
+            if (isset($email_check['0'])) {  
+                alert()->error('Gagal!', 'Maaf, Email ini sudah terdaftar dalam sistem!');
+                return Redirect::back();
+            } else {
+                // Update data into database
+                UsersModel::where('id_user', $id_user)->update([
+                    'kode_user'         => $kode_user,
+                    'nama_user'         => $nama_user,
+                    'email'             => $email,
+                    'updated_at'        => $updated_at,
+                    'pic'               => $pic,
+                    'id_departemen'     => 0,
+                    'id_sub_departemen' => 0,
+                    'jenis_user'        => '0',
+                    'picture'           => $f_name,
+                ]);
+                
+                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                return redirect('/users');
+            }
+        } else {
+            // Update data into database
+            UsersModel::where('id_user', $id_user)->update([
+                'kode_user'         => $kode_user,
+                'nama_user'         => $nama_user,
+                'updated_at'        => $updated_at,
+                'pic'               => $pic,
+                'id_departemen'     => 0,
+                'id_sub_departemen' => 0,
+                'jenis_user'        => '0',
+                'picture'           => $f_name,
+            ]);
+
+            // If user_id is active user_id, set session image
+            if (session()->get('id_user') == $id_user) {
+                session([
+                    'img'           => $f_name,
+                    'nama_user'     => $nama_user
+                ]);
+            }
+            
+            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            return redirect('/users');
+        }
+    }
+
+    // untuk beralih ke window ubah password
+    public function ChangeUserPassword($id){
+        $id = Crypt::decrypt($id);
+        
+        // Select data based on ID
+        $user = UsersModel::find($id);
+
+        return view('admin.master.users-password',[
+            'menu'  => 'master',
+            'sub'   => '/users',
+            'users' => $user,
+        ]);
     }
 
     // Fungsi hapus data
