@@ -9,7 +9,6 @@ use App\Mail\SendResetPassword;
 use App\Models\UsersModel; //Tambahkan folder models
 use Redirect;
 use Mail;
-use DB;
 use Crypt;
 
 class AuthController extends Controller

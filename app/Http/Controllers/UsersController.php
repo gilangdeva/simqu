@@ -42,7 +42,7 @@ class UsersController extends Controller
     // Redirect ke window input users
     public function UsersInput(){
         return view('admin.master.users-input',[
-            'menu'  => 'master',
+            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'   => '/users'
         ]);
     }
