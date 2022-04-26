@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UsersController;
 
 /*
@@ -31,3 +32,9 @@ Route::post('/users-input/', [UsersController::class, 'SaveUserData'])->name('us
 Route::get('/users-edit/{id}', [UsersController::class, 'EditUserData']); // mengarahkan ke window edit data
 Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->name('users.update'); //simpan perubahan data
 Route::get('/users-delete/{id}', [UsersController::class, 'DeleteUserData']); // menghapus data user dari database
+
+// Master Department
+Route::get('/department', [DepartmentController::class, 'DepartmentList']);
+Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput']);
+Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save');
+Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData']);

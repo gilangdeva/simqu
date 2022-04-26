@@ -143,7 +143,7 @@
                             <li><a href="/merk"><i class="mdi mdi-certificate fa-fw"></i><span class="hide-menu">Merk</span></a></li>
                             <li><a href="/products"><i class="mdi mdi-pistol fa-fw"></i><span class="hide-menu">Products</span></a></li>
                             <li><a href="/title"><i class="mdi mdi-format-title fa-fw"></i> <span class="hide-menu">Title Specification</span></a></li>
-                            <li><a href="/spec"><i class="mdi mdi-format-float-left fa-fw"></i> <span class="hide-menu">Specification</span></a></li>
+                            <li><a href="/department"><i class="mdi mdi-format-float-left fa-fw"></i> <span class="hide-menu">Departement</span></a></li>
                             <li><a href="/users"><i class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Users</span></a></li>
                         </ul>
                     </li>
