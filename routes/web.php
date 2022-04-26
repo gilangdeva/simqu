@@ -33,6 +33,10 @@ Route::get('/users-edit/{id}', [UsersController::class, 'EditUserData']); // men
 Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->name('users.update'); //simpan perubahan data
 Route::get('/users-delete/{id}', [UsersController::class, 'DeleteUserData']); // menghapus data user dari database
 
+// User Change Password
+Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword']);
+Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->name('password.update');
+
 // Master Department
 Route::get('/department', [DepartmentController::class, 'DepartmentList']);
 Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput']);
