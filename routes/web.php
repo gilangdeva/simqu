@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 
@@ -53,3 +54,11 @@ Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDe
 Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData']); // mengarahkan ke window edit data
 Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update'); //simpan perubahan data
 Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
+
+// Master Periode
+Route::get('/periode', [PeriodeController::class, 'PeriodeList']);
+Route::get('/periode-input/', [PeriodeController::class, 'PeriodeInput']);
+Route::post('/periode-input/', [PeriodeController::class, 'SavePeriodeData'])->name('periode.save');
+Route::get('/periode-edit/{id}', [PeriodeController::class, 'EditPeriodeData']);
+Route::post('/periode-update/', [PeriodeController::class, 'SaveEditPeriodeData'])->name('periode.update');
+Route::get('/periode-delete/{id}', [PeriodeController::class, 'DeletePeriodeData']);
