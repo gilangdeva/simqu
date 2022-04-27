@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 
 /*
@@ -38,3 +39,9 @@ Route::get('/department', [DepartmentController::class, 'DepartmentList']);
 Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput']);
 Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save');
 Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData']);
+
+// Master Sub Department
+Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList']);
+Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput']);
+Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save');
+Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
