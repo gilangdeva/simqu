@@ -137,13 +137,8 @@
                             <a href="#" class="waves-effect"><i class="mdi mdi-database-plus fa-fw"></i> <span class="hide-menu">Master Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/group"><i class="mdi mdi-group fa-fw"></i><span class="hide-menu">Group</span></a></li>
-                            <li><a href="/category"><i class="mdi mdi-animation fa-fw"></i><span class="hide-menu">Category</span></a></li>
-                            <li><a href="/type"><i class="mdi mdi-target fa-fw"></i><span class="hide-menu">Type</span></a></li>
-                            <li><a href="/merk"><i class="mdi mdi-certificate fa-fw"></i><span class="hide-menu">Merk</span></a></li>
-                            <li><a href="/products"><i class="mdi mdi-pistol fa-fw"></i><span class="hide-menu">Products</span></a></li>
-                            <li><a href="/title"><i class="mdi mdi-format-title fa-fw"></i> <span class="hide-menu">Title Specification</span></a></li>
-                            <li><a href="/department"><i class="mdi mdi-format-float-left fa-fw"></i> <span class="hide-menu">Departement</span></a></li>
+                            <li><a href="/department"><i class="mdi mdi-account-network fa-fw"></i> <span class="hide-menu">Departemen</span></a></li>
+                            <li><a href="/sub-department"><i class="mdi mdi-account-multiple-plus fa-fw"></i> <span class="hide-menu">Sub Departemen</span></a></li>
                             <li><a href="/users"><i class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Users</span></a></li>
                         </ul>
                     </li>

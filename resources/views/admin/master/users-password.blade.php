@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <label class="col-md-12">Current Password</label>
                         <div class="col-md-12">
-                            <input type="hidden" class="form-control" name="user_id" value="{{ $users->user_id }}" required> 
+                            <input type="hidden" class="form-control" name="id_user" value="{{ $users->id_user }}" required> 
                             <input type="password" class="form-control" name="password" required> 
                         </div>
                     </div>
