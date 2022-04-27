@@ -42,6 +42,8 @@ Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->
 Route::get('/department', [DepartmentController::class, 'DepartmentList']);
 Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput']);
 Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save');
+Route::get('/department-edit/{id}', [DepartmentController::class, 'EditDepartmentData']); // mengarahkan ke window edit data
+Route::post('/department-update/', [DepartmentController::class, 'SaveEditDepartmentData'])->name('department.update'); //simpan perubahan data
 Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData']);
 
 // Master Sub Department

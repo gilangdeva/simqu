@@ -11,6 +11,8 @@ class DepartmentModel extends Model
 
     protected $fillable = [
     	'kode_departemen',
-    	'nama_departemen'
+    	'nama_departemen',
+        'created_at',
+        'updated_at'
     ];
 }

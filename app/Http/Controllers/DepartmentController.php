@@ -66,6 +66,46 @@ class DepartmentController extends Controller
     }
 
 
+    // fungsi untuk redirect ke halaman edit
+    public function EditDepartmentData($id){
+        $id = Crypt::decrypt($id);
+
+        // Select data based on ID
+        $departemen = DepartmentModel::find($id);
+        
+        return view('admin.master.department-edit', [
+            'menu'  => 'master',
+            'sub'   => '/department',
+            'department' => $departemen,
+        ]);
+    }
+
+    // simpan perubahan dari data yang sudah di edit
+    public function SaveEditDepartmentData(Request $request){
+        $id_departemen = $request->id_departemen;
+        $kode_departemen = strtolower($request->kode_departemen);
+        $nama_departemen = strtoupper($request->nama_departemen);
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+ 
+
+
+        // return $request;
+
+
+        {
+            // Update data into database
+            DepartmentModel::where('id_departemen', $id_departemen)->update([
+                'kode_departemen'         => $kode_departemen,
+                'nama_departemen'         => $nama_departemen,
+                'updated_at'              => $updated_at,
+            ]);
+            
+            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            return redirect('/department');
+        }
+    } 
+    
+
     // Fungsi hapus data
     public function DeleteDepartmentData($id){
         $id = Crypt::decryptString($id);
@@ -84,7 +124,7 @@ class DepartmentController extends Controller
             $departemen = DepartmentModel::find($id);
             $departemen->delete();
 
-            // Move to users list page
+            // Move to department list page
             alert()->success('Berhasil!', 'Berhasil menghapus data!');
             return redirect('/department');
         }
