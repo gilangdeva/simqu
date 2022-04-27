@@ -16,7 +16,7 @@
                         <h3 class="box-title">LIST SUB-DEPARTMENT</h3>
                     </div>
                     <div class="col-sm-6 col-xs-12">
-                        <a href="/department-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Add Department</button></a>
+                        <a href="/subdepartment-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Add Sub Department</button></a>
                     </div>
                 </div>
                 <div class="table-responsive">
