@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <a href="/subdepartment"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
+                            <a href="/sub-department"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>
                     </div>
                 </form>

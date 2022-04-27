@@ -13,6 +13,8 @@ class SubDepartmentModel extends Model
     	'id_departemen',
     	'kode_sub_departemen',
         'nama_sub_departemen',
-        'klasifikasi_proses'
+        'klasifikasi_proses',
+        'created_at',
+        'updated_at'
     ];
 }

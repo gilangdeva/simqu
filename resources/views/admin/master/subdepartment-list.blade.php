@@ -25,7 +25,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Kode Sub Departemen</th>
-                                <th>Nama Nama Departemen</th>
+                                <th>Nama Sub Departemen</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

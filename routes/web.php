@@ -45,7 +45,7 @@ Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentD
 Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData']);
 
 // Master Sub Department
-Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList']);
+Route::get('/sub-department', [SubDepartmentController::class, 'SubDepartmentList']);
 Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput']);
 Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save');
 Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
