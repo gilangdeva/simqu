@@ -50,4 +50,6 @@ Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepar
 Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList']);
 Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput']);
 Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save');
+Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData']); // mengarahkan ke window edit data
+Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update'); //simpan perubahan data
 Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
