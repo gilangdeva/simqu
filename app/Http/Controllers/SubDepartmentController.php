@@ -63,7 +63,7 @@ class SubDepartmentController extends Controller
         $subdepartment->save();
 
             alert()->success('Berhasil!', 'Data sukses disimpan!');
-            return redirect('/sub-department');
+            return redirect('/subdepartment');
 
     }
 
@@ -128,7 +128,7 @@ class SubDepartmentController extends Controller
 
             // Move to users list page
             alert()->success('Berhasil!', 'Berhasil menghapus data!');
-            return redirect('/sub-department');
+            return redirect('/subdepartment');
         }
      }
 }

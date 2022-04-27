@@ -48,7 +48,7 @@ Route::post('/department-update/', [DepartmentController::class, 'SaveEditDepart
 Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData']);
 
 // Master Sub Department
-Route::get('/sub-department', [SubDepartmentController::class, 'SubDepartmentList']);
+Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList']);
 Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput']);
 Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save');
 Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData']); // mengarahkan ke window edit data
