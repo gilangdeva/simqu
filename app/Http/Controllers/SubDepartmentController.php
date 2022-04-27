@@ -68,6 +68,46 @@ class SubDepartmentController extends Controller
     }
 
 
+    // fungsi untuk redirect ke halaman edit
+    public function EditSubDepartmentData($id){
+        $id = Crypt::decrypt($id);
+
+        // Select data based on ID
+        $subdepartemen = SubDepartmentModel::find($id);
+        
+        return view('admin.master.subdepartment-edit', [
+            'menu'  => 'master',
+            'sub'   => '/subdepartment',
+            'subdepartment' => $subdepartemen,
+        ]);
+    }
+
+    // simpan perubahan dari data yang sudah di edit
+    public function SaveEditSubDepartmentData(Request $request){
+        $id_sub_departemen = $request->id_sub_departemen;
+        $kode_sub_departemen = strtolower($request->kode_sub_departemen);
+        $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+ 
+
+
+        // return $request;
+
+
+        {
+            // Update data into database
+            SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
+                'kode_sub_departemen'         => $kode_sub_departemen,
+                'nama_sub_departemen'         => $nama_sub_departemen,
+                'updated_at'              => $updated_at,
+            ]);
+            
+            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            return redirect('/subdepartment');
+        }
+    }
+
+
      // Fungsi hapus data
      public function DeleteSubDepartmentData($id){
         $id = Crypt::decryptString($id);
