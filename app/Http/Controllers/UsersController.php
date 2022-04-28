@@ -41,9 +41,14 @@ class UsersController extends Controller
 
     // Redirect ke window input users
     public function UsersInput(){
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen');
+        
         return view('admin.master.users-input',[
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/users'
+            'departemen'        => $departemen,
+            'subdepartemen'    => $subdepartemen,
+            'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'               => '/users' // selalu ada di tiap function dan disesuaikan
         ]);
     }
 
@@ -54,12 +59,12 @@ class UsersController extends Controller
         // Parameters
         $users->kode_user = strtolower($request->kode_user);
         $users->nama_user = strtoupper($request->nama_user);
-        $encrypt_password = md5(strtolower($request->username));
+        $encrypt_password = md5(strtolower($request->kode_user));
         $users->password = hash('ripemd160', $encrypt_password);
         $users->email = $request->email;
-        $users->jenis_user = 0; //nanti diubah
-        $users->id_departemen = 0; //nanti diubah
-        $users->id_sub_departemen = 0; //nanti diubah
+        $users->jenis_user = $request->jenis_user; //nanti diubah
+        $users->id_departemen = $request->id_departemen; //nanti diubah
+        $users->id_sub_departemen = $request->id_sub_departemen; //nanti diubah
         $users->creator = session()->get('user_id');
         $users->pic = session()->get('user_id'); 
 

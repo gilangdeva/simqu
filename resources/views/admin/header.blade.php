@@ -83,13 +83,13 @@
                         {{-- <form role="search" class="app-search hidden-sm hidden-xs m-r-10"><input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form> --}}
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ url('/') }}/images/users/{{ session()->get('img') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ session()->get('complete_name') }}</b><span class="caret"></span> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ url('/') }}/images/users/{{ session()->get('picture') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ session()->get('nama_user') }}</b><span class="caret"></span> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li>
                                 <div class="dw-user-box">
-                                    <div class="u-img"><img src="{{ url('/') }}/images/users/{{ session()->get('img') }}" alt="user" /></div>
+                                    <div class="u-img"><img src="{{ url('/') }}/images/users/{{ session()->get('picture') }}" alt="user" /></div>
                                     <div class="u-text" style="width: 65%">
-                                        <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ session()->get('complete_name') }}</h4>
+                                        <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ session()->get('nama_user') }}</h4>
                                         @if (session()->get('user_default') == 0 )
                                             <span class="label label-rouded label-danger">Administrator</span>
                                         @else 

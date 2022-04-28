@@ -43,12 +43,12 @@
                 <h3 class="box-title m-b-0">HALAMAN LOGIN</h3>
                 <small>Mohon Masukkan Informasi Akun Valid Anda</small>
                     
-                <form class="form-horizontal new-lg-form" id="loginform" action="" method="POST">
+                <form class="form-horizontal new-lg-form" id="loginform" action="{{ route('auth.login') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group  m-t-20">
                         <div class="col-xs-12">
                             <label>NIK</label>
-                            <input class="form-control" type="text" name="username" required="" autocomplete="false">
+                            <input class="form-control" type="text" name="kode_user" required="" autocomplete="false">
                         </div>
                     </div>
 

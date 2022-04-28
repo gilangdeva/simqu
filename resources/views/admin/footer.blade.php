@@ -65,8 +65,13 @@
             // Datatable Basic
             $('#tablebasic').DataTable();
             
+            // For select 2
+            $(".select2").select2();
+            $('.selectpicker').selectpicker();
+
             // File Upload Basic
             $('.dropify').dropify();
+            
             // Translated
             $('.dropify-fr').dropify({
                 messages: {
