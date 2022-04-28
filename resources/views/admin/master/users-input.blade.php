@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Input Users - PT. Bintang Cakra Kencana')
+@section('title', 'Input Users - SIMQU')
 
 @section('content')
 
@@ -14,36 +14,73 @@
                 <h3 class="box-title">INPUT USERS DATA</h3>
                 <form class="form-horizontal" action="{{ route('users.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <div class="form-group">
-                        <label class="col-md-12">NIK</label>
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">NIK</label>
+                        <div class="col-sm-9">
                             <input type="text" class="form-control" name="kode_user" maxlength="10" placeholder="NIK" required> 
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-12">Nama Lengkap</label>
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Nama Lengkap</label>
+                        <div class="col-sm-9">
                             <input type="text" class="form-control" name="nama_user" maxlength="20" placeholder="Nama Lengkap" required> 
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-12">Email <i>contoh : "rookie@gmail.com"</i></label>
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
                             <input type="email" class="form-control" name="email" maxlength="150" placeholder="Email" required> 
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-12">Foto Profil</label>
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Jenis Pengguna</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" name="jenis_user" required>
+                                <option>Pilih Jenis Pengguna</option>
+                                <option value="Inspektor">Inspektor</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Administrator">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Departemen</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" name="id_departemen" required>
+                                <option>Pilih Departemen</option>
+                                @foreach ($departemen as $dept)
+                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Sub Departemen</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" name="id_sub_departemen" required>
+                                <option>Pilih Sub Departemen</option>
+                                @foreach ($subdepartemen as $subdept)
+                                    <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Foto Profil</label>
+                        <div class="col-sm-9">
                             <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-9">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/users"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>

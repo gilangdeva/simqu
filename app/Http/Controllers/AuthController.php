@@ -28,7 +28,7 @@ class AuthController extends Controller
             'password'  => 'required',
         ]);
         
-        $username = $request->username;
+        $kode_user = $request->kode_user;
         $encrypt_password = md5($request->password);
         $password = hash('ripemd160', $encrypt_password);
 
@@ -40,20 +40,22 @@ class AuthController extends Controller
         // if all data already exist on array or have not null value
         // so create session according with 'identity number'
         if ($usersValidation[0] ?? null) {
-            if (($usersValidation[0]->username <> '') && ($usersValidation[0]->password <> '')) {
+            if (($usersValidation[0]->kode_user <> '') && ($usersValidation[0]->password <> '')) {
                 session([
-                    'user_id'       => $usersValidation[0]->user_id,
-                    'kode_user'     => $usersValidation[0]->kode_user,
-                    'nama_user'     => $usersValidation[0]->nama_user,
-                    'jenis_user'    => $usersValidation[0]->jenis_user,
-                    'picture'       => $usersValidation[0]->picture,
+                    'id_user'           => $usersValidation[0]->id_user,
+                    'kode_user'         => $usersValidation[0]->kode_user,
+                    'nama_user'         => $usersValidation[0]->nama_user,
+                    'departemen'        => $usersValidation[0]->nama_departemen,
+                    'sub_departemen'    => $usersValidation[0]->nama_sub_departemen,
+                    'jenis_user'        => $usersValidation[0]->jenis_user,
+                    'picture'           => $usersValidation[0]->picture,
                 ]);
                 
                 return redirect('/dashboard');
             }
         } else {
             // username doesn't exist on database
-            alert()->error('Wrong username or password, please try again!', 'Access Denied!');
+            alert()->error('Akses Ditolak!','NIK atau Password yang Anda masukkan salah!');
             return view('admin.login');
         }
     }
@@ -71,7 +73,7 @@ class AuthController extends Controller
         ]);
         session()->flush();
 
-        alert()->success("Anda logout dari sistem", 'Sukses');
+        alert()->success('Sukses', "Anda logout dari sistem");
         return redirect('/login');
     }
 
