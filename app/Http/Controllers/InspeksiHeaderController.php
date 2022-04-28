@@ -42,7 +42,7 @@ class InspeksiHeaderController extends Controller
         $inspeksiheader = new InspeksiHeaderModel();
 
         // Parameters
-        $inspeksiheader->id_user = strtoupper($request->id_user);
+        $inspeksiheader->id_user = 0; //diubah
         $inspeksiheader->tgl_inspeksi = $request->tgl_mulai_periode;
         $inspeksiheader->id_shift = strtoupper($request->id_shift);
 

@@ -22,29 +22,35 @@
                     </div>
 
                     <div class="form-group">
-                    <label class="col-md-12">Bulan</label>
-                    <div select class="col-md-12">
-                    <select type="action" class="form-control" name="bulan_ke" maxlength="10" placeholder="Bulan Ke" required> 
-                    <option value="1">Januari</option>
-                    <option value="2">Februari</option>
-                    <option value="3">Maret</option>
-                    <option value="4">April</option>
-                    <option value="5">Mei</option>
-                    <option value="6">Juni</option>
-                    <option value="7">Juli</option>
-                    <option value="8">Agustus</option>
-                    <option value="9">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">November</option>
-                    <option value="12">Desember</option>
-                    </select>
-                    </div>
+                        <label class="col-md-12">Bulan</label>
+                        <div class="col-md-12">
+                            <select id="bulan" class="form-control" name="bulan" maxlength="20" required>
+                                <option value="Januari">Januari</option>
+                                <option value="Februari">Februari</option>
+                                <option value="Maret">Maret</option>
+                                <option value="April">April</option>
+                                <option value="Mei">Mei</option>
+                                <option value="Juni">Juni</option>
+                                <option value="Juli">Juli</option>
+                                <option value="Agustus">Agustus</option>
+                                <option value="September">September</option>
+                                <option value="Oktober">Oktober</option>
+                                <option value="November">November</option>
+                                <option value="Desember">Desember</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-12">Minggu Ke</label>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="minggu_ke" maxlength="150" placeholder="Minggu Ke" required> 
+                            <select id="minggu_ke" class="form-control" name="minggu_ke" maxlength="20" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
                         </div>
                     </div>
 
