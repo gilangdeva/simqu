@@ -22,10 +22,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-12">Bulan</label>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="bulan" maxlength="20" placeholder="Bulan" required> 
-                        </div>
+                    <label class="col-md-12">Bulan</label>
+                    <div select class="col-md-12">
+                    <select type="action" class="form-control" name="bulan_ke" maxlength="10" placeholder="Bulan Ke" required> 
+                    <option value="1">Januari</option>
+                    <option value="2">Februari</option>
+                    <option value="3">Maret</option>
+                    <option value="4">April</option>
+                    <option value="5">Mei</option>
+                    <option value="6">Juni</option>
+                    <option value="7">Juli</option>
+                    <option value="8">Agustus</option>
+                    <option value="9">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                    </select>
+                    </div>
                     </div>
 
                     <div class="form-group">

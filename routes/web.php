@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\InspeksiHeaderController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 
@@ -62,3 +63,11 @@ Route::post('/periode-input/', [PeriodeController::class, 'SavePeriodeData'])->n
 Route::get('/periode-edit/{id}', [PeriodeController::class, 'EditPeriodeData']);
 Route::post('/periode-update/', [PeriodeController::class, 'SaveEditPeriodeData'])->name('periode.update');
 Route::get('/periode-delete/{id}', [PeriodeController::class, 'DeletePeriodeData']);
+
+// Master Inspeksi Header
+Route::get('/inspeksiheader', [InspeksiHeaderController::class, 'InspeksiHeaderList']);
+Route::get('/inspeksiheader-input/', [InspeksiHeaderController::class, 'InspeksiHeaderInput']);
+Route::post('/inspeksiheader-input/', [InspeksiHeaderController::class, 'SaveInspeksiHeaderData'])->name('inspeksiheader.save');
+Route::get('/inspeksiheader-edit/{id}', [InspeksiHeaderController::class, 'EditInspeksiHeaderData']);
+Route::post('/inspeksiheader-update/', [InspeksiHeaderController::class, 'SaveEditInspeksiHeaderData'])->name('inspeksiheader.update');
+Route::get('/inspeksiheader-delete/{id}', [InspeksiHeaderController::class, 'DeleteInspeksiHeaderData']);

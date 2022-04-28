@@ -40,7 +40,7 @@ class SubDepartmentController extends Controller
         $subdepartment = new SubDepartmentModel();
 
         // Parameters
-        $subdepartment->id_departemen = 0;
+        $subdepartment->id_departemen = 90;
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $subdepartment->klasifikasi_proses = 0;
@@ -99,7 +99,7 @@ class SubDepartmentController extends Controller
             SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
                 'kode_sub_departemen'         => $kode_sub_departemen,
                 'nama_sub_departemen'         => $nama_sub_departemen,
-                'updated_at'              => $updated_at,
+                'updated_at'                  => $updated_at,
             ]);
             
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
