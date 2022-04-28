@@ -137,6 +137,8 @@
                             <a href="#" class="waves-effect"><i class="mdi mdi-database-plus fa-fw"></i> <span class="hide-menu">Master Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
+                            <li><a href="/defectdetail"><i class="mdi mdi-clipboard-check fa-fw"></i> <span class="hide-menu">Defect Detail</span></a></li>
+                            <li><a href="/mesin"><i class="mdi mdi-washing-machine fa-fw"></i> <span class="hide-menu">Mesin</span></a></li>
                             <li><a href="/department"><i class="mdi mdi-account-network fa-fw"></i> <span class="hide-menu">Departemen</span></a></li>
                             <li><a href="/subdepartment"><i class="mdi mdi-account-multiple-plus fa-fw"></i> <span class="hide-menu">Sub Departemen</span></a></li>
                             <li><a href="/periode"><i class="mdi mdi-calendar fa-fw"></i> <span class="hide-menu">Periode</span></a></li>

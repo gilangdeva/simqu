@@ -3,10 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DefectDetailController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\MesinController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
+use App\Models\DefectDetailModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +65,19 @@ Route::post('/periode-input/', [PeriodeController::class, 'SavePeriodeData'])->n
 Route::get('/periode-edit/{id}', [PeriodeController::class, 'EditPeriodeData']);
 Route::post('/periode-update/', [PeriodeController::class, 'SaveEditPeriodeData'])->name('periode.update');
 Route::get('/periode-delete/{id}', [PeriodeController::class, 'DeletePeriodeData']);
+
+// Master Mesin
+Route::get('/mesin', [MesinController::class, 'MesinList']);
+Route::get('/mesin-input/', [MesinController::class, 'MesinInput']);
+Route::post('/mesin-input', [MesinController::class, 'SaveMesinData'])->name('mesin.save');
+Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData']);
+Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update');
+Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData']);
+
+// Master Defect Detail
+Route::get('/defectdetail', [DefectDetailController::class, 'DefectDetailList']);
+Route::get('/defectdetail-input/', [DefectDetailController::class, 'DefectDetailInput']);
+Route::post('/defectdetail-input', [DefectDetailController::class, 'SaveDefectDetailData'])->name('defectdetail.save');
+Route::get('/defectdetail-edit/{id}', [DefectDetailController::class, 'EditDefectDetailData']);
+Route::post('/defectdetail-update/', [DefectDetailController::class, 'SaveEditDefectDetailData'])->name('defectdetail.update');
+Route::get('/defectdetail-delete/{id}', [DefectDetailController::class, 'DeleteDefectDetailData']);
