@@ -3,13 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DefectDetailController;
+use App\Http\Controllers\DefectController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MesinController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
-use App\Models\DefectDetailModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,10 +73,10 @@ Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData']);
 Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update');
 Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData']);
 
-// Master Defect Detail
-Route::get('/defectdetail', [DefectDetailController::class, 'DefectDetailList']);
-Route::get('/defectdetail-input/', [DefectDetailController::class, 'DefectDetailInput']);
-Route::post('/defectdetail-input', [DefectDetailController::class, 'SaveDefectDetailData'])->name('defectdetail.save');
-Route::get('/defectdetail-edit/{id}', [DefectDetailController::class, 'EditDefectDetailData']);
-Route::post('/defectdetail-update/', [DefectDetailController::class, 'SaveEditDefectDetailData'])->name('defectdetail.update');
-Route::get('/defectdetail-delete/{id}', [DefectDetailController::class, 'DeleteDefectDetailData']);
+// Master Defect
+Route::get('/defect', [DefectController::class, 'DefectList']);
+Route::get('/defect-input/', [DefectController::class, 'DefectInput']);
+Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name('defect.save');
+Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData']);
+Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update');
+Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData']);
