@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 // Tambahkan source dibawah ini
 use Illuminate\Support\Facades\DB;
-use App\Models\DefectDetailModel;
+use App\Models\DefectModel;
 use Image;
 use File;
 use date;
@@ -14,80 +14,83 @@ use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class DefectDetailController extends Controller
+class DefectController extends Controller
 {
 
 
-    // Menampilkan list mesin
-    public function defectdetaillist(){
+    // Menampilkan list defect
+    public function DefectList(){
         // Get all data from database
-        $defectdetail = DefectDetailModel::all();
+        $defect = DefectModel::all();
 
-        return view('admin.master.defectdetail-list',[
+        return view('admin.master.defect-list',[
             'menu'  => 'master',
-            'sub'   => '/defectdetail',
-            'defectdetail' => $defectdetail
+            'sub'   => '/defect',
+            'defect' => $defect
         ]);
     }
 
-    // Redirect ke window input mesin
-    public function DefectDetailInput(){
-        return view('admin.master.defectdetail-input',[
+    // Redirect ke window input defect
+    public function DefectInput(){
+        return view('admin.master.defect-input',[
             'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/defectdetail'
+            'sub'   => '/defect'
         ]);
     }
 
-    //Simpan data mesin
-    public function SaveDefectDetailData(Request $request){
-        $defectdetail = new DefectDetailModel();
+    //Simpan data defect
+    public function SaveDefectData(Request $request){
+        $def = new DefectModel();
 
         // Parameters
-        $defectdetail->kode_defect = strtolower($request->kode_defect);
-        $defectdetail->defect = $request->defect;
-        $defectdetail->id_master_defect_header = 0; // nanti diganti
+        $defect->defect = $request->defect;
+        $defect->kode_defect = strtolower($request->kode_defect);
+        $defect->kriteria_defect = $request->kriteria_defect;
+        $defect->id_defect = 0;
 
         // Check duplicate kode
-        $kode_check = DB::select("SELECT kode_defect FROM vg_list_def_detail WHERE kode_defect = '".$request->kode_defect."'");
+        $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$request->kode_defect."'");
         if (isset($kode_check['0'])) {  
             alert()->error('Gagal Menyimpan!', 'Maaf, kode defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate defect
-        $defect_check = DB::select("SELECT defect FROM vg_list_def_detail WHERE defect = '".$request->defect."'");
-        if (isset($nama_check['0'])) {  
+        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$request->defect."'");
+        if (isset($defect_check['0'])) {  
             alert()->error('Gagal Menyimpan!', 'Maaf, defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }        
 
 
        // Insert data into database
-        $defectdetail->save();
+        $defect->save();
             alert()->success('Berhasil!', 'Data sukses disimpan!');
-            return redirect('/defectdetail');
+            return redirect('/defect');
     }
 
 
     // fungsi untuk redirect ke halaman edit
-    public function EditDefectDetailData($id){
+    public function EditDefectData($id){
         $id = Crypt::decrypt($id);
 
         // Select data based on ID
-        $defdetail = DefectDetailModel::find($id);
+        $def = DefectModel::find($id);
         
-        return view('admin.master.defectdetail-edit', [
+        return view('admin.master.defect-edit', [
             'menu'  => 'master',
-            'sub'   => '/defectdetail',
-            'defectdetail' => $defdetail,
+            'sub'   => '/defect',
+            'defect' => $def,
         ]);
     }
 
     // simpan perubahan dari data yang sudah di edit
-    public function SaveEditDefectDetailData(Request $request){
-        $id_master_defect_detail = $request->id_master_defect_detail;
-        $kode_defect = strtolower($request->kode_defect);
+
+    public function SaveEditDefectData(Request $request){
+        $id_defect = $request->id_defect;
         $defect = $request->defect;
+        $kode_defect = strtolower($request->kode_defect);
+        $kriteria_defect = $request->kriteria_defect;
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
  
 
@@ -97,25 +100,26 @@ class DefectDetailController extends Controller
 
         {
             // Update data into database
-            DefectDetailModel::where('id_master_defect_detail', $id_master_defect_detail)->update([
-                'kode_defect'              => $kode_defect,
+            DefectModel::where('id_defect', $id_defect)->update([
                 'defect'                   => $defect,
-                'id_master_defect_header'  => 0,  
+                'kode_defect'              => $kode_defect,
+                'kriteria_defect'          => $kriteria_defect,
+                'id_defect'                => $id_defect,  
                 'updated_at'               => $updated_at,
             ]);
             
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
-            return redirect('/defectdetail');
+            return redirect('/defect');
         }
     } 
     
 
     // Fungsi hapus data
-    public function DeleteDefectDetailData($id){
+    public function DeleteDefectData($id){
         $id = Crypt::decryptString($id);
         
         // Select table user to get user default value
-        $defdetail = DefectDetailModel::find($id, ['kode_defect']);
+        $def = DefectModel::find($id, ['kode_defect']);
         
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
@@ -125,12 +129,12 @@ class DefectDetailController extends Controller
         }
         {
             // Delete process
-            $defdetail = DefectDetailModel::find($id);
-            $defdetail->delete();
+            $def = DefectModel::find($id);
+            $def->delete();
 
             // Move to department list page
             alert()->success('Berhasil!', 'Berhasil menghapus data!');
-            return redirect('/defectdetail');
+            return redirect('/defect');
         }
     }
 }
