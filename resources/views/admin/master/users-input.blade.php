@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-3 control-label">Sub Departemen</label>
+                        <label class="col-sm-3 control-label">Sub Dept</label>
                         <div class="col-sm-9">
                             <select class="form-control select2" name="id_sub_departemen" required>
                                 <option>Pilih Sub Departemen</option>

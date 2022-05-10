@@ -30,7 +30,7 @@ class UsersController extends Controller
     // Menampilkan list user
     public function UsersList(){
         // Get all data from database
-        $users = UsersModel::all();
+        $users = DB::select('SELECT * FROM vw_list_users');
 
         return view('admin.master.users-list',[
             'menu'  => 'master',
@@ -132,14 +132,18 @@ class UsersController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditUserData($id){
         $id = Crypt::decrypt($id);
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen');
 
         // Select data based on ID
         $user = UsersModel::find($id);
         
         return view('admin.master.users-edit', [
-            'menu'  => 'master',
-            'sub'   => '/users',
-            'users' => $user,
+            'menu'          => 'master',
+            'sub'           => '/users',
+            'users'         => $user,
+            'departemen'    => $departemen,
+            'subdepartemen' => $subdepartemen,
         ]);
     }
 
@@ -149,12 +153,15 @@ class UsersController extends Controller
         $kode_user = strtolower($request->kode_user);
         $nama_user = strtoupper($request->nama_user);
         $email = $request->email;
+        $jenis_user = $request->jenis_user; 
+        $id_departemen = $request->id_departemen; 
+        $id_sub_departemen = $request->id_sub_departemen;
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $pic = session()->get('id_user');
         $file_picture = $request->file('picture'); 
         $file_original_picture = $request->original_picture; 
 
-        // return $request;
+        
 
         // Is there a change in picture file?
         if ($file_picture <> '') {
@@ -203,11 +210,11 @@ class UsersController extends Controller
                     'kode_user'         => $kode_user,
                     'nama_user'         => $nama_user,
                     'email'             => $email,
+                    'jenis_user'        => $jenis_user,
+                    'id_departemen'     => $id_departemen,
+                    'id_sub_departemen' => $id_sub_departemen,
                     'updated_at'        => $updated_at,
                     'pic'               => $pic,
-                    'id_departemen'     => 0,
-                    'id_sub_departemen' => 0,
-                    'jenis_user'        => '0',
                     'picture'           => $f_name,
                 ]);
                 
@@ -220,10 +227,10 @@ class UsersController extends Controller
                 'kode_user'         => $kode_user,
                 'nama_user'         => $nama_user,
                 'updated_at'        => $updated_at,
+                'jenis_user'        => $jenis_user,
+                'id_departemen'     => $id_departemen,
+                'id_sub_departemen' => $id_sub_departemen,
                 'pic'               => $pic,
-                'id_departemen'     => 0,
-                'id_sub_departemen' => 0,
-                'jenis_user'        => '0',
                 'picture'           => $f_name,
             ]);
 

@@ -33,10 +33,12 @@
                     <div class="form-group">
                         <label class="col-md-12">Kriteria Defect</label>
                         <div class="col-md-12">
-                            <select id="kriteria_defect" class="form-control" name="kriteria_defect" maxlength="20" required>
-                                <option value="Minor">Minor</option>
-                                <option value="Major">Major</option>
-                                <option value="Critical">Critical</option>
+                            <select id="kriteria_defect" class="form-control select2" name="kriteria_defect" maxlength="20" required>
+                                <option value="Minor" {{ old('kriteria_defect', $defect->kriteria_defect) == "Minor" ? 'selected':''}}>Minor</option>
+                                <option value="Major" {{ old('kriteria_defect', $defect->kriteria_defect) == "Major" ? 'selected':''}}>Major</option>
+                                <option value="Critical" {{ old('kriteria_defect', $defect->kriteria_defect) == "Critical" ? 'selected':''}}>Critical</option>
+                                {{-- <option value="Major">Major</option> --}}
+                                {{-- <option value="Critical">Critical</option> --}}
                             </select>
                         </div>
                     </div>

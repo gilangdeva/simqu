@@ -146,40 +146,19 @@
                         </ul>
                     </li>
 
-                    <li>
-                        @if($menu == 'company')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-factory fa-fw"></i> <span class="hide-menu">Company<span class="fa arrow"></span></span></a>
-                        @else 
-                            <a href="#" class="waves-effect"><i class="mdi mdi-factory fa-fw"></i> <span class="hide-menu">Company<span class="fa arrow"></span></span></a>
-                        @endif
-                        <ul class="nav nav-second-level">
-                            {{-- <li><a href="/info"><i class="mdi mdi-information-outline fa-fw"></i> <span class="hide-menu">Information</span></a></li> --}}
-                            {{-- <li><a href="/about"><i class="mdi mdi-star fa-fw"></i> <span class="hide-menu">About Us</span></a></li> --}}
-                            <li><a href="/banners"><i class="mdi mdi-file-image fa-fw"></i> <span class="hide-menu">Banners</span></a></li>
-                        </ul>
-                    </li>
-
                     <li> 
-                        @if($menu == 'events')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-trophy fa-fw"></i> <span class="hide-menu"> Events Gallery</span></a>
+                        @if($menu == 'inspect')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi</span></a>
                         @else 
-                            <a href="/events" class="waves-effect"><i class="mdi mdi-trophy fa-fw"></i> <span class="hide-menu"> Events Gallery</span></a>
+                            <a href="/inspect" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi</span></a>
                         @endif
                     </li>
 
                     <li> 
-                        @if($menu == 'subscriber')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-gmail fa-fw"></i> <span class="hide-menu"> Subscriber</span></a>
+                        @if($menu == 'report')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
                         @else 
-                            <a href="/subscriber" class="waves-effect"><i class="mdi mdi-gmail fa-fw"></i> <span class="hide-menu"> Subscriber</span></a>
-                        @endif
-                    </li>
-
-                    <li> 
-                        @if($menu == 'catalog')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Catalog Files</span></a>
-                        @else 
-                            <a href="/catalog" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Catalog Files</span></a>
+                            <a href="/report" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
                         @endif
                     </li>
                 </ul>

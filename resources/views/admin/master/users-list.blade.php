@@ -28,6 +28,8 @@
                                 <th>Username</th>
                                 <th>Nama Lengkap</th>
                                 <th>Jenis User</th>
+                                <th>Departemen</th>
+                                <th>Sub Departemen</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -39,6 +41,8 @@
                                 <td>{{ $user->kode_user }}</td>
                                 <td>{{ $user->nama_user }}</td>
                                 <td>{{ $user->jenis_user }}</td>
+                                <td>{{ $user->nama_departemen }}</td>
+                                <td>{{ $user->nama_sub_departemen }}</td>
                                 <td>
                                     <a href="/users-edit/{{ Crypt::encrypt($user->id_user) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($user->id_user) }}')"><i class="fa fa-times"></i></button>
