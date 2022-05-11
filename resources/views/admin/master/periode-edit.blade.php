@@ -47,11 +47,11 @@
                         <label class="col-sm-4 control-label">Minggu Ke</label>
                         <div class="col-sm-8">
                             <select id="minggu_ke" class="form-control select2" name="minggu_ke" maxlength="20" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                <option value="1"{{ old('minggu_ke', $periode->minggu_ke)== "1" ? 'selected':'' }}>1</option>
+                                <option value="2"{{ old('minggu_ke', $periode->minggu_ke)== "2" ? 'selected':'' }}>2</option>
+                                <option value="3"{{ old('minggu_ke', $periode->minggu_ke)== "3" ? 'selected':'' }}>3</option>
+                                <option value="4"{{ old('minggu_ke', $periode->minggu_ke)== "4" ? 'selected':'' }}>4</option>
+                                <option value="5"{{ old('minggu_ke', $periode->minggu_ke)== "5" ? 'selected':'' }}>5</option>
                             </select>
                         </div>
                     </div>

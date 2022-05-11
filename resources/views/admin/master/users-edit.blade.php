@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Edit Users - PT. Bintang Cakra Kencana')
+@section('title', 'Edit Pengguna - SIMQU')
 
 @section('content')
 

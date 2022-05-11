@@ -17,6 +17,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class PeriodeController extends Controller
 {
 
+
     // Menampilkan list periode
     public function PeriodeList(){
         // Get all data from database
@@ -62,6 +63,7 @@ class PeriodeController extends Controller
             return redirect('/periode');
     }
 
+
     // fungsi untuk redirect ke halaman edit
     public function EditPeriodeData($id){
         $id = Crypt::decrypt($id);
@@ -94,6 +96,10 @@ class PeriodeController extends Controller
             return Redirect::back();
         }
 
+
+        // return $request;
+
+
         {
             // Update data into database
             PeriodeModel::where('id_periode', $id_periode)->update([
@@ -115,12 +121,16 @@ class PeriodeController extends Controller
     public function DeletePeriodeData($id){
         $id = Crypt::decryptString($id);
 
-        // Check periode already used in other table or not yet
-        $periode_check = DB::select('SELECT * FROM tb_master_periode WHERE id_periode = '.$id);
-        if (isset($periode_check[0])) {
+        // Select table user to get user default value
+        $period = PeriodeModel::find($id, ['minggu_ke']);
+
+        $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
+        // Check user already used in other table or not yet
+        if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
             return Redirect::back();
-        } else {
+        }
+        {
             // Delete process
             $period = PeriodeModel::find($id);
             $period->delete();

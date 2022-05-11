@@ -276,7 +276,7 @@ class UsersController extends Controller
         }
 
         // If user default is 1, so the data can't be deleted
-        if ($user['kode_user'] == '1') {
+        if ($user['kode_user'] == '19104886') {
             Alert::error("Gagal!", 'Data ini tidak dapat di hapus!');
             return Redirect::back();
         } else {

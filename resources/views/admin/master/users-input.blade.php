@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="white-box">
-                <h3 class="box-title">INPUT USERS DATA</h3>
+                <h3 class="box-title">INPUT DATA PENGGUNA</h3>
                 <form class="form-horizontal" action="{{ route('users.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group" style="margin-bottom:3px;">
