@@ -41,9 +41,10 @@
     <!-- Toast CSS -->
     <link href="{{ url('/') }}/admin/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
     <!-- Sweet Alert -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-	<script src="//malsup.github.com/jquery.form.js"></script>
+	<script src="//malsup.github.com/jquery.form.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
 <body class="fix-header">
