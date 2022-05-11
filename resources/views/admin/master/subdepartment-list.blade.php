@@ -24,6 +24,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>Nama Departemen</th>
                                 <th>Kode Sub Departemen</th>
                                 <th>Nama Sub Departemen</th>
                                 <th>Action</th>
@@ -33,6 +34,7 @@
                             @foreach ($subdepartment as $subdepartemen)
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
+                                <td>{{ $subdepartemen->nama_departemen }}</td>
                                 <td>{{ $subdepartemen->kode_sub_departemen }}</td>
                                 <td>{{ $subdepartemen->nama_sub_departemen }}</td>
                                 <td>

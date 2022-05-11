@@ -43,10 +43,10 @@ class MesinController extends Controller
         $mesin = new MesinModel();
 
         // Parameters
-        $mesin->kode_mesin = strtolower($request->kode_mesin);
+        $mesin->id_departemen = $request->id_departemen; // nanti diganti
+        $mesin->id_sub_departemen = $request->id_sub_departemen; // nanti diganti
+        $mesin->kode_mesin = strtoupper($request->kode_mesin);
         $mesin->nama_mesin = strtoupper($request->nama_mesin);
-        $mesin->id_departemen = 0; // nanti diganti
-        $mesin->id_sub_departemen = 0; // nanti diganti
 
         // Check duplicate kode
         $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$request->kode_mesin."'");
@@ -60,7 +60,7 @@ class MesinController extends Controller
         if (isset($nama_check['0'])) {  
             alert()->error('Gagal Menyimpan!', 'Maaf, nama mesin ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
-        }        
+        }      
 
 
        // Insert data into database
@@ -87,7 +87,9 @@ class MesinController extends Controller
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditMesinData(Request $request){
         $id_mesin = $request->id_mesin;
-        $kode_mesin = strtolower($request->kode_mesin);
+        $id_departemen = $request->id_departemen;
+        $id_sub_departemen = $request->id_sub_departemen;
+        $kode_mesin = strtoupper($request->kode_mesin);
         $nama_mesin = strtoupper($request->nama_mesin);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
  
@@ -95,14 +97,28 @@ class MesinController extends Controller
 
         // return $request;
 
+         // Check duplicate kode
+         $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$request->kode_mesin."'");
+         if (isset($kode_check['0'])) {  
+             alert()->error('Gagal Menyimpan!', 'Maaf, kode mesin ini sudah didaftarkan dalam sistem!');
+             return Redirect::back();
+         }
+ 
+         // Check duplicate nama
+         $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$request->nama_mesin."'");
+         if (isset($nama_check['0'])) {  
+             alert()->error('Gagal Menyimpan!', 'Maaf, nama mesin ini sudah didaftarkan dalam sistem!');
+             return Redirect::back();
+         }      
+
 
         {
             // Update data into database
             MesinModel::where('id_mesin', $id_mesin)->update([
                 'kode_mesin'              => $kode_mesin,
                 'nama_mesin'              => $nama_mesin,
-                'id_departemen'           => 0,
-                'id_sub_departemen'        => 0,  
+                'id_departemen'           => $id_departemen,
+                'id_sub_departemen'       => $id_sub_departemen,  
                 'updated_at'              => $updated_at,
             ]);
             

@@ -16,6 +16,13 @@
                     {{ csrf_field() }}
 
                     <div class="form-group">
+                        <label class="col-md-12">Nama Departemen</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" required> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-md-12">Kode Sub Departemen</label>
                         <div class="col-md-12">
                             <input type="hidden" class="form-control" name="id_sub_departemen" value="{{ $subdepartment->id_sub_departemen }}" readonly autocomplete="false">                         

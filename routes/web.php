@@ -10,7 +10,6 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\InspeksiHeaderController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
-use App\Models\DefectModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +74,7 @@ Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData']);
 Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update');
 Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData']);
 
-// Master Defect 
+// Master Defect
 Route::get('/defect', [DefectController::class, 'DefectList']);
 Route::get('/defect-input/', [DefectController::class, 'DefectInput']);
 Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name('defect.save');

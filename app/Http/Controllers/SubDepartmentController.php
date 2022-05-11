@@ -40,7 +40,7 @@ class SubDepartmentController extends Controller
         $subdepartment = new SubDepartmentModel();
 
         // Parameters
-        $subdepartment->id_departemen = 90;
+        $subdepartment->id_departemen = $request->id_departemen;
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $subdepartment->klasifikasi_proses = 0;
@@ -85,6 +85,7 @@ class SubDepartmentController extends Controller
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditSubDepartmentData(Request $request){
         $id_sub_departemen = $request->id_sub_departemen;
+        $id_departemen = $request->id_departemen;
         $kode_sub_departemen = strtolower($request->kode_sub_departemen);
         $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
@@ -97,6 +98,7 @@ class SubDepartmentController extends Controller
         {
             // Update data into database
             SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
+                'id_departemen'               => $id_departemen,
                 'kode_sub_departemen'         => $kode_sub_departemen,
                 'nama_sub_departemen'         => $nama_sub_departemen,
                 'updated_at'                  => $updated_at,

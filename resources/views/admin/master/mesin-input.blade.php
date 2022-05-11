@@ -14,6 +14,21 @@
                 <h3 class="box-title">INPUT MESIN DATA</h3>
                 <form class="form-horizontal" action="{{ route('mesin.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
+
+                    <div class="form-group">
+                        <label class="col-md-12">ID Departemen</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="id_departemen" maxlength="20" placeholder="ID Departemen" required> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12">ID Sub Departemen</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="id_sub_departemen" maxlength="20" placeholder="ID Sub Departemen" required> 
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-md-12">Kode Mesin</label>
                         <div class="col-md-12">

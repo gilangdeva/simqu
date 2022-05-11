@@ -16,13 +16,6 @@
                     {{ csrf_field() }}
 
                     <div class="form-group">
-                        <label class="col-md-12">Nama Defect</label>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Nama Defect" required> 
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label class="col-md-12">Kode Defect</label>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="kode_defect" maxlength="10" placeholder="Kode Defect" required> 
@@ -30,12 +23,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-12">Kriteria Defect</label>
+                        <label class="col-md-12">Temuan Defect</label>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="kriteria_defect" maxlength="10" placeholder="Kriteria Defect" required> 
+                            <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Nama Defect" required> 
                         </div>
-                    </div>                   
-                    
+                    </div>
+
                     <div class="form-group">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>

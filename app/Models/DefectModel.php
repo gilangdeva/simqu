@@ -10,10 +10,8 @@ class DefectModel extends Model
     protected $primaryKey = 'id_defect'; //disesuaikan dengan database
 
     protected $fillable = [
-    	'defect',
     	'kode_defect',
-        'kriteria_defect',
-        'created_at',
-        'updated_at'
+        'defect',
+        'kriteria_defect'
     ];
 }

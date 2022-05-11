@@ -16,6 +16,20 @@
                     {{ csrf_field() }}
                     
                     <div class="form-group">
+                        <label class="col-md-12">ID Departemen</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="id_departemen" maxlength="20" placeholder="ID Departemen" value="{{ $mesin->id_departemen }}" required> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12">ID Sub Departemen</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="id_sub_departemen" maxlength="20" placeholder="ID Sub Departemen" value="{{ $mesin->id_sub_departemen }}" required> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-md-12">Kode Mesin</label>
                         <div class="col-md-12">
                             <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false"> 

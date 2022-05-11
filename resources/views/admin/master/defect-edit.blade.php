@@ -11,30 +11,22 @@
     <div class="row">
         <div class="col-md-4">
             <div class="white-box">
-                <h3 class="box-title">UBAH DATA DEFECT </h3>
+                <h3 class="box-title">UBAH DATA DEFECT</h3>
                 <form class="form-horizontal" action="{{ route('defect.update') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-
-                    <div class="form-group">
-                        <label class="col-md-12">Nama Defect</label>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Nama Defect" value="{{ $defect->defect }}" required> 
-                        </div>
-                    </div>
                     
                     <div class="form-group">
                         <label class="col-md-12">Kode Defect</label>
                         <div class="col-md-12">
-                            <input type="hidden" class="form-control" name="id_mesin" value="{{ $defect->id_defect }}" readonly autocomplete="false"> 
+                            <input type="hidden" class="form-control" name="id_defect" value="{{ $defect->id_defect }}" readonly autocomplete="false"> 
                             <input type="text" class="form-control" name="kode_defect" maxlength="10" placeholder="Kode Defect" value="{{ $defect->kode_defect }}" required> 
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-12">Kriteria Defect</label>
+                        <label class="col-md-12">Temuan Defect</label>
                         <div class="col-md-12">
-                            <input type="hidden" class="form-control" name="id_mesin" value="{{ $defect->id_defect }}" readonly autocomplete="false"> 
-                            <input type="text" class="form-control" name="kriteria_defect" maxlength="10" placeholder="Kriteria Defect" value="{{ $defect->kriteria_defect }}" required> 
+                            <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Temuan Defect" value="{{ $defect->defect }}" required> 
                         </div>
                     </div>
                     
