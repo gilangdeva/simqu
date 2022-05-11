@@ -49,6 +49,14 @@ class PeriodeController extends Controller
         $periode->tgl_mulai_periode = $request->tgl_mulai_periode;
         $periode->tgl_akhir_periode = $request->tgl_akhir_periode;
 
+        // Check duplicate kode
+        $available_date_check = DB::select("SELECT * FROM vg_list_periode
+        WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
+        if (isset($available_date_check['0'])) {
+            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
+            return Redirect::back();
+        }
+
        // Insert data into database
         $periode->save();
             alert()->success('Berhasil!', 'Data sukses disimpan!');
@@ -62,7 +70,7 @@ class PeriodeController extends Controller
 
         // Select data based on ID
         $period = PeriodeModel::find($id);
-        
+
         return view('admin.master.periode-edit', [
             'menu'  => 'master',
             'sub'   => '/periode',
@@ -78,8 +86,15 @@ class PeriodeController extends Controller
         $minggu_ke = $request->minggu_ke;
         $tgl_mulai_periode = $request->tgl_mulai_periode;
         $tgl_akhir_periode = $request->tgl_akhir_periode;
-        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
- 
+        $updated_at = date('d-m-Y H:i:s', strtotime('+0 hours'));
+
+        // Check duplicate kode
+        $available_date_check = DB::select("SELECT * FROM vg_list_periode
+        WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
+        if (isset($available_date_check['0'])) {
+            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
+            return Redirect::back();
+        }
 
 
         // return $request;
@@ -95,25 +110,25 @@ class PeriodeController extends Controller
                 'tgl_akhir_periode'       => $tgl_akhir_periode,
                 'updated_at'              => $updated_at,
             ]);
-            
+
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
             return redirect('/periode');
         }
-    } 
-    
+    }
+
 
     // Fungsi hapus data
     public function DeletePeriodeData($id){
         $id = Crypt::decryptString($id);
-        
+
         // Select table user to get user default value
         $period = PeriodeModel::find($id, ['minggu_ke']);
-        
+
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
-            return Redirect::back(); 
+            return Redirect::back();
         }
         {
             // Delete process
