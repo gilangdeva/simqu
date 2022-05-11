@@ -40,27 +40,28 @@ class SubDepartmentController extends Controller
         $subdepartment = new SubDepartmentModel();
 
         // Parameters
-        $subdepartment->id_departemen = 0;
+        $subdepartment->id_departemen = $request->id_departemen;
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $subdepartment->klasifikasi_proses = 0;
 
         // Check duplicate kode
-        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM tb_master_sub_departemen WHERE kode_sub_departemen = '".$request->kode_sub_departemen."'");
+        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vs_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
         if (isset($kode_sub_department_check['0'])) {  
             alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
-        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM tb_master_sub_departemen WHERE nama_sub_departemen = '".$request->nama_sub_departemen."'");
+        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vs_list_sub_departemen WHERE nama_sub_departemen = '".$request->nama_sub_departemen."'");
         if (isset($nama_sub_department_check['0'])) {  
-            alert()->error('Gagal Menyimpan!', 'nama, kode ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Insert data into database
         $subdepartment->save();
+
             alert()->success('Berhasil!', 'Data sukses disimpan!');
             return redirect('/subdepartment');
 
@@ -84,6 +85,7 @@ class SubDepartmentController extends Controller
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditSubDepartmentData(Request $request){
         $id_sub_departemen = $request->id_sub_departemen;
+        $id_departemen = $request->id_departemen;
         $kode_sub_departemen = strtolower($request->kode_sub_departemen);
         $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
@@ -96,9 +98,10 @@ class SubDepartmentController extends Controller
         {
             // Update data into database
             SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
+                'id_departemen'               => $id_departemen,
                 'kode_sub_departemen'         => $kode_sub_departemen,
                 'nama_sub_departemen'         => $nama_sub_departemen,
-                'updated_at'              => $updated_at,
+                'updated_at'                  => $updated_at,
             ]);
             
             alert()->success('Sukses!', 'Data berhasil diperbarui!');

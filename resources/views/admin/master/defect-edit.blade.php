@@ -15,36 +15,24 @@
                 <form class="form-horizontal" action="{{ route('defect.update') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     
-                    <div class="form-group">
-                        <label class="col-md-12">Kode Defect</label>
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Kode Defect</label>
+                        <div class="col-sm-9">
                             <input type="hidden" class="form-control" name="id_defect" value="{{ $defect->id_defect }}" readonly autocomplete="false"> 
                             <input type="text" class="form-control" name="kode_defect" maxlength="10" placeholder="Kode Defect" value="{{ $defect->kode_defect }}" required> 
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-12">Temuan Defect</label>
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom 3px;">
+                        <label class="col-sm-3 control-label">Temuan Defect</label>
+                        <div class="col-sm-9">
                             <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Temuan Defect" value="{{ $defect->defect }}" required> 
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-12">Kriteria Defect</label>
-                        <div class="col-md-12">
-                            <select id="kriteria_defect" class="form-control select2" name="kriteria_defect" maxlength="20" required>
-                                <option value="Minor" {{ old('kriteria_defect', $defect->kriteria_defect) == "Minor" ? 'selected':''}}>Minor</option>
-                                <option value="Major" {{ old('kriteria_defect', $defect->kriteria_defect) == "Major" ? 'selected':''}}>Major</option>
-                                <option value="Critical" {{ old('kriteria_defect', $defect->kriteria_defect) == "Critical" ? 'selected':''}}>Critical</option>
-                                {{-- <option value="Major">Major</option> --}}
-                                {{-- <option value="Critical">Critical</option> --}}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:3px">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-9">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/defect"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>

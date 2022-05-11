@@ -24,6 +24,8 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>ID Departemen</th>
+                                <th>ID Sub Departemen</th>
                                 <th>Kode Mesin</th>
                                 <th>Nama Mesin</th>
                                 <th>Action</th>
@@ -33,6 +35,8 @@
                             @foreach ($mesin as $machine)
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
+                                <td>{{ $machine->id_departemen }}</td>
+                                <td>{{ $machine->id_sub_departemen }}</td>
                                 <td>{{ $machine->kode_mesin }}</td>
                                 <td>{{ $machine->nama_mesin }}</td>   
                                 <td>
@@ -53,24 +57,22 @@
 <script>
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/mesin-delete/'+id;
-        swal("Apakah Anda yakin akan menghapus data ini?", {
-        title: "Konfirmasi!",
-        icon: "warning",
-        buttons: {                 
-                cancel: "Cancel",
-                catch: {
-                    text: "Delete",
-                    value: "delete",
-                },
-                defeat: false,
-            },
-        })
-        .then((value) => {
-            switch (value) {
-                case "delete": location.replace(urlsite);
-                default: break;
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Apakah Anda yakin ingin menghapus data ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus Data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result) {
+                if (result.isConfirmed) {
+                    location.replace(urlsite);
+                }
             }
-        });
+        })
     }
 </script>
 @include('admin.footer')

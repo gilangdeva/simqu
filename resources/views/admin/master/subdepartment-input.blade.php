@@ -14,6 +14,14 @@
                 <h3 class="box-title">INPUT SUB DEPARTMENT DATA</h3>
                 <form class="form-horizontal" action="{{ route('subdepartment.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
+
+                    <div class="form-group">
+                        <label class="col-md-12">Nama Departemen</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" required> 
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-md-12">Kode Sub Departemen</label>
                         <div class="col-md-12">

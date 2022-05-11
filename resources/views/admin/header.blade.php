@@ -144,6 +144,8 @@
                             <li><a href="/subdepartment"><i class="mdi mdi-account-multiple-plus fa-fw"></i> <span class="hide-menu">Sub Departemen</span></a></li>
                             <li><a href="/periode"><i class="mdi mdi-calendar fa-fw"></i> <span class="hide-menu">Periode</span></a></li>
                             <li><a href="/users"><i class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Users</span></a></li>
+                            <li><a href="/inspeksiheader"><i class="mdi mdi-yeast fa-fw"></i> <span class="hide-menu">Inspeksi Header</span></a></li>
+
                         </ul>
                     </li>
 
