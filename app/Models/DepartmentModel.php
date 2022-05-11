@@ -13,6 +13,8 @@ class DepartmentModel extends Model
     	'kode_departemen',
     	'nama_departemen',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'creator',
+        'pic'
     ];
 }

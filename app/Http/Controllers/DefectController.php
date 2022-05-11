@@ -43,7 +43,7 @@ class DefectController extends Controller
         $defect = new DefectModel();
 
         // Parameters
-        $defect->kode_defect = strtolower($request->kode_defect);
+        $defect->kode_defect = $request->kode_defect;
         $defect->defect = $request->defect;
         $defect->kriteria_defect = $request->kriteria_defect;
 
@@ -56,7 +56,7 @@ class DefectController extends Controller
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$request->defect."'");
-        if (isset($nama_check['0'])) {  
+        if (isset($defect_check['0'])) {  
             alert()->error('Gagal Menyimpan!', 'Maaf, defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }        
@@ -86,7 +86,7 @@ class DefectController extends Controller
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditDefectData(Request $request){
         $id_defect = $request->id_defect;
-        $kode_defect = strtolower($request->kode_defect);
+        $kode_defect = $request->kode_defect;
         $defect = $request->defect;
         $kriteria_defect = $request->kriteria_defect;
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
@@ -104,7 +104,7 @@ class DefectController extends Controller
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$request->defect."'");
-        if (isset($nama_check['0'])) {  
+        if (isset($defect_check['0'])) {  
             alert()->error('Gagal Menyimpan!', 'Maaf, defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }     

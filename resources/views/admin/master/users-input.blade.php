@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="white-box">
-                <h3 class="box-title">INPUT USERS DATA</h3>
+                <h3 class="box-title">INPUT DATA PENGGUNA</h3>
                 <form class="form-horizontal" action="{{ route('users.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group" style="margin-bottom:3px;">
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-3 control-label">Sub Departemen</label>
+                        <label class="col-sm-3 control-label">Sub Dept</label>
                         <div class="col-sm-9">
                             <select class="form-control select2" name="id_sub_departemen" required>
                                 <option>Pilih Sub Departemen</option>

@@ -1,4 +1,4 @@
-    <footer class="footer text-center">&copy; 2016 - {{ date("Y") }} Digital Catalogue | PT. Bintang Cakra Kencana </footer>
+    <footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
     </div> <!-- /Page Wrapper -->
     </div> <!-- /Wrapper -->
 

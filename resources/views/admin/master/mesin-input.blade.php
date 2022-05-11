@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:3px">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/mesin"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>

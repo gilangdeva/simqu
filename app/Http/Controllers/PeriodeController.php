@@ -49,7 +49,6 @@ class PeriodeController extends Controller
         $periode->tgl_mulai_periode = $request->tgl_mulai_periode;
         $periode->tgl_akhir_periode = $request->tgl_akhir_periode;
 
-
        // Insert data into database
         $periode->save();
             alert()->success('Berhasil!', 'Data sukses disimpan!');
