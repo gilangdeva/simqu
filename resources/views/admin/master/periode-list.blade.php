@@ -39,8 +39,8 @@
                                 <td>{{ $period->tahun }}</td>
                                 <td>{{ $period->bulan }}</td>
                                 <td>{{ $period->minggu_ke }}</td>
-                                <td>{{ $period->tgl_mulai_periode->format('d/m/Y') }}</td>
-                                <td>{{ $period->tgl_akhir_periode->format('d/m/Y') }}</td>
+                                <td>{{ date('d/m/Y', strtotime($period->tgl_mulai_periode)) }}</td>
+                                <td>{{ date('d/m/Y', strtotime($period->tgl_akhir_periode)) }}</td>
                                 <td>
                                     <a href="/periode-edit/{{ Crypt::encrypt($period->id_periode) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($period->id_periode) }}')"><i class="fa fa-times"></i></button>
