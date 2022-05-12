@@ -27,22 +27,22 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4">Kode Sub Departemen</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="kode_sub_departemen" maxlength="10" placeholder="Kode Sub Departemen" required>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4">Nama Sub Departemen</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" required>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="colsm-8">
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/subdepartment"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>

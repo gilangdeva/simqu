@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="white-box">
-                <h3 class="box-title">EDIT DATA SUB-DEPARTEMEN</h3>
+                <h3 class="box-title">EDIT DATA SUB DEPARTEMEN</h3>
                 <form class="form-horizontal" action="{{ route('subdepartment.update') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
