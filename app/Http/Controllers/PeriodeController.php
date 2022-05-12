@@ -49,10 +49,10 @@ class PeriodeController extends Controller
         $periode->tgl_mulai_periode = $request->tgl_mulai_periode;
         $periode->tgl_akhir_periode = $request->tgl_akhir_periode;
 
-        // Check duplicate kode
+        // Check duplicate date
         $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
         if (isset($available_date_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Periode ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         } else {
             // Insert data into database
@@ -87,13 +87,24 @@ class PeriodeController extends Controller
         $tgl_akhir_periode = $request->tgl_akhir_periode;
         $updated_at = date('d-m-Y H:i:s', strtotime('+0 hours'));
 
-        // Check duplicate kode
-        $available_date_check = DB::select("SELECT * FROM vg_list_periode
-        WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
-        if (isset($available_date_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, periode ini sudah didaftarkan dalam sistem!');
-            return Redirect::back();
-        } else  {
+        // Is there a change in date data?
+        if ($request->tahun == $request->original_tahun || $request->bulan == $request->original_bulan || $request->minggu_ke == $request->original_minggu_ke){
+            // Check duplicate data
+            $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
+            if (isset($available_date_check['0'])) {
+                alert()->error('Gagal!', 'Maaf, Periode ini sudah terdaftar dalam sistem!');
+                return Redirect::back();
+            } else {
+            // Update data into database
+            PeriodeModel::where('id_periode', $id_periode)->update([
+                'tgl_mulai_periode'       => $tgl_mulai_periode,
+                'tgl_akhir_periode'       => $tgl_akhir_periode,
+                ]);
+
+                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                return redirect('/periode');
+            }
+        } else {
             // Update data into database
             PeriodeModel::where('id_periode', $id_periode)->update([
                 'tahun'                   => $tahun,
