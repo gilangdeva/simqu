@@ -26,7 +26,6 @@
                                 <th>No.</th>
                                 <th>Kode Defect</th>
                                 <th>Temuan Defect</th>
-                                <th>Kriteria Defect</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,8 +34,7 @@
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
                                 <td>{{ $def->kode_defect }}</td>
-                                <td>{{ $def->defect }}</td>
-                                <td>{{ $def->kriteria_defect }}</td>   
+                                <td>{{ $def->defect }}</td> 
                                 <td>
                                     <a href="/defect-edit/{{ Crypt::encrypt($def->id_defect) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($def->id_defect) }}')"><i class="fa fa-times"></i></button>
@@ -55,22 +53,24 @@
 <script>
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/defect-delete/'+id;
-        Swal.fire({
+        swal("Apakah Anda yakin akan menghapus data ini?", {
             title: 'Konfirmasi',
-            text: "Apakah Anda yakin ingin menghapus data ini?",
             icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus Data!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result) {
-                if (result.isConfirmed) {
-                    location.replace(urlsite);
-                }
-            }
+            buttons: {
+                    cancel: "Cancel",
+                    catch: {
+                        text: "Delete",
+                        value: "delete",
+                    },
+                    defeat: false,
+            },
         })
+        .then((value) => {
+            switch (value) {
+                case "delete": location.replace(urlsite);
+                default: break;
+                }  
+        });
     }
 </script>
 @include('admin.footer')
