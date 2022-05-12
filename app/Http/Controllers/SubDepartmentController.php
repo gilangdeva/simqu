@@ -18,7 +18,7 @@ class SubDepartmentController extends Controller
     // Menampilkan list subdepartemen
     public function SubDepartmentList(){
         // Get all data from database
-        $subdepartment = SubDepartmentModel::all();
+        $subdepartment = DB::select('SELECT * FROM vg_list_sub_departemen');
 
         return view('admin.master.subdepartment-list',[
             'menu'  => 'master',
@@ -29,7 +29,10 @@ class SubDepartmentController extends Controller
 
     // Redirect ke window input subdepartment
     public function SubDepartmentInput(){
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+
         return view('admin.master.subdepartment-input',[
+            'departemen'    => $departemen,
             'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'   => '/subdepartment'
         ]);
@@ -46,15 +49,15 @@ class SubDepartmentController extends Controller
         $subdepartment->klasifikasi_proses = 0;
 
         // Check duplicate kode
-        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vs_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
-        if (isset($kode_sub_department_check['0'])) {  
+        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
+        if (isset($kode_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
-        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vs_list_sub_departemen WHERE nama_sub_departemen = '".$request->nama_sub_departemen."'");
-        if (isset($nama_sub_department_check['0'])) {  
+        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($request->nama_sub_departemen)."'");
+        if (isset($nama_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
@@ -71,14 +74,16 @@ class SubDepartmentController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditSubDepartmentData($id){
         $id = Crypt::decrypt($id);
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
 
         // Select data based on ID
         $subdepartemen = SubDepartmentModel::find($id);
-        
+
         return view('admin.master.subdepartment-edit', [
             'menu'  => 'master',
             'sub'   => '/subdepartment',
             'subdepartment' => $subdepartemen,
+            'departemen' => $departemen,
         ]);
     }
 
@@ -86,13 +91,24 @@ class SubDepartmentController extends Controller
     public function SaveEditSubDepartmentData(Request $request){
         $id_sub_departemen = $request->id_sub_departemen;
         $id_departemen = $request->id_departemen;
-        $kode_sub_departemen = strtolower($request->kode_sub_departemen);
+        $kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
- 
 
 
-        // return $request;
+        // Check duplicate kode
+        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
+        if (isset($kode_sub_department_check['0'])) {
+            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
+            return Redirect::back();
+        }
+
+        // Check duplicate nama
+        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($request->nama_sub_departemen)."'");
+        if (isset($nama_sub_department_check['0'])) {
+            alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
+            return Redirect::back();
+        }
 
 
         {
@@ -103,7 +119,7 @@ class SubDepartmentController extends Controller
                 'nama_sub_departemen'         => $nama_sub_departemen,
                 'updated_at'                  => $updated_at,
             ]);
-            
+
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
             return redirect('/subdepartment');
         }
@@ -113,15 +129,15 @@ class SubDepartmentController extends Controller
      // Fungsi hapus data
      public function DeleteSubDepartmentData($id){
         $id = Crypt::decryptString($id);
-        
+
         // Select table user to get user default value
         $subdepartemen = SubDepartmentModel::find($id, ['kode_sub_departemen']);
-        
+
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
-            return Redirect::back(); 
+            return Redirect::back();
         }
         {
             // Delete process
