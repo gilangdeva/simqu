@@ -13,7 +13,7 @@ class MesinModel extends Model
     	'kode_mesin',
     	'nama_mesin',
         'id_departemen',
-        'id_subdepartemen',
+        'id_sub_departemen',
         'created_at',
         'updated_at'
     ];
