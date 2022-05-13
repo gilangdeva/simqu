@@ -19,7 +19,7 @@
                         <label class="col-sm-4 control-label">Departemen</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" name="id_departemen" required>
-                                <option>Pilih Departemen</option>
+                                <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
                                     <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
                                 @endforeach

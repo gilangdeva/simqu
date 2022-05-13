@@ -13,7 +13,7 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">LIST SUB-DEPARTEMEN</h3>
+                        <h3 class="box-title">LIST SUB DEPARTEMEN</h3>
                     </div>
                     <div class="col-sm-6 col-xs-12">
                         <a href="/subdepartment-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>

@@ -25,6 +25,7 @@
                         <label class="col-sm-4 control-label">Bulan</label>
                         <div class="col-sm-8">
                             <select id="bulan" class="form-control select2" name="bulan" maxlength="20" required>
+                                <option value="0">Pilih Bulan</option>
                                 <option value="Januari">Januari</option>
                                 <option value="Februari">Februari</option>
                                 <option value="Maret">Maret</option>
@@ -45,6 +46,7 @@
                         <label class="col-sm-4 control-label">Minggu Ke</label>
                         <div class="col-sm-8">
                             <select id="minggu_ke" class="form-control select2" name="minggu_ke" maxlength="20" required>
+                                <option value="0">Pilih Minggu</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
