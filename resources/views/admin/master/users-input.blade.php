@@ -50,7 +50,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Departemen</label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" name="id_departemen" required>
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                                 <option>Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
                                     <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
@@ -62,11 +62,11 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Sub Dept</label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" name="id_sub_departemen" required>
-                                <option>Pilih Sub Departemen</option>
+                            <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
+                                {{-- <option>Pilih Sub Departemen</option>
                                 @foreach ($subdepartemen as $subdept)
                                     <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div>
@@ -92,6 +92,37 @@
     <!-- end row -->
     </div>
 <!-- end container-fluid -->
+
+<script>
+    $('#id_departemen').change(function() {
+        //clear select
+        $('#id_sub_departemen').empty();
+        //set id
+        let departemenID = $(this).val();
+        if (departemenID) {
+            $('#id_sub_departemen').select2({
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('sub_departemen.select') }}?departemenID=" + departemenID,
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    };
+                    }
+                }
+            });
+        } else {
+            $('#id_sub_departemen').empty();
+        }
+    });
+</script>
 
 @include('admin.footer')
 

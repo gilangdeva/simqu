@@ -57,6 +57,9 @@ Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSub
 Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update'); //simpan perubahan data
 Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
 
+// Sub Departemen Select Dropdown
+Route::get('/subdepartment-select/{id}', [SubDepartmentController::class, 'SelectSubDepartmentData'])->name('sub_departemen.select');
+
 // Master Periode
 Route::get('/periode', [PeriodeController::class, 'PeriodeList']);
 Route::get('/periode-input/', [PeriodeController::class, 'PeriodeInput']);
@@ -80,3 +83,9 @@ Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name(
 Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData']);
 Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update');
 Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData']);
+
+// Dropdown dependent Sub Departemen
+Route::get('/dropdown-sub-departemen/{id}', function ($id) {
+    $dropdown_sub_departemen = App\Models\SubDepartmentModel::where('id_departemen',$id)->get();
+    return response()->json($dropdown_sub_departemen);
+});

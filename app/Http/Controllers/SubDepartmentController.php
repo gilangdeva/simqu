@@ -87,18 +87,13 @@ class SubDepartmentController extends Controller
         $kode_sub_departemen = strtolower($request->kode_sub_departemen);
         $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
- 
-
-
-        // return $request;
-
 
         {
             // Update data into database
             SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
-                'kode_sub_departemen'         => $kode_sub_departemen,
-                'nama_sub_departemen'         => $nama_sub_departemen,
-                'updated_at'              => $updated_at,
+                'kode_sub_departemen'   => $kode_sub_departemen,
+                'nama_sub_departemen'   => $nama_sub_departemen,
+                'updated_at'            => $updated_at,
             ]);
             
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
@@ -107,8 +102,8 @@ class SubDepartmentController extends Controller
     }
 
 
-     // Fungsi hapus data
-     public function DeleteSubDepartmentData($id){
+    // Fungsi hapus data
+    public function DeleteSubDepartmentData($id){
         $id = Crypt::decryptString($id);
         
         // Select table user to get user default value
@@ -129,5 +124,12 @@ class SubDepartmentController extends Controller
             alert()->success('Berhasil!', 'Berhasil menghapus data!');
             return redirect('/subdepartment');
         }
-     }
+    }
+
+    public function SelectSubDepartmentData($id){
+        $cities = DB::table("tb_master_sub_departemen")
+                    ->where("id_departemen", $id)
+                    ->lists("id_departemen","nama_departemen");
+        return json_encode($cities);
+    }
 }
