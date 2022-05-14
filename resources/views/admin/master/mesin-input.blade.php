@@ -60,12 +60,11 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-5 control-label">Nama Mesin</label>
                         <div class="col-sm-7">
-                            <select id="nama_mesin" class="form-control select2" name="nama_mesin" maxlength="10" required> 
-                                <option value="YNWA">YNWA</option>
-                                <option value="GGMU">GGMU</option>
-                                <option value="COYS">COYS</option>
-                                <option value="COYG">COYG</option>
-                                <option value="HMR">HMR</option>
+                            <select class="form-control select2" name="form-control select2" required> 
+                            <option value="0">Nama Mesin</option>
+                            @foreach ($mesin  as $machine) 
+                                <option value="{{ $machine->id_mesin }}" {{ old('id_mesin', $machine->id_mesin) == $dept->$id_mesin ? 'selected':''}}>{{ $dept->nama_mesin </option>   
+                            @endforeach
                             </select>
                         </div>
                     </div>

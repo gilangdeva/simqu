@@ -59,11 +59,10 @@
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor:'#3085d6',
-            cancelButtonCollor:'#d33',
+            cancelButtonColor:'#d33',
             confirmButtonText:"Ya, Hapus Data!",
             cancelButtonText:'Batal'
-        })
-        .then((result) => {
+        }).then((result) => {
             if (result) {
                 if (result.isConfirmed){
                     location.replace(urlsite);
