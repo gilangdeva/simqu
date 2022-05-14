@@ -53,24 +53,23 @@
 <script>
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/defect-delete/'+id;
-        swal("Apakah Anda yakin akan menghapus data ini?", {
+        Swal.fire({
             title: 'Konfirmasi',
+            text: "Apakah Anda yakin ingin menghapus data ini?",
             icon: 'warning',
-            buttons: {
-                    cancel: "Cancel",
-                    catch: {
-                        text: "Delete",
-                        value: "delete",
-                    },
-                    defeat: false,
-            },
+            showCancelButton: true,
+            confirmButtonColor:'#3085d6',
+            cancelButtonCollor:'#d33',
+            confirmButtonText:"Ya, Hapus Data!",
+            cancelButtonText:'Batal'
         })
-        .then((value) => {
-            switch (value) {
-                case "delete": location.replace(urlsite);
-                default: break;
+        .then((result) => {
+            if (result) {
+                if (result.isConfirmed){
+                    location.replace(urlsite);
                 }  
-        });
+            }
+        })
     }
 </script>
 @include('admin.footer')

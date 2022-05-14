@@ -132,7 +132,7 @@ class MesinController extends Controller
     public function DeleteMesinData($id){
         $id = Crypt::decryptString($id);
         
-        // Select table user to get user default value
+        //  Select table user to get user default value
         // $mesin = MesinModel::find($id, ['kode_mesin']);
         
         // Check user already used in other table or not yet

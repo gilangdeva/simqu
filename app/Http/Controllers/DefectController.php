@@ -127,14 +127,15 @@ class DefectController extends Controller
         $id = Crypt::decryptString($id);
         
         // Select table user to get user default value
-        // $def = DefectModel::find($id, ['kode_defect']);
+         $def = DefectModel::find($id, ['kode_defect']);
         
+         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id); 
         // Check user already used in other table or not yet
-        $defect_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE id_defect = '.$id); 
-        if (isset($defect_check[0])) {
+        if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
             return Redirect::back(); 
-        } else {
+        } 
+        {
             // Delete process
             $def = DefectModel::find($id);
             $def->delete();
