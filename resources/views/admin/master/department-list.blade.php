@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="white-box">
@@ -53,24 +53,22 @@
 <script>
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/department-delete/'+id;
-        swal("Apakah Anda yakin akan menghapus data ini?", {
-        title: "Konfirmasi!",
-        icon: "warning",
-        buttons: {                 
-                cancel: "Cancel",
-                catch: {
-                    text: "Delete",
-                    value: "delete",
-                },
-                defeat: false,
-            },
-        })
-        .then((value) => {
-            switch (value) {
-                case "delete": location.replace(urlsite);
-                default: break;
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Apakah Anda yakin ingin menghapus data ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus Data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result) {
+                if (result.isConfirmed) {
+                    location.replace(urlsite);
+                }
             }
-        });
+        })
     }
 </script>
 @include('admin.footer')
