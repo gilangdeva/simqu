@@ -24,8 +24,8 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>ID Departemen</th>
-                                <th>ID Sub Departemen</th>
+                                <th>Nama Departemen</th>
+                                <th>Nama Sub Departemen</th>
                                 <th>Kode Mesin</th>
                                 <th>Nama Mesin</th>
                                 <th>Action</th>
@@ -35,8 +35,8 @@
                             @foreach ($mesin as $machine)
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
-                                <td>{{ $machine->id_departemen }}</td>
-                                <td>{{ $machine->id_sub_departemen }}</td>
+                                <td>{{ $machine->nama_departemen }}</td>
+                                <td>{{ $machine->nama_sub_departemen }}</td>
                                 <td>{{ $machine->kode_mesin }}</td>
                                 <td>{{ $machine->nama_mesin }}</td>   
                                 <td>
