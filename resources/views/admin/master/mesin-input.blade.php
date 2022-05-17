@@ -17,55 +17,42 @@
 
                    
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-5 control-label">ID Departemen</label>
-                        <div class="col-sm-7">
-                            <select id="id_departemen" class="form-control select2" name="id_departemen" maxlength="20" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                        <label class="col-sm-4 control-label">Departemen</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" name="id_departemen" required>
+                                <option value="0">Pilih Departemen</option>
+                                @foreach ($departemen as $dept)
+                                    <option value="{{ $dept->id_departemen}}">{{ $dept->nama_departemen}} </option>
+                                @endforeach
+                                </select>
                         </div>
                     </div>
                     
                     
                     
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-5 control-label">ID Sub Departemen</label>
-                        <div class="col-sm-7">
-                            <select id="id_sub_departemen" class="form-control select2" name="id_sub_departemen" maxlength="20" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                        <label class="col-sm-4 control-label">Sub Departemen</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" name="id_sub_departemen" required>
+                                <option value="0">Pilih Sub Departemen</option>
+                                @foreach ($subdepartemen as $subdept)
+                                    <option value="{{$subdept->id_sub_departemen}}">{{ $subdept->nama_sub_departemen}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-5 control-label">Kode Mesin</label>
-                        <div class="col-sm-7">
-                            <select id="kode_mesin" class="form-control select2" name="kode_mesin" maxlength="10" required> 
-                                <option value="AB">AB</option>
-                                <option value="BC">BC</option>
-                                <option value="SC">SC</option>
-                                <option value="JK">JK</option>
-                                <option value="JP">JP</option>
-                            </select>  
+                        <label class="col-sm-4 control-label">Kode Mesin</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="10" placeholder="Kode Mesin" required>  
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-5 control-label">Nama Mesin</label>
-                        <div class="col-sm-7">
-                            <select class="form-control select2" name="form-control select2" required> 
-                            <option value="0">Nama Mesin</option>
-                            @foreach ($mesin  as $machine) 
-                                <option value="{{ $machine->id_mesin }}" {{ old('id_mesin', $machine->id_mesin) == $dept->$id_mesin ? 'selected':''}}>{{ $dept->nama_mesin </option>   
-                            @endforeach
-                            </select>
+                        <label class="col-sm-4 control-label">Nama Mesin</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="nama_mesin" maxlength="10" placeholder="Nama Mesin" required>
                         </div>
                     </div>
                     
