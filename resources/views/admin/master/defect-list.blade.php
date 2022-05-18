@@ -16,7 +16,7 @@
                         <h3 class="box-title">LIST DEFECT</h3>
                     </div>
                     <div class="col-sm-6 col-xs-12">
-                        <a href="/defect-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Add Defect</button></a>
+                        <a href="/defect-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
                     </div>
                 </div>
                 <div class="table-responsive">
