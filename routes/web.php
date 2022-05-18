@@ -7,6 +7,7 @@ use App\Http\Controllers\DefectController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MesinController;
 use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\InspeksiHeaderController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 
@@ -89,3 +90,11 @@ Route::get('/dropdown-sub-departemen/{id}', function ($id) {
     $dropdown_sub_departemen = App\Models\SubDepartmentModel::where('id_departemen',$id)->get();
     return response()->json($dropdown_sub_departemen);
 });
+
+// Master Inspeksi Header
+Route::get('/inspeksiheader', [InspeksiHeaderController::class, 'InspeksiHeaderList']);
+Route::get('/inspeksiheader-input/', [InspeksiHeaderController::class, 'InspeksiHeaderInput']);
+Route::post('/inspeksiheader-input', [InspeksiHeaderController::class, 'SaveInspeksiHeaderData'])->name('inspeksiheader.save');
+Route::get('/inspeksiheader-edit/{id}', [InspeksiHeaderController::class, 'EditInspeksiHeaderData']);
+Route::post('/inspeksiheader-update/', [InspeksiHeaderController::class, 'SaveEditInspeksiHeaderData'])->name('inspeksiheader.update');
+Route::get('/inspeksiheader-delete/{id}', [InspeksiHeaderController::class, 'DeleteInspeksiHeaderData']);
