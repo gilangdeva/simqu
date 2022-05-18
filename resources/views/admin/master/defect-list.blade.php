@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Defect List - PT. Bintang Cakra Kencana')
+@section('title', 'Defect List - SIMQU')
 
 @section('content')
 
@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="white-box">
@@ -34,7 +34,7 @@
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
                                 <td>{{ $def->kode_defect }}</td>
-                                <td>{{ $def->defect }}</td> 
+                                <td>{{ $def->defect }}</td>
                                 <td>
                                     <a href="/defect-edit/{{ Crypt::encrypt($def->id_defect) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($def->id_defect) }}')"><i class="fa fa-times"></i></button>

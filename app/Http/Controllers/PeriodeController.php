@@ -49,6 +49,12 @@ class PeriodeController extends Controller
         $periode->tgl_mulai_periode = $request->tgl_mulai_periode;
         $periode->tgl_akhir_periode = $request->tgl_akhir_periode;
 
+        //Validasi data input
+        if ($request->bulan == "0" || $request->minggu_ke == "0"){
+            alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
+            return Redirect::back();
+        }
+
         // Check duplicate date
         $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
         if (isset($available_date_check['0'])) {

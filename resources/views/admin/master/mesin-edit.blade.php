@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Edit Mesin - PT. Bintang Cakra Kencana')
+@section('title', 'Edit Mesin - SIMQU')
 
 @section('content')
 
@@ -7,14 +7,14 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    
+
     <div class="row">
         <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">UBAH DATA MESIN</h3>
                 <form class="form-horizontal" action="{{ route('mesin.update') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    
+
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label"> Departemen </label>
                         <div class="col-sm-8">
@@ -53,14 +53,15 @@
                             <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
                         </div>
                     </div>
-                    
+
+
                     <div class="form-group" style="margin-bottom:3px;">
                             <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/mesin"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
         </div>

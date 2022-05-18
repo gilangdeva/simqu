@@ -24,8 +24,8 @@ class DefectController extends Controller
         $defect = DefectModel::all();
 
         return view('admin.master.defect-list',[
-            'menu'  => 'master',
-            'sub'   => '/defect',
+            'menu'   => 'master',
+            'sub'    => '/defect',
             'defect' => $defect
         ]);
     }
@@ -48,17 +48,17 @@ class DefectController extends Controller
 
         // Check duplicate kode
         $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$request->kode_defect."'");
-        if (isset($kode_check['0'])) {  
+        if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$request->defect."'");
-        if (isset($defect_check['0'])) {  
+        if (isset($defect_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
-        }        
+        }
 
 
        // Insert data into database
@@ -74,22 +74,40 @@ class DefectController extends Controller
 
         // Select data based on ID
         $def = DefectModel::find($id);
-        
+
         return view('admin.master.defect-edit', [
-            'menu'  => 'master',
-            'sub'   => '/defect',
-            'defect' => $def,
+            'menu'      => 'master',
+            'sub'       => '/defect',
+            'defect'    => $def,
         ]);
     }
 
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditDefectData(Request $request){
-        $id_defect = $request->id_defect;
-        $kode_defect = strtoupper ($request->kode_defect);
-        $defect = strtoupper($request->defect);
-        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $id_defect      = $request->id_defect;
+        $kode_defect    = strtoupper ($request->kode_defect);
+        $defect         = strtoupper($request->defect);
+        $updated_at     = date('Y-m-d H:i:s', strtotime('+0 hours'));
  
 
+        // is there a change in kode defect data?
+        if ($request->kode_defect == $request->original_kode_defect){
+            // Check duplicate kode
+            $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$request->kode_defect."'");
+            if (isset($kode_check['0'])) {
+                alert()->error('Gagal Menyimpan!', 'Maaf, kode defect ini sudah didaftarkan dalam sistem!');
+                return Redirect::back();
+            } else {
+                //update data into database
+                DefectModel::where('id_defect', $id_defect)->update([
+                   'kode_defect'         => $kode_defect,
+                   'defect'              => $defect,
+                   'updated_at'          => $updated_at,
+                ]);
+                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                return redirect('/defect');
+            }
+           }
 
         // is there a change in kode defect data?
         if($request->kode_defect == $request->original_kode_defect){
@@ -149,9 +167,13 @@ class DefectController extends Controller
             $defect = DefectModel::find($id);
             $defect->delete();
 
-            // Move to defect list page
-            alert()->success('Berhasil!', 'Berhasil menghapus data!');
-            return redirect('/defect');
-        }
+        // Delete process
+        $defect = DefectModel::find($id);
+        $defect->delete();
+
+        // Move to department list page
+        alert()->success('Berhasil!', 'Berhasil menghapus data!');
+        return redirect('/defect');
     }
 
+}

@@ -48,6 +48,12 @@ class SubDepartmentController extends Controller
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $subdepartment->klasifikasi_proses = 0;
 
+        // Validation data input
+        if ($request->id_departemen == "0"){
+            alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
+            return Redirect::back();
+        }
+
         // Check duplicate kode
         $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
         if (isset($kode_sub_department_check['0'])) {

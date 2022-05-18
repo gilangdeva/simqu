@@ -21,8 +21,8 @@ class DepartmentController extends Controller
         $department = DepartmentModel::all();
 
         return view('admin.master.department-list',[
-            'menu'  => 'master',
-            'sub'   => '/department',
+            'menu'       => 'master',
+            'sub'        => '/department',
             'department' => $department
         ]);
     }
@@ -42,19 +42,19 @@ class DepartmentController extends Controller
         // Parameters
         $department->kode_departemen = strtoupper($request->kode_departemen);
         $department->nama_departemen = strtoupper($request->nama_departemen);
-        $department->creator = session()->get('user_id');
-        $department->pic = session()->get('user_id'); 
+        $department->creator         = session()->get('user_id');
+        $department->pic             = session()->get('user_id');
 
         // Check duplicate kode
         $kode_department_check = DB::select("SELECT kode_departemen FROM tb_master_departemen WHERE kode_departemen = '".$request->kode_departemen."'");
-        if (isset($kode_department_check['0'])) {  
+        if (isset($kode_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
         $nama_department_check = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE nama_departemen = '".$request->nama_departemen."'");
-        if (isset($nama_department_check['0'])) {  
+        if (isset($nama_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, nama ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
@@ -71,7 +71,7 @@ class DepartmentController extends Controller
 
         // Select data based on ID
         $departemen = DepartmentModel::find($id);
-        
+
         return view('admin.master.department-edit', [
             'menu'  => 'master',
             'sub'   => '/department',
@@ -86,50 +86,66 @@ class DepartmentController extends Controller
         $nama_departemen = strtoupper($request->nama_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-        // Check duplicate kode
-        $kode_department_check = DB::select("SELECT kode_departemen FROM tb_master_departemen WHERE kode_departemen = '".$kode_departemen."'");
-        if (isset($kode_department_check['0'])) {  
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
-            return Redirect::back();
-        }
+        // is there a change in kode departemen data?
+        if ($request->kode_departemen == $request->original_kode_departemen){
+            // Check duplicate kode
+            $kode_check = DB::select("SELECT kode_departemen FROM vg_list_departemen WHERE kode_departemen = '".$request->kode_departemen."'");
+            if (isset($kode_check['0'])) {
+                alert()->error('Gagal Menyimpan!', 'Maaf, kode departemen ini sudah didaftarkan dalam sistem!');
+                return Redirect::back();
+            } else {
+                //update data into database
+                DepartmentModel::where('id_departemen', $id_departemen)->update([
+                   'kode_departemen'         => $kode_departemen,
+                   'nama_departemen'         => $nama_departemen,
+                   'updated_at'              => $updated_at,
+                ]);
+                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                return redirect('/department');
+            }
+           }
 
-        // Check duplicate nama
-        $nama_department_check = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE nama_departemen = '".$nama_departemen."'");
-        if (isset($nama_department_check['0'])) {  
-            alert()->error('Gagal Menyimpan!', 'Maaf, nama ini sudah didaftarkan dalam sistem!');
-            return Redirect::back();
-        }
- 
-        // Update data into database
-        DepartmentModel::where('id_departemen', $id_departemen)->update([
-            'kode_departemen'   => $kode_departemen,
-            'nama_departemen'   => $nama_departemen,
-            'updated_at'        => $updated_at,
-            'pic'               => $pic,
-        ]);
-        
-        alert()->success('Sukses!', 'Data berhasil diperbarui!');
-        return redirect('/department');
-    } 
-    
+        // is there a change in nama departemen data?
+        if ($request->nama_departemen == $request->original_nama_departemen){
+            // Check duplicate nama
+            $nama_check = DB::select("SELECT nama_departemen FROM vg_list_departemen WHERE nama_departemen = '".$request->nama_departemen."'");
+            if (isset($nama_check['0'])) {
+                alert()->error('Gagal Menyimpan!', 'Maaf, nama departemen ini sudah didaftarkan dalam sistem!');
+                return Redirect::back();
+            }
+               } else {
+                   //update data into database
+                   DepartmentModel::where('id_departemen', $id_departemen)->update([
+                      'kode_departemen'         => $kode_departemen,
+                      'nama_departemen'         => $nama_departemen,
+                      'updated_at'              => $updated_at,
+                   ]);
+                   alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                   return redirect('/department');
+               }
+
+            {
+                //update data into database
+                DepartmentModel::where('id_departemen', $id_departemen)->update([
+                   'kode_departemen'         => $kode_departemen,
+                   'nama_departemen'         => $nama_departemen,
+                   'updated_at'              => $updated_at,
+                ]);
+                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                return redirect('/department');
+            }
+    }
 
     // Fungsi hapus data
     public function DeleteDepartmentData($id){
         $id = Crypt::decryptString($id);
 
-        // Check department already used in other table or not yet
-        $departemen_check = DB::select('SELECT * FROM tb_master_sub_departemen WHERE id_departemen = '.$id);
-        if (isset($departemen_check[0])) {
-            Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
-            return Redirect::back(); 
-        } else {
-            // Delete process
-            $departemen = DepartmentModel::find($id);
-            $departemen->delete();
+        // Delete process
+        $department = DepartmentModel::find($id);
+        $department->delete();
 
-            // Move to department list page
-            alert()->success('Berhasil!', 'Berhasil menghapus data!');
-            return redirect('/department');
-        }
+        // Move to department list page
+        alert()->success('Berhasil!', 'Berhasil menghapus data!');
+        return redirect('/department');
     }
 }
