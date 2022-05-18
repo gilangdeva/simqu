@@ -42,29 +42,20 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4">Kode Mesin</label>
                         <div class="col-sm-8">
-                            <!-- <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false"> */ -->
-                            <select id="kode_mesin" class="form-control select2" name="kode_mesin" maxlength="10" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" required> 
-                                
-                            </select>
+                            <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false"> 
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="20" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" required> 
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-5 control-label">Nama Mesin</label>
-                        <div class="col-sm-7">
-                            <select id="nama_mesin" class="form-control select2" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required> 
-                                <option value="YNWA">YNWA</option>
-                                <option value="GGMU">GGMU</option>
-                                <option value="COYS">COYS</option>
-                                <option value="COYG">COYG</option>
-                                <option value="HMR">HMR</option>
-                            </select>
+                        <label class="col-sm-4 control-label">Nama Mesin</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
                         </div>
                     </div>
                     
                     <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-5"></div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/mesin"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>

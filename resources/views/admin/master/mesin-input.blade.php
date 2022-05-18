@@ -22,9 +22,9 @@
                             <select class="form-control select2" name="id_departemen" required>
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen}}">{{ $dept->nama_departemen}} </option>
+                                    <option value="{{ $dept->id_departemen}}">{{ $dept->nama_departemen }}</option>
                                 @endforeach
-                                </select>
+                            </select>
                         </div>
                     </div>
                     
@@ -39,7 +39,7 @@
                                     <option value="{{$subdept->id_sub_departemen}}">{{ $subdept->nama_sub_departemen}}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div>  
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
