@@ -38,6 +38,9 @@ Route::get('/users-edit/{id}', [UsersController::class, 'EditUserData']); // men
 Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->name('users.update'); //simpan perubahan data
 Route::get('/users-delete/{id}', [UsersController::class, 'DeleteUserData']); // menghapus data user dari database
 
+// Sub Departemen Select Dropdown
+Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub');
+
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword']);
 Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->name('password.update');
@@ -58,8 +61,7 @@ Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSub
 Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update'); //simpan perubahan data
 Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
 
-// Sub Departemen Select Dropdown
-Route::get('/subdepartment-select/{id}', [SubDepartmentController::class, 'SelectSubDepartmentData'])->name('sub_departemen.select');
+
 
 // Master Periode
 Route::get('/periode', [PeriodeController::class, 'PeriodeList']);

@@ -39,6 +39,12 @@ class UsersController extends Controller
         ]);
     }
 
+    public function getSubDepartemen($id){
+        $sub_departemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM tb_master_sub_departemen WHERE id_departemen = ".$id);
+        return json_encode($sub_departemen);
+        // return response()->json($sub_departemen);
+    }
+
     // Redirect ke window input users
     public function UsersInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
@@ -46,11 +52,11 @@ class UsersController extends Controller
         
         return view('admin.master.users-input',[
             'departemen'        => $departemen,
-            'subdepartemen'    => $subdepartemen,
+            'subdepartemen'     => $subdepartemen,
             'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'               => '/users' // selalu ada di tiap function dan disesuaikan
         ]);
-    }
+    }  
 
     //Simpan data user
     public function SaveUserData(Request $request){
@@ -132,8 +138,12 @@ class UsersController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditUserData($id){
         $id = Crypt::decrypt($id);
+        
+        // Select User ID Sub Departemen
+        $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
+
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen');
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen);
 
         // Select data based on ID
         $user = UsersModel::find($id);

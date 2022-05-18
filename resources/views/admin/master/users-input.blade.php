@@ -31,7 +31,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" name="email" maxlength="150" placeholder="Email" required> 
+                            <input type="email" class="form-control" name="email" id="email" maxlength="150" placeholder="Email" required> 
                         </div>
                     </div>
 
@@ -67,6 +67,7 @@
                                 @foreach ($subdepartemen as $subdept)
                                     <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
                                 @endforeach --}}
+                                <option selected>Pilih Sub Departemen</option>
                             </select>
                         </div>
                     </div>
@@ -93,37 +94,38 @@
     </div>
 <!-- end container-fluid -->
 
-<script>
-    $('#id_departemen').change(function() {
-        //clear select
-        $('#id_sub_departemen').empty();
-        //set id
-        let departemenID = $(this).val();
-        if (departemenID) {
-            $('#id_sub_departemen').select2({
-                allowClear: true,
-                ajax: {
-                    url: "{{ route('sub_departemen.select') }}?departemenID=" + departemenID,
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function(data) {
-                    return {
-                        results: $.map(data, function(item) {
-                            return {
-                                text: item.name,
-                                id: item.id
-                            }
-                        })
-                    };
-                    }
-                }
-            });
-        } else {
-            $('#id_sub_departemen').empty();
-        }
-    });
-</script>
+
 
 @include('admin.footer')
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="id_departemen"]').on('change', function() {
+            var departemenID = $(this).val();
+            if(departemenID) {
+                $.ajax({
+                    url: '/users-sub/'+departemenID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="id_sub_departemen"]').empty();
+                            $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Sub Departemen</option>');
+                            // Remove options
+                            $('#id_sub_departemen').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="id_sub_departemen"]').append('<option value="'+ data[i].id_sub_departemen +'">'+ data[i].nama_sub_departemen +'</option>');
+                            };
+                        } else {
+                            $('select[name="id_sub_departemen"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="id_sub_departemen"]').empty();
+            }
+        });
+    });
+</script>
 
 @endsection
