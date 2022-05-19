@@ -22,9 +22,9 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-// Auth 
+// Auth
 Route::get('/login', [AuthController::class, 'LoginView']);
-Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.login'); 
+Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.login');
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Dashboard
@@ -37,6 +37,7 @@ Route::post('/users-input/', [UsersController::class, 'SaveUserData'])->name('us
 Route::get('/users-edit/{id}', [UsersController::class, 'EditUserData']); // mengarahkan ke window edit data
 Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->name('users.update'); //simpan perubahan data
 Route::get('/users-delete/{id}', [UsersController::class, 'DeleteUserData']); // menghapus data user dari database
+Route::get('/getSubDept/{id}', 'UsersController@getSubDept');
 
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword']);

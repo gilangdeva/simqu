@@ -18,14 +18,14 @@
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-5 control-label">Kode Defect</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="kode_defect" maxlength="3" placeholder="Kode Defect" required>
+                            <input type="text" class="form-control" name="kode_defect" maxlength="10" placeholder="Kode Defect" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-5 control-label">Temuan Defect</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="defect" maxlength="30" placeholder="Temuan Defect" required>
+                            <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Temuan Defect" required>
                         </div>
                     </div>
 
