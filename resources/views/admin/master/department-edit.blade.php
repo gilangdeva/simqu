@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    
+
     <div class="row">
         <div class="col-md-4">
             <div class="white-box">
@@ -18,15 +18,16 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Departemen</label>
                         <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="id_departemen" value="{{ $department->id_departemen }}" readonly autocomplete="false">                         
-                            <input type="text" class="form-control" name="kode_departemen" maxlength="20" placeholder="Kode Departemen" value="{{ $department->kode_departemen }}" required> 
+                            <input type="hidden" class="form-control" name="id_departemen" value="{{ $department->id_departemen }}" readonly autocomplete="false">
+                            <input type="text" class="form-control" name="kode_departemen" maxlength="3" placeholder="Kode Departemen" value="{{ $department->kode_departemen }}" readonly required>
                         </div>
                     </div>
-            
+
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required> 
+                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required>
+                            <input type="hidden" class="form-control" name="original_nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required>
                         </div>
                     </div>
 
@@ -37,7 +38,7 @@
                             <a href="/department"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
         </div>

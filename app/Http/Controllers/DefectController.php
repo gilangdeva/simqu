@@ -47,14 +47,14 @@ class DefectController extends Controller
         $defect->defect = strtoupper($request->defect);
 
         // Check duplicate kode
-        $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$request->kode_defect."'");
+        $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$defect->kode_defect."'");
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate defect
-        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$request->defect."'");
+        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect->defect."'");
         if (isset($defect_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, defect ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
@@ -84,6 +84,7 @@ class DefectController extends Controller
 
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditDefectData(Request $request){
+<<<<<<< Updated upstream
         $id_defect      = $request->id_defect;
         $kode_defect    = strtoupper ($request->kode_defect);
         $defect         = strtoupper($request->defect);
@@ -142,10 +143,31 @@ class DefectController extends Controller
                 'kode_defect'              => $kode_defect,
                 'defect'                   => $defect,
                 'updated_at'               => $updated_at,
+=======
+        $id_defect            = $request->id_defect;
+        $kode_defect          = strtoupper($request->kode_defect);
+        $defect               = strtoupper($request->defect);
+        $updated_at           = date('Y-m-d H:i:s', strtotime('+0 hours'));
+
+        // Is there a change in kode data?
+        if ($request->defect <> $request->original_defect){
+        //cek apakah sudah ada di db
+        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect."'");
+        if (isset($defect_check['0'])) {
+            alert()->error('Gagal Menyimpan!', 'Maaf, nama ini sudah digunakan');
+            return Redirect::back();
+        } else {
+            //update data into db
+            DefectModel::where('id_defect', $id_defect)->update([
+                'kode_defect'       => $kode_defect,
+                'defect'            => $defect,
+                'updated_at'        => $updated_at,
+>>>>>>> Stashed changes
             ]);
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
             return redirect('/defect');
         }
+<<<<<<< Updated upstream
     {
             // Update data into database
             DefectModel::where('id_defect', $id_defect)->update([
@@ -155,6 +177,20 @@ class DefectController extends Controller
             ]);
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
             return redirect('/defect');
+=======
+    } else {
+             //update data into db
+             DefectModel::where('id_defect', $id_defect)->update([
+                'kode_defect'       => $kode_defect,
+                'defect'            => $defect,
+                'updated_at'        => $updated_at,
+            ]);
+            alert()->success('Sukses!', 'Dataaaa berhasil diperbarui!');
+            return redirect('/defect');
+    }
+
+
+>>>>>>> Stashed changes
     }
 }
     
