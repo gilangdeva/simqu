@@ -8,6 +8,7 @@ class DepartmentModel extends Model
 {
     protected $table = 'tb_master_departemen'; //disesuaikan dengan database
     protected $primaryKey = 'id_departemen'; //disesuaikan dengan database
+    protected $keyType = 'string';
 
     protected $fillable = [
     	'kode_departemen',
