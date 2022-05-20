@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    
+
     <div class="row">
         <div class="col-md-4">
             <div class="white-box">
@@ -17,21 +17,21 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">NIK</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="kode_user" maxlength="10" placeholder="NIK" required> 
+                            <input type="text" class="form-control" name="kode_user" maxlength="10" placeholder="NIK" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Nama Lengkap</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="nama_user" maxlength="20" placeholder="Nama Lengkap" required> 
+                            <input type="text" class="form-control" name="nama_user" maxlength="20" placeholder="Nama Lengkap" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" name="email" id="email" maxlength="150" placeholder="Email" required> 
+                            <input type="email" class="form-control" name="email" maxlength="150" placeholder="Email" required>
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                             <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
                         </div>
                     </div>
-                    
+
                     <div class="form-group" style="margin-bottom:3px;">
                         <div class="col-sm-3"></div>
                         <div class="col-sm-9">
@@ -93,8 +93,6 @@
     <!-- end row -->
     </div>
 <!-- end container-fluid -->
-
-
 
 @include('admin.footer')
 

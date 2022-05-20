@@ -55,14 +55,14 @@ class SubDepartmentController extends Controller
         }
 
         // Check duplicate kode
-        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
+        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($subdepartment->kode_sub_departemen)."'");
         if (isset($kode_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
-        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($request->nama_sub_departemen)."'");
+        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($subdepartment->nama_sub_departemen)."'");
         if (isset($nama_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
@@ -101,31 +101,36 @@ class SubDepartmentController extends Controller
         $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
+        // Is there a change in kode data?
+        if ($request->nama_sub_departemen <> $request->original_nama_sub_departemen){
+            //cek apakah sudah ada di db
+            $namasub_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".$nama_sub_departemen."'");
+            if (isset($namasub_check['0'])) {
+                alert()->error('Gagal Menyimpan!', 'Maaf, nama ini sudah digunakan');
+                return Redirect::back();
+            } else {
+                //update data into db
+                SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
+                    'id_departemen'               => $id_departemen,
+                    'kode_sub_departemen'         => $kode_sub_departemen,
+                    'nama_sub_departemen'         => $nama_sub_departemen,
+                    'updated_at'                  => $updated_at,
+                ]);
+                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                return redirect('/subdepartment');
+            }
+        } else  {
+            // Update data into database
+            SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
+                'id_departemen'               => $id_departemen,
+                'kode_sub_departemen'         => $kode_sub_departemen,
+                'nama_sub_departemen'         => $nama_sub_departemen,
+                'updated_at'                  => $updated_at,
+            ]);
 
-        // Check duplicate kode
-        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
-        if (isset($kode_sub_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
-            return Redirect::back();
+            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            return redirect('/subdepartment');
         }
-
-        // Check duplicate nama
-        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($request->nama_sub_departemen)."'");
-        if (isset($nama_sub_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
-            return Redirect::back();
-        }
-
-        // Update data into database
-        SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
-            'id_departemen'               => $id_departemen,
-            'kode_sub_departemen'         => $kode_sub_departemen,
-            'nama_sub_departemen'         => $nama_sub_departemen,
-            'updated_at'                  => $updated_at,
-        ]);
-
-        alert()->success('Sukses!', 'Data berhasil diperbarui!');
-        return redirect('/subdepartment');
     }
 
 
