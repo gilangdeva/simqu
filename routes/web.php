@@ -28,7 +28,7 @@ Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.log
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Dashboard
-Route::get('/dashboard', [DashboardController::class, 'Index']);
+Route::get('/dashboard', [DashboardController::class, 'Index'])->middleware('auth.check');
 
 // Master Users
 Route::get('/users', [UsersController::class, 'UsersList']); // menampilkan semua data dalam list datatable

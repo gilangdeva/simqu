@@ -15,42 +15,44 @@
                 <form class="form-horizontal" action="{{ route('mesin.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
-
+                   
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Departemen</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" name="id_departemen" required>
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    <option value="{{ $dept->id_departemen}}">{{ $dept->nama_departemen }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-
+                    
+                    
+                    
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Sub Departemen</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" name="id_sub_departemen" required>
                                 <option value="0">Pilih Sub Departemen</option>
                                 @foreach ($subdepartemen as $subdept)
-                                    <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
+                                    <option value="{{$subdept->id_sub_departemen}}">{{ $subdept->nama_sub_departemen}}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div>  
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Mesin</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="10" placeholder="Kode Mesin" required>
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" required>  
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Mesin</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" required>
+                            <input type="text" class="form-control" name="nama_mesin" maxlength="30" placeholder="Nama Mesin" required>
                         </div>
                     </div>
 

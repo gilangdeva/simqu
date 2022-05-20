@@ -18,7 +18,7 @@ class AuthCheck
         if (session()->has('username')) {
             return $next($request);
         } else {
-            return redirect('/panel');
+            return redirect('/login');
         }
     }
 }

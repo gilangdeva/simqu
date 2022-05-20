@@ -58,15 +58,15 @@
             text: "Apakah Anda yakin ingin menghapus data ini?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus Data!',
-            cancelButtonText: 'Batal'
+            confirmButtonColor:'#3085d6',
+            cancelButtonColor:'#d33',
+            confirmButtonText:"Ya, Hapus Data!",
+            cancelButtonText:'Batal'
         }).then((result) => {
             if (result) {
-                if (result.isConfirmed) {
+                if (result.isConfirmed){
                     location.replace(urlsite);
-                }
+                }  
             }
         })
     }
