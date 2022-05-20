@@ -41,6 +41,7 @@ Route::get('/getSubDept/{id}', 'UsersController@getSubDept');
 
 // Sub Departemen Select Dropdown
 Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub');
+Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub');
 
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword']);

@@ -57,7 +57,7 @@ class UsersController extends Controller
             'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'               => '/users' // selalu ada di tiap function dan disesuaikan
         ]);
-    }  
+    }
 
     //Simpan data user
     public function SaveUserData(Request $request){
@@ -78,7 +78,7 @@ class UsersController extends Controller
         // Check duplicate email
         $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
         if (isset($email_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, Email ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Email Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
@@ -86,7 +86,7 @@ class UsersController extends Controller
         $usersname_check = DB::select("SELECT kode_user FROM vw_list_users WHERE kode_user = '".strtolower($request->kode_user)."'");
         if (isset($usersname_check['0'])) {
             // If username already registered
-            alert()->error('Gagal Menyimpan!', 'Maaf, NIK sudah digunakan!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, NIK Dudah Digunakan!');
             return Redirect::back();
         } else {
             // If username not registered
@@ -131,7 +131,7 @@ class UsersController extends Controller
             // Insert data into database
             $users->save();
 
-            alert()->success('Berhasil!', 'Data sukses disimpan!');
+            alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/users');
         }
     }
@@ -139,7 +139,7 @@ class UsersController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditUserData($id){
         $id = Crypt::decrypt($id);
-        
+
         // Select User ID Sub Departemen
         $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
 
@@ -213,7 +213,7 @@ class UsersController extends Controller
             // Check duplicate email
             $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
             if (isset($email_check['0'])) {
-                alert()->error('Gagal!', 'Maaf, Email ini sudah terdaftar dalam sistem!');
+                alert()->error('Gagal!', 'Maaf, Email Ini Sudah Terdaftar Dalam Sistem!');
                 return Redirect::back();
             } else {
                 // Update data into database
@@ -229,7 +229,7 @@ class UsersController extends Controller
                     'picture'           => $f_name,
                 ]);
 
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/users');
             }
         } else {
@@ -253,7 +253,7 @@ class UsersController extends Controller
                 ]);
             }
 
-            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/users');
         }
     }
@@ -282,19 +282,19 @@ class UsersController extends Controller
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
-            Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
+            Alert::error("Gagal!", 'Data Ini Tidak Dapat Dihapus Karena Sudah Dipakai Tabel Lain!');
             return Redirect::back();
         }
 
         // If user default is 1, so the data can't be deleted
         if ($user['kode_user'] == '19104886') {
-            Alert::error("Gagal!", 'Data ini tidak dapat di hapus!');
+            Alert::error("Gagal!", 'Data Ini Tidak Dapat Di Hapus!');
             return Redirect::back();
         } else {
             // Check active user or not
             if($id == session()->get('user_id')) {
                 // If user still active, so return back
-                Alert::error("Gagal!", 'Anda tidak dapat menghapus data ini karena data masih aktif!');
+                Alert::error("Gagal!", 'Anda Tidak Dapat Menghapus Data Ini Karena Data Masih Aktif!');
                 return Redirect::back();
             } else {
                 // If user inactive, so can be delete this data
@@ -303,7 +303,7 @@ class UsersController extends Controller
                 $user->delete();
 
                 // Move to users list page
-                alert()->success('Berhasil!', 'Berhasil menghapus data!');
+                alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
                 return redirect('/users');
             }
         }
