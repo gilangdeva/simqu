@@ -91,10 +91,10 @@ class PeriodeController extends Controller
         $minggu_ke = $request->minggu_ke;
         $tgl_mulai_periode = $request->tgl_mulai_periode;
         $tgl_akhir_periode = $request->tgl_akhir_periode;
-        $updated_at = date('d-m-Y H:i:s', strtotime('+0 hours'));
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         // Is there a change in date data?
-        if ($request->tahun == $request->original_tahun || $request->bulan == $request->original_bulan || $request->minggu_ke == $request->original_minggu_ke){
+        if ($request->tahun <> $request->original_tahun || $request->bulan <> $request->original_bulan || $request->minggu_ke <> $request->original_minggu_ke){
             // Check duplicate data
             $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
             if (isset($available_date_check['0'])) {
@@ -103,8 +103,12 @@ class PeriodeController extends Controller
             } else {
             // Update data into database
             PeriodeModel::where('id_periode', $id_periode)->update([
+                'tahun'                   => $tahun,
+                'bulan'                   => $bulan,
+                'minggu_ke'               => $minggu_ke,
                 'tgl_mulai_periode'       => $tgl_mulai_periode,
                 'tgl_akhir_periode'       => $tgl_akhir_periode,
+                'updated_at'              => $updated_at,
                 ]);
 
                 alert()->success('Sukses!', 'Data berhasil diperbarui!');
