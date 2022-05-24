@@ -17,7 +17,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">NIK</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="kode_user" maxlength="10" placeholder="NIK" required>
+                            <input type="text" class="form-control" name="kode_user" maxlength="8" placeholder="NIK" required>
                         </div>
                     </div>
 

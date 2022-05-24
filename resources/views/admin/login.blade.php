@@ -30,7 +30,7 @@
                 <a href="/" class="p-20 di"><img src="{{ url('/') }}/images/web/simqu-title-white.png""></a>
                 <div class="lg-content">
                     <h2>PANEL ADMINISTRASI<br><b>SISTEM INFORMASI MANAGEMENT QUALITY CONTROL</b></h2>
-                    <p class="text-muted">SIMQU - Modul Inspeksi <br> Copyright &copy; 2022 - PT. Bintang Cakra Kencana </p>
+                    <p class="text-muted">SIMQU - Modul Inspeksi <br> Copyright &copy; 2022 - PT. Solo Murni </p>
                     <a href="/" class="btn btn-rounded btn-danger p-l-20 p-r-20">Bantuan</a>
                 </div>
             </div>
@@ -54,7 +54,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <label>Password</label>
+                            <label>Password</label> 
                             <input class="form-control" type="password" name="password" required="" autocomplete="false">
                         </div>
                     </div>

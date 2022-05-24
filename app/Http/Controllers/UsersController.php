@@ -64,9 +64,9 @@ class UsersController extends Controller
         $users = new UsersModel();
 
         // Parameters
-        $users->kode_user = strtolower($request->kode_user);
+        $users->kode_user = strtoupper($request->kode_user);
         $users->nama_user = strtoupper($request->nama_user);
-        $encrypt_password = md5(strtolower($request->kode_user));
+        $encrypt_password = md5(strtoupper($request->kode_user));
         $users->password = hash('ripemd160', $encrypt_password);
         $users->email = $request->email;
         $users->jenis_user = $request->jenis_user; //nanti diubah

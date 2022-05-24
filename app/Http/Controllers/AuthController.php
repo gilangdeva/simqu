@@ -34,9 +34,9 @@ class AuthController extends Controller
 
         // check access on database
         // $usersValidation = DB::select("SELECT * FROM vw_master_users WHERE identity_number = '". $identity_number."' AND password ='".$password."'");
-        $usersValidation = UsersModel::where('kode_user', $kode_user)->where('password', $password)->get();
+        $usersValidation = DB::select("SELECT * FROM vw_list_users WHERE kode_user = '".$kode_user."' AND password = '".$password."'");
         // show all menus according with identity number
-
+        
         // if all data already exist on array or have not null value
         // so create session according with 'identity number'
         if ($usersValidation[0] ?? null) {
@@ -50,7 +50,6 @@ class AuthController extends Controller
                     'jenis_user'        => $usersValidation[0]->jenis_user,
                     'picture'           => $usersValidation[0]->picture,
                 ]);
-                
                 return redirect('/dashboard');
             }
         } else {
@@ -103,7 +102,7 @@ class AuthController extends Controller
 
             Mail::send('admin.mail-password', $data, function($message) use($email, $name) {
                 $message->to($email, $name)->subject('Reset Password');
-                $message->from('system@bckguns.com','Automail PT Bintang Cakra Kencana');
+                $message->from('admin@bckguns.com','Automail PT Solo Murni');
             });
 
             alert()->success('Reset code have been send to your email!', 'Delivered!');
