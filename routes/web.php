@@ -10,6 +10,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\InspeksiHeaderController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\InspeksiInlineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,10 +96,10 @@ Route::get('/dropdown-sub-departemen/{id}', function ($id) {
     return response()->json($dropdown_sub_departemen);
 });
 
-// Master Inspeksi Header
-Route::get('/inspeksiheader', [InspeksiHeaderController::class, 'InspeksiHeaderList']);
-Route::get('/inspeksiheader-input/', [InspeksiHeaderController::class, 'InspeksiHeaderInput']);
-Route::post('/inspeksiheader-input', [InspeksiHeaderController::class, 'SaveInspeksiHeaderData'])->name('inspeksiheader.save');
-Route::get('/inspeksiheader-edit/{id}', [InspeksiHeaderController::class, 'EditInspeksiHeaderData']);
-Route::post('/inspeksiheader-update/', [InspeksiHeaderController::class, 'SaveEditInspeksiHeaderData'])->name('inspeksiheader.update');
-Route::get('/inspeksiheader-delete/{id}', [InspeksiHeaderController::class, 'DeleteInspeksiHeaderData']);
+//Inspeksi Inline
+Route::get('/inspeksiinline', [InspeksiInlineController::class, 'InspeksiInlineList']);
+Route::get('/inspeksiinline-input/', [InspeksiInlineController::class, 'InspeksiInlineInput']);
+Route::post('/inspeksiinline-input', [InspeksiInlineController::class, 'SaveInspeksiInlineData'])->name('inspeksiinline.save');
+Route::get('/inspeksiinline-edit/{id}', [InspeksiInlineController::class, 'EditInspeksiInlineData']);
+Route::post('/inspeksiinline-update/', [InspeksiInlineController::class, 'SaveEditInspeksiInlineData'])->name('inspeksiinline.update');
+Route::get('/inspeksiinline-delete/{id}', [InspeksiInlineController::class, 'DeleteInspeksiInlineData']);
