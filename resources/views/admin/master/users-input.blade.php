@@ -63,10 +63,6 @@
                         <label class="col-sm-3 control-label">Sub Dept</label>
                         <div class="col-sm-9">
                             <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
-                                {{-- <option>Pilih Sub Departemen</option>
-                                @foreach ($subdepartemen as $subdept)
-                                    <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
-                                @endforeach --}}
                                 <option selected>Pilih Sub Departemen</option>
                             </select>
                         </div>

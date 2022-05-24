@@ -41,6 +41,7 @@ Route::get('/getSubDept/{id}', 'UsersController@getSubDept')->middleware('auth.c
 
 // Sub Departemen Select Dropdown
 Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub')->middleware('auth.check');
+Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub')->middleware('auth.check');
 
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword'])->middleware('auth.check');
@@ -61,8 +62,6 @@ Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDe
 Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
 Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update')->middleware('auth.check'); //simpan perubahan data
 Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData'])->middleware('auth.check');
-
-
 
 // Master Periode
 Route::get('/periode', [PeriodeController::class, 'PeriodeList'])->middleware('auth.check');

@@ -57,21 +57,21 @@ class SubDepartmentController extends Controller
         // Check duplicate kode
         $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($subdepartment->kode_sub_departemen)."'");
         if (isset($kode_sub_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Kode Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
         $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($subdepartment->nama_sub_departemen)."'");
         if (isset($nama_sub_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
         // Insert data into database
         $subdepartment->save();
 
-            alert()->success('Berhasil!', 'Data sukses disimpan!');
+            alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/subdepartment');
 
     }
@@ -106,7 +106,7 @@ class SubDepartmentController extends Controller
             //cek apakah sudah ada di db
             $namasub_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".$nama_sub_departemen."'");
             if (isset($namasub_check['0'])) {
-                alert()->error('Gagal Menyimpan!', 'Maaf, nama ini sudah digunakan');
+                alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
                 return Redirect::back();
             } else {
                 //update data into db
@@ -116,7 +116,7 @@ class SubDepartmentController extends Controller
                     'nama_sub_departemen'         => $nama_sub_departemen,
                     'updated_at'                  => $updated_at,
                 ]);
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/subdepartment');
             }
         } else  {
@@ -128,7 +128,7 @@ class SubDepartmentController extends Controller
                 'updated_at'                  => $updated_at,
             ]);
 
-            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/subdepartment');
         }
     }
@@ -144,7 +144,7 @@ class SubDepartmentController extends Controller
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
-            Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
+            Alert::error("Gagal!", 'Data Ini Tidak Dapat Dihapus Karena Sudah Dipakai Tabel Lain!');
             return Redirect::back();
         }
         {
@@ -153,7 +153,7 @@ class SubDepartmentController extends Controller
             $subdepartemen->delete();
 
             // Move to users list page
-            alert()->success('Berhasil!', 'Berhasil menghapus data!');
+            alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
             return redirect('/subdepartment');
         }
     }
