@@ -86,17 +86,3 @@ Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name(
 Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData'])->middleware('auth.check');
 Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update')->middleware('auth.check');
 Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData'])->middleware('auth.check');
-
-// // Dropdown dependent Sub Departemen
-// Route::get('/dropdown-sub-departemen/{id}', function ($id) {
-//     $dropdown_sub_departemen = App\Models\SubDepartmentModel::where('id_departemen',$id)->get();
-//     return response()->json($dropdown_sub_departemen);
-// });
-
-// // Master Inspeksi Header
-// Route::get('/inspeksiheader', [InspeksiHeaderController::class, 'InspeksiHeaderList'])->middleware('auth.check');
-// Route::get('/inspeksiheader-input/', [InspeksiHeaderController::class, 'InspeksiHeaderInput'])->middleware('auth.check');
-// Route::post('/inspeksiheader-input', [InspeksiHeaderController::class, 'SaveInspeksiHeaderData'])->name('inspeksiheader.save')->middleware('auth.check');
-// Route::get('/inspeksiheader-edit/{id}', [InspeksiHeaderController::class, 'EditInspeksiHeaderData'])->middleware('auth.check');
-// Route::post('/inspeksiheader-update/', [InspeksiHeaderController::class, 'SaveEditInspeksiHeaderData'])->name('inspeksiheader.update')->middleware('auth.check');
-// Route::get('/inspeksiheader-delete/{id}', [InspeksiHeaderController::class, 'DeleteInspeksiHeaderData'])->middleware('auth.check');

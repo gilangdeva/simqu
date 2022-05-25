@@ -96,8 +96,8 @@
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="/change-password/{{ Crypt::encrypt(session()->get('user_id')) }}"><i class="ti-settings"></i> Change Password</a></li>
-                            <li><a href="/auth-logout/{{ Crypt::encrypt(session()->get('user_id')) }}"><i class=" ti-power-off"></i> Logout</a></li>
+                            <li><a href="/change-password/{{ Crypt::encrypt(session()->get('id_user')) }}"><i class="ti-lock"></i> Ubah Password</a></li>
+                            <li><a href="/auth-logout/{{ Crypt::encrypt(session()->get('id_user')) }}"><i class=" ti-power-off"></i> Logout</a></li>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
@@ -150,19 +150,19 @@
                             <a href="/inspect" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/inline"><i class="mdi mdi-progress-star fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
-                            <li><a href="/final"><i class="mdi mdi-progress-check fa-fw"></i> <span class="hide-menu">Final</span></a></li>
+                            <li><a href="/inline"><i class="mdi mdi-sync fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
+                            <li><a href="/final"><i class="mdi mdi-wallet-giftcard fa-fw"></i> <span class="hide-menu">Final</span></a></li>
                         </ul>
                     </li>
 
                     <li> 
                         @if($menu == 'upload')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
                         @else 
-                            <a href="/upload" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                            <a href="/upload" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/defect"><i class="mdi mdi-clipboard-check fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
+                            <li><a href="/upload-jop"><i class="mdi mdi-ticket-confirmation fa-fw"></i> <span class="hide-menu">JOP Edar</span></a></li>
                         </ul>
                     </li>
 
