@@ -12,7 +12,6 @@ class InspeksiDetailModel extends Model
     protected $primaryKey = 'id_inspeksi_detail'; //disesuaikan dengan database
 
     protected $fillable = [
-        'id_inspeksi_header',
     	'id_mesin',
     	'qty_1',
         'qty_5',

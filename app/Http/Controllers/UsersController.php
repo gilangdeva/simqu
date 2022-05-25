@@ -64,9 +64,9 @@ class UsersController extends Controller
         $users = new UsersModel();
 
         // Parameters
-        $users->kode_user = strtolower($request->kode_user);
+        $users->kode_user = strtoupper($request->kode_user);
         $users->nama_user = strtoupper($request->nama_user);
-        $encrypt_password = md5(strtolower($request->kode_user));
+        $encrypt_password = md5(strtoupper($request->kode_user));
         $users->password = hash('ripemd160', $encrypt_password);
         $users->email = $request->email;
         $users->jenis_user = $request->jenis_user; //nanti diubah
@@ -144,7 +144,7 @@ class UsersController extends Controller
         $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
 
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen);
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen');
 
         // Select data based on ID
         $user = UsersModel::find($id);

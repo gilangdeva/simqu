@@ -12,7 +12,7 @@
         <div class="col-md-4">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
-                <form class="form-horizontal" action="{{ route('inspeksiinline.save') }}" method="POST" enctype="multipart/form-data">
+                <form class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:3px;">
@@ -55,7 +55,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Mesin</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="id_mesin" required>
+                            <select class="form-control select2" name="id_mesin" >
                                 <option value="0">Pilih Mesin</option>
                                 @foreach ($mesin as $machine)
                                     <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option>
@@ -107,6 +107,18 @@
                     </div> {{-- Nanti diubah --}}
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label">Defect</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" name="id_defect">
+                                <option value="0">Pilih Defect</option>
+                                @foreach ($defect as $def)
+                                    <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kriteria</label>
                         <div class="col-sm-8">
                             <select id="kriteria" class="form-control select2" name="kriteria" maxlength="20" required autocomplete="false">
@@ -142,14 +154,14 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label" >Penyebab</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="penyebab" maxlength="50" placeholder="Jumlah Sampling" required>
+                            <input type="text" class="form-control" name="penyebab" maxlength="50" placeholder="Penyebab" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Status</label>
                         <div class="col-sm-8">
-                            <select id="status" class="form-control select2" name="status" maxlength="20" required>
+                            <select id="status" class="form-control select2" name="status" maxlength="50" required>
                                 <option value="0">Pilih Status</option>
                                 <option value="OK">OK</option>
                                 <option value="Hold">Hold</option>
@@ -169,7 +181,7 @@
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <a href="/inspeksiinline"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
+                            <a href="/inline"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>
                     </div>
                 </form>

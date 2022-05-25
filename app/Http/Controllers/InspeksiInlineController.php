@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 // Tambahkan source dibawah ini
 use Illuminate\Support\Facades\DB;
-use App\Models\InspeksiInlineModel;
-use App\Models\DepartmentController;
-use App\Models\SubDepartmentController;
-use App\Models\MesinController;
-use App\Models\DefectController;
+use App\Models\InspeksiHeaderModel;
+use App\Models\InspeksiDetailModel;
+use App\Models\DepartmentModel;
+use App\Models\SubDepartmentModel;
+use App\Models\MesinModel;
+use App\Models\DefectModel;
 use Image;
 use File;
 use Crypt;
@@ -20,96 +21,98 @@ use RealRashid\SweetAlert\Facades\Alert;
 class InspeksiInlineController extends Controller
 {
     // Menampilkan list inspeksi inline
-    public function InspeksiInlineList(){
-        // Get all data from database
-        // $inspeksiinline = InspeksiInlineModel::all();
-        // $defect = DefectModel::all();
-        // $inspeksiinline = InspeksiInlineModel::
+    public function InlineList(){
+        $inline = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_list_inline");
 
-        $inspeklist = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_list_inline");
-
-        return view('inspeksi.inspeksiinline-list',
-        // compact('inspeksiinline'),
+        return view('inspeksi.inline-list',
         [
             'menu'  => 'inspeksi',
-            'sub'   => '/inspeksiinline',
-            'inspeksiinline' => $inspeklist
+            'sub'   => '/inline',
+            'inline' => $inline
         ]);
     }
 
     // Redirect ke window input inspeksi inline
-    public function InspeksiInlineInput(){
+    public function InlineInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
         $mesin = DB::select('SELECT id_mesin, nama_mesin FROM vg_list_mesin');
         $defect = DB::select('SELECT id_defect, defect FROM vg_list_defect');
+        $users = DB::select('SELECT id_user, nama_user FROM vw_list_users');
 
-        return view('inspeksi.inspeksiinline-input',[
+        return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
             'mesin'         => $mesin,
+            'subdepartemen' => $subdepartemen,
+            'defect'        => $defect,
+            'users'         => $users,
             'menu'  => 'inspeksi', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/inspeksiinline'
+            'sub'   => '/inline'
         ]);
     }
 
     //Simpan data inspeksi inline
-    public function SaveInspeksiInlineData(Request $request){
-        $inspeksiheader = new InspeksiHeaderModel();
-        $inspeksidetail = new InspeksiDetailModel();
+    public function SaveInlineData(Request $request){
+        $inlineheader = new InspeksiHeaderModel();
+        $inlinedetail = new InspeksiDetailModel();
 
         // Parameters
-        $inspeksiheader->tgl_inspeksi = $request->tgl_inspeksi;
-        $inspeksiheader->shift = strtoupper($request->shift);
-        $inspeksiheader->id_user    = $request->id_user;
-        $inspeksiheader->id_departemen = $request->id_departemen;
-        $inspeksiheader->id_sub_departemen = $request->id_sub_departemen;
+        $inlineheader->tgl_inspeksi = $request->tgl_inspeksi;
+        $inlineheader->shift = strtoupper($request->shift);
+        $inlineheader->id_user    = $request->id_user;
+        $inlineheader->id_departemen = $request->id_departemen;
+        $inlineheader->id_sub_departemen = $request->id_sub_departemen;
 
-        $inspeksidetail->id_mesin = $request->id_mesin;
-        $inspeksidetail->qty_1 = $request->qty_1; //100
-        $inspeksidetail->qty_5 = $request->qty_1*5; //500
-        $inspeksidetail->pic = $request->pic;
-        $inspeksidetail->jam_mulai = $request->jam_mulai;
-        $inspeksidetail->jam_selesai = $request->jam_selesai;
-        $inspeksidetail->lama_inspeksi = 0;
-        $inspeksidetail->jop = $request->jop;
-        $inspeksidetail->item = $request->item;
-        $inspeksidetail->id_defect = $request->id_defect;
-        $inspeksidetail->kriteria = $request->kriteria;
-        $inspeksidetail->qty_defect = $request->qty_defect;
-        $inspeksidetail->qty_ready_pcs = $request->qty_ready_pcs;
-        $inspeksidetail->qty_sampling = $request->qty_sampling;
-        $inspeksidetail->penyebab = $request->penyebab;
-        $inspeksidetail->status = $request->status;
-        $inspeksidetail->keterangan = $request->keterangan;
-        $inspeksidetail->creator = 0;
+        $inlinedetail->id_mesin = $request->id_mesin;
+        $inlinedetail->qty_1 = $request->qty_1; //100
+        $inlinedetail->qty_5 = $request->qty_1*5; //500
+        $inlinedetail->pic = $request->pic;
+        $inlinedetail->jam_mulai = $request->jam_mulai;
+        $inlinedetail->jam_selesai = $request->jam_selesai;
+        $inlinedetail->lama_inspeksi = 0;
+        $inlinedetail->jop = $request->jop;
+        $inlinedetail->item = $request->item;
+        $inlinedetail->id_defect = $request->id_defect;
+        $inlinedetail->kriteria = $request->kriteria;
+        $inlinedetail->qty_defect = $request->qty_defect;
+        $inlinedetail->qty_ready_pcs = $request->qty_ready_pcs;
+        $inlinedetail->qty_sampling = $request->qty_sampling;
+        $inlinedetail->penyebab = $request->penyebab;
+        $inlinedetail->status = $request->status;
+        $inlinedetail->keterangan = $request->keterangan;
+        $inlinedetail->creator = 0;
 
         // Insert data into database
-        $inspeksiinline->save();
-        $inspeksidetail->save();
+        $inlineheader->save();
+        $inlinedetail->save();
 
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-            return redirect('/inspeksiinline');
+            return redirect('/inline');
     }
 
     // fungsi untuk redirect ke halaman edit
-    public function EditInspeksiInlineData($id){
+    public function EditInlineData($id){
         $id = Crypt::decrypt($id);
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_departemen');
         $mesin = DB::select('SELECT id_mesin, nama_mesin FROM vg_list_mesin');
 
         // Select data based on ID
-        $inspekinl = InspeksiInlineModel::find($id);
+        $inspekinl = InspeksiHeaderModel::find($id);
 
-        return view('inspeksi.inspeksiinline-edit',[
+        return view('inspeksi.inline-edit',[
             'departemen'    => $departemen,
+            'subdepartemen' => $subdepartemen,
             'mesin' => $mesin,
-            'inspekinline' => $inspekinl,
+            'inline' => $inspekinl,
+            // 'inspeksidetail'    => $inspekinl,
             'menu'  => 'inspeksi', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/inspeksiinline'
+            'sub'   => '/inline'
         ]);
     }
 
     // simpan perubahan dari data yang sudah di edit
-    public function SaveEditInspeksiInlineData(Request $request){
+    public function SaveEditInlineData(Request $request){
 
         $shift = strtoupper($request->shift);
         $id_user    = $request->id_user;

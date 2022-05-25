@@ -7,7 +7,6 @@ use App\Http\Controllers\DefectController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MesinController;
 use App\Http\Controllers\PeriodeController;
-use App\Http\Controllers\InspeksiHeaderController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\InspeksiInlineController;
@@ -32,74 +31,67 @@ Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 Route::get('/dashboard', [DashboardController::class, 'Index'])->middleware('auth.check');
 
 // Master Users
-Route::get('/users', [UsersController::class, 'UsersList']); // menampilkan semua data dalam list datatable
-Route::get('/users-input/', [UsersController::class, 'UsersInput']); // mengarahkan ke window input user
-Route::post('/users-input/', [UsersController::class, 'SaveUserData'])->name('users.save'); // simpan data user dalam database
-Route::get('/users-edit/{id}', [UsersController::class, 'EditUserData']); // mengarahkan ke window edit data
-Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->name('users.update'); //simpan perubahan data
+Route::get('/users', [UsersController::class, 'UsersList'])->middleware('auth.check'); // menampilkan semua data dalam list datatable
+Route::get('/users-input/', [UsersController::class, 'UsersInput'])->middleware('auth.check'); // mengarahkan ke window input user
+Route::post('/users-input/', [UsersController::class, 'SaveUserData'])->name('users.save')->middleware('auth.check'); // simpan data user dalam database
+Route::get('/users-edit/{id}', [UsersController::class, 'EditUserData'])->middleware('auth.check'); // mengarahkan ke window edit data
+Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->name('users.update')->middleware('auth.check'); //simpan perubahan data
 Route::get('/users-delete/{id}', [UsersController::class, 'DeleteUserData']); // menghapus data user dari database
-Route::get('/getSubDept/{id}', 'UsersController@getSubDept');
+Route::get('/getSubDept/{id}', 'UsersController@getSubDept')->middleware('auth.check');
 
 // Sub Departemen Select Dropdown
-Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub');
-Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub');
+Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub')->middleware('auth.check');
+Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub')->middleware('auth.check');
 
 // User Change Password
-Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword']);
-Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->name('password.update');
+Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword'])->middleware('auth.check');
+Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->name('password.update')->middleware('auth.check');
 
 // Master Department
-Route::get('/department', [DepartmentController::class, 'DepartmentList']);
-Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput']);
-Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save');
-Route::get('/department-edit/{id}', [DepartmentController::class, 'EditDepartmentData']); // mengarahkan ke window edit data
-Route::post('/department-update/', [DepartmentController::class, 'SaveEditDepartmentData'])->name('department.update'); //simpan perubahan data
-Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData']);
+Route::get('/department', [DepartmentController::class, 'DepartmentList'])->middleware('auth.check');
+Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput'])->middleware('auth.check');
+Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save')->middleware('auth.check');
+Route::get('/department-edit/{id}', [DepartmentController::class, 'EditDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
+Route::post('/department-update/', [DepartmentController::class, 'SaveEditDepartmentData'])->name('department.update')->middleware('auth.check'); //simpan perubahan data
+Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData'])->middleware('auth.check');
 
 // Master Sub Department
-Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList']);
-Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput']);
-Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save');
-Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData']); // mengarahkan ke window edit data
-Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update'); //simpan perubahan data
-Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData']);
-
-
+Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList'])->middleware('auth.check');
+Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput'])->middleware('auth.check');
+Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save')->middleware('auth.check');
+Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
+Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update')->middleware('auth.check'); //simpan perubahan data
+Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData'])->middleware('auth.check');
 
 // Master Periode
-Route::get('/periode', [PeriodeController::class, 'PeriodeList']);
-Route::get('/periode-input/', [PeriodeController::class, 'PeriodeInput']);
-Route::post('/periode-input/', [PeriodeController::class, 'SavePeriodeData'])->name('periode.save');
-Route::get('/periode-edit/{id}', [PeriodeController::class, 'EditPeriodeData']);
-Route::post('/periode-update/', [PeriodeController::class, 'SaveEditPeriodeData'])->name('periode.update');
-Route::get('/periode-delete/{id}', [PeriodeController::class, 'DeletePeriodeData']);
+Route::get('/periode', [PeriodeController::class, 'PeriodeList'])->middleware('auth.check');
+Route::get('/periode-input/', [PeriodeController::class, 'PeriodeInput'])->middleware('auth.check');
+Route::post('/periode-input/', [PeriodeController::class, 'SavePeriodeData'])->name('periode.save')->middleware('auth.check');
+Route::get('/periode-edit/{id}', [PeriodeController::class, 'EditPeriodeData'])->middleware('auth.check');
+Route::post('/periode-update/', [PeriodeController::class, 'SaveEditPeriodeData'])->name('periode.update')->middleware('auth.check');
+Route::get('/periode-delete/{id}', [PeriodeController::class, 'DeletePeriodeData'])->middleware('auth.check');
 
 // Master Mesin
-Route::get('/mesin', [MesinController::class, 'MesinList']);
-Route::get('/mesin-input/', [MesinController::class, 'MesinInput']);
-Route::post('/mesin-input', [MesinController::class, 'SaveMesinData'])->name('mesin.save');
-Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData']);
-Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update');
-Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData']);
+Route::get('/mesin', [MesinController::class, 'MesinList'])->middleware('auth.check');
+Route::get('/mesin-input/', [MesinController::class, 'MesinInput'])->middleware('auth.check');
+Route::post('/mesin-input', [MesinController::class, 'SaveMesinData'])->name('mesin.save')->middleware('auth.check');
+Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData'])->middleware('auth.check');
+Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update')->middleware('auth.check');
+Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData'])->middleware('auth.check');
 
 // Master Defect
-Route::get('/defect', [DefectController::class, 'DefectList']);
-Route::get('/defect-input/', [DefectController::class, 'DefectInput']);
-Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name('defect.save');
-Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData']);
-Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update');
-Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData']);
+Route::get('/defect', [DefectController::class, 'DefectList'])->middleware('auth.check');
+Route::get('/defect-input/', [DefectController::class, 'DefectInput'])->middleware('auth.check');
+Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name('defect.save')->middleware('auth.check');
+Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData'])->middleware('auth.check');
+Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update')->middleware('auth.check');
+Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData'])->middleware('auth.check');
 
-// Dropdown dependent Sub Departemen
-Route::get('/dropdown-sub-departemen/{id}', function ($id) {
-    $dropdown_sub_departemen = App\Models\SubDepartmentModel::where('id_departemen',$id)->get();
-    return response()->json($dropdown_sub_departemen);
-});
 
 //Inspeksi Inline
-Route::get('/inspeksiinline', [InspeksiInlineController::class, 'InspeksiInlineList']);
-Route::get('/inspeksiinline-input/', [InspeksiInlineController::class, 'InspeksiInlineInput']);
-Route::post('/inspeksiinline-input', [InspeksiInlineController::class, 'SaveInspeksiInlineData'])->name('inspeksiinline.save');
-Route::get('/inspeksiinline-edit/{id}', [InspeksiInlineController::class, 'EditInspeksiInlineData']);
-Route::post('/inspeksiinline-update/', [InspeksiInlineController::class, 'SaveEditInspeksiInlineData'])->name('inspeksiinline.update');
-Route::get('/inspeksiinline-delete/{id}', [InspeksiInlineController::class, 'DeleteInspeksiInlineData']);
+Route::get('/inline', [InspeksiInlineController::class, 'InlineList'])->middleware('auth.check');
+Route::get('/inline-input/', [InspeksiInlineController::class, 'InlineInput'])->middleware('auth.check');
+Route::post('/inline-input', [InspeksiInlineController::class, 'SaveInlineData'])->name('inline.save')->middleware('auth.check');
+Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineData'])->middleware('auth.check');
+Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update')->middleware('auth.check');
+Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData'])->middleware('auth.check');
