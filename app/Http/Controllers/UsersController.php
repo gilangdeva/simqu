@@ -144,7 +144,7 @@ class UsersController extends Controller
         $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
 
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen);
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen');
 
         // Select data based on ID
         $user = UsersModel::find($id);

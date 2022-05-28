@@ -7,9 +7,9 @@ use App\Http\Controllers\DefectController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MesinController;
 use App\Http\Controllers\PeriodeController;
-use App\Http\Controllers\InspeksiHeaderController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\InspeksiInlineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,3 +86,12 @@ Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name(
 Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData'])->middleware('auth.check');
 Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update')->middleware('auth.check');
 Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData'])->middleware('auth.check');
+
+
+//Inspeksi Inline
+Route::get('/inline', [InspeksiInlineController::class, 'InlineList'])->middleware('auth.check');
+Route::get('/inline-input/', [InspeksiInlineController::class, 'InlineInput'])->middleware('auth.check');
+Route::post('/inline-input', [InspeksiInlineController::class, 'SaveInlineData'])->name('inline.save')->middleware('auth.check');
+Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineData'])->middleware('auth.check');
+Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update')->middleware('auth.check');
+Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData'])->middleware('auth.check');
