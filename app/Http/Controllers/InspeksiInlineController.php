@@ -43,6 +43,8 @@ class InspeksiInlineController extends Controller
         $users = DB::select("SELECT id_user, nama_user FROM vw_list_users");
         $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
         $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
+        $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
+        $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
@@ -52,6 +54,8 @@ class InspeksiInlineController extends Controller
             'users'         => $users,
             'draftheader'   => $draftheader,
             'draftdetail'   => $draftdetail,
+            'id_header'     => $id_header,
+            'id_detail'     => $id_detail,
 
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/inline'
@@ -62,19 +66,84 @@ class InspeksiInlineController extends Controller
     //Simpan data inspeksi inline
     public function SaveInlineData(Request $request){
         // Parameters Header
-        $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
+        $id_header = $request->id_inspeksi_header;
         $tgl_inspeksi = $request->tgl_inspeksi;
         $shift = strtoupper($request->shift);
+        $id_user = session()->get('id_user');
+        $id_departemen = $request->id_departemen;
+        $id_sub_departemen = $request->id_sub_departemen;
+        // $created_at = Carbon::now()->timestamp;
+        // $updated_at = Carbon::now()->timestamp;
 
-        return $id_header;
 
         // Parameter detail
+        $id_detail = $request->id_inspeksi_detail;
+        $id_mesin = $request->id_mesin;
+        $qty_1 = $request->qty_1;
+        $qty_5 = $request->qty_1*5;
+        $pic    = $request->pic;
+        $jam_mulai  = $request->jam_mulai;
+        $jam_selesai    = $request->jam_selesai;
+        $jop        = $request->jop;
+        $item       = $request->item;
+        $id_defect  = $request->id_defect;
+        $kriteria    = $request->kriteria;
+        $qty_defect = $request->qty_defect;
+        $qty_ready_pcs  = $request->qty_ready_pcs;
+        $qty_sample_aql = $request->qty_sample_aql;
+        $qty_sample_riil    = $request->qty_sample_riil;
+        $qty_reject_all  = $request->qty_reject_all;
+        $hasil_verifikasi   = $request->hasil_verifikasi;
+        $ket_status     = $request->status;
+        $keterangan     = $request->keterangan;
+        $creator        = session()->get('id_user');
+        $updater        = session()->get('id_user');
+        // $created_at     = Carbon::now()->timestamp;
+        // $updated_at     = Carbon::now()->timestamp;
 
-        //dst
 
         //function laravel untuk simpan / insert data into database
         // Konsep menjadi VC
 
+            $id_header = $request->input('id_inspeksi_header');
+            $tgl_inspeksi = $request->input('tgl_inspeksi');
+            $shift = $request->input('shift');
+            $id_user = session()->get('id_user');
+            $id_departemen = $request->input('id_departemen');
+            $id_sub_departemen = $request->input('id_sub_departemen');
+            $created_at = $request->input('created_at');
+            $updated_at = $request->input('updated_at');
+            $data=array('id_inspeksi_header'=>$id_header,"tgl_inspeksi"=>$tgl_inspeksi,"shift"=>$shift,"id_user"=>$id_user, "id_departemen"=>$id_departemen, "id_sub_departemen"=>$id_sub_departemen);
+            DB::table('draft_header')->insert($data);
+
+
+            $id_detail = $request->input('id_inspeksi_detail');
+            $id_mesin = $request->input('id_mesin');
+            $qty_1 = $request->input('qty_1');
+            $qty_5 = $request->qty_1*5;
+            $pic    = $request->input('pic');
+            $jam_mulai  = $request->input('jam_mulai');
+            $jam_selesai    = $request->input('jam_selesai');
+            $jop        = $request->input('jop');
+            $item       = $request->input('item');
+            $id_defect  = $request->input('id_defect');
+            $kriteria    = $request->input('kriteria');
+            $ket_status     = $request->input('status');
+            $qty_defect = $request->input('qty_defect');
+            $qty_ready_pcs  = $request->input('qty_ready_pcs');
+            $qty_sample_aql = $request->input('qty_sample_aql');
+            $qty_sample_riil    = $request->input('qty_sample_riil');
+            $qty_reject_all  = $request->input('qty_reject_all');
+            $hasil_verifikasi   = $request->input('hasil_verifikasi');
+            $keterangan     = $request->input('keterangan');
+            $creator        = session()->get('id_user');
+            $updater        = session()->get('id_user');
+            // $created_at     = Carbon::now()->timestamp;
+            // $updated_at     = Carbon::now()->timestamp;
+            $data2=array('id_inspeksi_detail'=>$id_detail,'id_inspeksi_header'=>$id_header,"id_mesin"=>$id_mesin,"qty_1"=>$qty_1,"qty_5"=>$qty_5, "pic"=>$pic, "jam_mulai"=>$jam_mulai, "jam_selesai"=>$jam_selesai, "status"=>$ket_status, "keterangan"=>$keterangan,
+            'jop'=>$jop,"item"=>$item,"id_defect"=>$id_defect,"kriteria"=>$kriteria, "qty_defect"=>$qty_defect, "qty_ready_pcs"=>$qty_ready_pcs, "qty_sample_aql"=>$qty_sample_aql,
+            'qty_sample_riil'=>$qty_sample_riil,"qty_reject_all"=>$qty_reject_all,"hasil_verifikasi"=>$hasil_verifikasi,"creator"=>$creator, "updater"=>$updater, "created_at"=>$created_at, "updated_at"=>$updated_at);
+            DB::table('draft_detail')->insert($data2);
 
 
         //set value from parameter into model
@@ -104,8 +173,8 @@ class InspeksiInlineController extends Controller
         // $draftdetail->creator = 0;
 
         // Insert data into database
-        $draftheader->save();
-        $draftdetail->save();
+        // $draftheader->save();
+        // $draftdetail->save();
 
         alert()->success('Berhasil!', 'Data Sukses Disimpan!');
         return redirect('/inline-input');
