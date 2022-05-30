@@ -15,7 +15,6 @@ class InspeksiHeaderModel extends Model
     	'tgl_inspeksi',
         'shift',
         'id_user',
-        'id_departemen',
         'id_sub_departemen',
         'created_at',
         'updated_at'

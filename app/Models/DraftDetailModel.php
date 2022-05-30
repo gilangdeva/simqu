@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class DraftDetailModel extends Model
 {
     protected $table = 'draft_detail'; //disesuaikan dengan database
@@ -19,7 +18,7 @@ class DraftDetailModel extends Model
         'pic',
         'jam_mulai',
         'jam_selesai',
-    	'lama_inspeksi',
+        'lama_inspeksi',
         'jop',
         'item',
         'id_defect',
@@ -35,9 +34,9 @@ class DraftDetailModel extends Model
         'qty_sample_riil',
         'qty_reject_all',
         'hasil_verifikasi',
-        'creator',
-        'updater',
         'created_at',
-        'updated_at'
+        'creator',
+        'updated_at',
+        'updater',
     ];
 }

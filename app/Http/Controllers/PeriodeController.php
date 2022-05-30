@@ -58,12 +58,12 @@ class PeriodeController extends Controller
         // Check duplicate date
         $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
         if (isset($available_date_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, Periode ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Periode Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         } else {
             // Insert data into database
             $periode->save();
-            alert()->success('Berhasil!', 'Data sukses disimpan!');
+            alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/periode');
         }
     }
@@ -98,7 +98,7 @@ class PeriodeController extends Controller
             // Check duplicate data
             $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
             if (isset($available_date_check['0'])) {
-                alert()->error('Gagal!', 'Maaf, Periode ini sudah terdaftar dalam sistem!');
+                alert()->error('Gagal!', 'Maaf, Periode Ini Sudah Didaftarkan Dalam Sistem!');
                 return Redirect::back();
             } else {
             // Update data into database
@@ -111,7 +111,7 @@ class PeriodeController extends Controller
                 'updated_at'              => $updated_at,
                 ]);
 
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/periode');
             }
         } else {
@@ -125,7 +125,7 @@ class PeriodeController extends Controller
                 'updated_at'              => $updated_at,
             ]);
 
-            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/periode');
         }
     }
@@ -140,7 +140,7 @@ class PeriodeController extends Controller
         $period->delete();
 
         // Move to periode list page
-        alert()->success('Berhasil!', 'Berhasil menghapus data!');
+        alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
         return redirect('/periode');
     }
 }

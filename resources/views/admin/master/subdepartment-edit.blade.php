@@ -40,6 +40,7 @@
                         <div class="col-sm-8">
                             <input type="hidden" class="form-control" name="original_nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" value="{{ $subdepartment->nama_sub_departemen }}" required>
                             <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" value="{{ $subdepartment->nama_sub_departemen }}" required>
+                            <input type="hidden" class="form-control" name="original_nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" value="{{ $subdepartment->nama_sub_departemen }}" required>
                         </div>
                     </div>
 

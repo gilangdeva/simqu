@@ -16,8 +16,21 @@
                     {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-8">
+                            <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header[0]->id_inspeksi_header }}" readonly autocomplete="false">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-8">
+                            <input type="hidden" class="form-control" name="id_inspeksi_detail" value="{{ $id_detail[0]->id_inspeksi_detail }}" readonly autocomplete="false">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Tanggal</label>
                         <div class="col-sm-8">
+                            {{-- <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header[0]->id_inspeksi_header }}" readonly autocomplete="false"> --}}
                             <input type="date" class="form-control" name="tgl_inspeksi" maxlength="150" placeholder="Tanggal Inspeksi" required>
                         </div>
                     </div>
@@ -104,7 +117,7 @@
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="item" maxlength="10" placeholder="Item" required>
                         </div>
-                    </div>
+                    </div> {{-- Nanti diubah --}}
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Defect</label>
@@ -187,43 +200,46 @@
                 </form>
             </div>
         </div>
-
         <div class="col-md-8">
             <div class="white-box">
-                <h3 class="box-title">DRAFT INLINE HEADER</h3>
+                <h3 class="box-title">DRAFT HEADER INLINE</h3>
+
+
                     <div class="table-responsive">
-                    <table id="tablebasic" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Inspektor</th>
-                                <th>Tanggal</th>
-                                <th>Shift</th>
-                                <th>Area</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($draftheader as $draftheader)
-                            <tr>
-                                <td align="center">{{ $loop->iteration }}</td>
-                                <td>{{ $draftheader->nama_user }}</td>
-                                <td>{{ $draftheader->tgl_inspeksi }}</td>
-                                <td>{{ $draftheader->shift }}</td>
-                                <td>{{ $draftheader->nama_departemen }} / {{ $draftheader->nama_sub_departemen }}</td>
-                                <!-- {{-- <td>
-                                    <a href="/inline-edit/{{ Crypt::encrypt($inspekinl->id_inspeksi_header) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_header) }}')"><i class="fa fa-times"></i></button>
-                                </td> --}} -->
-                            </tr>
-                            @endforeach
-                        </tbody>
+                        <table id="tablebasic" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama Inspektor</th>
+                                    <th>Tanggal</th>
+                                    <th>Shift</th>
+                                    <th>Area</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($draftheader as $draftheader)
+                                <tr>
+                                    <td align="center">{{ $loop->iteration }}</td>
+                                    <td>{{ $draftheader->nama_user }}</td>
+                                    <td>{{ $draftheader->tgl_inspeksi }}</td>
+                                    <td>{{ $draftheader->shift }}</td>
+                                    <td>{{ $draftheader->nama_departemen }} / {{ $draftheader->nama_sub_departemen }}</td>
+                                    {{-- <td>
+                                        <a href="/inline-edit/{{ Crypt::encrypt($inspekinl->id_inspeksi_header) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
+                                        <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_header) }}')"><i class="fa fa-times"></i></button>
+                                    </td> --}}
+                                </tr>
+                                @endforeach
+                            </tbody>
                         </table>
-                </div>
+                    </div>
+                </form>
             </div>
-        </div>
     </div>
+</div>
     <!-- end row -->
-    </div>
+</div>
 <!-- end container-fluid -->
 
 @include('admin.footer')

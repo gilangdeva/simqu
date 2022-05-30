@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    
+
     <div class="row">
         <div class="col-md-5">
             <div class="white-box">
@@ -24,10 +24,10 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" required> 
+                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" style="margin-bottom:3px;">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">

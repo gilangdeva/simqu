@@ -28,6 +28,11 @@ class MesinController extends Controller
         ]);
     }
 
+    public function getSubDepartemen($id){
+        $sub_departemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM tb_master_sub_departemen WHERE id_departemen = ".$id);
+        return json_encode($sub_departemen);
+    }
+
     // Redirect ke window input mesin
     public function MesinInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
@@ -60,21 +65,21 @@ class MesinController extends Controller
         // Check duplicate kode
         $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$mesin->kode_mesin."'");
         if (isset($kode_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode mesin ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Kode Mesin Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
         $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$mesin->nama_mesin."'");
         if (isset($nama_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, nama mesin ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Nama Mesin Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
 
        // Insert data into database
         $mesin->save();
-            alert()->success('Berhasil!', 'Data sukses disimpan!');
+            alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/mesin');
     }
 
@@ -106,16 +111,13 @@ class MesinController extends Controller
         $nama_mesin = strtoupper($request->nama_mesin);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-
         // is there a change in nama mesin data?
         if ($request->nama_mesin <> $request->original_nama_mesin){
-         // Check duplicate nama apakah sudah di db
-         $nama_mesin_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$nama_mesin."'");
-         if (isset($nama_mesin_check['0']))
-         {
-             alert()->error('Gagal Menyimpan!', 'Maaf, nama mesin ini sudah didaftarkan dalam sistem!');
+         // Check duplicate nama
+         $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$nama_mesin."'");
+         if (isset($nama_check['0'])) {
+             alert()->error('Gagal Menyimpan!', 'Maaf, Nama Mesin Ini Sudah Didaftarkan Dalam Sistem!');
              return Redirect::back();
-
             } else {
                 //update data into database
                 MesinModel::where('id_mesin', $id_mesin)->update([
@@ -125,12 +127,11 @@ class MesinController extends Controller
                    'id_sub_departemen'       => $id_sub_departemen,
                    'updated_at'              => $updated_at,
                 ]);
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/mesin');
             }
-        }
-            else
-        {
+
+        } else {
             // Update data into database
             MesinModel::where('id_mesin', $id_mesin)->update([
                 'kode_mesin'              => $kode_mesin,
@@ -140,7 +141,7 @@ class MesinController extends Controller
                 'updated_at'              => $updated_at,
             ]);
 
-            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/mesin');
         }
     }
@@ -156,16 +157,15 @@ class MesinController extends Controller
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
-            Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
+            Alert::error("Gagal!", 'Data Ini Tidak Dapat Dihapus Karena Sudah Dipakai Tabel Lain!');
             return Redirect::back();
-        }
-        {
+        } else {
             // Delete process
             $machine = MesinModel::find($id);
             $machine->delete();
 
             // Move to users list page
-            alert()->success('Berhasil!', 'Berhasil menghapus data!');
+            alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
             return redirect('/mesin');
         }
      }

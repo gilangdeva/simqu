@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 
 class InspeksiDetailModel extends Model
 {
@@ -13,12 +13,12 @@ class InspeksiDetailModel extends Model
 
     protected $fillable = [
     	'id_mesin',
-        'qty_1',
+    	'qty_1',
         'qty_5',
         'pic',
         'jam_mulai',
         'jam_selesai',
-    	'lama_inspeksi',
+        'lama_inspeksi',
         'jop',
         'item',
         'id_defect',

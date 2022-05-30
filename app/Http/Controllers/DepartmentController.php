@@ -46,22 +46,22 @@ class DepartmentController extends Controller
         $department->pic             = session()->get('user_id');
 
         // Check duplicate kode
-        $kode_department_check = DB::select("SELECT kode_departemen FROM tb_master_departemen WHERE kode_departemen = '".$department->kode_departemen."'");
+        $kode_department_check = DB::select("SELECT kode_departemen FROM vg_list_departemen WHERE kode_departemen = '".$department->kode_departemen."'");
         if (isset($kode_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Kode Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
-        $nama_department_check = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE nama_departemen = '".$department->nama_departemen."'");
+        $nama_department_check = DB::select("SELECT nama_departemen FROM vg_list_departemen WHERE nama_departemen = '".$department->nama_departemen."'");
         if (isset($nama_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, nama ini sudah didaftarkan dalam sistem!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
        // Insert data into database
         $department->save();
-        alert()->success('Berhasil!', 'Data sukses disimpan!');
+        alert()->success('Berhasil!', 'Data Sukses Disimpan!');
         return redirect('/department');
     }
 
@@ -90,18 +90,17 @@ class DepartmentController extends Controller
         if ($request->nama_departemen <> $request->original_nama_departemen){
             // Check duplicate nama
             $nama_check = DB::select("SELECT nama_departemen FROM vg_list_departemen WHERE nama_departemen = '".$nama_departemen."'");
-            if (isset($nama_check['0'])) 
-            {
-                alert()->error('Gagal Menyimpan!', 'Maaf, nama departemen ini sudah digunakan dalam sistem!');
+            if (isset($nama_check['0'])) {
+                alert()->error('Gagal Menyimpan!', 'Maaf, Nama Departemen Ini Sudah Didaftarkan Dalam Sistem!');
                 return Redirect::back();
-            } else {
+               } else {
                    //update data into database
                    DepartmentModel::where('id_departemen', $id_departemen)->update([
                       'kode_departemen'         => $kode_departemen,
                       'nama_departemen'         => $nama_departemen,
                       'updated_at'              => $updated_at,
                    ]);
-                   alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                   alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                    return redirect('/department');
                }
 
@@ -112,7 +111,7 @@ class DepartmentController extends Controller
                    'nama_departemen'         => $nama_departemen,
                    'updated_at'              => $updated_at,
                 ]);
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/department');
             }
     }
@@ -126,7 +125,7 @@ class DepartmentController extends Controller
         $department->delete();
 
         // Move to department list page
-        alert()->success('Berhasil!', 'Berhasil menghapus data!');
+        alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
         return redirect('/department');
     }
 }

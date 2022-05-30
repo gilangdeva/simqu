@@ -91,11 +91,7 @@
                                     <div class="u-img"><img src="{{ url('/') }}/images/users/{{ session()->get('picture') }}" alt="user" /></div>
                                     <div class="u-text" style="width: 65%">
                                         <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ session()->get('nama_user') }}</h4>
-                                        @if (session()->get('user_default') == 0 )
-                                            <span class="label label-rouded label-danger">Administrator</span>
-                                        @else 
-                                            <span class="label label-rouded label-info">Master</span>
-                                        @endif
+                                        <span class="label label-rouded label-danger">{{ session()->get('jenis_user') }}</span>
                                     </div>
                                 </div>
                             </li>
@@ -144,17 +140,30 @@
                             <li><a href="/subdepartment"><i class="mdi mdi-account-multiple-plus fa-fw"></i> <span class="hide-menu">Sub Departemen</span></a></li>
                             <li><a href="/periode"><i class="mdi mdi-calendar fa-fw"></i> <span class="hide-menu">Periode</span></a></li>
                             <li><a href="/users"><i class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Users</span></a></li>
-                            <li><a href="/inspeksiheader"><i class="mdi mdi-yeast fa-fw"></i> <span class="hide-menu">Inspeksi Header</span></a></li>
-
                         </ul>
                     </li>
 
                     <li> 
                         @if($menu == 'inspect')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi</span></a>
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
                         @else 
-                            <a href="/inspect" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi</span></a>
+                            <a href="/inspect" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
                         @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/inline"><i class="mdi mdi-progress-star fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
+                            <li><a href="/final"><i class="mdi mdi-progress-check fa-fw"></i> <span class="hide-menu">Final</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li> 
+                        @if($menu == 'upload')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                        @else 
+                            <a href="/upload" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                        @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/defect"><i class="mdi mdi-clipboard-check fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
+                        </ul>
                     </li>
 
                     <li> 

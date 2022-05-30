@@ -48,7 +48,7 @@
                     <div class="form-group" style="margin-bottom:3px;";>
                         <label class="col-sm-4 control-label">Minggu Ke</label>
                         <div class="col-sm-8">
-                            <select id="minggu_ke" class="form-control select2" name="minggu_ke" maxlength="20" required>
+                            <select id="minggu_ke" class="form-control select2" name="minggu_ke" required>
                                 <option value="1"{{ old('minggu_ke', $periode->minggu_ke)== "1" ? 'selected':'' }}>1</option>
                                 <option value="2"{{ old('minggu_ke', $periode->minggu_ke)== "2" ? 'selected':'' }}>2</option>
                                 <option value="3"{{ old('minggu_ke', $periode->minggu_ke)== "3" ? 'selected':'' }}>3</option>
