@@ -144,10 +144,10 @@
                     </li>
 
                     <li> 
-                        @if($menu == 'inspect')
+                        @if($menu == 'inspeksi')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
                         @else 
-                            <a href="/inspect" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                            <a href="/inspeksi" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
                             <li><a href="/inline"><i class="mdi mdi-sync fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
