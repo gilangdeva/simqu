@@ -76,17 +76,12 @@ class InspeksiInlineController extends Controller
         $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
 
         // Parameters Header
-<<<<<<< HEAD
         $type_form = "Inline"; // Inline
-=======
-        $id_header = $request->id_inspeksi_header;
->>>>>>> 383f187bb5740ff304db2714c1814e6dcc436f06
         $tgl_inspeksi = $request->tgl_inspeksi;
         $shift = strtoupper($request->shift);
         $id_user = session()->get('id_user');
         $id_departemen = $request->id_departemen;
         $id_sub_departemen = $request->id_sub_departemen;
-<<<<<<< HEAD
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
@@ -103,37 +98,6 @@ class InspeksiInlineController extends Controller
         if(($shift == '') || ($shift == 0)){
             $shift = $request->shift_ori;
         }
-=======
-        // $created_at = Carbon::now()->timestamp;
-        // $updated_at = Carbon::now()->timestamp;
-
-
-        // Parameter detail
-        $id_detail = $request->id_inspeksi_detail;
-        $id_mesin = $request->id_mesin;
-        $qty_1 = $request->qty_1;
-        $qty_5 = $request->qty_1*5;
-        $pic    = $request->pic;
-        $jam_mulai  = $request->jam_mulai;
-        $jam_selesai    = $request->jam_selesai;
-        $jop        = $request->jop;
-        $item       = $request->item;
-        $id_defect  = $request->id_defect;
-        $kriteria    = $request->kriteria;
-        $qty_defect = $request->qty_defect;
-        $qty_ready_pcs  = $request->qty_ready_pcs;
-        $qty_sample_aql = $request->qty_sample_aql;
-        $qty_sample_riil    = $request->qty_sample_riil;
-        $qty_reject_all  = $request->qty_reject_all;
-        $hasil_verifikasi   = $request->hasil_verifikasi;
-        $ket_status     = $request->status;
-        $keterangan     = $request->keterangan;
-        $creator        = session()->get('id_user');
-        $updater        = session()->get('id_user');
-        // $created_at     = Carbon::now()->timestamp;
-        // $updated_at     = Carbon::now()->timestamp;
-
->>>>>>> 383f187bb5740ff304db2714c1814e6dcc436f06
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -157,7 +121,6 @@ class InspeksiInlineController extends Controller
             $row = 1;
         }
 
-<<<<<<< HEAD
         // return $row;
             
         // Parameters Detail
@@ -183,47 +146,6 @@ class InspeksiInlineController extends Controller
         $keterangan = $request->keterangan;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
-=======
-            $id_header = $request->input('id_inspeksi_header');
-            $tgl_inspeksi = $request->input('tgl_inspeksi');
-            $shift = $request->input('shift');
-            $id_user = session()->get('id_user');
-            $id_departemen = $request->input('id_departemen');
-            $id_sub_departemen = $request->input('id_sub_departemen');
-            $created_at = $request->input('created_at');
-            $updated_at = $request->input('updated_at');
-            $data=array('id_inspeksi_header'=>$id_header,"tgl_inspeksi"=>$tgl_inspeksi,"shift"=>$shift,"id_user"=>$id_user, "id_departemen"=>$id_departemen, "id_sub_departemen"=>$id_sub_departemen);
-            DB::table('draft_header')->insert($data);
-
-
-            $id_detail = $request->input('id_inspeksi_detail');
-            $id_mesin = $request->input('id_mesin');
-            $qty_1 = $request->input('qty_1');
-            $qty_5 = $request->qty_1*5;
-            $pic    = $request->input('pic');
-            $jam_mulai  = $request->input('jam_mulai');
-            $jam_selesai    = $request->input('jam_selesai');
-            $jop        = $request->input('jop');
-            $item       = $request->input('item');
-            $id_defect  = $request->input('id_defect');
-            $kriteria    = $request->input('kriteria');
-            $ket_status     = $request->input('status');
-            $qty_defect = $request->input('qty_defect');
-            $qty_ready_pcs  = $request->input('qty_ready_pcs');
-            $qty_sample_aql = $request->input('qty_sample_aql');
-            $qty_sample_riil    = $request->input('qty_sample_riil');
-            $qty_reject_all  = $request->input('qty_reject_all');
-            $hasil_verifikasi   = $request->input('hasil_verifikasi');
-            $keterangan     = $request->input('keterangan');
-            $creator        = session()->get('id_user');
-            $updater        = session()->get('id_user');
-            // $created_at     = Carbon::now()->timestamp;
-            // $updated_at     = Carbon::now()->timestamp;
-            $data2=array('id_inspeksi_detail'=>$id_detail,'id_inspeksi_header'=>$id_header,"id_mesin"=>$id_mesin,"qty_1"=>$qty_1,"qty_5"=>$qty_5, "pic"=>$pic, "jam_mulai"=>$jam_mulai, "jam_selesai"=>$jam_selesai, "status"=>$ket_status, "keterangan"=>$keterangan,
-            'jop'=>$jop,"item"=>$item,"id_defect"=>$id_defect,"kriteria"=>$kriteria, "qty_defect"=>$qty_defect, "qty_ready_pcs"=>$qty_ready_pcs, "qty_sample_aql"=>$qty_sample_aql,
-            'qty_sample_riil'=>$qty_sample_riil,"qty_reject_all"=>$qty_reject_all,"hasil_verifikasi"=>$hasil_verifikasi,"creator"=>$creator, "updater"=>$updater, "created_at"=>$created_at, "updated_at"=>$updated_at);
-            DB::table('draft_detail')->insert($data2);
->>>>>>> 383f187bb5740ff304db2714c1814e6dcc436f06
 
         // insert into database
         DB::table('draft_detail')->insert([
@@ -249,7 +171,6 @@ class InspeksiInlineController extends Controller
             'updater'               => $updater
         ]);
 
-<<<<<<< HEAD
         if(($row == 0) || ($row == '')){
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return view('inspeksi.inline-input',[
@@ -281,40 +202,6 @@ class InspeksiInlineController extends Controller
             ]);
         }
         //End Controller Wawan
-=======
-        //set value from parameter into model
-        // $draftheader->tgl_inspeksi = $tgl_inspeksi;
-        // $draftheader->shift = $shift;
-        // $draftheader->id_user    = session()->get('id_user');
-        // $draftheader->id_departemen = $request->id_departemen;
-        // $draftheader->id_sub_departemen = $request->id_sub_departemen;
-
-        // $draftdetail->id_mesin = $request->id_mesin;
-        // $draftdetail->qty_1 = $request->qty_1; //100
-        // $draftdetail->qty_5 = $request->qty_1*5; //500
-        // $draftdetail->pic = $request->pic;
-        // $draftdetail->jam_mulai = $request->jam_mulai;
-        // $draftdetail->jam_selesai = $request->jam_selesai;
-        // $draftdetail->lama_inspeksi = 0;
-        // $draftdetail->jop = $request->jop;
-        // $draftdetail->item = $request->item;
-        // $draftdetail->id_defect = $request->id_defect;
-        // $draftdetail->kriteria = $request->kriteria;
-        // $draftdetail->qty_defect = $request->qty_defect;
-        // $draftdetail->qty_ready_pcs = $request->qty_ready_pcs;
-        // $draftdetail->qty_sampling = $request->qty_sampling;
-        // $draftdetail->penyebab = $request->penyebab;
-        // $draftdetail->status = 0;
-        // $draftdetail->keterangan = $request->keterangan;
-        // $draftdetail->creator = 0;
-
-        // Insert data into database
-        // $draftheader->save();
-        // $draftdetail->save();
-
-        alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-        return redirect('/inline-input');
->>>>>>> 383f187bb5740ff304db2714c1814e6dcc436f06
     }
 
     //  fungsi untuk redirect ke halaman edit
