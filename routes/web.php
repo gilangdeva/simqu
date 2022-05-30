@@ -7,7 +7,7 @@ use App\Http\Controllers\DefectController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MesinController;
 use App\Http\Controllers\PeriodeController;
-use App\Http\Controllers\InspeksiHeaderController;
+use App\Http\Controllers\InspeksiInlineController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 
@@ -82,10 +82,13 @@ Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData']);
 Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update');
 Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData']);
 
-// Master Inspeksi Header
-Route::get('/inspeksiheader', [InspeksiHeaderController::class, 'InspeksiHeaderList']);
-Route::get('/inspeksiheader-input/', [InspeksiHeaderController::class, 'InspeksiHeaderInput']);
-Route::post('/inspeksiheader-input', [InspeksiHeaderController::class, 'SaveInspeksiHeaderData'])->name('inspeksiheader.save');
-Route::get('/inspeksiheader-edit/{id}', [InspeksiHeaderController::class, 'EditInspeksiHeaderData']);
-Route::post('/inspeksiheader-update/', [InspeksiHeaderController::class, 'SaveEditInspeksiHeaderData'])->name('inspeksiheader.update');
-Route::get('/inspeksiheader-delete/{id}', [InspeksiHeaderController::class, 'DeleteInspeksiHeaderData']);
+// Inspek Inline
+Route::get('/inline', [InspeksiInlineController::class, 'InlineList']);
+Route::get('/inline-input/', [InspeksiInlineController::class, 'InlineInput']);
+Route::post('/inline-input', [InspeksiInlineController::class, 'SaveInlineData'])->name('inline.save');
+Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineData']);
+Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update');
+Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData']);
+
+
+

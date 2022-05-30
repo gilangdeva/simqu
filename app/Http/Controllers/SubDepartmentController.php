@@ -33,8 +33,8 @@ class SubDepartmentController extends Controller
 
         return view('admin.master.subdepartment-input',[
             'departemen'    => $departemen,
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/subdepartment'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/subdepartment'
         ]);
     }
 
@@ -55,14 +55,14 @@ class SubDepartmentController extends Controller
         }
 
         // Check duplicate kode
-        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
+        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($subdepartment->kode_sub_departemen)."'");
         if (isset($kode_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
-        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($request->nama_sub_departemen)."'");
+        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($subdepartment->nama_sub_departemen)."'");
         if (isset($nama_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
@@ -102,22 +102,15 @@ class SubDepartmentController extends Controller
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
 
-        // Check duplicate kode
-        $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($request->kode_sub_departemen)."'");
-        if (isset($kode_sub_department_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, kode ini sudah didaftarkan dalam sistem!');
-            return Redirect::back();
-        }
-
+        // Is there change in kode sub departemen?
+        if ($request->nama_sub_departemen <> $request->original_nama_sub_departemen){
         // Check duplicate nama
-        $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($request->nama_sub_departemen)."'");
-        if (isset($nama_sub_department_check['0'])) {
+        $nama_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".$nama_sub_departemen."'");
+        if (isset($nama_check['0']))
+         {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
-        }
-
-
-        {
+         } else {
             // Update data into database
             SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
                 'id_departemen'               => $id_departemen,
@@ -129,8 +122,19 @@ class SubDepartmentController extends Controller
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
             return redirect('/subdepartment');
         }
-    }
+        } else {
+            //update into db
+            SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
+                'id_departemen'               => $id_departemen,
+                'kode_sub_departemen'         => $kode_sub_departemen,
+                'nama_sub_departemen'         => $nama_sub_departemen,
+                'updated_at'                  => $updated_at,           
+            ]);
 
+            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+            return redirect('/sudepartment');
+    }
+    }
 
      // Fungsi hapus data
      public function DeleteSubDepartmentData($id){

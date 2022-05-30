@@ -51,21 +51,21 @@ class MesinController extends Controller
         $mesin->kode_mesin = strtoupper($request->kode_mesin);
         $mesin->nama_mesin = strtoupper($request->nama_mesin);
 
-        // Validation data input
+        // // Validation data input
         if ($request->id_departemen == "0" || $request->id_sub_departemen =="0"){
             alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
             return Redirect::back();
         }
 
         // Check duplicate kode
-        $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$request->kode_mesin."'");
+        $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$mesin->kode_mesin."'");
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, kode mesin ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
         }
 
         // Check duplicate nama
-        $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$request->nama_mesin."'");
+        $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$mesin->nama_mesin."'");
         if (isset($nama_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, nama mesin ini sudah didaftarkan dalam sistem!');
             return Redirect::back();
@@ -107,36 +107,15 @@ class MesinController extends Controller
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
 
-
-        // is there a change in kode mesin data?
-        if ($request->kode_mesin <> $request->original_kode_mesin){
-         // Check duplicate kode
-         $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$request->kode_mesin."'");
-         if (isset($kode_check['0'])) {
-             alert()->error('Gagal Menyimpan!', 'Maaf, kode mesin ini sudah didaftarkan dalam sistem!');
-             return Redirect::back();
-         } else {
-             //update data into database
-             MesinModel::where('id_mesin', $id_mesin)->update([
-                'kode_mesin'              => $kode_mesin,
-                'nama_mesin'              => $nama_mesin,
-                'id_departemen'           => $id_departemen,
-                'id_sub_departemen'       => $id_sub_departemen,
-                'updated_at'              => $updated_at,
-             ]);
-             alert()->success('Sukses!', 'Data berhasil diperbarui!');
-             return redirect('/mesin');
-         }
-        }
-
         // is there a change in nama mesin data?
         if ($request->nama_mesin <> $request->original_nama_mesin){
-         // Check duplicate nama
-         $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$request->nama_mesin."'");
-         if (isset($nama_check['0'])) {
+         // Check duplicate nama apakah sudah di db
+         $nama_mesin_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$nama_mesin."'");
+         if (isset($nama_mesin_check['0']))
+         {
              alert()->error('Gagal Menyimpan!', 'Maaf, nama mesin ini sudah didaftarkan dalam sistem!');
              return Redirect::back();
-         }
+
             } else {
                 //update data into database
                 MesinModel::where('id_mesin', $id_mesin)->update([
@@ -149,7 +128,8 @@ class MesinController extends Controller
                 alert()->success('Sukses!', 'Data berhasil diperbarui!');
                 return redirect('/mesin');
             }
-
+        }
+            else
         {
             // Update data into database
             MesinModel::where('id_mesin', $id_mesin)->update([

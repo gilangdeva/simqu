@@ -40,22 +40,24 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4">Kode Mesin</label>
+                        <label class="col-sm-4 control-label">Kode Mesin</label>
                         <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false"> 
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" required> 
+                            <input type="hidden" class="form-control" name="id_mesin" value=" {{ $mesin->id_mesin }}" readonly autocomplete="false">
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" readonly required> 
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Mesin</label>
                         <div class="col-sm-8">
+                            <input type="hidden" class="form-control" name="original_nama_mesin" maxlength="30" placeholder="Nama Mesin" value=" {{ $mesin->nama_mesin }}" required>
                             <input type="text" class="form-control" name="nama_mesin" maxlength="30" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
                         </div>
                     </div>
 
 
-                    <div class="form-group" style="margin-bottom:3px;">
+                    <div class="form-group" style="margin-bottom:1px;">
+                            <div class="col-sm-4"></div>
                             <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/mesin"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>

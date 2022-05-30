@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 // Tambahkan source dibawah ini
 use Illuminate\Support\Facades\DB;
 use App\Models\UsersModel;
+use App\Models\DepartmentController;
+use App\Models\SubDepartmentController;
 use Carbon\Carbon;
 use Image;
 use File;
@@ -39,14 +41,19 @@ class UsersController extends Controller
         ]);
     }
 
+    public function getSubDepartemen($id){
+        $sub_departemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM tb_master_sub_departemen WHERE id_departemen = ".$id);
+        return json_encode($sub_departemen);
+    }
+
     // Redirect ke window input users
     public function UsersInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen');
-        
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+
         return view('admin.master.users-input',[
             'departemen'        => $departemen,
-            'subdepartemen'    => $subdepartemen,
+            'subdepartemen'     => $subdepartemen,
             'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'               => '/users' // selalu ada di tiap function dan disesuaikan
         ]);
@@ -57,21 +64,21 @@ class UsersController extends Controller
         $users = new UsersModel();
 
         // Parameters
-        $users->kode_user = strtolower($request->kode_user);
+        $users->kode_user = strtoupper($request->kode_user);
         $users->nama_user = strtoupper($request->nama_user);
-        $encrypt_password = md5(strtolower($request->kode_user));
+        $encrypt_password = md5(strtoupper($request->kode_user));
         $users->password = hash('ripemd160', $encrypt_password);
         $users->email = $request->email;
         $users->jenis_user = $request->jenis_user; //nanti diubah
         $users->id_departemen = $request->id_departemen; //nanti diubah
         $users->id_sub_departemen = $request->id_sub_departemen; //nanti diubah
         $users->creator = session()->get('user_id');
-        $users->pic = session()->get('user_id'); 
+        $users->pic = session()->get('user_id');
 
         // Check duplicate email
         $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
-        if (isset($email_check['0'])) {  
-            alert()->error('Gagal Menyimpan!', 'Maaf, Email ini sudah didaftarkan dalam sistem!');
+        if (isset($email_check['0'])) {
+            alert()->error('Gagal Menyimpan!', 'Maaf, Email Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
         }
 
@@ -79,23 +86,23 @@ class UsersController extends Controller
         $usersname_check = DB::select("SELECT kode_user FROM vw_list_users WHERE kode_user = '".strtolower($request->kode_user)."'");
         if (isset($usersname_check['0'])) {
             // If username already registered
-            alert()->error('Gagal Menyimpan!', 'Maaf, NIK sudah digunakan!');
+            alert()->error('Gagal Menyimpan!', 'Maaf, NIK Dudah Digunakan!');
             return Redirect::back();
         } else {
             // If username not registered
-            // Save profile picture 
-            $file_picture = $request->file('picture'); 
+            // Save profile picture
+            $file_picture = $request->file('picture');
             if ($file_picture <> '') {
-                
+
                 $this->validate($request, [
                     'picture' => 'required|image|mimes:jpg,png,jpeg'
                 ]);
-                
+
                 $file = $file_picture;
 
                 // create filename with merging the timestamp and unique ID
                 $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
-                
+
                 // upload original file (dimension hasn't been comppressed)
                 // Image::make($file)->save($this->path . '/' . $f_name);
 
@@ -103,7 +110,7 @@ class UsersController extends Controller
                 foreach ($this->dimensions as $row) {
                     //create image canvas according to dimension on array
                     $canvas = Image::canvas($row, $row);
-                    
+
                     //rezise according the dimension on array (still keep ratio)
                     $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
                         $constraint->aspectRatio();
@@ -123,8 +130,8 @@ class UsersController extends Controller
 
             // Insert data into database
             $users->save();
-            
-            alert()->success('Berhasil!', 'Data sukses disimpan!');
+
+            alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/users');
         }
     }
@@ -132,12 +139,16 @@ class UsersController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditUserData($id){
         $id = Crypt::decrypt($id);
+
+        // Select User ID Sub Departemen
+        $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
+
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen');
 
         // Select data based on ID
         $user = UsersModel::find($id);
-        
+
         return view('admin.master.users-edit', [
             'menu'          => 'master',
             'sub'           => '/users',
@@ -153,27 +164,27 @@ class UsersController extends Controller
         $kode_user = strtolower($request->kode_user);
         $nama_user = strtoupper($request->nama_user);
         $email = $request->email;
-        $jenis_user = $request->jenis_user; 
-        $id_departemen = $request->id_departemen; 
+        $jenis_user = $request->jenis_user;
+        $id_departemen = $request->id_departemen;
         $id_sub_departemen = $request->id_sub_departemen;
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $pic = session()->get('id_user');
-        $file_picture = $request->file('picture'); 
-        $file_original_picture = $request->original_picture; 
+        $file_picture = $request->file('picture');
+        $file_original_picture = $request->original_picture;
 
-        
+
 
         // Is there a change in picture file?
         if ($file_picture <> '') {
             $this->validate($request, [
                 'picture' => 'required|image|mimes:jpg,png,jpeg'
             ]);
-            
+
             $file = $file_picture;
 
             // Create filename with merging the timestamp and unique ID
             $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
-            
+
             // Upload original file (dimension hasn't been comppressed)
             // Image::make($file)->save($this->path . '/' . $f_name);
 
@@ -181,7 +192,7 @@ class UsersController extends Controller
             foreach ($this->dimensions as $row) {
                 // Create image canvas according to dimension on array
                 $canvas = Image::canvas($row, $row);
-                
+
                 // Rezise according the dimension on array (still keep ratio)
                 $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
                     $constraint->aspectRatio();
@@ -201,8 +212,8 @@ class UsersController extends Controller
         if ($request->email <> $request->original_email){
             // Check duplicate email
             $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
-            if (isset($email_check['0'])) {  
-                alert()->error('Gagal!', 'Maaf, Email ini sudah terdaftar dalam sistem!');
+            if (isset($email_check['0'])) {
+                alert()->error('Gagal!', 'Maaf, Email Ini Sudah Terdaftar Dalam Sistem!');
                 return Redirect::back();
             } else {
                 // Update data into database
@@ -217,8 +228,8 @@ class UsersController extends Controller
                     'pic'               => $pic,
                     'picture'           => $f_name,
                 ]);
-                
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
+
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/users');
             }
         } else {
@@ -241,8 +252,8 @@ class UsersController extends Controller
                     'nama_user'     => $nama_user
                 ]);
             }
-            
-            alert()->success('Sukses!', 'Data berhasil diperbarui!');
+
+            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/users');
         }
     }
@@ -250,7 +261,7 @@ class UsersController extends Controller
     // untuk beralih ke window ubah password
     public function ChangeUserPassword($id){
         $id = Crypt::decrypt($id);
-        
+
         // Select data based on ID
         $user = UsersModel::find($id);
 
@@ -264,26 +275,26 @@ class UsersController extends Controller
     // Fungsi hapus data
     public function DeleteUserData($id){
         $id = Crypt::decryptString($id);
-        
+
         // Select table user to get user default value
         $user = UsersModel::find($id, ['kode_user']);
-        
+
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
-            Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
-            return Redirect::back(); 
+            Alert::error("Gagal!", 'Data Ini Tidak Dapat Dihapus Karena Sudah Dipakai Tabel Lain!');
+            return Redirect::back();
         }
 
         // If user default is 1, so the data can't be deleted
         if ($user['kode_user'] == '19104886') {
-            Alert::error("Gagal!", 'Data ini tidak dapat di hapus!');
+            Alert::error("Gagal!", 'Data Ini Tidak Dapat Di Hapus!');
             return Redirect::back();
         } else {
             // Check active user or not
             if($id == session()->get('user_id')) {
-                // If user still active, so return back 
-                Alert::error("Gagal!", 'Anda tidak dapat menghapus data ini karena data masih aktif!');
+                // If user still active, so return back
+                Alert::error("Gagal!", 'Anda Tidak Dapat Menghapus Data Ini Karena Data Masih Aktif!');
                 return Redirect::back();
             } else {
                 // If user inactive, so can be delete this data
@@ -292,9 +303,9 @@ class UsersController extends Controller
                 $user->delete();
 
                 // Move to users list page
-                alert()->success('Berhasil!', 'Berhasil menghapus data!');
+                alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
                 return redirect('/users');
             }
-        }        
+        }
     }
 }
