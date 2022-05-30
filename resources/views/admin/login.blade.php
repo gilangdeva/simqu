@@ -75,7 +75,7 @@
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <h3>Reset Password</h3>
-                            <p class="text-muted">Enter your email registered in system to receive reset code!</p>
+                            <p class="text-muted">Masukkan email Anda yang terdaftar dalam sistem untuk menerima token!</p>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -86,7 +86,7 @@
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
                             <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button><br><br>
-                            <a href="/panel" id="to-recover" class="text-dark pull-center"><i class="fa fa-sign-in m-r-5"></i> Login Form</a>
+                            <a href="/login" id="to-recover" class="text-dark pull-center"><i class="fa fa-sign-in m-r-5"></i> Halaman Login</a>
                         </div>
                     </div>
                 </form>

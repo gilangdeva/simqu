@@ -9,7 +9,7 @@
     <br>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
                 <form class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
@@ -30,36 +30,77 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Tanggal</label>
                         <div class="col-sm-8">
-                            {{-- <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header[0]->id_inspeksi_header }}" readonly autocomplete="false"> --}}
-                            <input type="date" class="form-control" name="tgl_inspeksi" maxlength="150" placeholder="Tanggal Inspeksi" required>
+                            @if(isset($id_header))
+                                <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">    
+                                <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
+                                <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
+                                <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
+                            @endif
+
+                            @if(isset($tgl_inspeksi))
+                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" readonly>
+                            @else
+                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" required>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Shift</label>
                         <div class="col-sm-8">
-                            <select id="shift" class="form-control select2" name="shift" required>
-                                <option value="0">Pilih Shift</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
+                            @if (isset($shift))
+                                <select class="form-control select2" name="shift" id="shift" disabled>
+                                    <option value="">Pilih Shift</option>
+                                    <option value="A" {{ old('shift', $shift) == "A" ? 'selected':''}}>A</option>
+                                    <option value="B" {{ old('shift', $shift) == "B" ? 'selected':''}}>B</option>
+                                    <option value="C" {{ old('shift', $shift) == "C" ? 'selected':''}}>C</option>
+                                </select>
+                            @else 
+                                <select class="form-control select2" name="shift" id="shift" required>
+                                    <option value="">Pilih Shift</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                </select>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-4 control-label"><label>Area</label></div>
+                        <div class="col-sm-8">
+                            @if(isset($id_departemen))
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" disabled>
+                            @else 
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" required>
+                            @endif
+                                <option>Pilih Area Inspeksi</option>
+                                @foreach ($departemen as $dept)
+                                    @if(isset($id_departemen))
+                                        <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else 
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Area</label>
+                        <label class="col-sm-4 control-label"></label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="id_departemen" id="id_departemen" required autocomplete="false">
-                                <option>Pilih Area Inspeksi</option>
-                                @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
-                                @endforeach
-                            </select>
-                            <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required autocomplete="false">
+                            @if(isset($id_sub_departemen))
+                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" disabled>
+                            @else
+                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
+                            @endif
                                 <option>Pilih Bagian Inspeksi</option>
                                 @foreach ($subdepartemen as $subdept)
-                                    <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
+                                    @if(isset($id_sub_departemen))
+                                        <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
+                                    @else
+                                        <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -78,9 +119,9 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Output per 1 Menit</label>
+                        <label class="col-sm-4 control-label" >Qty/1 Mnt</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="qty_1" maxlength="10" placeholder="Output per 1 Menit" required>
+                            <input type="number" class="form-control" name="qty_1" maxlength="6" placeholder="Qty/1 Mnt" required>
                         </div>
                     </div>
 
@@ -108,14 +149,14 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label" >JOP</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="jop" maxlength="10" placeholder="JOP" required>
+                            <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label" >Item</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="item" maxlength="10" placeholder="Item" required>
+                            <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
                         </div>
                     </div> {{-- Nanti diubah --}}
 
@@ -134,7 +175,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kriteria</label>
                         <div class="col-sm-8">
-                            <select id="kriteria" class="form-control select2" name="kriteria" maxlength="20" required autocomplete="false">
+                            <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
                                 <option value="0">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
                                 <option value="Major">Major</option>
@@ -144,23 +185,23 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jumlah Temuan Defect</label>
+                        <label class="col-sm-4 control-label" >Qty Temuan</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="qty_defect" maxlength="3" placeholder="Jumlah Temuan Defect" required>
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" placeholder="Jumlah Temuan Defect" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Barang Siap (pcs/lbr)</label>
+                        <label class="col-sm-4 control-label" >Brg Siap (pcs/lbr)</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="qty_ready_pcs" maxlength="20" placeholder="Barang Siap (pcs/lbr)" required>
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" placeholder="Barang Siap (pcs/lbr)" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jumlah Sampling</label>
+                        <label class="col-sm-4 control-label" >Jml Sampling</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="qty_sampling" maxlength="4" placeholder="Jumlah Sampling" required>
+                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" placeholder="Jumlah Sampling" required>
                         </div>
                     </div>
 
@@ -200,11 +241,10 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title">DRAFT HEADER INLINE</h3>
-
-
                     <div class="table-responsive">
                         <table id="tablebasic" class="table table-striped">
                             <thead>

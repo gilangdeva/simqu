@@ -272,6 +272,48 @@ class UsersController extends Controller
         ]);
     }
 
+    public function SaveUserPassword(Request $request){
+        $user_id = $request->id_user;
+        //Ecrypt Password
+        $encrypt_password = md5($request->password);
+        $password = hash('ripemd160', $encrypt_password);
+
+        //Encrypt New Password
+        $encrypt_new_password = md5($request->new_password);
+        $new_password = hash('ripemd160', $encrypt_new_password);
+
+        //Encrypt Confirm Password
+        $encrypt_confirm_password = md5($request->confirm_password);
+        $confirm_password = hash('ripemd160', $encrypt_confirm_password);
+        
+        //Check password original
+        // DB::select("SELECT password FROM tbl_master_users WHERE user_id = '".$user_id."'")
+        $get_original_password = UsersModel::find($user_id, ['password']);
+        $original_password = $get_original_password->password;
+
+        if($password <> $original_password){
+            // Wrong password
+            alert()->error('Gagal!', 'Password yang Anda masukkan salah!');
+            return Redirect::back();
+        } else if($new_password <> $confirm_password) {
+            // Password not match with confirm
+            alert()->error("Gagal!", 'Password baru Anda tidak sama!');
+            return Redirect::back();
+        } else if($new_password == $password) {
+            // No changes on password! Re input password until not match
+            alert()->error('Gagal!', 'Tidak ada perubahan pada Password Anda!');
+            return Redirect::back();
+        } else {
+            // Update new password into database
+            UsersModel::where('id_user', '=', $user_id)->update([
+                'password' => $new_password,
+            ]);
+            
+            alert()->success('Data berhasil disimpan!', 'Sukses!');
+            return redirect("/auth-logout/".Crypt::encrypt(session()->get('user_id')));
+        }
+    }
+
     // Fungsi hapus data
     public function DeleteUserData($id){
         $id = Crypt::decryptString($id);
