@@ -43,14 +43,14 @@
                         <label class="col-sm-4">Kode Mesin</label>
                         <div class="col-sm-8">
                             <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false"> 
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="20" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" required> 
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" required> 
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Mesin</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
+                            <input type="text" class="form-control" name="nama_mesin" maxlength="30" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
                         </div>
                     </div>
 

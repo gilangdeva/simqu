@@ -109,7 +109,7 @@ class MesinController extends Controller
 
 
         // is there a change in kode mesin data?
-        if ($request->kode_mesin == $request->original_kode_mesin){
+        if ($request->kode_mesin <> $request->original_kode_mesin){
          // Check duplicate kode
          $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$request->kode_mesin."'");
          if (isset($kode_check['0'])) {
@@ -130,7 +130,7 @@ class MesinController extends Controller
         }
 
         // is there a change in nama mesin data?
-        if ($request->nama_mesin == $request->original_nama_mesin){
+        if ($request->nama_mesin <> $request->original_nama_mesin){
          // Check duplicate nama
          $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$request->nama_mesin."'");
          if (isset($nama_check['0'])) {

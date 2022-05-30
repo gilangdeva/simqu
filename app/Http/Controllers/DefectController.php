@@ -91,25 +91,6 @@ class DefectController extends Controller
  
 
         // is there a change in kode defect data?
-        if ($request->kode_defect == $request->original_kode_defect){
-            // Check duplicate kode
-            $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$request->kode_defect."'");
-            if (isset($kode_check['0'])) {
-                alert()->error('Gagal Menyimpan!', 'Maaf, kode defect ini sudah didaftarkan dalam sistem!');
-                return Redirect::back();
-            } else {
-                //update data into database
-                DefectModel::where('id_defect', $id_defect)->update([
-                   'kode_defect'         => $kode_defect,
-                   'defect'              => $defect,
-                   'updated_at'          => $updated_at,
-                ]);
-                alert()->success('Sukses!', 'Data berhasil diperbarui!');
-                return redirect('/defect');
-            }
-           }
-
-        // is there a change in kode defect data?
         if($request->kode_defect == $request->original_kode_defect){
         // Check duplicate kode
         $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$request->kode_defect."'");
@@ -146,16 +127,6 @@ class DefectController extends Controller
             alert()->success('Sukses!', 'Data berhasil diperbarui!');
             return redirect('/defect');
         }
-    {
-            // Update data into database
-            DefectModel::where('id_defect', $id_defect)->update([
-                'kode_defect'              => $kode_defect,
-                'defect'                   => $defect,
-                'updated_at'               => $updated_at,
-            ]);
-            alert()->success('Sukses!', 'Data berhasil diperbarui!');
-            return redirect('/defect');
-    }
 }
     
 
@@ -163,10 +134,6 @@ class DefectController extends Controller
     public function DeleteDefectData($id){
         $id = Crypt::decryptString($id);
         
-            // Delete process
-            $defect = DefectModel::find($id);
-            $defect->delete();
-
         // Delete process
         $defect = DefectModel::find($id);
         $defect->delete();
