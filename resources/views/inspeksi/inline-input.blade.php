@@ -16,6 +16,18 @@
                     {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-8">
+                            <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header[0]->id_inspeksi_header }}" readonly autocomplete="false">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <div class="col-sm-8">
+                            <input type="hidden" class="form-control" name="id_inspeksi_detail" value="{{ $id_detail[0]->id_inspeksi_detail }}" readonly autocomplete="false">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Tanggal</label>
                         <div class="col-sm-8">
                             @if(isset($id_header))
