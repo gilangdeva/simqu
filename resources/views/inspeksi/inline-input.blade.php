@@ -14,19 +14,6 @@
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
                 <form class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header[0]->id_inspeksi_header }}" readonly autocomplete="false">
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="id_inspeksi_detail" value="{{ $id_detail[0]->id_inspeksi_detail }}" readonly autocomplete="false">
-                        </div>
-                    </div>
-
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Tanggal</label>
                         <div class="col-sm-8">
@@ -95,13 +82,13 @@
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
                             @endif
                                 <option>Pilih Bagian Inspeksi</option>
-                                @foreach ($subdepartemen as $subdept)
-                                    @if(isset($id_sub_departemen))
+                                @if(isset($id_sub_departemen))
+                                    @foreach ($subdepartemen as $subdept)
                                         <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
-                                    @else
-                                        <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option>
-                                    @endif
-                                @endforeach
+                                    @endforeach
+                                @else
+                                    {{-- <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option> --}}
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -109,11 +96,11 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Mesin</label>
                         <div class="col-sm-8">
-                            <select class="form-control select2" name="id_mesin" >
+                            <select class="form-control select2" name="id_mesin" id="id_mesin" required>
                                 <option value="0">Pilih Mesin</option>
-                                @foreach ($mesin as $machine)
-                                    <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option>
-                                @endforeach
+                                {{-- @foreach ($mesin as $machine) --}}
+                                    {{-- <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option> --}}
+                                {{-- @endforeach --}}
                             </select>
                         </div>
                     </div>
@@ -245,37 +232,32 @@
         <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title">DRAFT HEADER INLINE</h3>
-                    <div class="table-responsive">
-                        <table id="tablebasic" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Nama Inspektor</th>
-                                    <th>Tanggal</th>
-                                    <th>Shift</th>
-                                    <th>Area</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($draftheader as $draftheader)
-                                <tr>
-                                    <td align="center">{{ $loop->iteration }}</td>
-                                    <td>{{ $draftheader->nama_user }}</td>
-                                    <td>{{ $draftheader->tgl_inspeksi }}</td>
-                                    <td>{{ $draftheader->shift }}</td>
-                                    <td>{{ $draftheader->nama_departemen }} / {{ $draftheader->nama_sub_departemen }}</td>
-                                    {{-- <td>
-                                        <a href="/inline-edit/{{ Crypt::encrypt($inspekinl->id_inspeksi_header) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
-                                        <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_header) }}')"><i class="fa fa-times"></i></button>
-                                    </td> --}}
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                <div class="table-responsive">
+                    <table id="tablebasic" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Inspektor</th>
+                                <th>Tanggal</th>
+                                <th>Shift</th>
+                                <th>Area</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($draftheader as $draft)
+                            <tr>
+                                <td align="center">{{ $loop->iteration }}</td>
+                                <td>{{ $draft->nama_user }}</td>
+                                <td>{{ $draft->tgl_inspeksi }}</td>
+                                <td>{{ $draft->shift }}</td>
+                                <td>{{ $draft->nama_departemen }} / {{ $draft->nama_sub_departemen }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
     </div>
 </div>
     <!-- end row -->
@@ -283,5 +265,61 @@
 <!-- end container-fluid -->
 
 @include('admin.footer')
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="id_departemen"]').on('change', function() {
+            var departemenID = $(this).val();
+            if(departemenID) {
+                $.ajax({
+                    url: '/users-sub/'+departemenID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="id_sub_departemen"]').empty();
+                            $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Bagian Inspeksi</option>');
+                            // Remove options
+                            $('#id_sub_departemen').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="id_sub_departemen"]').append('<option value="'+ data[i].id_sub_departemen +'">'+ data[i].nama_sub_departemen +'</option>');
+                            };
+                        } else {
+                            $('select[name="id_sub_departemen"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="id_sub_departemen"]').empty();
+            }
+        });
+
+        $('select[name="id_sub_departemen"]').on('change', function() {
+            var subDepartemenID = $(this).val();
+            if(subDepartemenID) {
+                $.ajax({
+                    url: '/mesin-dropdown/'+subDepartemenID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="id_mesin"]').empty();
+                            $('select[name="id_mesin"]').append('<option value="0" selected>Pilih Mesin</option>');
+                            // Remove options
+                            $('#id_mesin').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="id_mesin"]').append('<option value="'+ data[i].id_mesin +'">'+ data[i].nama_mesin +'</option>');
+                            };
+                        } else {
+                            $('select[name="id_mesin"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="id_mesin"]').empty();
+            }
+        });
+    });
+</script>
 
 @endsection

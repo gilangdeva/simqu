@@ -33,6 +33,11 @@ class MesinController extends Controller
         return json_encode($sub_departemen);
     }
 
+    public function getSubMesin($id){
+        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM tb_master_mesin WHERE id_sub_departemen = ".$id);
+        return json_encode($mesin);
+    }
+
     // Redirect ke window input mesin
     public function MesinInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');

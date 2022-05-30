@@ -37,29 +37,21 @@ class InspeksiInlineController extends Controller
     // Redirect ke window input inspeksi inline
     public function InlineInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
-        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
+        // $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
+        // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $users = DB::select("SELECT id_user, nama_user FROM vw_list_users");
         $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
         $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
-        $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
-        $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
-            'mesin'         => $mesin,
-            'subdepartemen' => $subdepartemen,
+            // 'mesin'         => $mesin,
+            // 'subdepartemen' => $subdepartemen,
             'defect'        => $defect,
-            'users'         => $users,
             'draftheader'   => $draftheader,
             'draftdetail'   => $draftdetail,
-            'id_header'     => $id_header,
-            'id_detail'     => $id_detail,
-
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/inline'
-
         ]);
     }
 
@@ -69,8 +61,7 @@ class InspeksiInlineController extends Controller
         $row = 0;
         $cek_id_header = $request->id_inspeksi_header;
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
-        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
+        
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
         $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
         $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
@@ -82,6 +73,8 @@ class InspeksiInlineController extends Controller
         $id_user = session()->get('id_user');
         $id_departemen = $request->id_departemen;
         $id_sub_departemen = $request->id_sub_departemen;
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
@@ -120,8 +113,6 @@ class InspeksiInlineController extends Controller
             // tidak insert karena sudah ada di database 
             $row = 1;
         }
-
-        // return $row;
             
         // Parameters Detail
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
