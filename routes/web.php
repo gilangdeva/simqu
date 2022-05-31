@@ -39,9 +39,10 @@ Route::post('/users-update/', [UsersController::class, 'SaveEditUserData'])->nam
 Route::get('/users-delete/{id}', [UsersController::class, 'DeleteUserData']); // menghapus data user dari database
 Route::get('/getSubDept/{id}', 'UsersController@getSubDept')->middleware('auth.check');
 
-// Sub Departemen Select Dropdown
+// Select Dropdown
 Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub')->middleware('auth.check');
 Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub')->middleware('auth.check');
+Route::get('/mesin-dropdown/{id}', [MesinController::class, 'getSubMesin'])->name('mesin.dropdown')->middleware('auth.check');
 
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword'])->middleware('auth.check');

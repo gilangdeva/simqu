@@ -9,23 +9,23 @@
     <br>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="white-box">
                 <h3 class="box-title">UBAH DATA MESIN</h3>
                 <form class="form-horizontal" action="{{ route('mesin.update') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-2 control-label">Kode Mesin</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label">Kode Mesin</label>
+                        <div class="col-sm-8">
                             <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false">
                             <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" readonly required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-2 control-label">Departemen</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label">Departemen</label>
+                        <div class="col-sm-8">
                             <select class="form-control select2" name="id_departemen" required>
                                 <option value='0'>Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
@@ -36,8 +36,8 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-2 control-label">Sub Departemen</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label">Sub Departemen</label>
+                        <div class="col-sm-8">
                             <select class="form-control select2" name="id_sub_departemen" required>
                                 <option value='0'>Pilih Sub Departemen</option>
                                 @foreach ($subdepartemen as $subdept)
@@ -48,18 +48,10 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Kode Mesin</label>
-                        <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="id_mesin" value=" {{ $mesin->id_mesin }}" readonly autocomplete="false">
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" readonly required> 
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Mesin</label>
                         <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="original_nama_mesin" maxlength="30" placeholder="Nama Mesin" value=" {{ $mesin->nama_mesin }}" required>
-                            <input type="text" class="form-control" name="nama_mesin" maxlength="30" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
+                            <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
+                            <input type="hidden" class="form-control" name="original_nama_mesin" maxlength="20" placeholder="Nama Mesin" value="{{ $mesin->nama_mesin }}" required>
                         </div>
                     </div>
 
