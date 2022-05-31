@@ -57,6 +57,11 @@
     <script src="{{ url('/') }}/admin/bower_components/toast-master/js/jquery.toast.js"></script>
     <!-- jQuery file upload -->
     <script src="{{ url('/') }}/admin/bower_components/dropify/dist/js/dropify.min.js"></script>
+    <!-- Footable -->
+    <script src="{{ url('/') }}/admin/bower_components/footable/js/footable.all.min.js"></script>
+    <script src="{{ url('/') }}/admin/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+    <!--FooTable init-->
+    <script src="{{ url('/') }}/admin/js/footable-init.js"></script>
     
     <!-- End - This is for export functionality only -->
 

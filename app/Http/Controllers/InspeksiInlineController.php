@@ -24,32 +24,26 @@ class InspeksiInlineController extends Controller
 {
     // Menampilkan list inspeksi inline
     public function InlineList(){
-        $inline = DB::select('SELECT tgl_inspeksi, shift, nama_user, nama_departemen,  nama_sub_departemen FROM vg_draft_header');
+        $list_inline = DB::select('SELECT * FROM vw_list_inline');
 
         return view('inspeksi.inline-list',
         [
             'menu'      => 'inspeksi',
             'sub'       => '/inline',
-            'inline'    => $inline,
+            'inline'    => $list_inline,
         ]);
     }
 
     // Redirect ke window input inspeksi inline
     public function InlineInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-        // $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
-        // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
-        $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
+        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
-            // 'mesin'         => $mesin,
-            // 'subdepartemen' => $subdepartemen,
             'defect'        => $defect,
-            'draftheader'   => $draftheader,
-            'draftdetail'   => $draftdetail,
+            'draft'         => $draft,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/inline'
         ]);
@@ -63,8 +57,7 @@ class InspeksiInlineController extends Controller
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
-        $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
+        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
         // Parameters Header
         $type_form = "Inline"; // Inline
@@ -73,8 +66,6 @@ class InspeksiInlineController extends Controller
         $id_user = session()->get('id_user');
         $id_departemen = $request->id_departemen;
         $id_sub_departemen = $request->id_sub_departemen;
-        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
-        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
@@ -91,6 +82,9 @@ class InspeksiInlineController extends Controller
         if(($shift == '') || ($shift == 0)){
             $shift = $request->shift_ori;
         }
+
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -113,7 +107,7 @@ class InspeksiInlineController extends Controller
             // tidak insert karena sudah ada di database 
             $row = 1;
         }
-            
+
         // Parameters Detail
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;

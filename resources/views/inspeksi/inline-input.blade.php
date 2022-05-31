@@ -98,9 +98,11 @@
                         <div class="col-sm-8">
                             <select class="form-control select2" name="id_mesin" id="id_mesin" required>
                                 <option value="0">Pilih Mesin</option>
-                                {{-- @foreach ($mesin as $machine) --}}
-                                    {{-- <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option> --}}
-                                {{-- @endforeach --}}
+                                @if(isset($mesin))
+                                    @foreach ($mesin as $machine)
+                                        <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -231,31 +233,66 @@
 
         <div class="col-md-7">
             <div class="white-box">
-                <h3 class="box-title">DRAFT HEADER INLINE</h3>
-                <div class="table-responsive">
-                    <table id="tablebasic" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Inspektor</th>
-                                <th>Tanggal</th>
-                                <th>Shift</th>
-                                <th>Area</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($draftheader as $draft)
-                            <tr>
-                                <td align="center">{{ $loop->iteration }}</td>
-                                <td>{{ $draft->nama_user }}</td>
-                                <td>{{ $draft->tgl_inspeksi }}</td>
-                                <td>{{ $draft->shift }}</td>
-                                <td>{{ $draft->nama_departemen }} / {{ $draft->nama_sub_departemen }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <h3 class="box-title m-b-0">DRAFT INPEKSI</h3>
+                <label class="form-inline">Show
+                    <select id="demo-show-entries" class="form-control input-sm">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select> entries 
+                </label>
+
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="5">
+                    <thead>
+                        <tr>
+                            <th data-toggle="true">No.</th>
+                            <th>Tgl</th>
+                            <th>Shift</th>
+                            <th>Area</th>
+                            <th>JOP</th>
+                            <th data-hide="all">Item</th>
+                            <th data-hide="all">Mesin</th>
+                            <th data-hide="all">Output/1 mnt</th>
+                            <th data-hide="all">PIC</th>
+                            <th data-hide="all">Jam Mulai</th>
+                            <th data-hide="all">Jam Selesai</th>
+                            <th data-hide="all">Kendala</th>
+                            <th data-hide="all">Kriteria</th>
+                            <th data-hide="all">Jml Temuan</th>
+                            <th data-hide="all">Brg Siap</th>
+                            <th data-hide="all">Jml Sampling</th>
+                            <th data-hide="all">Penyebab</th>
+                            <th data-hide="all">Status</th>
+                            <th data-hide="all">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($draft as $d)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $d->tgl_inspeksi }}</td>
+                            <td>{{ $d->shift }}</td>
+                            <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
+                            <td>{{ $d->jop }}</td>
+                            <td>{{ $d->item }}</td>
+                            <td>{{ $d->nama_mesin }}</td>
+                            <td>{{ $d->qty_1 }}</td>
+                            <td>{{ $d->pic }}</td>
+                            <td>{{ $d->jam_mulai }}</td>
+                            <td>{{ $d->jam_selesai }}</td>
+                            <td>{{ $d->defect }}</td>
+                            <td>{{ $d->kriteria }}</td>
+                            <td>{{ $d->qty_defect }}</td>
+                            <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
+                            <td>{{ $d->qty_sampling }}</td>
+                            <td>{{ $d->penyebab }}</td>
+                            <td>{{ $d->status }}</td>
+                            <td>{{ $d->keterangan }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
