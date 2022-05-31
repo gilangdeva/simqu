@@ -20,46 +20,46 @@ use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class InspeksiInlineController extends Controller
+class InspeksiFinalController extends Controller
 {
-    // Menampilkan list inspeksi inline
-    public function InlineList(){
-        $list_inline = DB::select('SELECT * FROM vw_list_inline');
+    // Menampilkan list inspeksi final
+    public function FinalList(){
+        $list_final = DB::select('SELECT * FROM vg_list_final');
 
-        return view('inspeksi.inline-list',
+        return view('inspeksi.final-list',
         [
             'menu'      => 'inspeksi',
-            'sub'       => '/inline',
-            'inline'    => $list_inline,
+            'sub'       => '/final',
+            'final'     => $list_final,
         ]);
     }
 
-    // Redirect ke window input inspeksi inline
-    public function InlineInput(){
+    // Redirect ke window input inspeksi final
+    public function FinalInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
-        return view('inspeksi.inline-input',[
+        return view('inspeksi.final-input',[
             'departemen'    => $departemen,
             'defect'        => $defect,
             'draft'         => $draft,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
-            'sub'           => '/inline'
+            'sub'           => '/final'
         ]);
     }
 
-    //Simpan data inspeksi inline
-    public function SaveInlineData(Request $request){
+    //Simpan data inspeksi final
+    public function SaveFinalData(Request $request){
         // Controller Wawan
         $row = 0;
         $cek_id_header = $request->id_inspeksi_header;
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
         // Parameters Header
-        $type_form = "Inline"; // Inline
+        $type_form = "Final"; // Final
         $tgl_inspeksi = $request->tgl_inspeksi;
         $shift = strtoupper($request->shift);
         $id_user = session()->get('id_user');
@@ -83,7 +83,6 @@ class InspeksiInlineController extends Controller
         }
 
         $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
-        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -111,10 +110,6 @@ class InspeksiInlineController extends Controller
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
-        $id_mesin = $request->id_mesin;
-        $qty_1 = $request->qty_1;
-        $qty_5 = $request->qty_1*5;
-        $pic = $request->pic;
         $jam_mulai = $request->jam_mulai;
         $jam_selesai = $request->jam_selesai;
         $lama_inspeksi = 0;
@@ -123,22 +118,23 @@ class InspeksiInlineController extends Controller
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
-        $qty_ready_pcs = $request->qty_ready_pcs;
-        $qty_sampling = $request->qty_sampling;
         $penyebab = $request->penyebab;
         $status = $request->status;
         $keterangan = $request->keterangan;
+        $qty_ready_pack = $request->qty_ready_pack;
+        $qty_sample_aql = $request->qty_sample_aql;
+        $qty_sample_riil = $request->qty_sample_riil;
+        $qty_reject_all = $request->qty_reject_all;
+        $hasil_verifikasi = $request->hasil_verifikasi;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
+        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         // insert into database
         DB::table('draft_detail')->insert([
             'id_inspeksi_detail'    => $id_detail,
             'id_inspeksi_header'    => $id_header,
-            'id_mesin'              => $id_mesin,
-            'qty_1'                 => $qty_1,
-            'qty_5'                 => $qty_5,
-            'pic'                   => $pic,
             'jam_mulai'             => $jam_mulai,
             'jam_selesai'           => $jam_selesai,
             'jop'                   => $jop,
@@ -146,28 +142,32 @@ class InspeksiInlineController extends Controller
             'id_defect'             => $id_defect,
             'kriteria'              => $kriteria,
             'qty_defect'            => $qty_defect,
-            'qty_ready_pcs'         => $qty_ready_pcs,
-            'qty_sampling'          => $qty_sampling,
             'penyebab'              => $penyebab,
             'status'                => $status,
             'keterangan'            => $keterangan,
+            'qty_ready_pack'        => $qty_ready_pack,
+            'qty_sample_aql'        => $qty_sample_aql,
+            'qty_sample_riil'       => $qty_sample_riil,
+            'qty_reject_all'        => $qty_reject_all,
+            'hasil_verifikasi'      => $hasil_verifikasi,
             'creator'               => $creator,
-            'updater'               => $updater
+            'updater'               => $updater,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at
         ]);
 
         if(($row == 0) || ($row == '')){
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-            return view('inspeksi.inline-input',[
+            return view('inspeksi.final-input',[
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
-                'mesin'             => $mesin,
                 'defect'            => $defect,
                 'menu'              => 'inspeksi',
-                'sub'               => '/inline'
+                'sub'               => '/final'
             ]);
         } else {
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-            return view('inspeksi.inline-input',[
+            return view('inspeksi.final-input',[
                 'id_header'         => $id_header,
                 'tgl_inspeksi'      => $tgl_inspeksi,
                 'shift'             => $shift,
@@ -175,21 +175,19 @@ class InspeksiInlineController extends Controller
                 'departemen'        => $departemen,
                 'id_sub_departemen' => $id_sub_departemen,
                 'subdepartemen'     => $subdepartemen,
-                'mesin'             => $mesin,
                 'defect'            => $defect,
                 'draft'             => $draft,
                 'menu'              => 'inspeksi',
-                'sub'               => '/inline'
+                'sub'               => '/final'
             ]);
         }
         //End Controller Wawan
     }
             // Fungsi hapus data
-            public function DeleteInlineData($id){
+            public function DeleteFinalData($id){
                 $id = Crypt::decryptString($id);
 
-                $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id)->delete();
-                return redirect('/inline-input');
-
+                $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id)->delete();
+                return redirect('/final-input');
         }
 }

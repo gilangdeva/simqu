@@ -10,6 +10,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\InspeksiInlineController;
+use App\Http\Controllers\InspeksiFinalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,3 +97,12 @@ Route::post('/inline-input', [InspeksiInlineController::class, 'SaveInlineData']
 Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineData'])->middleware('auth.check');
 Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update')->middleware('auth.check');
 Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData'])->middleware('auth.check');
+
+//Inspeksi Final
+Route::get('/final', [InspeksiFinalController::class, 'FinalList'])->middleware('auth.check');
+Route::get('/final-input', [InspeksiFinalController::class, 'DraftList'])->middleware('auth.check');
+Route::get('/final-input/', [InspeksiFinalController::class, 'FinalInput'])->middleware('auth.check');
+Route::post('/final-input', [InspeksiFinalController::class, 'SaveFinalData'])->name('final.save')->middleware('auth.check');
+Route::get('/final-edit/{id}', [InspeksiFinalController::class, 'EditFinalData'])->middleware('auth.check');
+Route::post('/final-update/', [InspeksiFinalController::class, 'SaveEditFinalData'])->name('final.update')->middleware('auth.check');
+Route::get('/final-delete/{id}', [InspeksiFinalController::class, 'DeleteFinalData'])->middleware('auth.check');

@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Input Inspeksi Inline - SIMQU')
+@section('title', 'Input Inspeksi Final - SIMQU')
 
 @section('content')
 
@@ -11,8 +11,8 @@
     <div class="row">
         <div class="col-md-5">
             <div class="white-box">
-                <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
-                <form class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
+                <h3 class="box-title">INPUT DATA INSPEKSI FINAL</h3>
+                <form class="form-horizontal" action="{{ route('final.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Tanggal</label>
@@ -94,34 +94,6 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Mesin</label>
-                        <div class="col-sm-8">
-                            <select class="form-control select2" name="id_mesin" id="id_mesin" required>
-                                <option value="0">Pilih Mesin</option>
-                                @if(isset($mesin))
-                                    @foreach ($mesin as $machine)
-                                        <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Qty/1 Mnt</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_1" maxlength="6" placeholder="Qty/1 Mnt" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >PIC</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="pic" maxlength="10" placeholder="PIC (Operator)" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label" >Jam Mulai</label>
                         <div class="col-sm-8">
                             <input type="time" class="form-control" name="jam_mulai" maxlength="10" required>
@@ -150,7 +122,7 @@
                     </div> {{-- Nanti diubah --}}
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Defect</label>
+                        <label class="col-sm-4 control-label">Jenis Defect</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" name="id_defect">
                                 <option value="0">Pilih Defect</option>
@@ -174,57 +146,83 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Qty Temuan</label>
+                        <label class="col-sm-4 control-label" >Jumlah Defect</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" placeholder="Jumlah Temuan Defect" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Brg Siap (pcs/lbr)</label>
+                        <label class="col-sm-4 control-label" >Penyebab</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="penyebab" placeholder="Penyebab" autocomplete="false" required >
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label" >Brg Siap (pcs)</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" placeholder="Barang Siap (pcs/lbr)" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jml Sampling</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" placeholder="Jumlah Sampling" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Penyebab</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="penyebab" maxlength="50" placeholder="Penyebab" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Status</label>
+                        <label class="col-sm-4 control-label">Hasil Inspeksi</label>
                         <div class="col-sm-8">
                             <select id="status" class="form-control select2" name="status" maxlength="50" required>
                                 <option value="0">Pilih Status</option>
-                                <option value="OK">OK</option>
-                                <option value="Hold">Hold</option>
-                                <option value="Close">Close</option>
+                                <option value="PASS">Pass</option>
+                                <option value="REJECT">Reject</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Keterangan</label>
+                        <label class="col-sm-4 control-label" >Rekomendasi</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="keterangan" placeholder="Keterangan" autocomplete="false" required >
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label" >Brg Siap (pack/box)</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" placeholder="Barang Siap (pack)" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label" >Sample Aql</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" placeholder="Sample AQL" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label" >Sample Riil</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" placeholder="Sample Riil" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label" >Qty Reject All/Pcs</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" placeholder="Qty Reject All/Pcs" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label" >Hasil Verifikasi Ulang</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="hasil_verifikasi" placeholder="Hasil Verifikasi Ulang" autocomplete="false" required >
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button> <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>
                     </div>
                 </form>
@@ -234,7 +232,7 @@
         <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title m-b-0">DRAFT INSPEKSI</h3>
-                <label class="form-inline">Show
+                <label class="form-final">Show
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -249,22 +247,23 @@
                             <th data-toggle="true">No.</th>
                             <th>Tgl</th>
                             <th>Shift</th>
+                            <th>Bagian</th>
                             <th>Area</th>
                             <th>JOP</th>
                             <th data-hide="all">Item</th>
-                            <th data-hide="all">Mesin</th>
-                            <th data-hide="all">Output/1 mnt</th>
-                            <th data-hide="all">PIC</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
-                            <th data-hide="all">Kendala</th>
+                            <th data-hide="all">Jenis Defect</th>
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
-                            <th data-hide="all">Brg Siap</th>
-                            <th data-hide="all">Jml Sampling</th>
-                            <th data-hide="all">Penyebab</th>
-                            <th data-hide="all">Status</th>
-                            <th data-hide="all">Keterangan</th>
+                            <th data-hide="all">Brg Siap(Pcs)</th>
+                            <th data-hide="all">Hasil Inspeksi</th>
+                            <th data-hide="all">Rekomendasi</th>
+                            <th data-hide="all">Brg Siap(Pack)</th>
+                            <th data-hide="all">Sample Aql</th>
+                            <th data-hide="all">Sample Riil</th>
+                            <th data-hide="all">Qty Reject All/Pcs</th>
+                            <th data-hide="all">Hasil Verifikasi Ulang</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -274,22 +273,23 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $d->tgl_inspeksi }}</td>
                             <td>{{ $d->shift }}</td>
-                            <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
+                            <td>{{ $d->nama_departemen }}</td>
+                            <td>{{ $d->nama_sub_departemen }}</td>
                             <td>{{ $d->jop }}</td>
                             <td>{{ $d->item }}</td>
-                            <td>{{ $d->nama_mesin }}</td>
-                            <td>{{ $d->qty_1 }}</td>
-                            <td>{{ $d->pic }}</td>
                             <td>{{ $d->jam_mulai }}</td>
                             <td>{{ $d->jam_selesai }}</td>
                             <td>{{ $d->defect }}</td>
                             <td>{{ $d->kriteria }}</td>
                             <td>{{ $d->qty_defect }}</td>
-                            <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
-                            <td>{{ $d->qty_sampling }}</td>
-                            <td>{{ $d->penyebab }}</td>
+                            <td>{{ $d->qty_ready_pcs }} (Pcs)</td>
                             <td>{{ $d->status }}</td>
                             <td>{{ $d->keterangan }}</td>
+                            <td>{{ $d->qty_ready_pack }}</td>
+                            <td>{{ $d->qty_sample_aql }}</td>
+                            <td>{{ $d->qty_sample_riil }}</td>
+                            <td>{{ $d->qty_reject_all }}</td>
+                            <td>{{ $d->hasil_verifikasi }}</td>
                             <td>
                             <button type="button" class="btn btn-danger" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')">DELETE</i></button>
                             </td>
@@ -334,36 +334,10 @@
                 $('select[name="id_sub_departemen"]').empty();
             }
         });
-
-        $('select[name="id_sub_departemen"]').on('change', function() {
-            var subDepartemenID = $(this).val();
-            if(subDepartemenID) {
-                $.ajax({
-                    url: '/mesin-dropdown/'+subDepartemenID,
-                    type: "GET",
-                    dataType: "json",
-                    success:function(data) {
-                        if (data){
-                            $('select[name="id_mesin"]').empty();
-                            $('select[name="id_mesin"]').append('<option value="0" selected>Pilih Mesin</option>');
-                            // Remove options
-                            $('#id_mesin').select2();
-                            for (var i=0;i<data.length;i++) {
-                                $('select[name="id_mesin"]').append('<option value="'+ data[i].id_mesin +'">'+ data[i].nama_mesin +'</option>');
-                            };
-                        } else {
-                            $('select[name="id_mesin"]').empty();
-                        }
-                    }
-                });
-            }else{
-                $('select[name="id_mesin"]').empty();
-            }
-        });
     });
 
     function deleteConfirmation(id) {
-        var urlsite = "http://"+window.location.hostname+':8000/inline-delete/'+id;
+        var urlsite = "http://"+window.location.hostname+':8000/final-delete/'+id;
         Swal.fire({
             title: 'Konfirmasi',
             text: "Apakah Anda yakin ingin menghapus data ini?",
