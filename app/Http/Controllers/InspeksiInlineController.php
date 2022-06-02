@@ -184,12 +184,20 @@ class InspeksiInlineController extends Controller
         }
         //End Controller Wawan
     }
-            // Fungsi hapus data
-            public function DeleteInlineData($id){
-                $id = Crypt::decryptString($id);
-
-                $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id)->delete();
+        // Fungsi hapus data
+        public function DeleteInlineData($id){
+            $id_detail = Crypt::decryptString($id);
+            $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $id_header = $id_header[0]->id_inspeksi_header;
+            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_draft_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count = $count_detail[0]->count;
+            if ($count == 1){
+                $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                $inline_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
                 return redirect('/inline-input');
-
+            } else if ($count > 1) {
+                $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                return redirect('/inline-input');
+            }
         }
 }
