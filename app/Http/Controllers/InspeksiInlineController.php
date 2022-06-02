@@ -24,32 +24,26 @@ class InspeksiInlineController extends Controller
 {
     // Menampilkan list inspeksi inline
     public function InlineList(){
-        $inline = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_list_inline");
+        $list_inline = DB::select('SELECT * FROM vw_list_inline');
 
-        return view('admin.inspeksi.inline-list',
+        return view('inspeksi.inline-list',
         [
-            'menu'  => 'inspeksi',
-            'sub'   => '/inline',
-            'inline' => $inline
+            'menu'      => 'inspeksi',
+            'sub'       => '/inline',
+            'inline'    => $list_inline,
         ]);
     }
 
     // Redirect ke window input inspeksi inline
     public function InlineInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-        // $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
-        // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
-        $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
+        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
-        return view('admin.inspeksi.inline-input',[
+        return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
-            // 'mesin'         => $mesin,
-            // 'subdepartemen' => $subdepartemen,
             'defect'        => $defect,
-            'draftheader'   => $draftheader,
-            'draftdetail'   => $draftdetail,
+            'draft'         => $draft,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/inline'
         ]);
@@ -61,10 +55,8 @@ class InspeksiInlineController extends Controller
         $row = 0;
         $cek_id_header = $request->id_inspeksi_header;
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-        
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
-        $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
+        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
         // Parameters Header
         $type_form = "Inline"; // Inline
@@ -73,12 +65,10 @@ class InspeksiInlineController extends Controller
         $id_user = session()->get('id_user');
         $id_departemen = $request->id_departemen;
         $id_sub_departemen = $request->id_sub_departemen;
-        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
-        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-        
+
         // Check if null
         if(($id_departemen == '') || ($id_departemen == 0)){
             $id_departemen = $request->id_departemen_ori;
@@ -91,6 +81,9 @@ class InspeksiInlineController extends Controller
         if(($shift == '') || ($shift == 0)){
             $shift = $request->shift_ori;
         }
+
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -110,10 +103,10 @@ class InspeksiInlineController extends Controller
             ]);
         } else {
             $id_header = $cek_id_header;
-            // tidak insert karena sudah ada di database 
+            // tidak insert karena sudah ada di database
             $row = 1;
         }
-            
+
         // Parameters Detail
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
@@ -169,8 +162,6 @@ class InspeksiInlineController extends Controller
                 'subdepartemen'     => $subdepartemen,
                 'mesin'             => $mesin,
                 'defect'            => $defect,
-                'draftheader'       => $draftheader,
-                'draftdetail'       => $draftdetail,
                 'menu'              => 'inspeksi',
                 'sub'               => '/inline'
             ]);
@@ -186,106 +177,19 @@ class InspeksiInlineController extends Controller
                 'subdepartemen'     => $subdepartemen,
                 'mesin'             => $mesin,
                 'defect'            => $defect,
-                'draftheader'       => $draftheader,
-                'draftdetail'       => $draftdetail,
+                'draft'             => $draft,
                 'menu'              => 'inspeksi',
                 'sub'               => '/inline'
             ]);
         }
         //End Controller Wawan
     }
+            // Fungsi hapus data
+            public function DeleteInlineData($id){
+                $id = Crypt::decryptString($id);
 
-    //  fungsi untuk redirect ke halaman edit
-    // public function EditInlineData($id){
-    //     $id = Crypt::decrypt($id);
-    //     $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-    //     $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_departemen");
-    //     $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
+                $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id)->delete();
+                return redirect('/inline-input');
 
-    //     // Select data based on ID
-    //     $inspekinl = InspeksiHeaderModel::find($id);
-
-    //     return view('inspeksi.inline-edit',[
-    //         'departemen'    => $departemen,
-    //         'subdepartemen' => $subdepartemen,
-    //         'mesin' => $mesin,
-    //         'inline' => $inspekinl,
-    //         // 'inspeksidetail'    => $inspekinl,
-    //         'menu'  => 'inspeksi', // selalu ada di tiap function dan disesuaikan
-    //         'sub'   => '/inline'
-    //     ]);
-    // }
-
-    // simpan perubahan dari data yang sudah di edit
-    // public function SaveEditInlineData(Request $request){
-        // call sequence number header
-        // $id_header = A401
-
-
-        // $count_data = 10
-
-        // call sequence number detail
-        // for (i=0; i<10; i++)
-            // $id_detail = DB::select("SELECT id_detail FROM view_id_detail");
-
-            // simpan variable detail dengan  $id_detail = && $id_header =
-
-        // end for
-
-        // $shift = strtoupper($request->shift);
-        // $id_user    = $request->id_user;
-        // $id_departemen = $request->id_departemen;
-        // $id_sub_departemen = $request->id_sub_departemen;
-        // $id_mesin = $request->id_mesin;
-        // $qty_1 = $request->qty_1;
-        // $qty_5 = $request->qty_5;
-        // $pic = $request->pic;
-        // $jam_mulai = $request->jam_mulai;
-        // $jam_selesai = $request->jam_selesai;
-        // $lama_inspeksi = $request->lama_inspeksi;
-        // $jop = $request->jop;
-        // $item = $request->item;
-        // $id_defect = $request->id_defect;
-        // $kriteria = $request->kriteria;
-        // $qty_defect = $request->qty_defect;
-        // $qty_ready_pcs = $request->qty_ready_pcs;
-        // $qty_sampling = $request->qty_sampling;
-        // $penyebab = $request->penyebab;
-        // $status = $request->status;
-        // $keterangan = $request->keterangan;
-        // $creator = session()->get('user_id');
-        // $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-
-        // // Is there a change in kode data?
-        // if ($request->nama_sub_departemen <> $request->original_nama_sub_departemen){
-        //     //cek apakah sudah ada di db
-        //     $namasub_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".$nama_sub_departemen."'");
-        //     if (isset($namasub_check['0'])) {
-        //         alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
-        //         return Redirect::back();
-        //     } else {
-        //         //update data into db
-        //         SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
-        //             'id_departemen'               => $id_departemen,
-        //             'kode_sub_departemen'         => $kode_sub_departemen,
-        //             'nama_sub_departemen'         => $nama_sub_departemen,
-        //             'updated_at'                  => $updated_at,
-        //         ]);
-        //         alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
-        //         return redirect('/subdepartment');
-        //     }
-        // } else  {
-        //     // Update data into database
-        //     SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
-        //         'id_departemen'               => $id_departemen,
-        //         'kode_sub_departemen'         => $kode_sub_departemen,
-        //         'nama_sub_departemen'         => $nama_sub_departemen,
-        //         'updated_at'                  => $updated_at,
-        //     ]);
-
-        //     alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
-        //     return redirect('/subdepartment');
-        // }
-    }
-
-
+        }
+}

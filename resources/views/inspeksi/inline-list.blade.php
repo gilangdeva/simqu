@@ -39,10 +39,9 @@
                                 <td>{{ $inspekinl->tgl_inspeksi }}</td>
                                 <td>{{ $inspekinl->shift }}</td>
                                 <td>{{ $inspekinl->nama_departemen }} / {{ $inspekinl->nama_sub_departemen }}</td>
-                                {{-- <td>
-                                    <a href="/inline-edit/{{ Crypt::encrypt($inspekinl->id_inspeksi_header) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_header) }}')"><i class="fa fa-times"></i></button>
-                                </td> --}}
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_detail) }}')"><i class="fa fa-times"></i></button>
+                                </td> 
                             </tr>
                             @endforeach
                         </tbody>
