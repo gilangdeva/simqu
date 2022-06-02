@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Inspeksi Inline List - SIMQU')
+@section('title', 'Inspeksi Final List - SIMQU')
 
 @section('content')
 
@@ -13,10 +13,10 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">LIST INSPEKSI INLINE</h3>
+                        <h3 class="box-title">LIST INSPEKSI FINAL</h3>
                     </div>
                     <div class="col-sm-6 col-xs-12">
-                        <a href="/inline-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
+                        <a href="/final-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -32,20 +32,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inline as $inspekinl)
+                            @foreach ($final as $inspekfinal)
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
-                                <td>{{ $inspekinl->nama_user }}</td>
-                                <td>{{ $inspekinl->tgl_inspeksi }}</td>
-                                <td>{{ $inspekinl->shift }}</td>
-                                <td>{{ $inspekinl->nama_departemen }} / {{ $inspekinl->nama_sub_departemen }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_detail) }}')"><i class="fa fa-times"></i></button>
-<<<<<<< HEAD
-                                </td> 
-=======
-                                </td>
->>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
+                                <td>{{ $inspekfinal->nama_user }}</td>
+                                <td>{{ $inspekfinal->tgl_inspeksi }}</td>
+                                <td>{{ $inspekfinal->shift }}</td>
+                                <td>{{ $inspekfinal->nama_departemen }} / {{ $inspekinl->nama_sub_departemen }}</td>
+                                {{-- <td>
+                                    <a href="/final-edit/{{ Crypt::encrypt($inspekinl->id_inspeksi_header) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_header) }}')"><i class="fa fa-times"></i></button>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>

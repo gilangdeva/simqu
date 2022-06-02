@@ -40,6 +40,9 @@
     <link href="{{ url('/') }}/admin/css/colors/default.css" id="theme" rel="stylesheet" type="text/css">
     <!-- Toast CSS -->
     <link href="{{ url('/') }}/admin/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <!-- Footable CSS -->
+    <link href="{{ url('/') }}/admin/bower_components/footable/css/footable.core.css" rel="stylesheet">
+    <link href="{{ url('/') }}/admin/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
     <!-- Sweet Alert -->
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>

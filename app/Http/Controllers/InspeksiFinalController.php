@@ -24,6 +24,7 @@ class InspeksiFinalController extends Controller
 {
     // Menampilkan list inspeksi final
     public function FinalList(){
+<<<<<<< HEAD
         $final = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_list_inline");
 
         return view('admin.inspeksi.final-list',
@@ -31,12 +32,22 @@ class InspeksiFinalController extends Controller
             'menu'  => 'inspeksi',
             'sub'   => '/final',
             'final' => $final
+=======
+        $list_final = DB::select('SELECT * FROM vg_list_final');
+
+        return view('inspeksi.final-list',
+        [
+            'menu'      => 'inspeksi',
+            'sub'       => '/final',
+            'final'     => $list_final,
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         ]);
     }
 
     // Redirect ke window input inspeksi final
     public function FinalInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
+<<<<<<< HEAD
         // $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
         // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
@@ -51,6 +62,16 @@ class InspeksiFinalController extends Controller
             'draftheader'   => $draftheader,
             'draftdetail'   => $draftdetail,
             'menu'          => 'final', // selalu ada di tiap function dan disesuaikan
+=======
+        $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
+        $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+
+        return view('inspeksi.final-input',[
+            'departemen'    => $departemen,
+            'defect'        => $defect,
+            'draft'         => $draft,
+            'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
             'sub'           => '/final'
         ]);
     }
@@ -62,22 +83,36 @@ class InspeksiFinalController extends Controller
         $cek_id_header = $request->id_inspeksi_header;
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
+<<<<<<< HEAD
         $draftheader = DB::select("SELECT tgl_inspeksi, shift, nama_user, nama_departemen, nama_sub_departemen FROM vg_draft_header");
         $draftdetail = DB::select("SELECT * FROM vg_draft_detail");
 
         // Parameters Header
         $type_form = "final"; // Final
+=======
+        $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+
+        // Parameters Header
+        $type_form = "Final"; // Final
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         $tgl_inspeksi = $request->tgl_inspeksi;
         $shift = strtoupper($request->shift);
         $id_user = session()->get('id_user');
         $id_departemen = $request->id_departemen;
         $id_sub_departemen = $request->id_sub_departemen;
+<<<<<<< HEAD
         $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
         $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         
+=======
+        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+
+
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         // Check if null
         if(($id_departemen == '') || ($id_departemen == 0)){
             $id_departemen = $request->id_departemen_ori;
@@ -91,6 +126,11 @@ class InspeksiFinalController extends Controller
             $shift = $request->shift_ori;
         }
 
+<<<<<<< HEAD
+=======
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
             $id_header = $id_header[0]->id_inspeksi_header;
@@ -109,15 +149,25 @@ class InspeksiFinalController extends Controller
             ]);
         } else {
             $id_header = $cek_id_header;
+<<<<<<< HEAD
             // tidak insert karena sudah ada di database 
             $row = 1;
         }
             
+=======
+            // tidak insert karena sudah ada di database
+            $row = 1;
+        }
+
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         // Parameters Detail
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
+<<<<<<< HEAD
         $id_mesin  = $request->id_mesin;
+=======
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         $jam_mulai = $request->jam_mulai;
         $jam_selesai = $request->jam_selesai;
         $lama_inspeksi = 0;
@@ -126,7 +176,11 @@ class InspeksiFinalController extends Controller
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
+<<<<<<< HEAD
         $qty_ready_pcs = $request->qty_ready_pcs;
+=======
+        $penyebab = $request->penyebab;
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         $status = $request->status;
         $keterangan = $request->keterangan;
         $qty_ready_pack = $request->qty_ready_pack;
@@ -136,12 +190,20 @@ class InspeksiFinalController extends Controller
         $hasil_verifikasi = $request->hasil_verifikasi;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
+<<<<<<< HEAD
+=======
+        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
 
         // insert into database
         DB::table('draft_detail')->insert([
             'id_inspeksi_detail'    => $id_detail,
             'id_inspeksi_header'    => $id_header,
+<<<<<<< HEAD
             'id_mesin'              => $id_mesin,
+=======
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
             'jam_mulai'             => $jam_mulai,
             'jam_selesai'           => $jam_selesai,
             'jop'                   => $jop,
@@ -149,15 +211,27 @@ class InspeksiFinalController extends Controller
             'id_defect'             => $id_defect,
             'kriteria'              => $kriteria,
             'qty_defect'            => $qty_defect,
+<<<<<<< HEAD
             'qty_ready_pcs'         => $qty_ready_pcs,
+=======
+            'penyebab'              => $penyebab,
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
             'status'                => $status,
             'keterangan'            => $keterangan,
             'qty_ready_pack'        => $qty_ready_pack,
             'qty_sample_aql'        => $qty_sample_aql,
             'qty_sample_riil'       => $qty_sample_riil,
             'qty_reject_all'        => $qty_reject_all,
+<<<<<<< HEAD
             'creator'               => $creator,
             'updater'               => $updater
+=======
+            'hasil_verifikasi'      => $hasil_verifikasi,
+            'creator'               => $creator,
+            'updater'               => $updater,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -165,10 +239,14 @@ class InspeksiFinalController extends Controller
             return view('inspeksi.final-input',[
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
+<<<<<<< HEAD
                 'mesin'             => $mesin,
                 'defect'            => $defect,
                 'draftheader'       => $draftheader,
                 'draftdetail'       => $draftdetail,
+=======
+                'defect'            => $defect,
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
                 'menu'              => 'inspeksi',
                 'sub'               => '/final'
             ]);
@@ -182,16 +260,22 @@ class InspeksiFinalController extends Controller
                 'departemen'        => $departemen,
                 'id_sub_departemen' => $id_sub_departemen,
                 'subdepartemen'     => $subdepartemen,
+<<<<<<< HEAD
                 'mesin'             => $mesin,
                 'defect'            => $defect,
                 'draftheader'       => $draftheader,
                 'draftdetail'       => $draftdetail,
+=======
+                'defect'            => $defect,
+                'draft'             => $draft,
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
                 'menu'              => 'inspeksi',
                 'sub'               => '/final'
             ]);
         }
         //End Controller Wawan
     }
+<<<<<<< HEAD
 
     //  fungsi untuk redirect ke halaman edit
     // public function EditInlineData($id){
@@ -287,3 +371,13 @@ class InspeksiFinalController extends Controller
     }
 
 
+=======
+            // Fungsi hapus data
+            public function DeleteFinalData($id){
+                $id = Crypt::decryptString($id);
+
+                $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id)->delete();
+                return redirect('/final-input');
+        }
+}
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690

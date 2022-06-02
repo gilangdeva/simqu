@@ -192,4 +192,8 @@ class InspeksiInlineController extends Controller
                 return redirect('/inline-input');
 
         }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e66c3fa489879a92896867fb708ca2a31895f690
