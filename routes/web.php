@@ -97,6 +97,7 @@ Route::post('/inline-input', [InspeksiInlineController::class, 'SaveInlineData']
 Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineData'])->middleware('auth.check');
 Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update')->middleware('auth.check');
 Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData'])->middleware('auth.check');
+Route::get('/inline-post/{id}', [InspeksiInlineController::class, 'InsertListInline'])->middleware('auth.check');
 
 //Inspeksi Final
 Route::get('/final', [InspeksiFinalController::class, 'FinalList'])->middleware('auth.check');

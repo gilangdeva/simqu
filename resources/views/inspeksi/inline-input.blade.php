@@ -257,6 +257,7 @@
                             <th data-hide="all">PIC</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
+                            <th data-hide="all">Lama Inspeksi</th>
                             <th data-hide="all">Kendala</th>
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
@@ -282,6 +283,7 @@
                             <td>{{ $d->pic }}</td>
                             <td>{{ $d->jam_mulai }}</td>
                             <td>{{ $d->jam_selesai }}</td>
+                            <td>{{ $d->lama_inspeksi }} Menit</td>
                             <td>{{ $d->defect }}</td>
                             <td>{{ $d->kriteria }}</td>
                             <td>{{ $d->qty_defect }}</td>
@@ -292,6 +294,7 @@
                             <td>{{ $d->keterangan }}</td>
                             <td>
                             <button type="button" class="btn btn-danger" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')">DELETE</i></button>
+                            <button type="button" class="btn btn-danger" onclick="postConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')">POST</i></button>
                             </td>
                         </tr>
                         @endforeach
@@ -372,6 +375,26 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus Data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result) {
+                if (result.isConfirmed) {
+                    location.replace(urlsite);
+                }
+            }
+        })
+    };
+
+    function postConfirmation(id) {
+        var urlsite = "http://"+window.location.hostname+':8000/inline-post/'+id;
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Apakah Anda yakin ingin menginput data ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Input Data!',
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result) {
