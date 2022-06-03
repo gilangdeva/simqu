@@ -271,34 +271,34 @@
                     </thead>
                     <tbody>
                         @foreach($draft as $d)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $d->tgl_inspeksi }}</td>
-                            <td>{{ $d->shift }}</td>
-                            <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
-                            <td>{{ $d->jop }}</td>
-                            <td>{{ $d->item }}</td>
-                            <td>{{ $d->nama_mesin }}</td>
-                            <td>{{ $d->qty_1 }}</td>
-                            <td>{{ $d->pic }}</td>
-                            <td>{{ $d->jam_mulai }}</td>
-                            <td>{{ $d->jam_selesai }}</td>
-                            <td>{{ $d->lama_inspeksi }} Menit</td>
-                            <td>{{ $d->defect }}</td>
-                            <td>{{ $d->kriteria }}</td>
-                            <td>{{ $d->qty_defect }}</td>
-                            <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
-                            <td>{{ $d->qty_sampling }}</td>
-                            <td>{{ $d->penyebab }}</td>
-                            <td>{{ $d->status }}</td>
-                            <td>{{ $d->keterangan }}</td>
-                            <td>
-                            <button type="button" class="btn btn-danger" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')">DELETE</i></button>
-                            <button type="button" class="btn btn-danger" onclick="postConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')">POST</i></button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $d->tgl_inspeksi }}</td>
+                                <td>{{ $d->shift }}</td>
+                                <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
+                                <td>{{ $d->jop }}</td>
+                                <td>{{ $d->item }}</td>
+                                <td>{{ $d->nama_mesin }}</td>
+                                <td>{{ $d->qty_1 }}</td>
+                                <td>{{ $d->pic }}</td>
+                                <td>{{ $d->jam_mulai }}</td>
+                                <td>{{ $d->jam_selesai }}</td>
+                                <td>{{ $d->lama_inspeksi }} Menit</td>
+                                <td>{{ $d->defect }}</td>
+                                <td>{{ $d->kriteria }}</td>
+                                <td>{{ $d->qty_defect }}</td>
+                                <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
+                                <td>{{ $d->qty_sampling }}</td>
+                                <td>{{ $d->penyebab }}</td>
+                                <td>{{ $d->status }}</td>
+                                <td>{{ $d->keterangan }}</td>
+                                <td>
+                                <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
+                    <button type="button" class="btn btn-info waves-effect pull-right waves-light" onclick="postConfirmation()">POST</i></button>
                 </table>
             </div>
         </div>
@@ -385,12 +385,12 @@
         })
     };
 
-    function postConfirmation(id) {
-        var urlsite = "http://"+window.location.hostname+':8000/inline-post/'+id;
+    function postConfirmation() {
+        var urlsite = "http://"+window.location.hostname+':8000/inline-post/';
         Swal.fire({
             title: 'Konfirmasi',
             text: "Apakah Anda yakin ingin menginput data ini?",
-            icon: 'warning',
+            icon: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
