@@ -20,42 +20,74 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table id="tablebasic" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Inspektor</th>
-                                <th>Tanggal</th>
-                                <th>Shift</th>
-                                <th>Area</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inline as $inspekinl)
-                            <tr>
-                                <td align="center">{{ $loop->iteration }}</td>
-                                <td>{{ $inspekinl->nama_user }}</td>
-                                <td>{{ $inspekinl->tgl_inspeksi }}</td>
-                                <td>{{ $inspekinl->shift }}</td>
-                                <td>{{ $inspekinl->nama_departemen }} / {{ $inspekinl->nama_sub_departemen }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($inspekinl->id_inspeksi_detail) }}')"><i class="fa fa-times"></i></button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="5">
+                <thead>
+                    <tr>
+                        <th data-toggle="true">No.</th>
+                        <th>Tgl</th>
+                        <th>Shift</th>
+                        <th>Area</th>
+                        <th>JOP</th>
+                        <th>Inspektor</th>
+                        <th data-hide="all">Item</th>
+                        <th data-hide="all">Mesin</th>
+                        <th data-hide="all">Output/1 mnt</th>
+                        <th data-hide="all">PIC</th>
+                        <th data-hide="all">Jam Mulai</th>
+                        <th data-hide="all">Jam Selesai</th>
+                        <th data-hide="all">Lama Inspeksi</th>
+                        <th data-hide="all">Kendala</th>
+                        <th data-hide="all">Kriteria</th>
+                        <th data-hide="all">Jml Temuan</th>
+                        <th data-hide="all">Brg Siap</th>
+                        <th data-hide="all">Jml Sampling</th>
+                        <th data-hide="all">Penyebab</th>
+                        <th data-hide="all">Status</th>
+                        <th data-hide="all">Keterangan</th>
+                        <th data-hide="all"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($list_inline as $li)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $li->tgl_inspeksi }}</td>
+                            <td>{{ $li->shift }}</td>
+                            <td>{{ $li->nama_departemen }} - {{ $li->nama_sub_departemen }}</td>
+                            <td>{{ $li->jop }}</td>
+                            <td>{{ $li->nama_user }}</td>
+                            <td>{{ $li->item }}</td>
+                            <td>{{ $li->nama_mesin }}</td>
+                            <td>{{ $li->qty_1 }}</td>
+                            <td>{{ $li->pic }}</td>
+                            <td>{{ $li->jam_mulai }}</td>
+                            <td>{{ $li->jam_selesai }}</td>
+                            <td>{{ $li->lama_inspeksi }} Menit</td>
+                            <td>{{ $li->defect }}</td>
+                            <td>{{ $li->kriteria }}</td>
+                            <td>{{ $li->qty_defect }}</td>
+                            <td>{{ $li->qty_ready_pcs }} (Pcs/Lbr)</td>
+                            <td>{{ $li->qty_sampling }}</td>
+                            <td>{{ $li->penyebab }}</td>
+                            <td>{{ $li->status }}</td>
+                            <td>{{ $li->keterangan }}</td>
+                            <td>
+                            <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-    <!-- end row -->
+</div>
+</div>
+<!-- end row -->
 </div>
 <!-- end container-fluid -->
 <script>
     function deleteConfirmation(id) {
-        var urlsite = "http://"+window.location.hostname+':8000/subdepartment-delete/'+id;
+        var urlsite = "http://"+window.location.hostname+':8000/inlinelist-delete/'+id;
         Swal.fire({
             title: 'Konfirmasi',
             text: "Apakah Anda yakin ingin menghapus data ini?",

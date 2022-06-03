@@ -29,9 +29,9 @@ class InspeksiInlineController extends Controller
 
         return view('inspeksi.inline-list',
         [
+            'list_inline'   => $list_inline,
             'menu'      => 'inspeksi',
-            'sub'       => '/inline',
-            'inline'    => $list_inline,
+            'sub'       => '/inline'
         ]);
     }
 
@@ -203,6 +203,44 @@ class InspeksiInlineController extends Controller
                 return redirect('/inline-input');
             }
         }
+
+        // Fungsi hapus data
+        public function DeleteInlineDataList($id){
+            $id_detail = Crypt::decryptString($id);
+            $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $id_header = $id_header[0]->id_inspeksi_header;
+            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_list_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count = $count_detail[0]->count;
+            if ($count == 1){
+                $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                $inline_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
+                return redirect('/inline');
+            } else if ($count > 1) {
+                $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                return redirect('/inline');
+            }
+        }
+
+        // // Fungsi hapus data list
+        // public function DeleteInlineDataList($id){
+        //     $id_detail = Crypt::decryptString($id);
+        //     $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+        //     $id_header = $id_header[0]->id_inspeksi_header;
+
+        //     $delete_list_inline  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+        //     $delete_list_inline  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
+        //     return redirect('/inline');
+        //     $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_list_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+        //     $count = $count_detail[0]->count;
+        //     if ($count == 1){
+        //         $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+        //         $inline_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
+        //         return redirect('/inline');
+        //     } else if ($count > 1) {
+        //         $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+        //         return redirect('/inline');
+        //     }
+        // }
 
         //Fungsi insert into tb_inspeksi
         public function PostInline(){

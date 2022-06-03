@@ -14,9 +14,10 @@
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
                 <form class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Tanggal</label>
-                        <div class="col-sm-8">
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Tanggal</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_header))
                                 <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
                                 <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
@@ -30,11 +31,9 @@
                                 <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" required>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Shift</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Shift</label></div>
+                        <div class="col-sm-4">
                             @if (isset($shift))
                                 <select class="form-control select2" name="shift" id="shift" disabled>
                                     <option value="">Pilih Shift</option>
@@ -53,9 +52,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-4 control-label"><label>Area</label></div>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Dept.</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_departemen))
                             <select class="form-control select2" name="id_departemen" id="id_departemen" disabled>
                             @else
@@ -71,11 +70,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label"></label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Sub Dept.</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_sub_departemen))
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" disabled>
                             @else
@@ -93,9 +90,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Mesin</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Mesin</label></div>
+                        <div class="col-sm-4">
                             <select class="form-control select2" name="id_mesin" id="id_mesin" required>
                                 <option value="0">Pilih Mesin</option>
                                 @if(isset($mesin))
@@ -105,53 +102,44 @@
                                 @endif
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Qty/1 Mnt</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_1" maxlength="6" placeholder="Qty/1 Mnt" required>
+                        <div class="col-sm-2 control-label"><label>Qty/Mnt</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_1" maxlength="6" min="0" placeholder="Qty/Mnt" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >PIC</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
+                        <div class="col-sm-2">
+                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>PIC</label></div>
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="pic" maxlength="10" placeholder="PIC (Operator)" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jam Mulai</label>
-                        <div class="col-sm-8">
-                            <input type="time" class="form-control" name="jam_mulai" maxlength="10" required>
-                        </div>
-                    </div>
+                    <br>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jam Selesai</label>
-                        <div class="col-sm-8">
-                            <input type="time" class="form-control" name="jam_selesai" maxlength="10" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >JOP</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>JOP</label></div>
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
                         </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Item</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Nama Item</label></div>
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
                         </div>
-                    </div> {{-- Nanti diubah --}}
+                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Defect</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Defect</label></div>
+                        <div class="col-sm-4">
                             <select class="form-control select2" name="id_defect">
                                 <option value="0">Pilih Defect</option>
                                 @foreach ($defect as $def)
@@ -159,11 +147,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Kriteria</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Kriteria</label></div>
+                        <div class="col-sm-4">
                             <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
                                 <option value="0">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
@@ -173,37 +159,40 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Qty Temuan</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" placeholder="Jumlah Temuan Defect" required>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Brg Siap (pcs/lbr)</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" placeholder="Barang Siap (pcs/lbr)" required>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Qty Sample</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty Sample" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
+
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jml Sampling</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" placeholder="Jumlah Sampling" required>
-                        </div>
-                    </div>
+                    <br>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Penyebab</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="penyebab" maxlength="50" placeholder="Penyebab" required>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Penyebab</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="penyebab" maxlength="200" placeholder="Penyebab">
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Status</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Status</label></div>
+                        <div class="col-sm-4">
                             <select id="status" class="form-control select2" name="status" maxlength="50" required>
                                 <option value="0">Pilih Status</option>
                                 <option value="OK">OK</option>
@@ -213,18 +202,29 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Keterangan</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="keterangan" placeholder="Keterangan" autocomplete="false" required >
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <div class="col-sm-2 control-label"><label>Keterangan</label></div>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" rows="2" name="keterangan" placeholder="Keterangan" autocomplete="false"></textarea>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
+
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
+                            <button type="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
+                            {{-- <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
+
                         </div>
                     </div>
                 </form>
@@ -404,6 +404,25 @@
             }
         })
     };
+
+    function checkHours(e){
+        var sh = $("#jam_mulai").val();
+        var eh = $("#jam_selesai").val();
+        t1 = sh.slice(0,4);
+        t2 = parseInt(sh.slice(4,5))+1;
+
+        var stt = new Date("November 13, 2013 " + sh);
+        stt = stt.getTime();
+
+        var endt = new Date("November 13, 2013 " + eh);
+        endt = endt.getTime();
+
+        if (stt >= endt) {
+            alert('Jam Selesai harus lebih besar dari Jam Mulai');
+            document.getElementById("jam_selesai").value = t1 + t2;
+            document.getElementById("jam_selesai").focus();
+        }
+    }
 </script>
 
 @endsection
