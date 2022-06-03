@@ -18,6 +18,7 @@ use Image;
 use File;
 use Crypt;
 use Redirect;
+use DateTime;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class InspeksiInlineController extends Controller
@@ -115,9 +116,10 @@ class InspeksiInlineController extends Controller
         $qty_1 = $request->qty_1;
         $qty_5 = $request->qty_1*5;
         $pic = $request->pic;
-        $jam_mulai = $request->jam_mulai;
-        $jam_selesai = $request->jam_selesai;
-        $lama_inspeksi = 0;
+        $jam_mulai = new DateTime($request->jam_mulai);
+        $jam_selesai = new DateTime($request->jam_selesai);
+        $interval = $jam_mulai->diff($jam_selesai);
+        $lama_inspeksi = $interval->format('%i');
         $jop = $request->jop;
         $item = $request->item;
         $id_defect = $request->id_defect;
@@ -141,6 +143,7 @@ class InspeksiInlineController extends Controller
             'pic'                   => $pic,
             'jam_mulai'             => $jam_mulai,
             'jam_selesai'           => $jam_selesai,
+            'lama_inspeksi'         => $lama_inspeksi,
             'jop'                   => $jop,
             'item'                  => $item,
             'id_defect'             => $id_defect,

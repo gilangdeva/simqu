@@ -1,6 +1,6 @@
-    <footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
+        <footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
     </div> <!-- /Page Wrapper -->
-    </div> <!-- /Wrapper -->
+</div> <!-- /Wrapper -->
 
     <!-- jQuery -->
     <script src="{{ url('/') }}/admin/bower_components/jquery/dist/jquery.min.js"></script>
@@ -25,6 +25,8 @@
     <!-- Sparkline chart JavaScript -->
     <script src="{{ url('/') }}/admin/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!-- Custom Theme JavaScript -->
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ url('/') }}/admin/js/custom.js"></script>
     <script src="{{ url('/') }}/admin/js/custom.min.js"></script>
     <script src="{{ url('/') }}/admin/js/jasny-bootstrap.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/switchery/dist/switchery.min.js"></script>
@@ -110,5 +112,4 @@
         });
     </script>
 </body>
-
 </html>
