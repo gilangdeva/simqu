@@ -18,13 +18,12 @@
     <!--Morris JavaScript -->
     <script src="{{ url('/') }}/admin/bower_components/raphael/raphael-min.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/morrisjs/morris.js"></script>
-    
+
     <!-- chartist chart -->
     <script src="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
     <!-- Sparkline chart JavaScript -->
     <script src="{{ url('/') }}/admin/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <!-- Custom Theme JavaScript -->
     <!-- Custom Theme JavaScript -->
     <script src="{{ url('/') }}/admin/js/custom.js"></script>
     <script src="{{ url('/') }}/admin/js/custom.min.js"></script>
@@ -64,21 +63,21 @@
     <script src="{{ url('/') }}/admin/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
     <!--FooTable init-->
     <script src="{{ url('/') }}/admin/js/footable-init.js"></script>
-    
+
     <!-- End - This is for export functionality only -->
 
     <script>
         $(document).ready(function() {
             // Datatable Basic
             $('#tablebasic').DataTable();
-            
+
             // For select 2
             $(".select2").select2();
             $('.selectpicker').selectpicker();
 
             // File Upload Basic
             $('.dropify').dropify();
-            
+
             // Translated
             $('.dropify-fr').dropify({
                 messages: {
@@ -112,4 +111,5 @@
         });
     </script>
 </body>
+
 </html>

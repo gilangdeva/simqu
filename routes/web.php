@@ -98,6 +98,11 @@ Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineDat
 Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update')->middleware('auth.check');
 Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData'])->middleware('auth.check');
 
+Route::get('/inlinelist-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineDataList'])->middleware('auth.check');
+
+// Post Function (Inline)
+Route::get('/inline-post/', [InspeksiInlineController::class, 'PostInline'])->middleware('auth.check');
+
 //Inspeksi Final
 Route::get('/final', [InspeksiFinalController::class, 'FinalList'])->middleware('auth.check');
 Route::get('/final-input', [InspeksiFinalController::class, 'DraftList'])->middleware('auth.check');
