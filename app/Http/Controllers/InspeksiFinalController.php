@@ -84,6 +84,7 @@ class InspeksiFinalController extends Controller
         }
 
         $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -111,6 +112,7 @@ class InspeksiFinalController extends Controller
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
+        $id_mesin = $request->id_mesin;
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
         $interval = $jam_mulai->diff($jam_selesai);
@@ -134,6 +136,7 @@ class InspeksiFinalController extends Controller
         DB::table('draft_detail')->insert([
             'id_inspeksi_detail'    => $id_detail,
             'id_inspeksi_header'    => $id_header,
+            'id_mesin'              => $id_mesin,
             'jam_mulai'             => $jam_mulai,
             'jam_selesai'           => $jam_selesai,
             'lama_inspeksi'         => $lama_inspeksi,
@@ -158,6 +161,7 @@ class InspeksiFinalController extends Controller
             return view('inspeksi.final-input',[
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
+                'mesin'             => $mesin,
                 'defect'            => $defect,
                 'menu'              => 'inspeksi',
                 'sub'               => '/final'
@@ -172,6 +176,7 @@ class InspeksiFinalController extends Controller
                 'departemen'        => $departemen,
                 'id_sub_departemen' => $id_sub_departemen,
                 'subdepartemen'     => $subdepartemen,
+                'mesin'             => $mesin,
                 'defect'            => $defect,
                 'draft'             => $draft,
                 'menu'              => 'inspeksi',

@@ -288,6 +288,7 @@
                                 <td>{{ $d->qty_sample_riil }} (Pcs)</td>
                                 <td>{{ $d->qty_reject_all }}</td>
                                 <td>{{ $d->status }}</td>
+                                <td>{{ $d->hasil_verifikasi }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>
                                 <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>

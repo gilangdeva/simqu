@@ -90,6 +90,15 @@ class InspeksiInlineController extends Controller
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
             $id_header = $id_header[0]->id_inspeksi_header;
             $row = 1;
+
+            // CHECK ADA DRAFT ATAU TIDAK (WAWAN)
+            $draft_data = DB::select("SELECT id_inspeksi_header FROM vw_draft_inline WHERE id_user =".session()->get('id_user'));
+
+            if(isset($draft_data[0])) {
+                alert()->error('Gagal Menyimpan!', 'Anda memiliki data yang belum di post!');
+                return Redirect::back();
+            }
+
             // insert into database
             DB::table('draft_header')->insert([
                 'id_inspeksi_header'    => $id_header,
@@ -132,6 +141,8 @@ class InspeksiInlineController extends Controller
         $keterangan = $request->keterangan;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
+        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         // insert into database
         DB::table('draft_detail')->insert([
@@ -155,7 +166,9 @@ class InspeksiInlineController extends Controller
             'status'                => $status,
             'keterangan'            => $keterangan,
             'creator'               => $creator,
-            'updater'               => $updater
+            'updater'               => $updater,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -169,6 +182,7 @@ class InspeksiInlineController extends Controller
                 'sub'               => '/inline'
             ]);
         } else {
+            $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return view('inspeksi.inline-input',[
                 'id_header'         => $id_header,
@@ -190,17 +204,65 @@ class InspeksiInlineController extends Controller
         // Fungsi hapus data draft
         public function DeleteInlineData($id){
             $id_detail = Crypt::decryptString($id);
+            $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
+            $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
+            $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
             $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
+
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_draft_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
+
             if ($count == 1){
                 $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
                 $inline_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
-                return redirect('/inline-input');
+
+                $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+                // $shift = strtoupper($draft[0]->shift);
+                // $tgl_inspeksi = $draft[0]->tgl_inspeksi;
+                // $id_departemen = $draft[0]->id_departemen;
+                // $id_sub_departemen = $draft[0]->id_sub_departemen;
+                // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
+
+                return view('inspeksi.inline-input',[
+                    'id_header'         => 0, //di set 0, nanti ketika save maka akan dapat id header baru
+                    // 'tgl_inspeksi'      => $tgl_inspeksi,
+                    // 'shift'             => $shift,
+                    // 'mesin'             => $mesin,
+                    // 'defect'            => $defect,
+                    'departemen'        => $departemen,
+                    'subdepartemen'    => $subdepartemen,
+                    'defect'            => $defect,
+                    'draft'             => $draft,
+                    // 'id_departemen'     => $id_departemen,
+                    // 'id_sub_departemen' => $id_sub_departemen,
+                    'menu'              => 'inspeksi',
+                    'sub'               => '/inline'
+                ]);
             } else if ($count > 1) {
                 $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                return redirect('/inline-input');
+
+                $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+                $shift = strtoupper($draft[0]->shift);
+                $tgl_inspeksi = $draft[0]->tgl_inspeksi;
+                $id_departemen = $draft[0]->id_departemen;
+                $id_sub_departemen = $draft[0]->id_sub_departemen;
+                $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
+
+                return view('inspeksi.inline-input',[
+                    'id_header'         => $id_header,
+                    'tgl_inspeksi'      => $tgl_inspeksi,
+                    'shift'             => $shift,
+                    'mesin'             => $mesin,
+                    'departemen'        => $departemen,
+                    'subdepartemen'     => $subdepartemen,
+                    'defect'            => $defect,
+                    'draft'             => $draft,
+                    'id_departemen'     => $id_departemen,
+                    'id_sub_departemen' => $id_sub_departemen,
+                    'menu'              => 'inspeksi',
+                    'sub'               => '/inline'
+                ]);
             }
         }
 
