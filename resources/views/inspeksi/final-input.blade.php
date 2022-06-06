@@ -14,9 +14,10 @@
                 <h3 class="box-title">INPUT DATA INSPEKSI FINAL</h3>
                 <form class="form-horizontal" action="{{ route('final.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Tanggal</label>
-                        <div class="col-sm-8">
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Tanggal</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_header))
                                 <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
                                 <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
@@ -30,11 +31,9 @@
                                 <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" required>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Shift</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Shift</label></div>
+                        <div class="col-sm-4">
                             @if (isset($shift))
                                 <select class="form-control select2" name="shift" id="shift" disabled>
                                     <option value="">Pilih Shift</option>
@@ -53,9 +52,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-4 control-label"><label>Area</label></div>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Dept.</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_departemen))
                             <select class="form-control select2" name="id_departemen" id="id_departemen" disabled>
                             @else
@@ -71,11 +70,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label"></label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Sub Dept.</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_sub_departemen))
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" disabled>
                             @else
@@ -93,37 +90,32 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jam Mulai</label>
-                        <div class="col-sm-8">
-                            <input type="time" class="form-control" name="jam_mulai" maxlength="10" required>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
+                        <div class="col-sm-2">
+                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jam Selesai</label>
-                        <div class="col-sm-8">
-                            <input type="time" class="form-control" name="jam_selesai" maxlength="10" required>
-                        </div>
-                    </div>
+                    <br>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >JOP</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>JOP</label></div>
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
                         </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Item</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Nama Item</label></div>
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
                         </div>
-                    </div> {{-- Nanti diubah --}}
+                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Jenis Defect</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Defect</label></div>
+                        <div class="col-sm-4">
                             <select class="form-control select2" name="id_defect">
                                 <option value="0">Pilih Defect</option>
                                 @foreach ($defect as $def)
@@ -131,11 +123,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Kriteria</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-2 control-label"><label>Kriteria</label></div>
+                        <div class="col-sm-4">
                             <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
                                 <option value="0">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
@@ -145,84 +135,92 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Jumlah Defect</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" placeholder="Jumlah Temuan Defect" required>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Penyebab</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="penyebab" placeholder="Penyebab" autocomplete="false" required >
+                    <br>
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Qty Siap</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Qty Barang Siap" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Sample Aql</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Sample Aql" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Sample Riil</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Sample Riil" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Qty Reject All</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject All" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Brg Siap (pcs)</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" placeholder="Barang Siap (pcs/lbr)" required>
-                        </div>
-                    </div>
+                    <br>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Hasil Inspeksi</label>
-                        <div class="col-sm-8">
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Hasil Inspeksi</label></div>
+                        <div class="col-sm-4">
                             <select id="status" class="form-control select2" name="status" maxlength="50" required>
-                                <option value="0">Pilih Status</option>
+                                <option value="0">Pilih Hasil Inspeksi</option>
                                 <option value="PASS">Pass</option>
                                 <option value="REJECT">Reject</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Rekomendasi</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="keterangan" placeholder="Keterangan" autocomplete="false" required >
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <div class="col-sm-2 control-label"><label>Hasil Verifikasi</label></div>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Hasil Verifikasi" autocomplete="false"></textarea>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
+
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Brg Siap (pack/box)</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" placeholder="Barang Siap (pack)" required>
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <div class="col-sm-2 control-label"><label>Rekomendasi</label></div>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" rows="2" name="keterangan" placeholder="Rekomendasi" autocomplete="false"></textarea>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
+
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Sample Aql</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" placeholder="Sample AQL" required>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                            <button type="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
+                            {{-- <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Sample Riil</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" placeholder="Sample Riil" required>
-                        </div>
-                    </div>
+                        <div class="col-sm-2 control-label"><label></label></div>
+                        <div class="col-sm-4">
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Qty Reject All/Pcs</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" placeholder="Qty Reject All/Pcs" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label" >Hasil Verifikasi Ulang</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="hasil_verifikasi" placeholder="Hasil Verifikasi Ulang" autocomplete="false" required >
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-8">
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button> <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>
                         </div>
                     </div>
                 </form>
@@ -232,7 +230,7 @@
         <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title m-b-0">DRAFT INSPEKSI</h3>
-                <label class="form-final">Show
+                <label class="form-inline">Show
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -253,49 +251,51 @@
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
-                            <th data-hide="all">Jenis Defect</th>
+                            <th data-hide="all">Lama Inspeksi</th>
+                            <th data-hide="all">Kendala</th>
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
-                            <th data-hide="all">Brg Siap(Pcs)</th>
-                            <th data-hide="all">Hasil Inspeksi</th>
-                            <th data-hide="all">Rekomendasi</th>
-                            <th data-hide="all">Brg Siap(Pack)</th>
+                            <th data-hide="all">Brg Siap</th>
+                            <th data-hide="all">Brg Siap</th>
                             <th data-hide="all">Sample Aql</th>
                             <th data-hide="all">Sample Riil</th>
-                            <th data-hide="all">Qty Reject All/Pcs</th>
-                            <th data-hide="all">Hasil Verifikasi Ulang</th>
+                            <th data-hide="all">Qty Reject All</th>
+                            <th data-hide="all">Hasil Inspeksi</th>
+                            <th data-hide="all">Hasil Verifikasi</th>
+                            <th data-hide="all">Rekomendasi</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($draft as $d)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $d->tgl_inspeksi }}</td>
-                            <td>{{ $d->shift }}</td>
-                            <td>{{ $d->nama_departemen }}</td>
-                            <td>{{ $d->nama_sub_departemen }}</td>
-                            <td>{{ $d->jop }}</td>
-                            <td>{{ $d->item }}</td>
-                            <td>{{ $d->jam_mulai }}</td>
-                            <td>{{ $d->jam_selesai }}</td>
-                            <td>{{ $d->defect }}</td>
-                            <td>{{ $d->kriteria }}</td>
-                            <td>{{ $d->qty_defect }}</td>
-                            <td>{{ $d->qty_ready_pcs }} (Pcs)</td>
-                            <td>{{ $d->status }}</td>
-                            <td>{{ $d->keterangan }}</td>
-                            <td>{{ $d->qty_ready_pack }}</td>
-                            <td>{{ $d->qty_sample_aql }}</td>
-                            <td>{{ $d->qty_sample_riil }}</td>
-                            <td>{{ $d->qty_reject_all }}</td>
-                            <td>{{ $d->hasil_verifikasi }}</td>
-                            <td>
-                            <button type="button" class="btn btn-danger" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')">DELETE</i></button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $d->tgl_inspeksi }}</td>
+                                <td>{{ $d->shift }}</td>
+                                <td>{{ $d->nama_departemen }}</td>
+                                <td>{{ $d->nama_sub_departemen }}</td>
+                                <td>{{ $d->jop }}</td>
+                                <td>{{ $d->item }}</td>
+                                <td>{{ $d->jam_mulai }}</td>
+                                <td>{{ $d->jam_selesai }}</td>
+                                <td>{{ $d->lama_inspeksi }} Menit</td>
+                                <td>{{ $d->defect }}</td>
+                                <td>{{ $d->kriteria }}</td>
+                                <td>{{ $d->qty_defect }}</td>
+                                <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
+                                <td>{{ $d->qty_ready_pack }} (Pack/Box)</td>
+                                <td>{{ $d->qty_sample_aql }}</td>
+                                <td>{{ $d->qty_sample_riil }} (Pcs)</td>
+                                <td>{{ $d->qty_reject_all }}</td>
+                                <td>{{ $d->status }}</td>
+                                <td>{{ $d->keterangan }}</td>
+                                <td>
+                                <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
+                    <button type="button" class="btn btn-info waves-effect pull-right waves-light" onclick="postConfirmation()">POST</i></button>
                 </table>
             </div>
         </div>
@@ -333,6 +333,32 @@
             }else{
                 $('select[name="id_sub_departemen"]').empty();
             }
+    });
+
+    $('select[name="id_sub_departemen"]').on('change', function() {
+            var subDepartemenID = $(this).val();
+            if(subDepartemenID) {
+                $.ajax({
+                    url: '/mesin-dropdown/'+subDepartemenID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="id_mesin"]').empty();
+                            $('select[name="id_mesin"]').append('<option value="0" selected>Pilih Mesin</option>');
+                            // Remove options
+                            $('#id_mesin').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="id_mesin"]').append('<option value="'+ data[i].id_mesin +'">'+ data[i].nama_mesin +'</option>');
+                            };
+                        } else {
+                            $('select[name="id_mesin"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="id_mesin"]').empty();
+            }
         });
     });
 
@@ -355,6 +381,45 @@
             }
         })
     };
+
+    function postConfirmation() {
+        var urlsite = "http://"+window.location.hostname+':8000/final-post/';
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Apakah Anda yakin ingin menginput data ini?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Input Data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result) {
+                if (result.isConfirmed) {
+                    location.replace(urlsite);
+                }
+            }
+        })
+    };
+
+    function checkHours(e){
+        var sh = $("#jam_mulai").val();
+        var eh = $("#jam_selesai").val();
+        t1 = sh.slice(0,4);
+        t2 = parseInt(sh.slice(4,5))+1;
+
+        var stt = new Date("November 13, 2013 " + sh);
+        stt = stt.getTime();
+
+        var endt = new Date("November 13, 2013 " + eh);
+        endt = endt.getTime();
+
+        if (stt >= endt) {
+            alert('Jam Selesai harus lebih besar dari Jam Mulai');
+            document.getElementById("jam_selesai").value = t1 + t2;
+            document.getElementById("jam_selesai").focus();
+        }
+    }
 </script>
 
 @endsection

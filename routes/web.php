@@ -111,3 +111,6 @@ Route::post('/final-input', [InspeksiFinalController::class, 'SaveFinalData'])->
 Route::get('/final-edit/{id}', [InspeksiFinalController::class, 'EditFinalData'])->middleware('auth.check');
 Route::post('/final-update/', [InspeksiFinalController::class, 'SaveEditFinalData'])->name('final.update')->middleware('auth.check');
 Route::get('/final-delete/{id}', [InspeksiFinalController::class, 'DeleteFinalData'])->middleware('auth.check');
+
+// Post Function (Inline)
+Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middleware('auth.check');
