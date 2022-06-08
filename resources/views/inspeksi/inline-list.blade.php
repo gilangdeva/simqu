@@ -12,6 +12,41 @@
         <div class="col-md-12">
             <div class="white-box">
                 <div class="row">
+                    <form id="inline_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
+                        <div class="col-sm-1 control-label"><label>Periode :</label></div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-3">
+                                <input type="date" class="form-control" name="start_date" value="{{ date('Y-m-01') }}">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="date" class="form-control" name="end_date" value="{{ date('Y-m-d') }}">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <select class="form-control select-option" name="type_search" id="type_search">
+                                    <option value="0">Pilih Filter :</option>
+                                    <option value="JOP">JOP</option>
+                                    <option value="ITEM">Nama Item</option>
+                                    <option value="INSPEKTOR">Inspektor</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="text_search" id="text_search" maxlength="200" placeholder="Search...">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <button class="btn btn-primary waves-effect  waves-light" type="submit">Cari</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="white-box">
+                <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">LIST INSPEKSI INLINE</h3>
                     </div>
@@ -29,7 +64,7 @@
                     </select> entries
                 </label>
 
-                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="8">
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny inspeksi-list" data-page-size="8">
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>

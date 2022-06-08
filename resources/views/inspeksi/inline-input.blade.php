@@ -113,7 +113,7 @@
 
                         <div class="col-sm-2 control-label"><label>Qty/Mnt</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_1" maxlength="6" min="0" placeholder="Qty/Mnt" required>
+                            <input type="number" class="form-control" name="qty_1" maxlength="3" min="0" placeholder="Qty/Mnt" required>
                         </div>
                     </div>
 
@@ -429,6 +429,10 @@
             t2 = t2+1;
         }
 
+        if (cek_menit < 10 ){
+            t2 = "0"+t2;
+        }
+
         // alert('t1: '+t1+' t2 :'+t2);
 
         var stt = new Date("November 13, 2013 " + sh);
@@ -442,6 +446,22 @@
             document.getElementById("jam_selesai").value = t1+":"+t2;
             document.getElementById("jam_selesai").focus();
         }
+    }
+
+    function loadHours() {
+        const event = new Date();
+        var h = event.getHours();
+        var m = event.getMinutes();
+
+        if (h < 10) {
+            h = "0"+h;
+        }
+
+        if (m < 10) {
+            m = "0"+m;
+        }
+
+        document.getElementById("jam_mulai").value = h+":"+m;
     }
 
     function resetdata() {

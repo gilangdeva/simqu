@@ -231,7 +231,7 @@ class InspeksiInlineController extends Controller
                     // 'mesin'             => $mesin,
                     // 'defect'            => $defect,
                     'departemen'        => $departemen,
-                    'subdepartemen'    => $subdepartemen,
+                    'subdepartemen'     => $subdepartemen,
                     'defect'            => $defect,
                     'draft'             => $draft,
                     // 'id_departemen'     => $id_departemen,
@@ -396,4 +396,55 @@ class InspeksiInlineController extends Controller
             $delete_detail = DB::table('draft_detail')->where('id_inspeksi_header', $id_header)->delete();
             return redirect('/inline');
         }
+
+    //Fungsi Filter List
+    public function FilterInlineList(Request $request){
+        if (request()->start_date || request()->end_date) {
+            $start_date     = $request->start_date;
+            $end_date       = $request->end_date;
+            $type_search    = $request->type_search;
+            $text_search    = $request->text_search;
+
+                if ($type_search =="JOP") {
+                    $list_inline = DB::table('vw_list_inline')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('jop', '=', $text_search)
+                        ->get();
+                } else if ($type_search =="ITEM"){
+                    $list_inline = DB::table('vw_list_inline')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('item', '=', $text_search)
+                        ->get();
+                } else if ($type_search =="INSPEKTOR"){
+                    $list_inline = DB::table('vw_list_inline')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('nama_user', '=', $text_search)
+                        ->get();
+                } else {
+                    $list_inline = DB::table('vw_list_inline')
+                    ->where('tgl_inspeksi', '>=', $start_date)
+                    ->where('tgl_inspeksi', '<=', $end_date)
+                    ->get();
+                }
+
+            return view('inspeksi.inline-list',
+            [
+                'list_inline'   => $list_inline,
+                'menu'          => 'inspeksi',
+                'sub'           => '/inline'
+            ]);
+        } else {
+            $list_inline = DB::select("SELECT * FROM vw_list_inline");
+            return view('inspeksi.inline-list',
+            [
+                'list_inline'   => $list_inline,
+                'menu'          => 'inspeksi',
+                'sub'           => '/inline'
+            ]);
+        }
+
+    }
 }
