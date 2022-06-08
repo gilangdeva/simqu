@@ -238,7 +238,7 @@
         <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title m-b-0">DRAFT INSPEKSI</h3>
-                <label class="form-final">Show
+                <label class="form-inline">Show
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>

@@ -84,6 +84,7 @@ class InspeksiFinalController extends Controller
         }
 
         $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+        $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -139,13 +140,12 @@ class InspeksiFinalController extends Controller
         $hasil_verifikasi = $request->hasil_verifikasi;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
-        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         // insert into database
         DB::table('draft_detail')->insert([
             'id_inspeksi_detail'    => $id_detail,
             'id_inspeksi_header'    => $id_header,
+            'id_mesin'              => $id_mesin,
             'jam_mulai'             => $jam_mulai,
             'jam_selesai'           => $jam_selesai,
             'lama_inspeksi'         => $lama_inspeksi,
@@ -162,9 +162,7 @@ class InspeksiFinalController extends Controller
             'qty_reject_all'        => $qty_reject_all,
             'hasil_verifikasi'      => $hasil_verifikasi,
             'creator'               => $creator,
-            'updater'               => $updater,
-            'created_at'            => $created_at,
-            'updated_at'            => $updated_at
+            'updater'               => $updater
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -172,6 +170,7 @@ class InspeksiFinalController extends Controller
             return view('inspeksi.final-input',[
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
+                'mesin'             => $mesin,
                 'defect'            => $defect,
                 'menu'              => 'inspeksi',
                 'sub'               => '/final'
@@ -187,6 +186,7 @@ class InspeksiFinalController extends Controller
                 'departemen'        => $departemen,
                 'id_sub_departemen' => $id_sub_departemen,
                 'subdepartemen'     => $subdepartemen,
+                'mesin'             => $mesin,
                 'defect'            => $defect,
                 'draft'             => $draft,
                 'menu'              => 'inspeksi',

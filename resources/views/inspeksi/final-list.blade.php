@@ -139,7 +139,9 @@
             </div>
         </div>
     </div>
-    <!-- end row -->
+</div>
+</div>
+<!-- end row -->
 </div>
 <!-- end container-fluid -->
 <script>

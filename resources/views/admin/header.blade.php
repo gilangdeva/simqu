@@ -215,4 +215,8 @@
 
         <div id="page-wrapper">
 
+<<<<<<< HEAD
         @yield('content')
+=======
+        @yield('content')
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
