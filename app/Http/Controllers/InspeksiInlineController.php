@@ -248,7 +248,6 @@ class InspeksiInlineController extends Controller
                 $id_departemen = $draft[0]->id_departemen;
                 $id_sub_departemen = $draft[0]->id_sub_departemen;
                 $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
-
                 return view('inspeksi.inline-input',[
                     'id_header'         => $id_header,
                     'tgl_inspeksi'      => $tgl_inspeksi,

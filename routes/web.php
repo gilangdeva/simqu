@@ -104,6 +104,11 @@ Route::get('/inlinelist-delete/{id}', [InspeksiInlineController::class, 'DeleteI
 // Post Function (Inline)
 Route::get('/inline-post/', [InspeksiInlineController::class, 'PostInline'])->middleware('auth.check');
 
+Route::get('/inlinelist-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineDataList'])->middleware('auth.check');
+
+// Post Function (Inline)
+Route::get('/inline-post/', [InspeksiInlineController::class, 'PostInline'])->middleware('auth.check');
+
 //Inspeksi Final
 Route::get('/final', [InspeksiFinalController::class, 'FinalList'])->middleware('auth.check');
 Route::get('/final-input', [InspeksiFinalController::class, 'DraftList'])->middleware('auth.check');
@@ -112,7 +117,9 @@ Route::post('/final-input', [InspeksiFinalController::class, 'SaveFinalData'])->
 Route::get('/final-edit/{id}', [InspeksiFinalController::class, 'EditFinalData'])->middleware('auth.check');
 Route::post('/final-update/', [InspeksiFinalController::class, 'SaveEditFinalData'])->name('final.update')->middleware('auth.check');
 Route::get('/final-delete/{id}', [InspeksiFinalController::class, 'DeleteFinalData'])->middleware('auth.check');
+Route::get('/final/', [InspeksiFinalController::class, 'FilterFinalList'])->middleware('auth.check');
+
 Route::get('/finallist-delete/{id}', [InspeksiFinalController::class, 'DeleteFinalDataList'])->middleware('auth.check');
 
-// Post Function (Inline)
+// Post Function (Final)
 Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middleware('auth.check');

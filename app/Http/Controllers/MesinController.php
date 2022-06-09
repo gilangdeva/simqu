@@ -61,7 +61,7 @@ class MesinController extends Controller
         $mesin->kode_mesin = strtoupper($request->kode_mesin);
         $mesin->nama_mesin = strtoupper($request->nama_mesin);
 
-        // Validation data input
+        // // Validation data input
         if ($request->id_departemen == "0" || $request->id_sub_departemen =="0"){
             alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
             return Redirect::back();

@@ -979,6 +979,18 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
+            "version": "v9.14.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "2ca86f96118635a79ee3389013ccab110ae14bea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2ca86f96118635a79ee3389013ccab110ae14bea",
+                "reference": "2ca86f96118635a79ee3389013ccab110ae14bea",
+=======
             "version": "v9.16.0",
             "source": {
                 "type": "git",
@@ -989,6 +1001,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/dbad869e737542734c48d36d4cb87ee90455c4b8",
                 "reference": "dbad869e737542734c48d36d4cb87ee90455c4b8",
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
                 "shasum": ""
             },
             "require": {
@@ -1154,7 +1167,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
+            "time": "2022-05-25T18:18:07+00:00"
+=======
             "time": "2022-06-02T18:13:11+00:00"
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
         },
         {
             "name": "laravel/sanctum",
@@ -1350,6 +1367,18 @@
         },
         {
             "name": "league/commonmark",
+<<<<<<< HEAD
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "cb36fee279f7fca01d5d9399ddd1b37e48e2eca1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/cb36fee279f7fca01d5d9399ddd1b37e48e2eca1",
+                "reference": "cb36fee279f7fca01d5d9399ddd1b37e48e2eca1",
+=======
             "version": "2.3.2",
             "source": {
                 "type": "git",
@@ -1360,6 +1389,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/6eddb90a9e4a1a8c5773226068fcfb48cb36812a",
                 "reference": "6eddb90a9e4a1a8c5773226068fcfb48cb36812a",
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
                 "shasum": ""
             },
             "require": {
@@ -1452,7 +1482,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
+            "time": "2022-05-14T15:37:39+00:00"
+=======
             "time": "2022-06-03T14:07:39+00:00"
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
         },
         {
             "name": "league/config",
@@ -5586,6 +5620,18 @@
         },
         {
             "name": "laravel/sail",
+<<<<<<< HEAD
+            "version": "v1.14.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sail.git",
+                "reference": "c049316f9bcb02598607307f18b514b66202b639"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/c049316f9bcb02598607307f18b514b66202b639",
+                "reference": "c049316f9bcb02598607307f18b514b66202b639",
+=======
             "version": "v1.14.8",
             "source": {
                 "type": "git",
@@ -5596,6 +5642,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/04b425968c6a76940bddd2cfa40bf9e9ce78eee8",
                 "reference": "04b425968c6a76940bddd2cfa40bf9e9ce78eee8",
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
                 "shasum": ""
             },
             "require": {
@@ -5642,7 +5689,11 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
+<<<<<<< HEAD
+            "time": "2022-05-21T17:14:14+00:00"
+=======
             "time": "2022-05-31T14:48:21+00:00"
+>>>>>>> 65a7dbc27c4cef1727b8fef07069f3e1a27ef83f
         },
         {
             "name": "mockery/mockery",

@@ -1,4 +1,4 @@
-    <footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
+<footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
     </div> <!-- /Page Wrapper -->
     </div> <!-- /Wrapper -->
 

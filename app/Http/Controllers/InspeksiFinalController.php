@@ -90,6 +90,16 @@ class InspeksiFinalController extends Controller
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
             $id_header = $id_header[0]->id_inspeksi_header;
             $row = 1;
+
+            // CHECK ADA DRAFT ATAU TIDAK (WAWAN)
+            $draft_data = DB::select("SELECT id_inspeksi_header FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
+
+            if(isset($draft_data[0])) {
+                alert()->error('Gagal Menyimpan!', 'Anda memiliki data yang belum di post!');
+                return Redirect::back();   
+            }
+
+
             // insert into database
             DB::table('draft_header')->insert([
                 'id_inspeksi_header'    => $id_header,
@@ -112,7 +122,6 @@ class InspeksiFinalController extends Controller
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
-        $id_mesin = $request->id_mesin;
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
         $interval = $jam_mulai->diff($jam_selesai);
@@ -167,6 +176,7 @@ class InspeksiFinalController extends Controller
                 'sub'               => '/final'
             ]);
         } else {
+            $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return view('inspeksi.final-input',[
                 'id_header'         => $id_header,
@@ -188,17 +198,51 @@ class InspeksiFinalController extends Controller
         // Fungsi hapus data draft
         public function DeleteFinalData($id){
             $id_detail = Crypt::decryptString($id);
+            $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
+            $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
+            $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
             $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
+
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_draft_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
+
             if ($count == 1){
                 $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
                 $final_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
-                return redirect('/final-input');
+
+                $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
+                return view('inspeksi.final-input',[
+                    'id_header'         => 0,
+                    'departemen'        => $departemen,
+                    'subdepartemen'     => $subdepartemen,
+                    'defect'            => $defect,
+                    'draft'             => $draft,
+                    'menu'              => 'inspeksi',
+                    'sub'               => '/final'
+                ]);
             } else if ($count > 1) {
                 $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                return redirect('/final-input');
+
+                $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
+                $shift = strtoupper($draft[0]->shift);
+                $tgl_inspeksi = $draft[0]->tgl_inspeksi;
+                $id_departemen = $draft[0]->id_departemen;
+                $id_sub_departemen = $draft[0]->id_sub_departemen;
+
+                return view('inspeksi.final-input',[
+                    'id_header'         => $id_header,
+                    'tgl_inspeksi'      => $tgl_inspeksi,
+                    'shift'             => $shift,
+                    'departemen'        => $departemen,
+                    'subdepartemen'     => $subdepartemen,
+                    'defect'            => $defect,
+                    'draft'             => $draft,
+                    'id_departemen'     => $id_departemen,
+                    'id_sub_departemen' => $id_sub_departemen,
+                    'menu'              => 'inspeksi',
+                    'sub'               => '/final'
+                ]);
             }
         }
 
@@ -329,4 +373,55 @@ class InspeksiFinalController extends Controller
             $delete_detail = DB::table('draft_detail')->where('id_inspeksi_header', $id_header)->delete();
             return redirect('/final');
         }
+
+        //Fungsi Filter List
+    public function FilterFinalList(Request $request){
+        if (request()->start_date || request()->end_date) {
+            $start_date     = $request->start_date;
+            $end_date       = $request->end_date;
+            $type_search    = $request->type_search;
+            $text_search    = strtoupper($request->text_search);
+
+                if ($type_search =="JOP") {
+                    $list_final = DB::table('vg_list_final')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('jop', '=', $text_search)
+                        ->get();
+                } else if ($type_search =="ITEM"){
+                    $list_final = DB::table('vg_list_final')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('item', '=', $text_search)
+                        ->get();
+                } else if ($type_search =="INSPEKTOR"){
+                    $list_final = DB::table('vg_list_final')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('nama_user', '=', $text_search)
+                        ->get();
+                } else {
+                    $list_final = DB::table('vg_list_final')
+                    ->where('tgl_inspeksi', '>=', $start_date)
+                    ->where('tgl_inspeksi', '<=', $end_date)
+                    ->get();
+                }
+
+            return view('inspeksi.final-list',
+            [
+                'list_final'   => $list_final,
+                'menu'          => 'inspeksi',
+                'sub'           => '/final'
+            ]);
+        } else {
+            $list_final = DB::select("SELECT * FROM vg_list_final");
+            return view('inspeksi.final-list',
+            [
+                'list_final'   => $list_final,
+                'menu'          => 'inspeksi',
+                'sub'           => '/final'
+            ]);
+        }
+
+    }
 }

@@ -86,7 +86,6 @@ class DepartmentController extends Controller
         $nama_departemen = strtoupper($request->nama_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-
         // is there a change in nama departemen data?
         if ($request->nama_departemen <> $request->original_nama_departemen){
             // Check duplicate nama

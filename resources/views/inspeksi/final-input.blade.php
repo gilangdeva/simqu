@@ -12,21 +12,29 @@
         <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI FINAL</h3>
-                <form class="form-horizontal" action="{{ route('final.save') }}" method="POST" enctype="multipart/form-data">
+                <form id="final_data" class="form-horizontal" action="{{ route('final.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Tanggal</label></div>
                         <div class="col-sm-4">
-                            @if(isset($id_header))
-                                <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
+                        @if(isset($id_header))
+                            <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
+                            @if(isset($id_departemen))
                                 <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
-                                <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
-                                <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
                             @endif
 
+                            @if(isset($shift))
+                                <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
+                            @endif
+
+                            @if(isset($id_sub_departemen))
+                                <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
+                            @endif
+                        @endif
+
                             @if(isset($tgl_inspeksi))
-                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" readonly>
+                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" style="background-color: #f4f4f4;" readonly>
                             @else
                                 <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" required>
                             @endif
@@ -35,7 +43,7 @@
                         <div class="col-sm-2 control-label"><label>Shift</label></div>
                         <div class="col-sm-4">
                             @if (isset($shift))
-                                <select class="form-control select2" name="shift" id="shift" disabled>
+                                <select class="form-control select2" name="shift" id="shift" style="background-color: #f4f4f4;" disabled>
                                     <option value="">Pilih Shift</option>
                                     <option value="A" {{ old('shift', $shift) == "A" ? 'selected':''}}>A</option>
                                     <option value="B" {{ old('shift', $shift) == "B" ? 'selected':''}}>B</option>
@@ -56,7 +64,7 @@
                         <div class="col-sm-2 control-label"><label>Dept.</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_departemen))
-                            <select class="form-control select2" name="id_departemen" id="id_departemen" disabled>
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                             <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @endif
@@ -74,7 +82,7 @@
                         <div class="col-sm-2 control-label"><label>Sub Dept.</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_sub_departemen))
-                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" disabled>
+                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
                             @endif
@@ -215,7 +223,7 @@
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <button type="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
-                            {{-- <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
+                            {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -267,6 +275,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(isset($draft))
                         @foreach($draft as $d)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -288,13 +297,13 @@
                                 <td>{{ $d->qty_sample_riil }} (Pcs)</td>
                                 <td>{{ $d->qty_reject_all }}</td>
                                 <td>{{ $d->status }}</td>
-                                <td>{{ $d->hasil_verifikasi }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>
                                 <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </tbody>
                     <button type="button" class="btn btn-info waves-effect pull-right waves-light" onclick="postConfirmation()">POST</i></button>
                 </table>
@@ -406,8 +415,22 @@
     function checkHours(e){
         var sh = $("#jam_mulai").val();
         var eh = $("#jam_selesai").val();
-        t1 = sh.slice(0,4);
-        t2 = parseInt(sh.slice(4,5))+1;
+        t1 = parseInt(sh.slice(0,2));
+        t2 = parseInt(sh.slice(3,5));
+        cek_menit = parseInt(sh.slice(3,5));
+
+        if (cek_menit == 59){
+            t1 = t1+1;
+            t2 = "00";
+        } else {
+            t2 = t2+1;
+        }
+
+        if (cek_menit < 10 ){
+            t2 = "0"+t2;
+        }
+
+        // alert('t1: '+t1+' t2 :'+t2);
 
         var stt = new Date("November 13, 2013 " + sh);
         stt = stt.getTime();
@@ -417,9 +440,36 @@
 
         if (stt >= endt) {
             alert('Jam Selesai harus lebih besar dari Jam Mulai');
-            document.getElementById("jam_selesai").value = t1 + t2;
+            document.getElementById("jam_selesai").value = t1+":"+t2;
             document.getElementById("jam_selesai").focus();
         }
+    }
+
+    function loadHours() {
+        const event = new Date();
+        var h = event.getHours();
+        var m = event.getMinutes();
+
+        if (h < 10) {
+            h = "0"+h;
+        }
+        
+        if (m < 10) {
+            m = "0"+m;
+        }
+
+        document.getElementById("jam_mulai").value = h+":"+m;
+    }
+    function resetdata() {
+        document.getElementById("final_data").reset();
+        $("select.select2").select2({ allowClear: true });
+    }
+
+</script>
+
+<script>
+    if ( window.history.replaceState ) {
+       window.history.replaceState( null, null, window.location.href );
     }
 </script>
 
