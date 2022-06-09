@@ -95,7 +95,7 @@ class InspeksiFinalController extends Controller
 
             if(isset($draft_data[0])) {
                 alert()->error('Gagal Menyimpan!', 'Anda memiliki data yang belum di post!');
-                return Redirect::back();   
+                return Redirect::back();
             }
 
 
@@ -155,6 +155,7 @@ class InspeksiFinalController extends Controller
             'qty_defect'            => $qty_defect,
             'qty_ready_pcs'         => $qty_ready_pcs,
             'status'                => $status,
+            'qty_ready_pcs'         => $qty_ready_pcs,
             'keterangan'            => $keterangan,
             'qty_ready_pack'        => $qty_ready_pack,
             'qty_sample_aql'        => $qty_sample_aql,
@@ -384,19 +385,19 @@ class InspeksiFinalController extends Controller
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('jop', 'like', "%" .$text_search."%")
+                        ->where('jop', 'LIKE', "%{$text_search}%")
                         ->get();
                 } else if ($type_search =="ITEM"){
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('item', 'like', "%" .$text_search."%")
+                        ->where('item', 'LIKE', "%{$text_search}%")
                         ->get();
                 } else if ($type_search =="INSPEKTOR"){
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('nama_user', 'like', "%" .$text_search."%")
+                        ->where('nama_user', 'LIKE', "%{$text_search}%")
                         ->get();
                 } else {
                     $list_final = DB::table('vg_list_final')

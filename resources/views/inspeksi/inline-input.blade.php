@@ -33,15 +33,6 @@
                                 @endif
                             @endif
 
-                            @if(isset($shift))
-                                <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
-                            @endif
-
-                            @if(isset($id_sub_departemen))
-                                <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
-                            @endif
-                        @endif
-
                             @if(isset($tgl_inspeksi))
                                 <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" style="background-color: #f4f4f4;" readonly>
                             @else
@@ -93,7 +84,7 @@
                             @if(isset($id_sub_departemen))
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
-                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
+                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen">
                             @endif
                                 <option>Pilih Bagian Inspeksi</option>
                                 @if(isset($id_sub_departemen))
@@ -122,7 +113,7 @@
 
                         <div class="col-sm-2 control-label"><label>Qty/Mnt</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_1" maxlength="3" min="0" placeholder="Qty/Mnt" required>
+                            <input type="number" class="form-control" name="qty_1" maxlength="3" min="0" placeholder="Qty/Mnt">
                         </div>
                     </div>
 
@@ -137,7 +128,7 @@
 
                         <div class="col-sm-2 control-label"><label>PIC</label></div>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="pic" maxlength="120" placeholder="PIC (Operator)" required>
+                            <input type="text" class="form-control" name="pic" maxlength="120" placeholder="PIC (Operator)">
                         </div>
                     </div>
 
@@ -167,8 +158,8 @@
 
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
-                            <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
-                                <option value="0">Pilih Kriteria</option>
+                            <select id="kriteria" class="form-control select2" name="kriteria" autocomplete="false">
+                                <option value="">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
                                 <option value="Major">Major</option>
                                 <option value="Critical">Critical</option>
@@ -179,12 +170,12 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan" required>
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)">
                         </div>
                     </div>
 
@@ -211,7 +202,7 @@
                         <div class="col-sm-2 control-label"><label>Status</label></div>
                         <div class="col-sm-4">
                             <select id="status" class="form-control select2" name="status" maxlength="50" required>
-                                <option value="0">Pilih Status</option>
+                                <option value="">Pilih Status</option>
                                 <option value="OK">OK</option>
                                 <option value="Hold">Hold</option>
                                 <option value="Close">Close</option>
@@ -340,7 +331,7 @@
                     dataType: "json",
                     success:function(data) {
                         if (data){
-                            $('select[name="id  _sub_departemen"]').empty();
+                            $('select[name="id_sub_departemen"]').empty();
                             $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Bagian Inspeksi</option>');
                             // Remove options
                             $('#id_sub_departemen').select2();
@@ -465,6 +456,7 @@
         if (h < 10) {
             h = "0"+h;
         }
+
         if (m < 10) {
             m = "0"+m;
         }

@@ -70,6 +70,7 @@
                                 <th data-toggle="true">No.</th>
                                 <th>Tgl</th>
                                 <th>Shift</th>
+                                <td>Bagian</th>
                                 <th>Area</th>
                                 <th>JOP</th>
                                 <th>Inspektor</th>
@@ -78,16 +79,16 @@
                                 <th data-hide="all">Jam Mulai</th>
                                 <th data-hide="all">Jam Selesai</th>
                                 <th data-hide="all">Lama Inspeksi</th>
+                                <th data-hide="all">Brg Siap (Pack)</th>
+                                <th data-hide="all">Brg Siap (Pcs)</th>
+                                <th data-hide="all">Sample Aql</th>
+                                <th data-hide="all">Sample Riil</th>
                                 <th data-hide="all">Kendala</th>
                                 <th data-hide="all">Kriteria</th>
                                 <th data-hide="all">Jml Temuan</th>
-                                <th data-hide="all">Brg Siap</th>                            
+                                <th data-hide="all">Jml Reject All</th>
                                 <th data-hide="all">Status</th>
                                 <th data-hide="all">Keterangan</th>
-                                <th data-hide="all">Qty Siap</th>
-                                <th data-hide="all">Sample Aql</th>
-                                <th data-hide="all">Sample Riil</th>
-                                <th data-hide="all">Reject All</th>
                                 <th data-hide="all">Hasil Verifikasi</th>
                                 <th data-hide="all"></th>
                             </tr>
@@ -98,7 +99,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $lf->tgl_inspeksi }}</td>
                                 <td>{{ $lf->shift }}</td>
-                                <td>{{ $lf->nama_departemen }} - {{ $lf->nama_sub_departemen }}</td>
+                                <td>{{ $lf->nama_departemen }}</td>
+                                <td>{{ $lf->nama_sub_departemen }}</td>
                                 <td>{{ $lf->jop }}</td>
                                 <td>{{ $lf->nama_user }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
@@ -106,19 +108,19 @@
                                 <td>{{ $lf->jam_mulai }}</td>
                                 <td>{{ $lf->jam_selesai }}</td>
                                 <td>{{ $lf->lama_inspeksi }} (Menit)</td>
+                                <td>{{ $lf->qty_ready_pack }} (Pack/Box)</td>
+                                <td>{{ $lf->qty_ready_pcs }} (Pcs/Lbr)</td>
+                                <td>{{ $lf->qty_sample_aql }}</td>
+                                <td>{{ $lf->qty_sample_riil }}</td>
                                 <td>{{ $lf->defect }}</td>
                                 <td>{{ $lf->kriteria }}</td>
                                 <td>{{ $lf->qty_defect }}</td>
-                                <td>{{ $lf->qty_ready_pcs }} (Pcs/Lbr)</td>
+                                <td>{{ $lf->qty_reject_all }}</td>
                                 <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
-                                <td>{{ $lf->qty_ready_pack }} (Pack/Box)</td>
-                                <td>{{ $lf->qty_sample_aql }}</td>
-                                <td>{{ $lf->qty_sample_riil }}</td>
-                                <td>{{ $lf->qty_reject_all }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
                                 <td>
-                                </td> 
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

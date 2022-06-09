@@ -25,7 +25,13 @@ class InspeksiInlineController extends Controller
 {
     // Menampilkan list inspeksi inline
     public function InlineList(){
-        $list_inline = DB::select("SELECT * FROM vw_list_inline");
+        $start_date     = date('Y-m-01', strtotime('+0 hours'));
+        $end_date       = date('Y-m-d', strtotime('+0 hours'));
+
+        $list_inline = DB::table('vw_list_inline')
+        ->where('tgl_inspeksi', '>=', $start_date)
+        ->where('tgl_inspeksi', '<=', $end_date)
+        ->get();
 
         return view('inspeksi.inline-list',
         [
@@ -402,25 +408,25 @@ class InspeksiInlineController extends Controller
             $start_date     = $request->start_date;
             $end_date       = $request->end_date;
             $type_search    = $request->type_search;
-            $text_search    = $request->text_search;
+            $text_search    = strtoupper($request->text_search);
 
                 if ($type_search =="JOP") {
                     $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('jop', '=', $text_search)
+                        ->where('jop', 'like', "%".$text_search."%")
                         ->get();
                 } else if ($type_search =="ITEM"){
                     $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('item', '=', $text_search)
+                        ->where('item', 'like', "%".$text_search."%")
                         ->get();
                 } else if ($type_search =="INSPEKTOR"){
                     $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('nama_user', '=', $text_search)
+                        ->where('nama_user', 'like', "%".$text_search."%")
                         ->get();
                 } else {
                     $list_inline = DB::table('vw_list_inline')
