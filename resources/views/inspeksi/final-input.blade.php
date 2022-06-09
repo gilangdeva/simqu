@@ -149,7 +149,7 @@
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan" required>
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
+                        <div class="col-sm-2 control-label"><label>Brg Siap (pcs)</label></div>
                         <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
                         </div>
@@ -158,7 +158,7 @@
                     <br>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Qty Siap</label></div>
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pack/box)</label></div>
                         <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Qty Barang Siap" required>
                         </div>
@@ -268,9 +268,7 @@
                             <th data-hide="all">Sample Aql</th>
                             <th data-hide="all">Sample Riil</th>
                             <th data-hide="all">Qty Reject All</th>
-                            <th data-hide="all">Hasil Inspeksi</th>
                             <th data-hide="all">Hasil Verifikasi</th>
-                            <th data-hide="all">Rekomendasi</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -296,8 +294,8 @@
                                 <td>{{ $d->qty_sample_aql }}</td>
                                 <td>{{ $d->qty_sample_riil }} (Pcs)</td>
                                 <td>{{ $d->qty_reject_all }}</td>
-                                <td>{{ $d->status }}</td>
-                                <td>{{ $d->keterangan }}</td>
+                                <td>{{ $d->hasil_verifikasi }}</td>
+
                                 <td>
                                 <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>

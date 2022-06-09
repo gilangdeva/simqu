@@ -8,22 +8,21 @@
     <!-- row -->
     <br>
 
-    <div class="row">
-        <div class="col-md-12">
-        <div class="white-box">
+    <div class="white-box">
+        <div class="container">
                 <div class="row">
                     <form id="final_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
                     <div class="col-sm-1 control-label"><label>Periode :</label></div>
-                        <div class="col-sm-6">
-                            <div class="col-sm-3">
-                                <input type="date" class="form-control" name="start_date" value="{{ date('Y-m-01') }}">
+                        <div class="col">
+                            <div class="col-sm-2">
+                                <input type="date" class="form-control" name="start_date" value="{{ date('Y-01-m') }}">
                             </div>
 
-                            <div class="col-sm-3">
-                                <input type="date" class="form-control" name="end_date" value="{{ date('Y-m-d') }}">
+                            <div class="col-sm-2">
+                                <input type="date" class="form-control" name="end_date" value="{{ date('Y-d-m') }}">
                             </div>
 
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select class="form-control select-option" name="type_search" id="type_search">
                                     <option value="0">Pilih Filter :</option>
                                     <option value="JOP">JOP</option>
@@ -32,13 +31,13 @@
                                 </select>
                             </div>
 
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                     <input type="text" class="form-control" name="text_search" id="text_search" maxlength="200" placeholder="Search...">
                                 </div>
                             </div>
 
                             <div class="col-sm-3">
-                                <button class="btn btn-primary waves-effect  waves-light" type="submit">Cari</button>
+                                <button class="btn btn-info waves-effect  waves-light" type="submit">Cari</button>
                             </div>
 
                         </div>
