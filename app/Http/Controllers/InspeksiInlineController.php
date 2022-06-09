@@ -403,7 +403,7 @@ class InspeksiInlineController extends Controller
             $start_date     = $request->start_date;
             $end_date       = $request->end_date;
             $type_search    = $request->type_search;
-            $text_search    = $request->text_search;
+            $text_search    = strtoupper($request->text_search);
 
                 if ($type_search =="JOP") {
                     $list_inline = DB::table('vw_list_inline')
