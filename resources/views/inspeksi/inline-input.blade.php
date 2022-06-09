@@ -33,15 +33,6 @@
                                 @endif
                             @endif
 
-                            @if(isset($shift))
-                                <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
-                            @endif
-
-                            @if(isset($id_sub_departemen))
-                                <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
-                            @endif
-                        @endif
-
                             @if(isset($tgl_inspeksi))
                                 <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" style="background-color: #f4f4f4;" readonly>
                             @else
@@ -340,7 +331,7 @@
                     dataType: "json",
                     success:function(data) {
                         if (data){
-                            $('select[name="id  _sub_departemen"]').empty();
+                            $('select[name="id_sub_departemen"]').empty();
                             $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Bagian Inspeksi</option>');
                             // Remove options
                             $('#id_sub_departemen').select2();
@@ -465,6 +456,7 @@
         if (h < 10) {
             h = "0"+h;
         }
+
         if (m < 10) {
             m = "0"+m;
         }

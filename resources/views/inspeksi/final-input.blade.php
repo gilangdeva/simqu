@@ -122,6 +122,32 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pack)</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Sample Riil</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Sample Riil" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Sample Aql</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Sample Aql" required>
+                        </div>
+                    </div>
+
+                    <br><br>
+
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Defect</label></div>
                         <div class="col-sm-4">
                             <select class="form-control select2" name="id_defect">
@@ -135,7 +161,7 @@
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
                             <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
-                                <option value="0">Pilih Kriteria</option>
+                                <option value="">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
                                 <option value="Major">Major</option>
                                 <option value="Critical">Critical</option>
@@ -146,70 +172,37 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan" required>
-                        </div>
-
-                        <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Qty Siap</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Qty Barang Siap" required>
-                        </div>
-
-                        <div class="col-sm-2 control-label"><label>Sample Aql</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Sample Aql" required>
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Sample Riil</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Sample Riil" required>
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Qty Reject All</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject All" required>
+                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject All">
                         </div>
                     </div>
 
-                    <br>
+                    <br><br>
 
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Hasil Inspeksi</label></div>
                         <div class="col-sm-4">
-                            <select id="status" class="form-control select2" name="status" maxlength="50" required>
+                            <select id="status" class="form-control select2" name="status" maxlength="10" required>
                                 <option value="0">Pilih Hasil Inspeksi</option>
                                 <option value="PASS">Pass</option>
                                 <option value="REJECT">Reject</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:5px;">
-                        <div class="col-sm-2 control-label"><label>Hasil Verifikasi</label></div>
-                        <div class="col-sm-4">
-                            <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Hasil Verifikasi" autocomplete="false"></textarea>
-                        </div>
-
-                        <div class="col-sm-2 control-label"><label></label></div>
-                        <div class="col-sm-4">
-
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:5px;">
                         <div class="col-sm-2 control-label"><label>Rekomendasi</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="keterangan" placeholder="Rekomendasi" autocomplete="false"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <div class="col-sm-2 control-label"><label>Hasil Verifikasi Ulang</label></div>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Hasil Verifikasi" autocomplete="false"></textarea>
                         </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -260,17 +253,17 @@
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
                             <th data-hide="all">Lama Inspeksi</th>
-                            <th data-hide="all">Kendala</th>
-                            <th data-hide="all">Kriteria</th>
-                            <th data-hide="all">Jml Temuan</th>
-                            <th data-hide="all">Brg Siap</th>
-                            <th data-hide="all">Brg Siap</th>
+                            <th data-hide="all">Brg Siap (Pack)</th>
+                            <th data-hide="all">Brg Siap (Pcs)</th>
                             <th data-hide="all">Sample Aql</th>
                             <th data-hide="all">Sample Riil</th>
+                            <th data-hide="all">Jenis Temuan</th>
+                            <th data-hide="all">Kriteria</th>
+                            <th data-hide="all">Jml Temuan</th>
                             <th data-hide="all">Qty Reject All</th>
                             <th data-hide="all">Hasil Inspeksi</th>
-                            <th data-hide="all">Hasil Verifikasi</th>
                             <th data-hide="all">Rekomendasi</th>
+                            <th data-hide="all">Hasil Verifikasi</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -288,16 +281,17 @@
                                 <td>{{ $d->jam_mulai }}</td>
                                 <td>{{ $d->jam_selesai }}</td>
                                 <td>{{ $d->lama_inspeksi }} Menit</td>
-                                <td>{{ $d->defect }}</td>
-                                <td>{{ $d->kriteria }}</td>
-                                <td>{{ $d->qty_defect }}</td>
                                 <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $d->qty_ready_pack }} (Pack/Box)</td>
                                 <td>{{ $d->qty_sample_aql }}</td>
                                 <td>{{ $d->qty_sample_riil }} (Pcs)</td>
+                                <td>{{ $d->defect }}</td>
+                                <td>{{ $d->kriteria }}</td>
+                                <td>{{ $d->qty_defect }}</td>
                                 <td>{{ $d->qty_reject_all }}</td>
                                 <td>{{ $d->status }}</td>
                                 <td>{{ $d->keterangan }}</td>
+                                <td>{{ $d->hasil_verifikasi }}</td>
                                 <td>
                                 <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>
@@ -453,7 +447,7 @@
         if (h < 10) {
             h = "0"+h;
         }
-        
+
         if (m < 10) {
             m = "0"+m;
         }
