@@ -61,14 +61,14 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Dept.</label></div>
+                        <div class="col-sm-2 control-label"><label>Bagian</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_departemen))
                             <select class="form-control select2" name="id_departemen" id="id_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                             <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @endif
-                                <option>Pilih Area Inspeksi</option>
+                                <option>Pilih Bagian Inspeksi</option>
                                 @foreach ($departemen as $dept)
                                     @if(isset($id_departemen))
                                         <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
@@ -79,14 +79,14 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Sub Dept.</label></div>
+                        <div class="col-sm-2 control-label"><label>Area</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_sub_departemen))
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
                             @endif
-                                <option>Pilih Bagian Inspeksi</option>
+                                <option>Pilih Area Inspeksi</option>
                                 @if(isset($id_sub_departemen))
                                     @foreach ($subdepartemen as $subdept)
                                         <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
@@ -160,7 +160,7 @@
 
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
-                            <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
+                            <select id="kriteria" class="form-control select2" name="kriteria" autocomplete="false">
                                 <option value="">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
                                 <option value="Major">Major</option>
@@ -215,7 +215,7 @@
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <button type="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
+                            <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
                             {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
 
@@ -284,7 +284,7 @@
                                 <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $d->qty_ready_pack }} (Pack/Box)</td>
                                 <td>{{ $d->qty_sample_aql }}</td>
-                                <td>{{ $d->qty_sample_riil }} (Pcs)</td>
+                                <td>{{ $d->qty_sample_riil }}</td>
                                 <td>{{ $d->defect }}</td>
                                 <td>{{ $d->kriteria }}</td>
                                 <td>{{ $d->qty_defect }}</td>

@@ -69,7 +69,6 @@ class InspeksiFinalController extends Controller
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-
         // Check if null
         if(($id_departemen == '') || ($id_departemen == 0)){
             $id_departemen = $request->id_departemen_ori;
@@ -98,7 +97,6 @@ class InspeksiFinalController extends Controller
                 return Redirect::back();
             }
 
-
             // insert into database
             DB::table('draft_header')->insert([
                 'id_inspeksi_header'    => $id_header,
@@ -125,8 +123,8 @@ class InspeksiFinalController extends Controller
         $jam_selesai = new DateTime($request->jam_selesai);
         $interval = $jam_mulai->diff($jam_selesai);
         $lama_inspeksi = $interval->format('%i');
-        $jop = $request->jop;
-        $item = $request->item;
+        $jop = strtoupper($request->jop);
+        $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
@@ -250,7 +248,7 @@ class InspeksiFinalController extends Controller
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_list_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_final WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
             if ($count == 1){
                 $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -315,7 +313,6 @@ class InspeksiFinalController extends Controller
                 'qty_reject_all',
                 'hasil_verifikasi'
             )->where('id_inspeksi_detail', $id_detail)->first();
-
 
             $jam_mulai = new DateTime($draft_detail->jam_mulai);
             $jam_selesai = new DateTime($draft_detail->jam_selesai);
