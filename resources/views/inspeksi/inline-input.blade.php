@@ -222,6 +222,14 @@
                         </div>
                     </div>
 
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="pict_defect" class="dropify" data-height="130" />
+                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan foto">
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
@@ -259,6 +267,7 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
@@ -274,6 +283,7 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
+                            <th data-hide="all">Foto Temuan Defect</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -286,6 +296,9 @@
                                     <td>{{ $d->shift }}</td>
                                     <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                     <td>{{ $d->jop }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                    </td>
                                     <td>{{ $d->item }}</td>
                                     <td>{{ $d->nama_mesin }}</td>
                                     <td>{{ $d->qty_1 }}</td>
@@ -301,9 +314,7 @@
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
-                                    <td>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
-                                    </td>
+                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" width="200"></td>
                                 </tr>
                             @endforeach
                         @endif

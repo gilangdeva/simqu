@@ -91,6 +91,7 @@
                                 <th data-hide="all">Status</th>
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Hasil Verifikasi</th>
+                                <th data-hide="all">Foto Temuan Defect</th>
                                 <th data-hide="all"></th>
                             </tr>
                         </thead>
@@ -120,6 +121,7 @@
                                 <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
+                                <td>{{ $lf->pict_defect }}</td>
                                 <td>
                                 </td>
                             </tr>
