@@ -124,6 +124,14 @@ class DefectController extends Controller
     public function DeleteDefectData($id){
         $id = Crypt::decryptString($id);
 
+        $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
+    // Check user already used in other table or not yet
+        if (isset($creator_check[0])) {
+            Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
+            return Redirect::back();
+        }
+
+        {
         // Delete process
         $defect = DefectModel::find($id);
         $defect->delete();
@@ -131,5 +139,6 @@ class DefectController extends Controller
         // Move to department list page
         alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
         return redirect('/defect');
+        }
     }
 }

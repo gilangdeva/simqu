@@ -9,7 +9,7 @@
     <br>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA SUB DEPARTEMEN</h3>
                 <form class="form-horizontal" action="{{ route('subdepartment.save') }}" method="POST" enctype="multipart/form-data">
@@ -30,7 +30,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4">Kode Sub Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="kode_sub_departemen" maxlength="10" placeholder="Kode Sub Departemen" required>
+                            <input type="text" class="form-control" name="kode_sub_departemen" maxlength="3" placeholder="Kode Sub Departemen" required>
                         </div>
                     </div>
 

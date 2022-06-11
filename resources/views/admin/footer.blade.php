@@ -1,4 +1,8 @@
+<<<<<<< HEAD
         <footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
+=======
+<footer class="footer text-center">{{ date("Y") }} &copy; SIMQU Inspection | HR Business Analyst - PT. Solo Murni </footer>
+>>>>>>> 75a1eb2d7f42b545198cd7c1b1ee36dcd60a1d6c
     </div> <!-- /Page Wrapper -->
 </div> <!-- /Wrapper -->
 

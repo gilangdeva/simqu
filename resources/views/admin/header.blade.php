@@ -75,6 +75,36 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <style>
+        input:focus {
+            background-color: #f6f6f6;
+        }
+
+        input:hover {
+            background-color: #f6f6f6;
+        }
+
+        .form-control:focus,
+        .sp-page-root .form-control:focus {
+            border-color: #f74949;
+            outline: none;
+            -webkit-box-shadow: 0 0 5px #f74949;
+            box-shadow: 0 0 5px #f74949;
+        }
+        .select2-container.select2-container-active {
+            outline: 5px auto #f74949;
+            border-color: #f74949;
+            box-shadow: 0 0 5px #f74949;
+            outline-offset: -2px;
+        }
+        .select2-container-active .select2-choice {
+            border-color: #f74949;
+        }
+        .select2-results .select2-highlighted {
+            background: #f74949;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body class="fix-header" onload="loadHours()">
@@ -142,19 +172,19 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav slimscrollsidebar">
                 <div class="sidebar-head">
-                    <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation Menu</span></h3> 
+                    <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation Menu</span></h3>
                 </div>
-                
+
                 <ul class="nav" id="side-menu">
                     <li>
                         @if($menu == 'dashboard')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard</span></a>
-                        @else 
+                        @else
                             <a href="/dashboard" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard</span></a>
                         @endif
                     </li>
-                    
-                    <li> 
+
+                    <li>
                         @if($menu == 'master')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-database-plus fa-fw"></i> <span class="hide-menu">Master Data<span class="fa arrow"></span></span></a>
                         @else
@@ -170,10 +200,10 @@
                         </ul>
                     </li>
 
-                    <li> 
+                    <li>
                         @if($menu == 'inspeksi')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
-                        @else 
+                        @else
                             <a href="/inspeksi" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
@@ -182,10 +212,10 @@
                         </ul>
                     </li>
 
-                    <li> 
+                    <li>
                         @if($menu == 'upload')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
-                        @else 
+                        @else
                             <a href="/upload" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
@@ -193,10 +223,10 @@
                         </ul>
                     </li>
 
-                    <li> 
+                    <li>
                         @if($menu == 'report')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
-                        @else 
+                        @else
                             <a href="/report" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
                         @endif
                     </li>
@@ -208,5 +238,5 @@
         <!-- ============================================================== -->
 
         <div id="page-wrapper">
-        
+
         @yield('content')

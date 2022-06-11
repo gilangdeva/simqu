@@ -12,7 +12,7 @@
         <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
-                <form class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
+                <form id="inline_data" class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:1px;">
@@ -20,9 +20,17 @@
                         <div class="col-sm-4">
                             @if(isset($id_header))
                                 <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
-                                <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
-                                <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
-                                <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
+                                @if(isset($id_departemen))
+                                    <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
+                                @endif
+
+                                @if(isset($shift))
+                                    <input type="hidden" class="form-control" name="shift_ori" value="{{ $shift }}">
+                                @endif
+
+                                @if(isset($id_sub_departemen))
+                                    <input type="hidden" class="form-control" name="id_sub_departemen_ori" value="{{ $id_sub_departemen }}">
+                                @endif
                             @endif
 
                             @if(isset($tgl_inspeksi))
@@ -75,7 +83,7 @@
                             @if(isset($id_sub_departemen))
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
-                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
+                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen">
                             @endif
                                 <option>Pilih Bagian Inspeksi</option>
                                 @if(isset($id_sub_departemen))
@@ -104,7 +112,7 @@
 
                         <div class="col-sm-2 control-label"><label>Qty/Mnt</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_1" maxlength="6" min="0" placeholder="Qty/Mnt" required>
+                            <input type="number" class="form-control" name="qty_1" maxlength="3" min="0" placeholder="Qty/Mnt">
                         </div>
                     </div>
 
@@ -119,7 +127,7 @@
 
                         <div class="col-sm-2 control-label"><label>PIC</label></div>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="pic" maxlength="10" placeholder="PIC (Operator)" required>
+                            <input type="text" class="form-control" name="pic" maxlength="120" placeholder="PIC (Operator)">
                         </div>
                     </div>
 
@@ -149,8 +157,8 @@
 
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
-                            <select id="kriteria" class="form-control select2" name="kriteria" required autocomplete="false">
-                                <option value="0">Pilih Kriteria</option>
+                            <select id="kriteria" class="form-control select2" name="kriteria" autocomplete="false">
+                                <option value="">Pilih Kriteria</option>
                                 <option value="Minor">Minor</option>
                                 <option value="Major">Major</option>
                                 <option value="Critical">Critical</option>
@@ -161,12 +169,12 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan" required>
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)">
                         </div>
                     </div>
 
@@ -192,7 +200,7 @@
                         <div class="col-sm-2 control-label"><label>Status</label></div>
                         <div class="col-sm-4">
                             <select id="status" class="form-control select2" name="status" maxlength="50" required>
-                                <option value="0">Pilih Status</option>
+                                <option value="">Pilih Status</option>
                                 <option value="OK">OK</option>
                                 <option value="Hold">Hold</option>
                                 <option value="Close">Close</option>
@@ -211,11 +219,19 @@
                         </div>
                     </div>
 
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="pict_defect" class="dropify" data-height="130" />
+                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan foto">
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <button type="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
+                            <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
                             {{-- <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
 
@@ -247,6 +263,7 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
@@ -262,37 +279,41 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
+                            <th data-hide="all">Foto Temuan Defect</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($draft as $d)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $d->tgl_inspeksi }}</td>
-                                <td>{{ $d->shift }}</td>
-                                <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
-                                <td>{{ $d->jop }}</td>
-                                <td>{{ $d->item }}</td>
-                                <td>{{ $d->nama_mesin }}</td>
-                                <td>{{ $d->qty_1 }}</td>
-                                <td>{{ $d->pic }}</td>
-                                <td>{{ $d->jam_mulai }}</td>
-                                <td>{{ $d->jam_selesai }}</td>
-                                <td>{{ $d->lama_inspeksi }} Menit</td>
-                                <td>{{ $d->defect }}</td>
-                                <td>{{ $d->kriteria }}</td>
-                                <td>{{ $d->qty_defect }}</td>
-                                <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
-                                <td>{{ $d->qty_sampling }}</td>
-                                <td>{{ $d->penyebab }}</td>
-                                <td>{{ $d->status }}</td>
-                                <td>{{ $d->keterangan }}</td>
-                                <td>
-                                <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        @endforeach
+                        @if(isset($draft))
+                            @foreach($draft as $d)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $d->tgl_inspeksi }}</td>
+                                    <td>{{ $d->shift }}</td>
+                                    <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
+                                    <td>{{ $d->jop }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                    </td>
+                                    <td>{{ $d->item }}</td>
+                                    <td>{{ $d->nama_mesin }}</td>
+                                    <td>{{ $d->qty_1 }}</td>
+                                    <td>{{ $d->pic }}</td>
+                                    <td>{{ $d->jam_mulai }}</td>
+                                    <td>{{ $d->jam_selesai }}</td>
+                                    <td>{{ $d->lama_inspeksi }} Menit</td>
+                                    <td>{{ $d->defect }}</td>
+                                    <td>{{ $d->kriteria }}</td>
+                                    <td>{{ $d->qty_defect }}</td>
+                                    <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
+                                    <td>{{ $d->qty_sampling }}</td>
+                                    <td>{{ $d->penyebab }}</td>
+                                    <td>{{ $d->status }}</td>
+                                    <td>{{ $d->keterangan }}</td>
+                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" width="200"></td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                     <button type="button" class="btn btn-info waves-effect pull-right waves-light" onclick="postConfirmation()">POST</i></button>
                 </table>
@@ -443,13 +464,31 @@
         if (h < 10) {
             h = "0"+h;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 75a1eb2d7f42b545198cd7c1b1ee36dcd60a1d6c
         if (m < 10) {
             m = "0"+m;
         }
 
         document.getElementById("jam_mulai").value = h+":"+m;
     }
+<<<<<<< HEAD
+=======
+
+    function resetdata() {
+  document.getElementById("inline_data").reset();
+  $("select.select2").select2({ allowClear: true }); // re-init to show default status
+}
+</script>
+
+<script>
+    if ( window.history.replaceState ) {
+       window.history.replaceState( null, null, window.location.href );
+    }
+>>>>>>> 75a1eb2d7f42b545198cd7c1b1ee36dcd60a1d6c
 </script>
 
 <script>

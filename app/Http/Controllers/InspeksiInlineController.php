@@ -23,9 +23,27 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class InspeksiInlineController extends Controller
 {
+    public $path;
+    public $dimensions;
+
+    public function __construct(){
+        //specify path destination
+        $this->path = public_path('/images/defect');
+        //define dimention of photo
+        $this->dimensions = ['500'];
+        // $this->dimensions = ['245', '300', '500'];
+    }
+
+
     // Menampilkan list inspeksi inline
     public function InlineList(){
-        $list_inline = DB::select("SELECT * FROM vw_list_inline");
+        $start_date     = date('Y-m-01', strtotime('+0 hours'));
+        $end_date       = date('Y-m-d', strtotime('+0 hours'));
+
+        $list_inline = DB::table('vg_list_inline')
+        ->where('tgl_inspeksi', '>=', $start_date)
+        ->where('tgl_inspeksi', '<=', $end_date)
+        ->get();
 
         return view('inspeksi.inline-list',
         [
@@ -39,7 +57,7 @@ class InspeksiInlineController extends Controller
     public function InlineInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $draft = DB::select("SELECT * FROM vg_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
@@ -57,7 +75,7 @@ class InspeksiInlineController extends Controller
         $cek_id_header = $request->id_inspeksi_header;
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
-        $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $draft = DB::select("SELECT * FROM vg_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
         // Parameters Header
         $type_form = "Inline"; // Inline
@@ -123,13 +141,13 @@ class InspeksiInlineController extends Controller
         $id_mesin = $request->id_mesin;
         $qty_1 = $request->qty_1;
         $qty_5 = $request->qty_1*5;
-        $pic = $request->pic;
+        $pic = strtoupper($request->pic);
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
         $interval = $jam_mulai->diff($jam_selesai);
         $lama_inspeksi = $interval->format('%i');
-        $jop = $request->jop;
-        $item = $request->item;
+        $jop = strtoupper($request->jop);
+        $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
@@ -140,6 +158,43 @@ class InspeksiInlineController extends Controller
         $keterangan = $request->keterangan;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
+        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $capt_pict = $request->capt_pict;
+
+        $pict_defect = $request->file('pict_defect');
+        if ($pict_defect <> '') {
+            $this->validate($request, [
+                'pict_defect' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
+
+            $file = $pict_defect;
+
+            // create filename with merging the timestamp and unique ID
+            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+            // $f_name = $capt_pict .'.'. $file->getClientOriginalExtension();
+
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
+
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
+
+            //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
+
+                // move image in folder
+                $canvas->save($this->path . '/' . $f_name);
+            }
+        }
 
         // insert into database
         DB::table('draft_detail')->insert([
@@ -163,7 +218,10 @@ class InspeksiInlineController extends Controller
             'status'                => $status,
             'keterangan'            => $keterangan,
             'creator'               => $creator,
-            'updater'               => $updater
+            'updater'               => $updater,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at,
+            'capt_pict'             => $f_name
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -200,17 +258,64 @@ class InspeksiInlineController extends Controller
         // Fungsi hapus data draft
         public function DeleteInlineData($id){
             $id_detail = Crypt::decryptString($id);
+            $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
+            $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen");
+            $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
             $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_draft_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+
+            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_draft_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
+
             if ($count == 1){
                 $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
                 $inline_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
-                return redirect('/inline-input');
+
+                $draft = DB::select("SELECT * FROM vg_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+                // $shift = strtoupper($draft[0]->shift);
+                // $tgl_inspeksi = $draft[0]->tgl_inspeksi;
+                // $id_departemen = $draft[0]->id_departemen;
+                // $id_sub_departemen = $draft[0]->id_sub_departemen;
+                // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
+
+                return view('inspeksi.inline-input',[
+                    'id_header'         => 0, //di set 0, nanti ketika save maka akan dapat id header baru
+                    // 'tgl_inspeksi'      => $tgl_inspeksi,
+                    // 'shift'             => $shift,
+                    // 'mesin'             => $mesin,
+                    // 'defect'            => $defect,
+                    'departemen'        => $departemen,
+                    'subdepartemen'     => $subdepartemen,
+                    'defect'            => $defect,
+                    'draft'             => $draft,
+                    // 'id_departemen'     => $id_departemen,
+                    // 'id_sub_departemen' => $id_sub_departemen,
+                    'menu'              => 'inspeksi',
+                    'sub'               => '/inline'
+                ]);
             } else if ($count > 1) {
                 $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                return redirect('/inline-input');
+
+                $draft = DB::select("SELECT * FROM vg_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+                $shift = strtoupper($draft[0]->shift);
+                $tgl_inspeksi = $draft[0]->tgl_inspeksi;
+                $id_departemen = $draft[0]->id_departemen;
+                $id_sub_departemen = $draft[0]->id_sub_departemen;
+                $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
+                return view('inspeksi.inline-input',[
+                    'id_header'         => $id_header,
+                    'tgl_inspeksi'      => $tgl_inspeksi,
+                    'shift'             => $shift,
+                    'mesin'             => $mesin,
+                    'departemen'        => $departemen,
+                    'subdepartemen'     => $subdepartemen,
+                    'defect'            => $defect,
+                    'draft'             => $draft,
+                    'id_departemen'     => $id_departemen,
+                    'id_sub_departemen' => $id_sub_departemen,
+                    'menu'              => 'inspeksi',
+                    'sub'               => '/inline'
+                ]);
             }
         }
 
@@ -219,7 +324,7 @@ class InspeksiInlineController extends Controller
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_list_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_inline WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
             if ($count == 1){
                 $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -234,7 +339,7 @@ class InspeksiInlineController extends Controller
         //Fungsi post inline into list
         public function PostInline(){
             // Get ID Header
-            $data = DB::select("SELECT COUNT(id_inspeksi_detail) as total_data, id_inspeksi_header  FROM vw_draft_inline  WHERE id_user='".session()->get('id_user')."' GROUP BY id_inspeksi_header ");
+            $data = DB::select("SELECT COUNT(id_inspeksi_detail) as total_data, id_inspeksi_header  FROM vg_draft_inline  WHERE id_user='".session()->get('id_user')."' GROUP BY id_inspeksi_header ");
             $id_header = $data[0]->id_inspeksi_header; // ID Header
             $count_detail = $data[0]->total_data; // Total Baris Detail
 
@@ -262,7 +367,7 @@ class InspeksiInlineController extends Controller
 
         for ($i=0; $i<$count_detail; $i++) {
             // Get ID Detail
-            $get_id_detail = DB::select("SELECT id_inspeksi_detail FROM vw_draft_inline WHERE id_inspeksi_header ='".$id_header."'");
+            $get_id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_draft_inline WHERE id_inspeksi_header ='".$id_header."'");
             $id_detail = $get_id_detail[$i]->id_inspeksi_detail;
 
             $draft_detail  = DB::table('draft_detail')->SELECT(
@@ -283,9 +388,9 @@ class InspeksiInlineController extends Controller
                 'qty_sampling',
                 'penyebab',
                 'status',
-                'keterangan'
+                'keterangan',
+                'pict_defect'
             )->where('id_inspeksi_detail', $id_detail)->first();
-
 
             $id_mesin = $draft_detail->id_mesin;
             $qty_1 = $draft_detail->qty_1;
@@ -305,10 +410,40 @@ class InspeksiInlineController extends Controller
             $penyebab = $draft_detail->penyebab;
             $status = $draft_detail->status;
             $keterangan = $draft_detail->keterangan;
+            $pict_defect = $draft_detail->pict_defect;
             $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $creator = session()->get('id_user');
             $updater = session()->get('id_user');
+            $capt_pict = $draft_detail->capt_pict;
+
+            $file = $pict_defect;
+
+            // create filename with merging the timestamp and unique ID
+            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+            // $f_name = $capt_pict .'.'. $file->getClientOriginalExtension();
+
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
+
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
+
+            //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
+
+                // move image in folder
+                $canvas->save($this->path . '/' . $f_name);
+            }
+
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -334,7 +469,8 @@ class InspeksiInlineController extends Controller
                 'created_at'            => $created_at,
                 'updated_at'            => $updated_at,
                 'creator'               => $creator,
-                'updater'               => $updater
+                'updater'               => $updater,
+                'capt_pict'             => $f_name
             ]);
         }
             // Delete header
@@ -344,4 +480,55 @@ class InspeksiInlineController extends Controller
             $delete_detail = DB::table('draft_detail')->where('id_inspeksi_header', $id_header)->delete();
             return redirect('/inline');
         }
+
+    //Fungsi Filter List
+    public function FilterInlineList(Request $request){
+        if (request()->start_date || request()->end_date) {
+            $start_date     = $request->start_date;
+            $end_date       = $request->end_date;
+            $type_search    = $request->type_search;
+            $text_search    = strtoupper($request->text_search);
+
+                if ($type_search =="JOP") {
+                    $list_inline = DB::table('vg_list_inline')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('jop', 'like', "%".$text_search."%")
+                        ->get();
+                } else if ($type_search =="ITEM"){
+                    $list_inline = DB::table('vg_list_inline')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('item', 'like', "%".$text_search."%")
+                        ->get();
+                } else if ($type_search =="INSPEKTOR"){
+                    $list_inline = DB::table('vg_list_inline')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('nama_user', 'like', "%".$text_search."%")
+                        ->get();
+                } else {
+                    $list_inline = DB::table('vg_list_inline')
+                    ->where('tgl_inspeksi', '>=', $start_date)
+                    ->where('tgl_inspeksi', '<=', $end_date)
+                    ->get();
+                }
+
+            return view('inspeksi.inline-list',
+            [
+                'list_inline'   => $list_inline,
+                'menu'          => 'inspeksi',
+                'sub'           => '/inline'
+            ]);
+        } else {
+            $list_inline = DB::select("SELECT * FROM vg_list_inline");
+            return view('inspeksi.inline-list',
+            [
+                'list_inline'   => $list_inline,
+                'menu'          => 'inspeksi',
+                'sub'           => '/inline'
+            ]);
+        }
+
+    }
 }
