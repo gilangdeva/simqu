@@ -81,7 +81,6 @@ class InspeksiFinalController extends Controller
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-
         // Check if null
         if(($id_departemen == '') || ($id_departemen == 0)){
             $id_departemen = $request->id_departemen_ori;
@@ -110,7 +109,6 @@ class InspeksiFinalController extends Controller
                 return Redirect::back();
             }
 
-
             // insert into database
             DB::table('draft_header')->insert([
                 'id_inspeksi_header'    => $id_header,
@@ -137,8 +135,8 @@ class InspeksiFinalController extends Controller
         $jam_selesai = new DateTime($request->jam_selesai);
         $interval = $jam_mulai->diff($jam_selesai);
         $lama_inspeksi = $interval->format('%i');
-        $jop = $request->jop;
-        $item = $request->item;
+        $jop = strtoupper($request->jop);
+        $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
@@ -370,7 +368,6 @@ class InspeksiFinalController extends Controller
                 'pict_defect'
 
             )->where('id_inspeksi_detail', $id_detail)->first();
-
 
             $jam_mulai = new DateTime($draft_detail->jam_mulai);
             $jam_selesai = new DateTime($draft_detail->jam_selesai);

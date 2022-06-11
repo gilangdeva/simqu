@@ -23,7 +23,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class InspeksiInlineController extends Controller
 {
-
     public $path;
     public $dimensions;
 
@@ -87,7 +86,6 @@ class InspeksiInlineController extends Controller
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-
         // Check if null
         if(($id_departemen == '') || ($id_departemen == 0)){
             $id_departemen = $request->id_departemen_ori;
@@ -142,13 +140,13 @@ class InspeksiInlineController extends Controller
         $id_mesin = $request->id_mesin;
         $qty_1 = $request->qty_1;
         $qty_5 = $request->qty_1*5;
-        $pic = $request->pic;
+        $pic = strtoupper($request->pic);
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
         $interval = $jam_mulai->diff($jam_selesai);
         $lama_inspeksi = $interval->format('%i');
-        $jop = $request->jop;
-        $item = $request->item;
+        $jop = strtoupper($request->jop);
+        $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
@@ -161,43 +159,41 @@ class InspeksiInlineController extends Controller
         $updater = session()->get('id_user');
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-        $capt_pict = $request->f_name;
-        $pict_defect = $request->file('picture');
-            if ($pict_defect <> '') {
+        $capt_pict = $request->capt_pict;
 
-                $this->validate($request, [
-                    'picture' => 'required|image|mimes:jpg,png,jpeg'
-                ]);
+        $pict_defect = $request->file('pict_defect');
+        if ($pict_defect <> '') {
+            $this->validate($request, [
+                'pict_defect' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
 
-                $file = $pict_defect;
+            $file = $pict_defect;
 
-                // create filename with merging the timestamp and unique ID
-                $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            // create filename with merging the timestamp and unique ID
+            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
-                // upload original file (dimension hasn't been comppressed)
-                // Image::make($file)->save($this->path . '/' . $f_name);
+            // $f_name = $capt_pict .'.'. $file->getClientOriginalExtension();
 
-                //Looping array of image dimension that has been specify on contruct
-                foreach ($this->dimensions as $row) {
-                    //create image canvas according to dimension on array
-                    $canvas = Image::canvas($row, $row);
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
 
-                    //rezise according the dimension on array (still keep ratio)
-                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                        $constraint->aspectRatio();
-                    });
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
 
-                    // insert image that compressed into canvas
-                    $canvas->insert($resizeImage, 'center');
+            //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    // move image in folder
-                    $canvas->save($this->path . '/' . $f_name);
-                }
-            } 
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
 
-            $pict_defect->picture = $f_name;
-
-            
+                // move image in folder
+                $canvas->save($this->path . '/' . $f_name);
+            }
+        }
 
         // insert into database
         DB::table('draft_detail')->insert([
@@ -224,8 +220,7 @@ class InspeksiInlineController extends Controller
             'updater'               => $updater,
             'created_at'            => $created_at,
             'updated_at'            => $updated_at,
-            'capt_pict'             => $f_name,
-            'pict_defect'           => $pict_defect
+            'capt_pict'             => $f_name
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -327,7 +322,7 @@ class InspeksiInlineController extends Controller
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_list_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_inline WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
             if ($count == 1){
                 $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -392,11 +387,8 @@ class InspeksiInlineController extends Controller
                 'penyebab',
                 'status',
                 'keterangan',
-                'capt_pict',
                 'pict_defect'
-
             )->where('id_inspeksi_detail', $id_detail)->first();
-
 
             $id_mesin = $draft_detail->id_mesin;
             $qty_1 = $draft_detail->qty_1;
@@ -416,12 +408,40 @@ class InspeksiInlineController extends Controller
             $penyebab = $draft_detail->penyebab;
             $status = $draft_detail->status;
             $keterangan = $draft_detail->keterangan;
+            $pict_defect = $draft_detail->pict_defect;
             $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $creator = session()->get('id_user');
             $updater = session()->get('id_user');
             $capt_pict = $draft_detail->capt_pict;
-            $pict_defect = $draft_detail->pict_defect;
+
+            $file = $pict_defect;
+
+            // create filename with merging the timestamp and unique ID
+            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+            // $f_name = $capt_pict .'.'. $file->getClientOriginalExtension();
+
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
+
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
+
+            //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
+
+                // move image in folder
+                $canvas->save($this->path . '/' . $f_name);
+            }
+
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -448,8 +468,7 @@ class InspeksiInlineController extends Controller
                 'updated_at'            => $updated_at,
                 'creator'               => $creator,
                 'updater'               => $updater,
-                'capt_pict'             => $capt_pict,
-                'pict_defect'           => $pict_defect
+                'capt_pict'             => $f_name
             ]);
         }
             // Delete header
