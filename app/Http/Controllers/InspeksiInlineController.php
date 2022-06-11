@@ -34,7 +34,6 @@ class InspeksiInlineController extends Controller
         // $this->dimensions = ['245', '300', '500'];
     }
 
-
     // Menampilkan list inspeksi inline
     public function InlineList(){
         $start_date     = date('Y-m-01', strtotime('+0 hours'));
