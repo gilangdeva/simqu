@@ -119,7 +119,7 @@
                                 <td>{{ $li->penyebab }}</td>
                                 <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $li->capt_pict }}" width="200"></td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200"></td>
                                 {{-- <td><a class=href="{{ url('/') }}/images/defect/">{{ $li->pict_defect }}</td> --}}
                                 <td>
 

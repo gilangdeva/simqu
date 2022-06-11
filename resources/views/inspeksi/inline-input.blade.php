@@ -314,7 +314,7 @@
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
-                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" width="200"></td>
+                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200"></td>
                                 </tr>
                             @endforeach
                         @endif

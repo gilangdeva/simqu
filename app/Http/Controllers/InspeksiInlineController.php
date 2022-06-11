@@ -40,7 +40,7 @@ class InspeksiInlineController extends Controller
         $start_date     = date('Y-m-01', strtotime('+0 hours'));
         $end_date       = date('Y-m-d', strtotime('+0 hours'));
 
-        $list_inline = DB::table('vg_list_inline')
+        $list_inline = DB::table('vw_list_inline')
         ->where('tgl_inspeksi', '>=', $start_date)
         ->where('tgl_inspeksi', '<=', $end_date)
         ->get();
@@ -323,7 +323,7 @@ class InspeksiInlineController extends Controller
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_inline WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
+            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vw_list_inline WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
             if ($count == 1){
                 $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -489,25 +489,25 @@ class InspeksiInlineController extends Controller
             $text_search    = strtoupper($request->text_search);
 
                 if ($type_search =="JOP") {
-                    $list_inline = DB::table('vg_list_inline')
+                    $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('jop', 'like', "%".$text_search."%")
                         ->get();
                 } else if ($type_search =="ITEM"){
-                    $list_inline = DB::table('vg_list_inline')
+                    $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('item', 'like', "%".$text_search."%")
                         ->get();
                 } else if ($type_search =="INSPEKTOR"){
-                    $list_inline = DB::table('vg_list_inline')
+                    $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('nama_user', 'like', "%".$text_search."%")
                         ->get();
                 } else {
-                    $list_inline = DB::table('vg_list_inline')
+                    $list_inline = DB::table('vw_list_inline')
                     ->where('tgl_inspeksi', '>=', $start_date)
                     ->where('tgl_inspeksi', '<=', $end_date)
                     ->get();
@@ -520,7 +520,7 @@ class InspeksiInlineController extends Controller
                 'sub'           => '/inline'
             ]);
         } else {
-            $list_inline = DB::select("SELECT * FROM vg_list_inline");
+            $list_inline = DB::select("SELECT * FROM vw_list_inline");
             return view('inspeksi.inline-list',
             [
                 'list_inline'   => $list_inline,
