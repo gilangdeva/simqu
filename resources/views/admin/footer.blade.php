@@ -23,10 +23,10 @@
     <script src="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
     <!-- Sparkline chart JavaScript -->
-    <script src="{{ url('/') }}/admin/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="{{ url('/') }}/admin/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script> //
     <!-- Custom Theme JavaScript -->
     <script src="{{ url('/') }}/admin/js/custom.js"></script>
-    <script src="{{ url('/') }}/admin/js/custom.min.js"></script>
+    {{-- <script src="{{ url('/') }}/admin/js/custom.min.js"></script> --}}
     <script src="{{ url('/') }}/admin/js/jasny-bootstrap.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/switchery/dist/switchery.min.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
@@ -63,7 +63,7 @@
     <script src="{{ url('/') }}/admin/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
     <!--FooTable init-->
     <script src="{{ url('/') }}/admin/js/footable-init.js"></script>
-
+    
     <!-- End - This is for export functionality only -->
 
     <script>

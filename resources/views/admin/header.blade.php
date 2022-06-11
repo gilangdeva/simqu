@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="PT Bintang Cakra Kencana">
     <meta name="author" content="Kurniawan E. Yulianto">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/images/web/bck-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/images/web/logo-kiky.png">
     <title>@yield('title')</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ url('/') }}/admin/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -43,14 +43,41 @@
     <!-- Footable CSS -->
     <link href="{{ url('/') }}/admin/bower_components/footable/css/footable.core.css" rel="stylesheet">
     <link href="{{ url('/') }}/admin/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
-    <!-- Sweet Alert -->
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-	<script src="//malsup.github.com/jquery.form.js"></script> --}}
+
+    <style>
+        input:focus {
+            background-color: #f6f6f6;
+        }
+
+        input:hover {
+            background-color: #f6f6f6;
+        }
+
+        .form-control:focus,
+        .sp-page-root .form-control:focus {
+            border-color: #f74949;
+            outline: none;
+            -webkit-box-shadow: 0 0 5px #f74949;
+            box-shadow: 0 0 5px #f74949;
+        }
+        .select2-container.select2-container-active {
+            outline: 5px auto #f74949;
+            border-color: #f74949;
+            box-shadow: 0 0 5px #f74949;
+            outline-offset: -2px;
+        }
+        .select2-container-active .select2-choice {
+            border-color: #f74949;
+        }
+        .select2-results .select2-highlighted {
+            background: #f74949;
+            color: #fff;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
-<body class="fix-header">
+<body class="fix-header" onload="loadHours()">
     @include('sweetalert::alert')
     {{-- <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
@@ -83,9 +110,6 @@
                     <li><a href="javascript:void(0)" class="open-close waves-effect waves-light visible-xs"><i class="ti-close ti-menu"></i></a></li>
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right">
-                    <li>
-                        {{-- <form role="search" class="app-search hidden-sm hidden-xs m-r-10"><input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form> --}}
-                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ url('/') }}/images/users/{{ session()->get('picture') }}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ session()->get('nama_user') }}</b><span class="caret"></span> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
@@ -165,7 +189,7 @@
                             <a href="/upload" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/upload-jop"><i class="mdi mdi-ticket-confirmation fa-fw"></i> <span class="hide-menu">JOP Edar</span></a></li>
+                            <li><a href="/jop"><i class="mdi mdi-ticket-confirmation fa-fw"></i> <span class="hide-menu">JOP Edar</span></a></li>
                         </ul>
                     </li>
 

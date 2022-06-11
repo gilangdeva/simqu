@@ -18,6 +18,7 @@ use Image;
 use File;
 use Crypt;
 use Redirect;
+use DateTime;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class InspeksiFinalController extends Controller
@@ -28,9 +29,9 @@ class InspeksiFinalController extends Controller
 
         return view('inspeksi.final-list',
         [
-            'menu'      => 'inspeksi',
-            'sub'       => '/final',
-            'final'     => $list_final,
+            'list_final'    => $list_final,
+            'menu'          => 'inspeksi',
+            'sub'           => '/final'
         ]);
     }
 
@@ -110,15 +111,15 @@ class InspeksiFinalController extends Controller
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
-        $jam_mulai = $request->jam_mulai;
-        $jam_selesai = $request->jam_selesai;
-        $lama_inspeksi = 0;
+        $jam_mulai = new DateTime($request->jam_mulai);
+        $jam_selesai = new DateTime($request->jam_selesai);
+        $interval = $jam_mulai->diff($jam_selesai);
+        $lama_inspeksi = $interval->format('%i');
         $jop = $request->jop;
         $item = $request->item;
         $id_defect = $request->id_defect;
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
-        $penyebab = $request->penyebab;
         $status = $request->status;
         $keterangan = $request->keterangan;
         $qty_ready_pack = $request->qty_ready_pack;
@@ -128,8 +129,6 @@ class InspeksiFinalController extends Controller
         $hasil_verifikasi = $request->hasil_verifikasi;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
-        $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-        $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         // insert into database
         DB::table('draft_detail')->insert([
@@ -137,12 +136,12 @@ class InspeksiFinalController extends Controller
             'id_inspeksi_header'    => $id_header,
             'jam_mulai'             => $jam_mulai,
             'jam_selesai'           => $jam_selesai,
+            'lama_inspeksi'         => $lama_inspeksi,
             'jop'                   => $jop,
             'item'                  => $item,
             'id_defect'             => $id_defect,
             'kriteria'              => $kriteria,
             'qty_defect'            => $qty_defect,
-            'penyebab'              => $penyebab,
             'status'                => $status,
             'keterangan'            => $keterangan,
             'qty_ready_pack'        => $qty_ready_pack,
@@ -151,9 +150,7 @@ class InspeksiFinalController extends Controller
             'qty_reject_all'        => $qty_reject_all,
             'hasil_verifikasi'      => $hasil_verifikasi,
             'creator'               => $creator,
-            'updater'               => $updater,
-            'created_at'            => $created_at,
-            'updated_at'            => $updated_at
+            'updater'               => $updater
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -183,11 +180,148 @@ class InspeksiFinalController extends Controller
         }
         //End Controller Wawan
     }
-            // Fungsi hapus data
-            public function DeleteFinalData($id){
-                $id = Crypt::decryptString($id);
-
-                $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id)->delete();
+        // Fungsi hapus data draft
+        public function DeleteFinalData($id){
+            $id_detail = Crypt::decryptString($id);
+            $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $id_header = $id_header[0]->id_inspeksi_header;
+            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_draft_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count = $count_detail[0]->count;
+            if ($count == 1){
+                $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                $final_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
                 return redirect('/final-input');
+            } else if ($count > 1) {
+                $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                return redirect('/final-input');
+            }
+        }
+
+        // Fungsi hapus data list
+        public function DeleteFinalDataList($id){
+            $id_detail = Crypt::decryptString($id);
+            $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $id_header = $id_header[0]->id_inspeksi_header;
+            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_list_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
+            $count = $count_detail[0]->count;
+            if ($count == 1){
+                $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                $final_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
+                return redirect('/final');
+            } else if ($count > 1) {
+                $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                return redirect('/final');
+            }
+        }
+
+        //Fungsi post final into list
+        public function PostFinal(){
+            // Get ID Header
+            $data = DB::select("SELECT COUNT(id_inspeksi_detail) as total_data, id_inspeksi_header  FROM vg_draft_final  WHERE id_user='".session()->get('id_user')."' GROUP BY id_inspeksi_header ");
+            $id_header = $data[0]->id_inspeksi_header; // ID Header
+            $count_detail = $data[0]->total_data; // Total Baris Detail
+
+            $draft_header = DB::table('draft_header')->SELECT('id_inspeksi_header','tgl_inspeksi','shift','id_departemen','id_sub_departemen','created_at','updated_at')->WHERE('id_inspeksi_header',$id_header)->first();
+
+            $type_form = "Final"; // Final
+            $tgl_inspeksi = $draft_header->tgl_inspeksi;
+            $shift = strtoupper($draft_header->shift);
+            $id_user = session()->get('id_user');
+            $id_departemen = $draft_header->id_departemen;
+            $id_sub_departemen = $draft_header->id_sub_departemen;
+
+            // insert into database
+            DB::table('tb_inspeksi_header')->insert([
+            'id_inspeksi_header'    => $id_header,
+            'type_form'             => $type_form,
+            'tgl_inspeksi'          => $tgl_inspeksi,
+            'shift'                 => $shift,
+            'id_user'               => $id_user,
+            'id_departemen'         => $id_departemen,
+            'id_sub_departemen'     => $id_sub_departemen,
+            'created_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+            'updated_at'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+        ]);
+
+        for ($i=0; $i<$count_detail; $i++) {
+            // Get ID Detail
+            $get_id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_draft_final WHERE id_inspeksi_header ='".$id_header."'");
+            $id_detail = $get_id_detail[$i]->id_inspeksi_detail;
+
+            $draft_detail  = DB::table('draft_detail')->SELECT(
+                'id_inspeksi_detail',
+                'jam_mulai',
+                'jam_selesai',
+                'lama_inspeksi',
+                'jop',
+                'item',
+                'id_defect',
+                'kriteria',
+                'qty_defect',
+                'qty_ready_pcs',
+                'status',
+                'keterangan',
+                'qty_ready_pack',
+                'qty_sample_aql',
+                'qty_sample_riil',
+                'qty_reject_all',
+                'hasil_verifikasi'
+            )->where('id_inspeksi_detail', $id_detail)->first();
+
+
+            $jam_mulai = new DateTime($draft_detail->jam_mulai);
+            $jam_selesai = new DateTime($draft_detail->jam_selesai);
+            $interval = $jam_mulai->diff($jam_selesai);
+            $lama_inspeksi = $interval->format('%i');
+            $jop = $draft_detail->jop;
+            $item = $draft_detail->item;
+            $id_defect = $draft_detail->id_defect;
+            $kriteria = $draft_detail->kriteria;
+            $qty_defect = $draft_detail->qty_defect;
+            $qty_ready_pcs = $draft_detail->qty_ready_pcs;
+            $status = $draft_detail->status;
+            $keterangan = $draft_detail->keterangan;
+            $qty_ready_pack = $draft_detail->qty_ready_pack;
+            $qty_sample_aql = $draft_detail->qty_sample_aql;
+            $qty_sample_riil = $draft_detail->qty_sample_riil;
+            $qty_reject_all = $draft_detail->qty_reject_all;
+            $hasil_verifikasi = $draft_detail->hasil_verifikasi;
+            $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+            $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+            $creator = session()->get('id_user');
+            $updater = session()->get('id_user');
+
+            // insert into database
+            DB::table('tb_inspeksi_detail')->insert([
+                'id_inspeksi_detail'    => $id_detail,
+                'id_inspeksi_header'    => $id_header,
+                'jam_mulai'             => $jam_mulai,
+                'jam_selesai'           => $jam_selesai,
+                'lama_inspeksi'         => $lama_inspeksi,
+                'jop'                   => $jop,
+                'item'                  => $item,
+                'id_defect'             => $id_defect,
+                'kriteria'              => $kriteria,
+                'qty_defect'            => $qty_defect,
+                'qty_ready_pcs'         => $qty_ready_pcs,
+                'status'                => $status,
+                'keterangan'            => $keterangan,
+                'qty_ready_pack'        => $qty_ready_pack,
+                'qty_sample_aql'        => $qty_sample_aql,
+                'qty_sample_riil'       => $qty_sample_riil,
+                'qty_reject_all'        => $qty_reject_all,
+                'hasil_verifikasi'      => $hasil_verifikasi,
+                'created_at'            => $created_at,
+                'updated_at'            => $updated_at,
+                'creator'               => $creator,
+                'updater'               => $updater
+            ]);
+        }
+            // Delete header
+            $delete_header = DB::table('draft_header')->where('id_inspeksi_header', $id_header)->delete();
+
+            // Delete detail
+            $delete_detail = DB::table('draft_detail')->where('id_inspeksi_header', $id_header)->delete();
+            return redirect('/final');
         }
 }

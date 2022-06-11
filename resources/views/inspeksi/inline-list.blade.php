@@ -19,7 +19,17 @@
                         <a href="/inline-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
                     </div>
                 </div>
-                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="6">
+
+                <label class="form-inline">Tampilkan 
+                    <select id="demo-show-entries" class="form-control input-sm">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20" selected>20</option>
+                    </select> data
+                </label>
+
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="20">
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
@@ -28,9 +38,11 @@
                             <th>Area</th>
                             <th>JOP</th>
                             <th>Inspektor</th>
+                            <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
+                            <th data-hide="all">Output/5 mnt</th>
                             <th data-hide="all">PIC</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
@@ -43,21 +55,22 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
-                            <th data-hide="all"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list_inline as $li)
-                            <tr>
+                            <tr height="-10px;">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $li->tgl_inspeksi }}</td>
                                 <td>{{ $li->shift }}</td>
                                 <td>{{ $li->nama_departemen }} - {{ $li->nama_sub_departemen }}</td>
                                 <td>{{ $li->jop }}</td>
                                 <td>{{ $li->nama_user }}</td>
+                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_mesin }}</td>
                                 <td>{{ $li->qty_1 }}</td>
+                                <td>{{ $li->qty_5 }}</td>
                                 <td>{{ $li->pic }}</td>
                                 <td>{{ $li->jam_mulai }}</td>
                                 <td>{{ $li->jam_selesai }}</td>
@@ -71,7 +84,6 @@
                                 <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -79,7 +91,7 @@
 
                     <tfoot>
                         <tr>
-                            <td colspan="6">
+                            <td colspan="8">
                                 <div class="text-right">
                                     <ul class="pagination pagination-split m-t-30"> </ul>
                                 </div>

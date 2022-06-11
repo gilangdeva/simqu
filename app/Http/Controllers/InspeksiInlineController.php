@@ -25,13 +25,13 @@ class InspeksiInlineController extends Controller
 {
     // Menampilkan list inspeksi inline
     public function InlineList(){
-        $list_inline = DB::select('SELECT * FROM vw_list_inline');
+        $list_inline = DB::select("SELECT * FROM vw_list_inline");
 
         return view('inspeksi.inline-list',
         [
             'list_inline'   => $list_inline,
-            'menu'      => 'inspeksi',
-            'sub'       => '/inline'
+            'menu'          => 'inspeksi',
+            'sub'           => '/inline'
         ]);
     }
 
@@ -69,7 +69,6 @@ class InspeksiInlineController extends Controller
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-
         // Check if null
         if(($id_departemen == '') || ($id_departemen == 0)){
             $id_departemen = $request->id_departemen_ori;
@@ -90,6 +89,15 @@ class InspeksiInlineController extends Controller
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
             $id_header = $id_header[0]->id_inspeksi_header;
             $row = 1;
+
+            // CHECK ADA DRAFT ATAU TIDAK (WAWAN)
+            $draft_data = DB::select("SELECT id_inspeksi_header FROM vw_draft_inline WHERE id_user =".session()->get('id_user'));
+
+            if(isset($draft_data[0])) {
+                alert()->error('Gagal Menyimpan!', 'Anda memiliki data yang belum di post!');
+                return Redirect::back();   
+            }
+
             // insert into database
             DB::table('draft_header')->insert([
                 'id_inspeksi_header'    => $id_header,
@@ -169,6 +177,8 @@ class InspeksiInlineController extends Controller
                 'sub'               => '/inline'
             ]);
         } else {
+            // REFRESH DRAFT
+            $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return view('inspeksi.inline-input',[
                 'id_header'         => $id_header,
@@ -187,7 +197,7 @@ class InspeksiInlineController extends Controller
         }
         //End Controller Wawan
     }
-        // Fungsi hapus data
+        // Fungsi hapus data draft
         public function DeleteInlineData($id){
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
@@ -204,7 +214,7 @@ class InspeksiInlineController extends Controller
             }
         }
 
-        // Fungsi hapus data
+        // Fungsi hapus data list
         public function DeleteInlineDataList($id){
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
@@ -221,28 +231,7 @@ class InspeksiInlineController extends Controller
             }
         }
 
-        // // Fungsi hapus data list
-        // public function DeleteInlineDataList($id){
-        //     $id_detail = Crypt::decryptString($id);
-        //     $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
-        //     $id_header = $id_header[0]->id_inspeksi_header;
-
-        //     $delete_list_inline  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-        //     $delete_list_inline  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
-        //     return redirect('/inline');
-        //     $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_list_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
-        //     $count = $count_detail[0]->count;
-        //     if ($count == 1){
-        //         $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-        //         $inline_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
-        //         return redirect('/inline');
-        //     } else if ($count > 1) {
-        //         $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-        //         return redirect('/inline');
-        //     }
-        // }
-
-        //Fungsi insert into tb_inspeksi
+        //Fungsi post inline into list
         public function PostInline(){
             // Get ID Header
             $data = DB::select("SELECT COUNT(id_inspeksi_detail) as total_data, id_inspeksi_header  FROM vw_draft_inline  WHERE id_user='".session()->get('id_user')."' GROUP BY id_inspeksi_header ");
@@ -328,6 +317,7 @@ class InspeksiInlineController extends Controller
                 'id_mesin'              => $id_mesin,
                 'qty_1'                 => $qty_1,
                 'qty_5'                 => $qty_5,
+                'pic'                   => $pic,
                 'jam_mulai'             => $jam_mulai,
                 'jam_selesai'           => $jam_selesai,
                 'lama_inspeksi'         => $lama_inspeksi,
@@ -352,6 +342,6 @@ class InspeksiInlineController extends Controller
 
             // Delete detail
             $delete_detail = DB::table('draft_detail')->where('id_inspeksi_header', $id_header)->delete();
-            return redirect('/inline-input/');
+            return redirect('/inline');
         }
 }

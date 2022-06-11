@@ -26,15 +26,15 @@
                             @endif
 
                             @if(isset($tgl_inspeksi))
-                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" readonly>
+                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" style="background-color: #f4f4f4;" readonly>
                             @else
-                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" required>
+                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" autofocus required>
                             @endif
                         </div>
                         <div class="col-sm-2 control-label"><label>Shift</label></div>
                         <div class="col-sm-4">
                             @if (isset($shift))
-                                <select class="form-control select2" name="shift" id="shift" disabled>
+                                <select class="form-control select2" name="shift" id="shift" style="background-color: #f4f4f4;" disabled>
                                     <option value="">Pilih Shift</option>
                                     <option value="A" {{ old('shift', $shift) == "A" ? 'selected':''}}>A</option>
                                     <option value="B" {{ old('shift', $shift) == "B" ? 'selected':''}}>B</option>
@@ -55,7 +55,7 @@
                         <div class="col-sm-2 control-label"><label>Dept.</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_departemen))
-                            <select class="form-control select2" name="id_departemen" id="id_departemen" disabled>
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                             <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @endif
@@ -73,7 +73,7 @@
                         <div class="col-sm-2 control-label"><label>Sub Dept.</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_sub_departemen))
-                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" disabled>
+                                <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
                             @endif
@@ -111,7 +111,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
                         <div class="col-sm-2">
-                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required>
+                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" onblur="checkHours(event)" required>
                         </div>
                         <div class="col-sm-2">
                             <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
@@ -305,6 +305,8 @@
 
 @include('admin.footer')
 
+
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('select[name="id_departemen"]').on('change', function() {
@@ -328,9 +330,9 @@
                         }
                     }
                 });
-            }else{
+            } else{
                 $('select[name="id_sub_departemen"]').empty();
-            }
+            } 
         });
 
         $('select[name="id_sub_departemen"]').on('change', function() {
@@ -403,8 +405,22 @@
     function checkHours(e){
         var sh = $("#jam_mulai").val();
         var eh = $("#jam_selesai").val();
-        t1 = sh.slice(0,4);
-        t2 = parseInt(sh.slice(4,5))+1;
+        t1 = parseInt(sh.slice(0,2));
+        t2 = parseInt(sh.slice(3,5));
+        cek_menit = parseInt(sh.slice(3,5));
+
+        if (cek_menit == 59){
+            t1 = t1+1;
+            t2 = "00";
+        } else {
+            t2 = t2+1;
+        }
+
+        if (cek_menit < 10 ){
+            t2 = "0"+t2;
+        }
+
+        // alert('t1: '+t1+' t2 :'+t2);
 
         var stt = new Date("November 13, 2013 " + sh);
         stt = stt.getTime();
@@ -414,10 +430,33 @@
 
         if (stt >= endt) {
             alert('Jam Selesai harus lebih besar dari Jam Mulai');
-            document.getElementById("jam_selesai").value = t1 + t2;
+            document.getElementById("jam_selesai").value = t1+":"+t2;
             document.getElementById("jam_selesai").focus();
         }
     }
+
+    function loadHours() {
+        const event = new Date();
+        var h = event.getHours();
+        var m = event.getMinutes();
+
+        if (h < 10) {
+            h = "0"+h;
+        }
+        
+        if (m < 10) {
+            m = "0"+m;
+        }
+
+        document.getElementById("jam_mulai").value = h+":"+m;
+    }
 </script>
+
+<script>
+    if ( window.history.replaceState ) {
+       window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
 
 @endsection
