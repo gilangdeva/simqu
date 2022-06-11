@@ -221,6 +221,13 @@
 
                         </div>
                     </div>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
+                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan Foto">
+                        </div>
+                    </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -274,6 +281,7 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
+                            <th data-hide="all">Foto Temuan Defect</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -301,6 +309,8 @@
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
+                                    <td>{{ $d->pict_defect }}</td>
+
                                     <td>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                     </td>

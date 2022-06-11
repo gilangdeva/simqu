@@ -23,6 +23,18 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class InspeksiFinalController extends Controller
 {
+
+    public $path;
+    public $dimensions;
+
+    public function __construct(){
+        //specify path destination
+        $this->path = public_path('/images/defect');
+        //define dimention of photo
+        $this->dimensions = ['500'];
+        // $this->dimensions = ['245', '300', '500'];
+    }
+
     // Menampilkan list inspeksi final
     public function FinalList(){
         $list_final = DB::select('SELECT * FROM vg_list_final');
@@ -141,6 +153,43 @@ class InspeksiFinalController extends Controller
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
 
+        $capt_pict = $request->f_name;
+        $pict_defect = $request->file('picture');
+            if ($pict_defect <> '') {
+
+                $this->validate($request, [
+                    'picture' => 'required|image|mimes:jpg,png,jpeg'
+                ]);
+
+                $file = $pict_defect;
+
+                // create filename with merging the timestamp and unique ID
+                $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+                // upload original file (dimension hasn't been comppressed)
+                // Image::make($file)->save($this->path . '/' . $f_name);
+
+                //Looping array of image dimension that has been specify on contruct
+                foreach ($this->dimensions as $row) {
+                    //create image canvas according to dimension on array
+                    $canvas = Image::canvas($row, $row);
+
+                    //rezise according the dimension on array (still keep ratio)
+                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    // insert image that compressed into canvas
+                    $canvas->insert($resizeImage, 'center');
+
+                    // move image in folder
+                    $canvas->save($this->path . '/' . $f_name);
+                }
+            } 
+
+            $pict_defect->picture = $f_name;
+
+
         // insert into database
         DB::table('draft_detail')->insert([
             'id_inspeksi_detail'    => $id_detail,
@@ -163,7 +212,11 @@ class InspeksiFinalController extends Controller
             'qty_reject_all'        => $qty_reject_all,
             'hasil_verifikasi'      => $hasil_verifikasi,
             'creator'               => $creator,
-            'updater'               => $updater
+            'updater'               => $updater,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at,
+            'capt_pict'             => $f_name,
+            'pict_defect'           => $pict_defect
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -250,8 +303,7 @@ class InspeksiFinalController extends Controller
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_list_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
-            $count = $count_detail[0]->count;
+            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_final WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");            $count = $count_detail[0]->count;
             if ($count == 1){
                 $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
                 $final_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
@@ -313,7 +365,10 @@ class InspeksiFinalController extends Controller
                 'qty_sample_aql',
                 'qty_sample_riil',
                 'qty_reject_all',
-                'hasil_verifikasi'
+                'hasil_verifikasi',
+                'capt_pict',
+                'pict_defect'
+
             )->where('id_inspeksi_detail', $id_detail)->first();
 
 
@@ -338,6 +393,8 @@ class InspeksiFinalController extends Controller
             $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $creator = session()->get('id_user');
             $updater = session()->get('id_user');
+            $capt_pict = $draft_detail->capt_pict;
+            $pict_defect = $draft_detail->pict_defect;
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -362,7 +419,9 @@ class InspeksiFinalController extends Controller
                 'created_at'            => $created_at,
                 'updated_at'            => $updated_at,
                 'creator'               => $creator,
-                'updater'               => $updater
+                'updater'               => $updater,
+                'capt_pict'             => $capt_pict,
+                'pict_defect'           => $pict_defect
             ]);
         }
             // Delete header

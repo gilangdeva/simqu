@@ -91,6 +91,7 @@
                                 <th data-hide="all">Status</th>
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Hasil Verifikasi</th>
+                                <th data-hide="all">Foto Temuan Defect</th>
                                 <th data-hide="all"></th>
                             </tr>
                         </thead>
@@ -120,6 +121,8 @@
                                 <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $lf->capt_pict }}" alt="defect-img" width="150" class="img"></td>
+
                                 <td>
                                 </td>
                             </tr>

@@ -90,6 +90,8 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
+                            <th data-hide="all">Foto Temuan Defect</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -118,6 +120,8 @@
                                 <td>{{ $li->penyebab }}</td>
                                 <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }}</td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $li->pict_defect }}" alt="defect-img" width="36" class="img"></td>
+
                                 <td>
 
                                 </td>
