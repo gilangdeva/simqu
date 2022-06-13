@@ -218,13 +218,13 @@
                         <div class="col-sm-4">
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom:1px;">
+                    {{-- <div class="form-group" style="margin-bottom:1px;">
                         <label class="col-sm-2 control-label">Foto Temuan Defect</label>
                         <div class="col-sm-10">
                             <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
                             <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan Foto">
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group" style="margin-bottom:5px;">
                         <label class="col-sm-2 control-label">Foto</label>
@@ -232,8 +232,18 @@
                             <input type="file" id="input-file-now-custom-2" name="picture_1" style="margin-bottom:5px;" />
                             <input type="file" id="input-file-now-custom-2" name="picture_2" style="margin-bottom:5px;" />
                             <input type="file" id="input-file-now-custom-2" name="picture_3" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="picture_4" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="picture_5" style="margin-bottom:5px;" />
                         </div>
                     </div>
+
+                    {{-- <div class="form-group" style="margin-bottom:5px;">
+                        <label class="col-sm-2 control-label">Video</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="video_1" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="video_2" style="margin-bottom:5px;" />
+                        </div>
+                    </div> --}}
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -287,8 +297,12 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
-                            <th data-hide="all">Foto Temuan Defect</th>
+                            <th data-hide="all">Foto</th>
                             <th data-hide="all"></th>
+                            <th data-hide="all"></th>
+                            <th data-hide="all"></th>
+                            <th data-hide="all"></th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -318,7 +332,32 @@
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
-                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200"></td>
+                                    <td>
+                                        @if(isset($d->picture_1))
+                                            <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200">Picture 1</a>
+                                        @endif
+                                        @if(isset($d->picture_2))
+                                            / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" width="200">Picture 2</a>
+                                        @endif
+                                        @if(isset($d->picture_3))
+                                            / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" width="200">Picture 3</a>
+                                        @endif
+                                        @if(isset($d->picture_4))
+                                            / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" width="200">Picture 4</a>
+                                        @endif
+                                        @if(isset($d->picture_5))
+                                            / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
+                                        @endif
+                                    </td>
+                                    {{-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200">Picture 1</a> /
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" width="200">Picture 2</a> /
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" width="200">Picture 3</a> /
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" width="200">Picture 4</a> /
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
+                                    </td> --}}
+
+                                    {{-- <td><img src="{{ url('/') }}/images/defect/{{ $d->video_1 }}" width="100"></td>
+                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->video_2 }}" width="100"></td> --}}
                                 </tr>
                             @endforeach
                         @endif
@@ -361,7 +400,7 @@
                 });
             } else{
                 $('select[name="id_sub_departemen"]').empty();
-            } 
+            }
         });
 
         $('select[name="id_sub_departemen"]').on('change', function() {
@@ -472,7 +511,7 @@
         if (h < 10) {
             h = "0"+h;
         }
-        
+
         if (m < 10) {
             m = "0"+m;
         }

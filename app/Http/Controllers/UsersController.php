@@ -142,9 +142,10 @@ class UsersController extends Controller
 
         // Select User ID Sub Departemen
         $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
-
+        $id_departemen_selected = $id_departemen_selected[0]->id_departemen;
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected[0]->id_departemen');
+
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen_selected);
 
         // Select data based on ID
         $user = UsersModel::find($id);
@@ -285,7 +286,7 @@ class UsersController extends Controller
         //Encrypt Confirm Password
         $encrypt_confirm_password = md5($request->confirm_password);
         $confirm_password = hash('ripemd160', $encrypt_confirm_password);
-        
+
         //Check password original
         // DB::select("SELECT password FROM tbl_master_users WHERE user_id = '".$user_id."'")
         $get_original_password = UsersModel::find($user_id, ['password']);
@@ -308,7 +309,7 @@ class UsersController extends Controller
             UsersModel::where('id_user', '=', $user_id)->update([
                 'password' => $new_password,
             ]);
-            
+
             alert()->success('Data berhasil disimpan!', 'Sukses!');
             return redirect("/auth-logout/".Crypt::encrypt(session()->get('user_id')));
         }
