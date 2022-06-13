@@ -121,7 +121,8 @@
                                 <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
-                                <td>{{ $lf->pict_defect }}</td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $lf->capt_pict }}" alt="defect-img" width="150" class="img"></td>
+
                                 <td>
                                 </td>
                             </tr>

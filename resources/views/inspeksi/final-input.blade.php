@@ -212,11 +212,19 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
+                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
+                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan Foto">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
-                            {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
+                            <!-- {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}} -->
                         </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -249,6 +257,7 @@
                             <th>Bagian</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
@@ -264,6 +273,7 @@
                             <th data-hide="all">Hasil Inspeksi</th>
                             <th data-hide="all">Rekomendasi</th>
                             <th data-hide="all">Hasil Verifikasi</th>
+                            <th data-hide="all">Foto Temuan Defect</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -277,6 +287,9 @@
                                 <td>{{ $d->nama_departemen }}</td>
                                 <td>{{ $d->nama_sub_departemen }}</td>
                                 <td>{{ $d->jop }}</td>
+                                <td>
+                                <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                </td>
                                 <td>{{ $d->item }}</td>
                                 <td>{{ $d->jam_mulai }}</td>
                                 <td>{{ $d->jam_selesai }}</td>
@@ -292,9 +305,8 @@
                                 <td>{{ $d->status }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->hasil_verifikasi }}</td>
-                                <td>
-                                <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
-                                </td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" alt="defect-img" width="150" class="img"></td>
+                                
                             </tr>
                             @endforeach
                         @endif

@@ -218,6 +218,13 @@
                         <div class="col-sm-4">
                         </div>
                     </div>
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
+                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan Foto">
+                        </div>
+                    </div>
 
                     <div class="form-group" style="margin-bottom:5px;">
                         <label class="col-sm-2 control-label">Foto</label>
@@ -311,7 +318,7 @@
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
-                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" width="200"></td>
+                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200"></td>
                                 </tr>
                             @endforeach
                         @endif
