@@ -211,11 +211,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:1px;">
-                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <div class="col-sm-2 control-label"><label>Foto</label></div>
                         <div class="col-sm-10">
-                            <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
-                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan Foto">
+                            <input type="file" id="input-file-now-custom-2" name="picture_1" style="margin-bottom:5px;"/>
+                            <input type="file" id="input-file-now-custom-2" name="picture_2" style="margin-bottom:5px;"/>
+                            <input type="file" id="input-file-now-custom-2" name="picture_3" style="margin-bottom:5px;"/>
                         </div>
                     </div>
 
@@ -224,8 +225,8 @@
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
-                            <!-- {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}} -->
-                        </div>
+                            {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
+                        </div>  
 
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
@@ -239,7 +240,7 @@
         <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title m-b-0">DRAFT INSPEKSI</h3>
-                <label class="form-inline">Show
+                <label class="form-final">Show
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -288,7 +289,7 @@
                                 <td>{{ $d->nama_sub_departemen }}</td>
                                 <td>{{ $d->jop }}</td>
                                 <td>
-                                <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>
                                 <td>{{ $d->item }}</td>
                                 <td>{{ $d->jam_mulai }}</td>
@@ -305,7 +306,7 @@
                                 <td>{{ $d->status }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->hasil_verifikasi }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" alt="defect-img" width="150" class="img"></td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200"></td>
                                 
                             </tr>
                             @endforeach
@@ -466,6 +467,7 @@
 
         document.getElementById("jam_mulai").value = h+":"+m;
     }
+
     function resetdata() {
         document.getElementById("final_data").reset();
         $("select.select2").select2({ allowClear: true });

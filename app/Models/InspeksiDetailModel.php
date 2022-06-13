@@ -38,7 +38,12 @@ class InspeksiDetailModel extends Model
         'updater',
         'created_at',
         'updated_at',
-        'capt_pict_defect',
-        'pict_defect'
+        'picture_1',
+        'picture_2',
+        'picture_3',
+        'picture_4',
+        'picture_5',
+        'video_1',
+        'video_2'
     ];
 }

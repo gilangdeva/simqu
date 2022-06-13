@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="white-box">
                 <div class="row">
-                    <form action="{{ route('final.filter') }}" id="inline_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
+                    <form action="{{ route('final.filter') }}" id="final_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
                         <div class="col-sm-6">
                             <div class="col-sm-2"><label>Periode :</label></div>
                             <div class="col-sm-5">
@@ -71,7 +71,6 @@
                                 <th data-toggle="true">No.</th>
                                 <th>Tgl</th>
                                 <th>Shift</th>
-                                <td>Bagian</th>
                                 <th>Area</th>
                                 <th>JOP</th>
                                 <th>Inspektor</th>
@@ -101,8 +100,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $lf->tgl_inspeksi }}</td>
                                 <td>{{ $lf->shift }}</td>
-                                <td>{{ $lf->nama_departemen }}</td>
-                                <td>{{ $lf->nama_sub_departemen }}</td>
+                                <td>{{ $lf->nama_departemen }} - {{ $lf->nama_sub_departemen }}</td>
                                 <td>{{ $lf->jop }}</td>
                                 <td>{{ $lf->nama_user }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
@@ -121,7 +119,7 @@
                                 <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $lf->capt_pict }}" alt="defect-img" width="150" class="img"></td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" width="200"></td>
 
                                 <td>
                                 </td>

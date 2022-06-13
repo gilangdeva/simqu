@@ -159,12 +159,12 @@ class InspeksiInlineController extends Controller
         $updater = session()->get('id_user');
         $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-        $capt_pict = $request->capt_pict;
+        $capt_pict = $request->f_name;
 
-        $pict_defect = $request->file('pict_defect');
+        $pict_defect = $request->file('picture');
         if ($pict_defect <> '') {
             $this->validate($request, [
-                'pict_defect' => 'required|image|mimes:jpg,png,jpeg'
+                'picture' => 'required|image|mimes:jpg,png,jpeg'
             ]);
 
             $file = $pict_defect;
@@ -220,7 +220,8 @@ class InspeksiInlineController extends Controller
             'updater'               => $updater,
             'created_at'            => $created_at,
             'updated_at'            => $updated_at,
-            'capt_pict'             => $f_name
+            'capt_pict'             => $f_name,
+            'pict_defect'           => $pict_defect
         ]);
 
         if(($row == 0) || ($row == '')){

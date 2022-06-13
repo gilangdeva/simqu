@@ -37,11 +37,17 @@ class InspeksiFinalController extends Controller
 
     // Menampilkan list inspeksi final
     public function FinalList(){
-        $list_final = DB::select('SELECT * FROM vg_list_final');
+        $start_date     = date('Y-m-01', strtotime('+0 hours'));
+        $end_date       = date('Y-m-d', strtotime('+0 hours'));
+
+        $list_final = DB::table('vg_list_final')
+        ->where('tgl_inspeksi', '>=', $start_date)
+        ->where('tgl_inspeksi', '<=', $end_date)
+        ->get();
 
         return view('inspeksi.final-list',
         [
-            'list_final'    => $list_final,
+            'list_final'   => $list_final,
             'menu'          => 'inspeksi',
             'sub'           => '/final'
         ]);
@@ -150,16 +156,15 @@ class InspeksiFinalController extends Controller
         $hasil_verifikasi = $request->hasil_verifikasi;
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
-
-        $capt_pict = $request->f_name;
-        $pict_defect = $request->file('picture');
-            if ($pict_defect <> '') {
+        $picture_1 = $request->file('picture_1');
+        
+            if ($picture_1 <> '') {
 
                 $this->validate($request, [
-                    'picture' => 'required|image|mimes:jpg,png,jpeg'
+                    'pict_defect' => 'required|image|mimes:jpg,png,jpeg'
                 ]);
 
-                $file = $pict_defect;
+                $file = $picture_1;
 
                 // create filename with merging the timestamp and unique ID
                 $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
@@ -184,8 +189,6 @@ class InspeksiFinalController extends Controller
                     $canvas->save($this->path . '/' . $f_name);
                 }
             } 
-
-            $pict_defect->picture = $f_name;
 
 
         // insert into database
@@ -213,8 +216,8 @@ class InspeksiFinalController extends Controller
             'updater'               => $updater,
             'created_at'            => $created_at,
             'updated_at'            => $updated_at,
-            'capt_pict'             => $f_name,
-            'pict_defect'           => $pict_defect
+            'picture_1'             => $f_name
+           
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -227,7 +230,8 @@ class InspeksiFinalController extends Controller
                 'sub'               => '/final'
             ]);
         } else {
-            $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
+            // REFRESH DRAFT
+            $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return view('inspeksi.final-input',[
                 'id_header'         => $id_header,
@@ -364,7 +368,6 @@ class InspeksiFinalController extends Controller
                 'qty_sample_riil',
                 'qty_reject_all',
                 'hasil_verifikasi',
-                'capt_pict',
                 'pict_defect'
 
             )->where('id_inspeksi_detail', $id_detail)->first();
@@ -386,12 +389,40 @@ class InspeksiFinalController extends Controller
             $qty_sample_riil = $draft_detail->qty_sample_riil;
             $qty_reject_all = $draft_detail->qty_reject_all;
             $hasil_verifikasi = $draft_detail->hasil_verifikasi;
+            $pict_defect = $draft_detail->pict_defect;
             $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $creator = session()->get('id_user');
             $updater = session()->get('id_user');
             $capt_pict = $draft_detail->capt_pict;
-            $pict_defect = $draft_detail->pict_defect;
+
+            $file = $pict_defect;
+
+            // create filename with merging the timestamp and unique ID
+            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+            // $f_name = $capt_pict .'.'. $file->getClientOriginalExtension();
+
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
+
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
+
+            //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
+
+                // move image in folder
+                $canvas->save($this->path . '/' . $f_name);
+            }
+
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -417,8 +448,7 @@ class InspeksiFinalController extends Controller
                 'updated_at'            => $updated_at,
                 'creator'               => $creator,
                 'updater'               => $updater,
-                'capt_pict'             => $capt_pict,
-                'pict_defect'           => $pict_defect
+                'capt_pict'             => $f_name
             ]);
         }
             // Delete header
