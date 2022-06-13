@@ -404,15 +404,48 @@ class InspeksiFinalController extends Controller
             $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
             $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
+            $picture_1 = $picture_1[0]->picture_1;
+            $picture_2 = $picture_2[0]->picture_2;
+            $picture_3 = $picture_3[0]->picture_3;
+            $picture_4 = $picture_4[0]->picture_4;
+            $picture_5 = $picture_5[0]->picture_5;
 
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_draft_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
+
+            // Delete Pictures
+            if (isset($picture_1)) {
+                if ($picture_1 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_1));
+                }
+            }
+            if (isset($picture_2)) {
+                if ($picture_2 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_2));
+                }
+            }
+            if (isset($picture_3)) {
+                if ($picture_3 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_3));
+                }
+            }
+            if (isset($picture_4)) {
+                if ($picture_4 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_4));
+                }
+            }
+            if (isset($picture_5)) {
+                if ($picture_5 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_5));
+                }
+            }
 
             if ($count == 1){
                 $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
                 $final_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
+                
                 return view('inspeksi.final-input',[
                     'id_header'         => 0,
                     'departemen'        => $departemen,
@@ -453,6 +486,41 @@ class InspeksiFinalController extends Controller
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
             $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_final WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");            $count = $count_detail[0]->count;
+            $count = $count_detail[0]->count;
+            $pictures = DB::select("SELECT picture_1, picture_2, picture_3, picture_4, picture_5 FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $picture_1 = $pictures[0]->picture_1;
+            $picture_2 = $pictures[0]->picture_2;
+            $picture_3 = $pictures[0]->picture_3;
+            $picture_4 = $pictures[0]->picture_4;
+            $picture_5 = $pictures[0]->picture_5;
+
+            // Delete Pictures
+            if (isset($picture_1)) {
+                if ($picture_1 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_1));
+                }
+            }
+            if (isset($picture_2)) {
+                if ($picture_2 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_2));
+                }
+            }
+            if (isset($picture_3)) {
+                if ($picture_3 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_3));
+                }
+            }
+            if (isset($picture_4)) {
+                if ($picture_4 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_4));
+                }
+            }
+            if (isset($picture_5)) {
+                if ($picture_5 <> "blank.jpg") {
+                    File::delete(public_path("/images/defect/".$picture_5));
+                }
+            }
+
             if ($count == 1){
                 $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
                 $final_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();

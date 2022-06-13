@@ -91,12 +91,11 @@
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Hasil Verifikasi</th>
                                 <th data-hide="all">Foto</th>
-                                <th data-hide="all"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($list_final as $lf)
-                            <tr>
+                            <tr height="-10px;">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $lf->tgl_inspeksi }}</td>
                                 <td>{{ $lf->shift }}</td>
