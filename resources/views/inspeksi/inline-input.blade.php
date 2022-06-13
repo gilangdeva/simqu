@@ -472,31 +472,18 @@
         if (h < 10) {
             h = "0"+h;
         }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> 75a1eb2d7f42b545198cd7c1b1ee36dcd60a1d6c
         if (m < 10) {
             m = "0"+m;
         }
 
         document.getElementById("jam_mulai").value = h+":"+m;
     }
-<<<<<<< HEAD
-=======
 
     function resetdata() {
-  document.getElementById("inline_data").reset();
-  $("select.select2").select2({ allowClear: true }); // re-init to show default status
+        document.getElementById("inline_data").reset();
+    $("select.select2").select2({ allowClear: true }); // re-init to show default status
 }
-</script>
-
-<script>
-    if ( window.history.replaceState ) {
-       window.history.replaceState( null, null, window.location.href );
-    }
->>>>>>> 75a1eb2d7f42b545198cd7c1b1ee36dcd60a1d6c
 </script>
 
 <script>
