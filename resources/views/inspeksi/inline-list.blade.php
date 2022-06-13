@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <label class="form-inline">Tampilkan 
+                <label class="form-inline">Tampilkan
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -90,7 +90,7 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
-                            <th data-hide="all">Foto Temuan Defect</th>
+                            <th data-hide="all">Foto</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,7 +119,23 @@
                                 <td>{{ $li->penyebab }}</td>
                                 <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200"></td>
+                                <td>
+                                    @if(isset($li->picture_1))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200">Picture 1</a>
+                                    @endif
+                                    @if(isset($li->picture_2))
+                                        / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_2 }}" width="200">Picture 2</a>
+                                    @endif
+                                    @if(isset($li->picture_3))
+                                        / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_3 }}" width="200">Picture 3</a>
+                                    @endif
+                                    @if(isset($li->picture_4))
+                                        / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_4 }}" width="200">Picture 4</a>
+                                    @endif
+                                    @if(isset($li->picture_5))
+                                        / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_5 }}" width="200">Picture 5</a>
+                                    @endif
+                                </td>
                                 {{-- <td><a class=href="{{ url('/') }}/images/defect/">{{ $li->pict_defect }}</td> --}}
                                 <td>
                                 </td>
