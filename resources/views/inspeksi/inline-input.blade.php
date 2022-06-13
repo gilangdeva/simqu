@@ -219,11 +219,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <label class="col-sm-2 control-label">Foto</label>
                         <div class="col-sm-10">
-                            <input type="file" id="input-file-now-custom-2" name="pict_defect" class="dropify" data-height="130" />
-                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan foto">
+                            <input type="file" id="input-file-now-custom-2" name="picture_1" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="picture_2" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="picture_3" style="margin-bottom:5px;" />
                         </div>
                     </div>
 

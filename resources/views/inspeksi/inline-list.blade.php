@@ -64,11 +64,7 @@
                     </select> data
                 </label>
 
-<<<<<<< HEAD
-                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="20">
-=======
-                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny inspeksi-list" data-page-size="8">
->>>>>>> 75a1eb2d7f42b545198cd7c1b1ee36dcd60a1d6c
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny inspeksi-list" data-page-size="20">
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
@@ -76,9 +72,9 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Item</th>
                             <th>Inspektor</th>
                             <th>Hapus</th>
-                            <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
                             <th data-hide="all">Output/5 mnt</th>
@@ -105,9 +101,9 @@
                                 <td>{{ $li->shift }}</td>
                                 <td>{{ $li->nama_departemen }} - {{ $li->nama_sub_departemen }}</td>
                                 <td>{{ $li->jop }}</td>
+                                <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_user }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
-                                <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_mesin }}</td>
                                 <td>{{ $li->qty_1 }}</td>
                                 <td>{{ $li->qty_5 }}</td>
@@ -123,7 +119,7 @@
                                 <td>{{ $li->penyebab }}</td>
                                 <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $li->capt_pict }}" width="200"></td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200"></td>
                                 {{-- <td><a class=href="{{ url('/') }}/images/defect/">{{ $li->pict_defect }}</td> --}}
                                 <td>
                                 </td>

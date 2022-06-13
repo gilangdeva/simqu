@@ -68,14 +68,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($defect as $def) --}}
+                            @foreach ($jop as $j)
                             <tr>
-                                <td align="center"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td align="center">{{ $loop->iteration }}</td>
+                                <td>{{ $j->tgl_jop }}</td>
+                                <td>{{ $j->jop }}</td>
+                                <td>{{ $j->nama_barang }}</td>
                             </tr>
-                            {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
