@@ -36,10 +36,9 @@
                             @if(isset($tgl_inspeksi))
                                 <input type="date" class="form-control" name="tgl_inspeksi" value="{{ $tgl_inspeksi }}" style="background-color: #f4f4f4;" readonly>
                             @else
-                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" required>
+                                <input type="date" class="form-control" name="tgl_inspeksi" value="{{ date('Y-m-d') }}" autofocus required>
                             @endif
                         </div>
-
                         <div class="col-sm-2 control-label"><label>Shift</label></div>
                         <div class="col-sm-4">
                             @if (isset($shift))
@@ -120,7 +119,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
                         <div class="col-sm-2">
-                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required>
+                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" onblur="checkHours(event)" required>
                         </div>
                         <div class="col-sm-2">
                             <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
@@ -187,7 +186,6 @@
 
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
-
                         </div>
                     </div>
 
@@ -218,7 +216,6 @@
 
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
-
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom:1px;">
@@ -229,11 +226,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <label class="col-sm-2 control-label">Foto</label>
                         <div class="col-sm-10">
-                            <input type="file" id="input-file-now-custom-2" name="pict_defect" class="dropify" data-height="130" />
-                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan foto">
+                            <input type="file" id="input-file-now-custom-2" name="picture_1" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="picture_2" style="margin-bottom:5px;" />
+                            <input type="file" id="input-file-now-custom-2" name="picture_3" style="margin-bottom:5px;" />
                         </div>
                     </div>
 
@@ -247,7 +245,6 @@
 
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
-
                         </div>
                     </div>
                 </form>
@@ -321,7 +318,7 @@
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
-                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->capt_pict }}" width="200"></td>
+                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200"></td>
                                 </tr>
                             @endforeach
                         @endif
@@ -331,12 +328,13 @@
             </div>
         </div>
     </div>
-</div>
     <!-- end row -->
 </div>
 <!-- end container-fluid -->
 
 @include('admin.footer')
+
+
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -361,9 +359,9 @@
                         }
                     }
                 });
-            }else{
+            } else{
                 $('select[name="id_sub_departemen"]').empty();
-            }
+            } 
         });
 
         $('select[name="id_sub_departemen"]').on('change', function() {
@@ -474,7 +472,7 @@
         if (h < 10) {
             h = "0"+h;
         }
-
+        
         if (m < 10) {
             m = "0"+m;
         }
@@ -483,8 +481,8 @@
     }
 
     function resetdata() {
-  document.getElementById("inline_data").reset();
-  $("select.select2").select2({ allowClear: true }); // re-init to show default status
+        document.getElementById("inline_data").reset();
+    $("select.select2").select2({ allowClear: true }); // re-init to show default status
 }
 </script>
 
@@ -493,5 +491,6 @@
        window.history.replaceState( null, null, window.location.href );
     }
 </script>
+
 
 @endsection

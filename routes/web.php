@@ -11,6 +11,7 @@ use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\InspeksiInlineController;
 use App\Http\Controllers\InspeksiFinalController;
+use App\Http\Controllers\JOPEdarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,3 +124,7 @@ Route::get('/finallist-delete/{id}', [InspeksiFinalController::class, 'DeleteFin
 
 // Post Function (Final)
 Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middleware('auth.check');
+
+//Upload JOP Edar
+Route::get('/jop', [JOPEdarController::class, 'Index'])->middleware('auth.check');
+Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->name('upload.jop')->middleware('auth.check');

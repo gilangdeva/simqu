@@ -55,16 +55,16 @@
                     </div>
                 </div>
 
-                <label class="form-inline">Show
+                <label class="form-inline">Tampilkan 
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
-                        <option value="20">20</option>
-                    </select> entries
+                        <option value="20" selected>20</option>
+                    </select> data
                 </label>
 
-                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny inspeksi-list" data-page-size="8">
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny inspeksi-list" data-page-size="20">
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
@@ -72,9 +72,9 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Item</th>
                             <th>Inspektor</th>
                             <th>Hapus</th>
-                            <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
                             <th data-hide="all">Output/5 mnt</th>
@@ -95,15 +95,15 @@
                     </thead>
                     <tbody>
                         @foreach($list_inline as $li)
-                            <tr>
+                            <tr height="-10px;">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $li->tgl_inspeksi }}</td>
                                 <td>{{ $li->shift }}</td>
                                 <td>{{ $li->nama_departemen }} - {{ $li->nama_sub_departemen }}</td>
                                 <td>{{ $li->jop }}</td>
+                                <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_user }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
-                                <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_mesin }}</td>
                                 <td>{{ $li->qty_1 }}</td>
                                 <td>{{ $li->qty_5 }}</td>
@@ -119,10 +119,9 @@
                                 <td>{{ $li->penyebab }}</td>
                                 <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $li->capt_pict }}" width="200"></td>
+                                <td><img src="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200"></td>
                                 {{-- <td><a class=href="{{ url('/') }}/images/defect/">{{ $li->pict_defect }}</td> --}}
                                 <td>
-
                                 </td>
                             </tr>
                         @endforeach
@@ -137,12 +136,10 @@
                             </td>
                         </tr>
                     </tfoot>
-
                 </table>
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- end row -->
 </div>

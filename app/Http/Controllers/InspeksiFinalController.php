@@ -31,7 +31,7 @@ class InspeksiFinalController extends Controller
         //specify path destination
         $this->path = public_path('/images/defect');
         //define dimention of photo
-        $this->dimensions = ['500'];
+        $this->dimensions = ['1500'];
         // $this->dimensions = ['245', '300', '500'];
     }
 
@@ -157,17 +157,22 @@ class InspeksiFinalController extends Controller
         $creator = session()->get('id_user');
         $updater = session()->get('id_user');
         $picture_1 = $request->file('picture_1');
+        $picture_2 = $request->file('picture_2');
+        $picture_3 = $request->file('picture_3');
+        $picture_4 = $request->file('picture_4');
+        $picture_5 = $request->file('picture_5');
+        $file_original_picture = $request->original_picture;
         
             if ($picture_1 <> '') {
 
                 $this->validate($request, [
-                    'pict_defect' => 'required|image|mimes:jpg,png,jpeg'
+                    'picture_1' => 'required|image|mimes:jpg,png,jpeg'
                 ]);
 
                 $file = $picture_1;
 
                 // create filename with merging the timestamp and unique ID
-                $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+                $name_p1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
                 // upload original file (dimension hasn't been comppressed)
                 // Image::make($file)->save($this->path . '/' . $f_name);
@@ -186,9 +191,147 @@ class InspeksiFinalController extends Controller
                     $canvas->insert($resizeImage, 'center');
 
                     // move image in folder
-                    $canvas->save($this->path . '/' . $f_name);
+                    $canvas->save($this->path . '/' . $name_p1);
                 }
-            } 
+            } else {
+                $name_p1 = $file_original_picture;
+            }
+
+            if ($picture_2 <> '') {
+
+                $this->validate($request, [
+                    'picture_2' => 'required|image|mimes:jpg,png,jpeg'
+                ]);
+
+                $file = $picture_2;
+
+                // create filename with merging the timestamp and unique ID
+                $name_p2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+                // upload original file (dimension hasn't been comppressed)
+                // Image::make($file)->save($this->path . '/' . $f_name);
+
+                //Looping array of image dimension that has been specify on contruct
+                foreach ($this->dimensions as $row) {
+                    //create image canvas according to dimension on array
+                    $canvas = Image::canvas($row, $row);
+
+                    //rezise according the dimension on array (still keep ratio)
+                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    // insert image that compressed into canvas
+                    $canvas->insert($resizeImage, 'center');
+
+                    // move image in folder
+                    $canvas->save($this->path . '/' . $name_p2);
+                }
+            } else {
+                $name_p2 = $file_original_picture;
+            }
+
+            if ($picture_3 <> '') {
+
+                $this->validate($request, [
+                    'picture_3' => 'required|image|mimes:jpg,png,jpeg'
+                ]);
+
+                $file = $picture_3;
+
+                // create filename with merging the timestamp and unique ID
+                $name_p3 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+                // upload original file (dimension hasn't been comppressed)
+                // Image::make($file)->save($this->path . '/' . $f_name);
+
+                //Looping array of image dimension that has been specify on contruct
+                foreach ($this->dimensions as $row) {
+                    //create image canvas according to dimension on array
+                    $canvas = Image::canvas($row, $row);
+
+                    //rezise according the dimension on array (still keep ratio)
+                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    // insert image that compressed into canvas
+                    $canvas->insert($resizeImage, 'center');
+
+                    // move image in folder
+                    $canvas->save($this->path . '/' . $name_p3);
+                }
+            } else {
+                $name_p3 = $file_original_picture;
+            }
+
+            if ($picture_4 <> '') {
+
+                $this->validate($request, [
+                    'picture_4' => 'required|image|mimes:jpg,png,jpeg'
+                ]);
+
+                $file = $picture_4;
+
+                // create filename with merging the timestamp and unique ID
+                $name_p4 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+                // upload original file (dimension hasn't been comppressed)
+                // Image::make($file)->save($this->path . '/' . $f_name);
+
+                //Looping array of image dimension that has been specify on contruct
+                foreach ($this->dimensions as $row) {
+                    //create image canvas according to dimension on array
+                    $canvas = Image::canvas($row, $row);
+
+                    //rezise according the dimension on array (still keep ratio)
+                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    // insert image that compressed into canvas
+                    $canvas->insert($resizeImage, 'center');
+
+                    // move image in folder
+                    $canvas->save($this->path . '/' . $name_p4);
+                }
+            } else {
+                $name_p4 = $file_original_picture;
+            }
+
+            if ($picture_5 <> '') {
+
+                $this->validate($request, [
+                    'picture_5' => 'required|image|mimes:jpg,png,jpeg'
+                ]);
+
+                $file = $picture_5;
+
+                // create filename with merging the timestamp and unique ID
+                $name_p5 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+
+                // upload original file (dimension hasn't been comppressed)
+                // Image::make($file)->save($this->path . '/' . $f_name);
+
+                //Looping array of image dimension that has been specify on contruct
+                foreach ($this->dimensions as $row) {
+                    //create image canvas according to dimension on array
+                    $canvas = Image::canvas($row, $row);
+
+                    //rezise according the dimension on array (still keep ratio)
+                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    // insert image that compressed into canvas
+                    $canvas->insert($resizeImage, 'center');
+
+                    // move image in folder
+                    $canvas->save($this->path . '/' . $name_p5);
+                }
+            } else {
+                $name_p5 = $file_original_picture;
+            }
 
 
         // insert into database
@@ -216,8 +359,12 @@ class InspeksiFinalController extends Controller
             'updater'               => $updater,
             'created_at'            => $created_at,
             'updated_at'            => $updated_at,
-            'picture_1'             => $f_name
-           
+            'picture_1'             => $name_p1,
+            'picture_2'             => $name_p2,
+            'picture_3'             => $name_p3,
+            'picture_4'             => $name_p4,
+            'picture_5'             => $name_p5
+            
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -368,7 +515,11 @@ class InspeksiFinalController extends Controller
                 'qty_sample_riil',
                 'qty_reject_all',
                 'hasil_verifikasi',
-                'pict_defect'
+                'picture_1',
+                'picture_2',
+                'picture_3',
+                'picture_4',
+                'picture_5'
 
             )->where('id_inspeksi_detail', $id_detail)->first();
 
@@ -389,40 +540,15 @@ class InspeksiFinalController extends Controller
             $qty_sample_riil = $draft_detail->qty_sample_riil;
             $qty_reject_all = $draft_detail->qty_reject_all;
             $hasil_verifikasi = $draft_detail->hasil_verifikasi;
-            $pict_defect = $draft_detail->pict_defect;
             $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
             $creator = session()->get('id_user');
             $updater = session()->get('id_user');
-            $capt_pict = $draft_detail->capt_pict;
-
-            $file = $pict_defect;
-
-            // create filename with merging the timestamp and unique ID
-            $f_name = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
-
-            // $f_name = $capt_pict .'.'. $file->getClientOriginalExtension();
-
-            // upload original file (dimension hasn't been comppressed)
-            // Image::make($file)->save($this->path . '/' . $f_name);
-
-            //Looping array of image dimension that has been specify on contruct
-            foreach ($this->dimensions as $row) {
-                //create image canvas according to dimension on array
-                $canvas = Image::canvas($row, $row);
-
-            //rezise according the dimension on array (still keep ratio)
-                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                    $constraint->aspectRatio();
-                });
-
-                // insert image that compressed into canvas
-                $canvas->insert($resizeImage, 'center');
-
-                // move image in folder
-                $canvas->save($this->path . '/' . $f_name);
-            }
-
+            $picture_1 = $draft_detail->picture_1;
+            $picture_2 = $draft_detail->picture_2;
+            $picture_3 = $draft_detail->picture_3;
+            $picture_4 = $draft_detail->picture_4;
+            $picture_5 = $draft_detail->picture_5;
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -448,7 +574,12 @@ class InspeksiFinalController extends Controller
                 'updated_at'            => $updated_at,
                 'creator'               => $creator,
                 'updater'               => $updater,
-                'capt_pict'             => $f_name
+                'picture_1'             => $picture_1,
+                'picture_2'             => $picture_2,
+                'picture_3'             => $picture_3,
+                'picture_4'             => $picture_4,
+                'picture_5'             => $picture_5
+
             ]);
         }
             // Delete header

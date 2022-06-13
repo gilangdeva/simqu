@@ -56,16 +56,16 @@
                     </div>
                 </div>
 
-                <label class="form-final">Show
+                <label class="form-final">Tampilkan
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
-                        <option value="20">20</option>
-                    </select> entries
+                        <option value="20" selected>20</option>
+                    </select> data
                 </label>
 
-                    <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" date-page-size="8">
+                    <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" date-page-size="20">
                         <thead>
                             <tr>
                                 <th data-toggle="true">No.</th>
@@ -90,7 +90,7 @@
                                 <th data-hide="all">Status</th>
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Hasil Verifikasi</th>
-                                <th data-hide="all">Foto Temuan Defect</th>
+                                <th data-hide="all">Foto</th>
                                 <th data-hide="all"></th>
                             </tr>
                         </thead>
@@ -107,7 +107,7 @@
                                 <td>{{ $lf->item }}</td>
                                 <td>{{ $lf->jam_mulai }}</td>
                                 <td>{{ $lf->jam_selesai }}</td>
-                                <td>{{ $lf->lama_inspeksi }} (Menit)</td>
+                                <td>{{ $lf->lama_inspeksi }} Menit</td>
                                 <td>{{ $lf->qty_ready_pack }} (Pack/Box)</td>
                                 <td>{{ $lf->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $lf->qty_sample_aql }}</td>
@@ -119,9 +119,22 @@
                                 <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" width="200"></td>
-
                                 <td>
+                                @if(isset($lf->picture_1))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" alt="defect-img" width="200">Foto 1</a> / 
+                                    @endif
+                                    @if(isset($lf->picture_2))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_2 }}" alt="defect-img" width="200">Foto 2</a> / 
+                                    @endif
+                                    @if(isset($lf->picture_3))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_3 }}" alt="defect-img" width="200">Foto 3</a> / 
+                                    @endif
+                                    @if(isset($lf->picture_4))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_4 }}" alt="defect-img" width="200">Foto 4</a> / 
+                                    @endif
+                                    @if(isset($lf->picture_5))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_5 }}" alt="defect-img" width="200">Foto 5</a>  
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

@@ -115,6 +115,7 @@
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
                         </div>
+
                         <div class="col-sm-2 control-label"><label>Nama Item</label></div>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
@@ -217,6 +218,8 @@
                             <input type="file" id="input-file-now-custom-2" name="picture_1" style="margin-bottom:5px;"/>
                             <input type="file" id="input-file-now-custom-2" name="picture_2" style="margin-bottom:5px;"/>
                             <input type="file" id="input-file-now-custom-2" name="picture_3" style="margin-bottom:5px;"/>
+                            <input type="file" id="input-file-now-custom-2" name="picture_4" style="margin-bottom:5px;"/>
+                            <input type="file" id="input-file-now-custom-2" name="picture_5" style="margin-bottom:5px;"/>
                         </div>
                     </div>
 
@@ -255,7 +258,6 @@
                             <th data-toggle="true">No.</th>
                             <th>Tgl</th>
                             <th>Shift</th>
-                            <th>Bagian</th>
                             <th>Area</th>
                             <th>JOP</th>
                             <th>Hapus</th>
@@ -274,7 +276,10 @@
                             <th data-hide="all">Hasil Inspeksi</th>
                             <th data-hide="all">Rekomendasi</th>
                             <th data-hide="all">Hasil Verifikasi</th>
-                            <th data-hide="all">Foto Temuan Defect</th>
+                            <th data-hide="all">Foto</th>
+                            <th data-hide="all"></th>
+                            <th data-hide="all"></th>
+                            <th data-hide="all"></th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -285,8 +290,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $d->tgl_inspeksi }}</td>
                                 <td>{{ $d->shift }}</td>
-                                <td>{{ $d->nama_departemen }}</td>
-                                <td>{{ $d->nama_sub_departemen }}</td>
+                                <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                 <td>{{ $d->jop }}</td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
@@ -306,8 +310,30 @@
                                 <td>{{ $d->status }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->hasil_verifikasi }}</td>
-                                <td><img src="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200"></td>
-                                
+                                <td>
+                                    @if(isset($d->picture_1))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> / 
+                                    @endif
+                                    @if(isset($d->picture_2))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> / 
+                                    @endif
+                                    @if(isset($d->picture_3))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> / 
+                                    @endif
+                                    @if(isset($d->picture_4))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> / 
+                                    @endif
+                                    @if(isset($d->picture_5))
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>  
+                                    @endif
+                                </td>
+
+                                <!-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> / 
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> / 
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> / 
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> / 
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a> 
+                                </td> -->
                             </tr>
                             @endforeach
                         @endif
