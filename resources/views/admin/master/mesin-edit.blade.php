@@ -19,7 +19,7 @@
                         <label class="col-sm-4 control-label">Kode Mesin</label>
                         <div class="col-sm-8">
                             <input type="hidden" class="form-control" name="id_mesin" value="{{ $mesin->id_mesin }}" readonly autocomplete="false">
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" readonly required>
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="4" placeholder="Kode Mesin" value="{{ $mesin->kode_mesin }}" readonly required>
                         </div>
                     </div>
 
