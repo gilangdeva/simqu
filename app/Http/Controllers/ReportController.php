@@ -28,6 +28,16 @@ class ReportController extends Controller
         // Get all data from database
         $report = DB::select("SELECT * FROM vg_list_report");
 
+        $early_month       = date('Y-m-01', strtotime('+0 hours'));
+        $end_month = Carbon::createFromFormat('Y-m-d', $early_month)
+                        ->endOfMonth()
+                        ->format('Y-m-d');
+
+        $report = DB::table('vg_list_report')
+        ->where('tgl_inspeksi', '>=', $early_month)
+        ->where('tgl_inspeksi', '<=', $end_month)
+        ->get();
+
         return view('report.report-list',[
             'menu'   => 'report',
             'sub'    => '/report',
