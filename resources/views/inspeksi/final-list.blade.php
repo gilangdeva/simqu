@@ -81,22 +81,21 @@
                                 <th data-hide="all">Lama Inspeksi</th>
                                 <th data-hide="all">Brg Siap (Pack)</th>
                                 <th data-hide="all">Brg Siap (Pcs)</th>
-                                <th data-hide="all">Sample Aql</th>
-                                <th data-hide="all">Sample Riil</th>
+                                <th data-hide="all">Qty Riil</th>
+                                <th data-hide="all">Qty Aql</th>
                                 <th data-hide="all">Kendala</th>
                                 <th data-hide="all">Kriteria</th>
                                 <th data-hide="all">Jml Temuan</th>
-                                <th data-hide="all">Jml Reject All</th>
-                                <th data-hide="all">Status</th>
+                                <th data-hide="all">Qty Reject</th>
+                                <th data-hide="all">Hasil</th>
                                 <th data-hide="all">Keterangan</th>
-                                <th data-hide="all">Hasil Verifikasi</th>
+                                <th data-hide="all">Verifikasi</th>
                                 <th data-hide="all">Foto</th>
-                                <th data-hide="all"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($list_final as $lf)
-                            <tr>
+                            <tr height="-10px;">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $lf->tgl_inspeksi }}</td>
                                 <td>{{ $lf->shift }}</td>
@@ -110,8 +109,8 @@
                                 <td>{{ $lf->lama_inspeksi }} Menit</td>
                                 <td>{{ $lf->qty_ready_pack }} (Pack/Box)</td>
                                 <td>{{ $lf->qty_ready_pcs }} (Pcs/Lbr)</td>
-                                <td>{{ $lf->qty_sample_aql }}</td>
                                 <td>{{ $lf->qty_sample_riil }}</td>
+                                <td>{{ $lf->qty_sample_aql }}</td>
                                 <td>{{ $lf->defect }}</td>
                                 <td>{{ $lf->kriteria }}</td>
                                 <td>{{ $lf->qty_defect }}</td>
