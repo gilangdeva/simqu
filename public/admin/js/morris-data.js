@@ -137,11 +137,10 @@ Morris.Area({
  // Morris donut chart
         
     Morris.Donut({
-        element: 'morris-donut-chart',
+        element: 'morris-donut',
         data: [{
             label: "Download Sales",
-            value: 12,
-
+            value: 80,
         }, {
             label: "In-Store Sales",
             value: 30

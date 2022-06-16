@@ -17,6 +17,7 @@
     <link href="{{ url('/') }}/admin/bower_components/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css">
     <!-- Chartist CSS -->
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist-init.css" rel="stylesheet">
     <link href="{{ url('/') }}/admin/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <!-- Date picker plugins css -->
     <link href="{{ url('/') }}/admin/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
