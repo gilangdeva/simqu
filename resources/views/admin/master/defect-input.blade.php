@@ -25,7 +25,7 @@
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-3 control-label">Temuan Defect</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="defect" maxlength="20" placeholder="Temuan Defect" required>
+                            <input type="text" class="form-control" name="defect" maxlength="50" placeholder="Temuan Defect" required>
                         </div>
                     </div>
 

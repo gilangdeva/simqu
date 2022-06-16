@@ -318,6 +318,8 @@ class UsersController extends Controller
     // Fungsi hapus data
     public function DeleteUserData($id){
         $id = Crypt::decryptString($id);
+        $picture = DB::select("SELECT picture FROM vw_list_users WHERE id_user='".$id."'");
+        $picture = $picture[0]->picture;
 
         // Select table user to get user default value
         $user = UsersModel::find($id, ['kode_user']);

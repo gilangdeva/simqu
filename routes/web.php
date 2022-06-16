@@ -12,6 +12,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\InspeksiInlineController;
 use App\Http\Controllers\InspeksiFinalController;
 use App\Http\Controllers\JOPEdarController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,3 +129,7 @@ Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middl
 //Upload JOP Edar
 Route::get('/jop', [JOPEdarController::class, 'Index'])->middleware('auth.check');
 Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->name('upload.jop')->middleware('auth.check');
+
+
+//Report
+Route::get('/report', [ReportController::class, 'ReportList'])->middleware('auth.check');
