@@ -18,7 +18,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Mesin</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" required>
+                            <input type="text" class="form-control" name="kode_mesin" maxlength="4" placeholder="Kode Mesin" required>
                         </div>
                     </div>
 
@@ -40,13 +40,6 @@
                             <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
                                 <option selected>Pilih Sub Departemen</option>
                             </select>
-                        </div>  
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Kode Mesin</label>
-                        <div class="col-sm-8">
-                            <input type="kode_mesin" class="form-control" name="kode_mesin" maxlength="3" placeholder="Kode Mesin" required>  
                         </div>
                     </div>
 

@@ -130,6 +130,5 @@ Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middl
 Route::get('/jop', [JOPEdarController::class, 'Index'])->middleware('auth.check');
 Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->name('upload.jop')->middleware('auth.check');
 
-
 //Report
 Route::get('/report', [ReportController::class, 'ReportList'])->middleware('auth.check');

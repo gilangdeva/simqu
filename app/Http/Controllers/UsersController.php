@@ -336,6 +336,13 @@ class UsersController extends Controller
             Alert::error("Gagal!", 'Data Ini Tidak Dapat Di Hapus!');
             return Redirect::back();
         } else {
+
+            if (isset($picture)) {
+                if ($picture <> "blank.jpg") {
+                    File::delete(public_path("/images/users/".$picture));
+                }
+            }
+
             // Check active user or not
             if($id == session()->get('user_id')) {
                 // If user still active, so return back

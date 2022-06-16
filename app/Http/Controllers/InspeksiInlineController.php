@@ -143,8 +143,11 @@ class InspeksiInlineController extends Controller
         $pic = strtoupper($request->pic);
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
-        $interval = $jam_mulai->diff($jam_selesai);
-        $lama_inspeksi = $interval->format('%i');
+        // $interval = $jam_mulai->diff($jam_selesai);
+        // $lama_inspeksi = $interval->format('%i');
+        $interval = round(($jam_selesai->format('U') - $jam_mulai->format('U')) / 60);
+        $lama_inspeksi = $interval;
+
         $jop = strtoupper($request->jop);
         $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
@@ -432,24 +435,13 @@ class InspeksiInlineController extends Controller
                 $inline_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
-                // $shift = strtoupper($draft[0]->shift);
-                // $tgl_inspeksi = $draft[0]->tgl_inspeksi;
-                // $id_departemen = $draft[0]->id_departemen;
-                // $id_sub_departemen = $draft[0]->id_sub_departemen;
-                // $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
                 return view('inspeksi.inline-input',[
                     'id_header'         => 0, //di set 0, nanti ketika save maka akan dapat id header baru
-                    // 'tgl_inspeksi'      => $tgl_inspeksi,
-                    // 'shift'             => $shift,
-                    // 'mesin'             => $mesin,
-                    // 'defect'            => $defect,
                     'departemen'        => $departemen,
                     'subdepartemen'     => $subdepartemen,
                     'defect'            => $defect,
                     'draft'             => $draft,
-                    // 'id_departemen'     => $id_departemen,
-                    // 'id_sub_departemen' => $id_sub_departemen,
                     'menu'              => 'inspeksi',
                     'sub'               => '/inline'
                 ]);
@@ -597,8 +589,8 @@ class InspeksiInlineController extends Controller
             $pic = $draft_detail->pic;
             $jam_mulai = new DateTime($draft_detail->jam_mulai);
             $jam_selesai = new DateTime($draft_detail->jam_selesai);
-            $interval = $jam_mulai->diff($jam_selesai);
-            $lama_inspeksi = $interval->format('%i');
+            $interval = round(($jam_selesai->format('U') - $jam_mulai->format('U')) / 60);
+            $lama_inspeksi = $interval;
             $jop = $draft_detail->jop;
             $item = $draft_detail->item;
             $id_defect = $draft_detail->id_defect;
