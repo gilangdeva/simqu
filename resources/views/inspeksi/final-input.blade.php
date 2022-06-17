@@ -125,7 +125,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Brg Siap (Pack)</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)" required>
+                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
@@ -135,14 +135,14 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Sample Riil</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Riil</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Sample Riil" required>
+                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Qty Riil" required>
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Sample Aql</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Sample Aql" required>
+                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Qty Aql" required>
                         </div>
                     </div>
 
@@ -176,9 +176,9 @@
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Qty Reject All</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Reject</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject All">
+                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject">
                         </div>
                     </div>
 
@@ -186,10 +186,10 @@
 
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Hasil Inspeksi</label></div>
+                        <div class="col-sm-2 control-label"><label>Hasil</label></div>
                         <div class="col-sm-4">
-                            <select id="status" class="form-control select2" name="status" maxlength="10" required>
-                                <option value="0">Pilih Hasil Inspeksi</option>
+                            <select id="status" class="form-control select2" name="status" maxlength="10" required="">
+                                <option value="">Pilih Hasil</option>
                                 <option value="PASS">Pass</option>
                                 <option value="REJECT">Reject</option>
                             </select>
@@ -201,9 +201,9 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:5px;">
-                        <div class="col-sm-2 control-label"><label>Hasil Verifikasi Ulang</label></div>
+                        <div class="col-sm-2 control-label"><label>Verifikasi</label></div>
                         <div class="col-sm-4">
-                            <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Hasil Verifikasi" autocomplete="false"></textarea>
+                            <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Verifikasi" autocomplete="false"></textarea>
                         </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -267,15 +267,15 @@
                             <th data-hide="all">Lama Inspeksi</th>
                             <th data-hide="all">Brg Siap (Pack)</th>
                             <th data-hide="all">Brg Siap (Pcs)</th>
-                            <th data-hide="all">Sample Aql</th>
-                            <th data-hide="all">Sample Riil</th>
+                            <th data-hide="all">Qty Riil</th>
+                            <th data-hide="all">Qty Aql</th>
                             <th data-hide="all">Jenis Temuan</th>
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
-                            <th data-hide="all">Qty Reject All</th>
-                            <th data-hide="all">Hasil Inspeksi</th>
+                            <th data-hide="all">Qty Reject</th>
+                            <th data-hide="all">Hasil</th>
                             <th data-hide="all">Rekomendasi</th>
-                            <th data-hide="all">Hasil Verifikasi</th>
+                            <th data-hide="all">Verifikasi</th>
                             <th data-hide="all">Foto</th>
                             <th data-hide="all"></th>
                             <th data-hide="all"></th>
@@ -299,10 +299,10 @@
                                 <td>{{ $d->jam_mulai }}</td>
                                 <td>{{ $d->jam_selesai }}</td>
                                 <td>{{ $d->lama_inspeksi }} Menit</td>
-                                <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $d->qty_ready_pack }} (Pack/Box)</td>
-                                <td>{{ $d->qty_sample_aql }}</td>
+                                <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $d->qty_sample_riil }}</td>
+                                <td>{{ $d->qty_sample_aql }}</td>
                                 <td>{{ $d->defect }}</td>
                                 <td>{{ $d->kriteria }}</td>
                                 <td>{{ $d->qty_defect }}</td>
