@@ -132,3 +132,4 @@ Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->na
 
 //Report
 Route::get('/report', [ReportController::class, 'ReportList'])->middleware('auth.check');
+Route::get('/report-filter/', [ReportController::class, 'FilterReportList'])->name('report.filter')->middleware('auth.check');
