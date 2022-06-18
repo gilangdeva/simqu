@@ -21,7 +21,7 @@ class PeriodeController extends Controller
     // Menampilkan list periode
     public function PeriodeList(){
         // Get all data from database
-        $periode = PeriodeModel::all();
+        $periode = PeriodeModel::orderBy('tgl_mulai_periode', 'ASC')->groupBy('tahun')->get();
 
         return view('admin.master.periode-list',[
             'menu'  => 'master',

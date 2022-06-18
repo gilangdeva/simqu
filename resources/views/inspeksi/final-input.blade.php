@@ -450,7 +450,9 @@
         var eh = $("#jam_selesai").val();
         t1 = parseInt(sh.slice(0,2));
         t2 = parseInt(sh.slice(3,5));
+        cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
+        
 
         if (cek_menit == 59){
             t1 = t1+1;
@@ -459,29 +461,36 @@
             t2 = t2+1;
         }
 
+        if (cek_jam < 10 ){
+            t1 = "0"+t1;
+        }
+
         if (cek_menit < 10 ){
             t2 = "0"+t2;
         }
 
-        // alert('t1: '+t1+' t2 :'+t2);
+        alert('t1: '+t1+' t2 :'+t2);
 
-        var stt = new Date("November 13, 2013 " + sh);
-        stt = stt.getTime();
+        // var stt = new Date("November 13, 2013 " + sh);
+        // stt = stt.getTime();
 
-        var endt = new Date("November 13, 2013 " + eh);
-        endt = endt.getTime();
+        // var endt = new Date("November 13, 2013 " + eh);
+        // endt = endt.getTime();
 
-        if (stt >= endt) {
-            alert('Jam Selesai harus lebih besar dari Jam Mulai');
-            document.getElementById("jam_selesai").value = t1+":"+t2;
-            document.getElementById("jam_selesai").focus();
-        }
+        // if (stt >= endt) {
+        //     alert('Jam Selesai harus lebih besar dari Jam Mulai');
+        //     document.getElementById("jam_selesai").value = t1+":"+t2;
+        //     document.getElementById("jam_selesai").focus();
+        // }
     }
 
     function loadHours() {
         const event = new Date();
         var h = event.getHours();
         var m = event.getMinutes();
+        var m2 = event.getMinutes();
+
+        m2 = m2+2;
 
         if (h < 10) {
             h = "0"+h;
@@ -491,7 +500,13 @@
             m = "0"+m;
         }
 
+        if (m2 < 10) {
+            m2 = "0"+m2;
+        }
+
+
         document.getElementById("jam_mulai").value = h+":"+m;
+        document.getElementById("jam_selesai").value = h+":"+m2;
     }
 
     function resetdata() {

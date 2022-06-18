@@ -226,10 +226,13 @@
 
                     <li>
                         @if($menu == 'report')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else
-                            <a href="/report" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
+                            <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/report"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Report Defect Bagian</span></a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
