@@ -507,6 +507,9 @@
         const event = new Date();
         var h = event.getHours();
         var m = event.getMinutes();
+        var m2 = event.getMinutes();
+
+        m2 = m2+2;
 
         if (h < 10) {
             h = "0"+h;
@@ -516,13 +519,14 @@
             m = "0"+m;
         }
 
-        document.getElementById("jam_mulai").value = h+":"+m;
-    }
+        if (m2 < 10) {
+            m2 = "0"+m2;
+        }
 
-    function resetdata() {
-        document.getElementById("inline_data").reset();
-    $("select.select2").select2({ allowClear: true }); // re-init to show default status
-}
+
+        document.getElementById("jam_mulai").value = h+":"+m;
+        document.getElementById("jam_selesai").value = h+":"+m2;
+    } // re-init to show default status
 </script>
 
 <script>

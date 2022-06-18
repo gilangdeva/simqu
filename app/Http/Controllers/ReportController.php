@@ -42,6 +42,7 @@ class ReportController extends Controller
         $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('Juni', '2022', '3', '".session()->get('id_user')."')");
         $report_krt = DB::select("SELECT * FROM sp_report_kriteria('Juni', '2022', '3', '".session()->get('id_user')."')");
 
+
         $total_inl = DB::select("SELECT sum(total) FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $total_fnl = DB::select("SELECT sum(total) FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
         $total_krt = DB::select("SELECT sum(total) FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
@@ -74,13 +75,13 @@ class ReportController extends Controller
 
         // Call Function / Stored Procedure
         $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
-        $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
+        $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
         $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
 
         //Get value total
         $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
-        $total_fnl = DB::select("SELECT sum(total)as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
-        $total_krt = DB::select("SELECT sum(total)as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+        $total_fnl = DB::select("SELECT sum(total) as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $total_krt = DB::select("SELECT sum(total) as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
         $total_inl = $total_inl[0]->total_inline;
         $total_fnl = $total_fnl[0]->total_final;
@@ -91,7 +92,6 @@ class ReportController extends Controller
         $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
         $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
-
         // Check total
         // if(isset($total_inl)){
         //     $total_inl = $total_inl;
@@ -115,52 +115,8 @@ class ReportController extends Controller
             'report_final'      => $report_final,
             'report_kriteria'   => $report_kriteria,
             'total_inl'         => $total_inl,
-            'total_fin'         => $total_fnl,
+            'total_fnl'         => $total_fnl,
             'total_krt'         => $total_krt
         ]);
-
-        // if ( || request()->bulan) {
-        //     $id_departemen    = $request->id_departemen;
-        //     $bulan              = $request->bulan;
-        //     $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-
-        //         if ("id_departemen" == $request->id_departemen) {
-        //             $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_departemen."', '".session()->get('id_user')."')");
-        //             $report_inline = DB::table('report_rekap_defect_inline')
-        //                 ->where('id_departemen', '=', $id_departemen)
-        //                 ->get();
-        //         } else if ("bulan" == $bulan){
-        //             $report_inline = DB::table('report_rekap_defect_inline')
-        //                 ->where('bulan', '=', $bulan)
-        //                 ->get();
-        //         } else if ("id_departemen" == $id_departemen && "bulan" == $bulan){
-        //             $report_inline = DB::table('report_rekap_defect_inline')
-        //                 ->where('id_departemen', '=', $id_departemen)
-        //                 ->where('bulan', '=', $bulan)
-        //                 ->get();
-        //         } else {
-        //             $report_inline = DB::table('report_rekap_defect_inline')
-        //             ->get();
-        //         }
-
-        //     return view('report.report-list',
-        //     [
-        //         'report_inline' => $report_inline,
-        //         'departemen'    => $departemen,
-        //         'menu'          => 'report',
-        //         'sub'           => '/report'
-        //     ]);
-        // } else {
-        //     $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        //     $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline");
-        //     return view('report.report-list',
-        //     [
-        //         'report_inline' => $report_inline,
-        //         'departemen'    => $departemen,
-        //         'menu'          => 'report',
-        //         'sub'           => '/report'
-        //     ]);
-        // }
-
     }
 }

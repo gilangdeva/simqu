@@ -90,7 +90,11 @@
                                     <td>{{ $ri->minor }}</td>
                                     <td>{{ $ri->persen_minor }}%</td>
                                     <td>{{ $ri->total }}</td>
-                                    <td>{{ ($ri->total/$total_inl)*100  }}%</td>
+                                    @if(isset($total_inl))
+                                    <td>{{ number_format(($ri->total/$total_inl)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
@@ -139,18 +143,22 @@
                     </thead>
                     <tbody>
                         @if(isset($report_final[0]))
-                            @foreach($report_final as $fin)
+                            @foreach($report_final as $fnl)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $fin->minggu_ke }}</td>
-                                    <td>{{ $fin->tgl_mulai_periode }}</td>
-                                    <td>{{ $fin->tgl_akhir_periode }}</td>
-                                    <td>{{ $fin->pass }}</td>
-                                    <td>{{ $fin->persen_pass }}%</td>
-                                    <td>{{ $fin->reject }}</td>
-                                    <td>{{ $fin->persen_reject }}%</td>
-                                    <td>{{ $fin->total }}</td>
-                                    <td>{{ ($fin->total/$total_fnl)*100 }}%</td>
+                                    <td>Minggu Ke{{ $fnl->minggu_ke }}</td>
+                                    <td>{{ $fnl->tgl_mulai_periode }}</td>
+                                    <td>{{ $fnl->tgl_akhir_periode }}</td>
+                                    <td>{{ $fnl->pass }}</td>
+                                    <td>{{ $fnl->persen_pass }}%</td>
+                                    <td>{{ $fnl->reject }}</td>
+                                    <td>{{ $fnl->persen_reject }}%</td>
+                                    <td>{{ $fnl->total }}</td>
+                                    @if(isset($total_fnl))
+                                    <td>{{ number_format(($fnl->total/$total_fnl)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
@@ -212,8 +220,13 @@
                                     <td>{{ $krt->persen_major }}%</td>
                                     <td>{{ $krt->minor }}</td>
                                     <td>{{ $krt->persen_minor }}%</td>
+                                    <td>{{ $krt->total }}</td>
                                     <td>{{ $krt->qty_riil }}</td>
-                                    <td>{{ ($krt->total/$total_krt)*100 }}%</td>
+                                    @if($krt->qty_riil <> '0')
+                                    <td>{{ number_format(($krt->total/$krt->qty_riil)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
