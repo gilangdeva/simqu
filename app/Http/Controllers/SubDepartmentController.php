@@ -21,9 +21,9 @@ class SubDepartmentController extends Controller
         $subdepartment = DB::select('SELECT * FROM vg_list_sub_departemen');
 
         return view('admin.master.subdepartment-list',[
-            'menu'  => 'master',
-            'sub'   => '/subdepartment',
-            'subdepartment' => $subdepartment
+            'menu'              => 'master',
+            'sub'               => '/subdepartment',
+            'subdepartment'     => $subdepartment
         ]);
     }
 
@@ -33,8 +33,8 @@ class SubDepartmentController extends Controller
 
         return view('admin.master.subdepartment-input',[
             'departemen'    => $departemen,
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/subdepartment'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/subdepartment'
         ]);
     }
 
@@ -46,7 +46,7 @@ class SubDepartmentController extends Controller
         $subdepartment->id_departemen = $request->id_departemen;
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
-        $subdepartment->klasifikasi_proses = 0;
+        $subdepartment->klasifikasi_proses = $request->klasifikasi_proses;
 
         // Validation data input
         if ($request->id_departemen == "0"){
@@ -86,10 +86,10 @@ class SubDepartmentController extends Controller
         $subdepartemen = SubDepartmentModel::find($id);
 
         return view('admin.master.subdepartment-edit', [
-            'menu'  => 'master',
-            'sub'   => '/subdepartment',
+            'menu'          => 'master',
+            'sub'           => '/subdepartment',
             'subdepartment' => $subdepartemen,
-            'departemen' => $departemen,
+            'departemen'    => $departemen,
         ]);
     }
 
@@ -99,6 +99,7 @@ class SubDepartmentController extends Controller
         $id_departemen = $request->id_departemen;
         $kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $nama_sub_departemen = strtoupper($request->nama_sub_departemen);
+        $klasifikasi_proses = $request->klasifikasi_proses;
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
         // Is there a change in kode data?
@@ -125,6 +126,7 @@ class SubDepartmentController extends Controller
                 'id_departemen'               => $id_departemen,
                 'kode_sub_departemen'         => $kode_sub_departemen,
                 'nama_sub_departemen'         => $nama_sub_departemen,
+                'klasifikasi_proses'          => $klasifikasi_proses,
                 'updated_at'                  => $updated_at,
             ]);
 

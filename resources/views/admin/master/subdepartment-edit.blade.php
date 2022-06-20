@@ -45,6 +45,18 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label">klasifikasi_proses</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" name="klasifikasi_proses" required>
+                                <option value="0">Pilih Proses</option>
+                                <option value="Inline" {{ old('klasifikasi_proses', $subdepartment->klasifikasi_proses) == "INLINE" ? 'selected':''}}>INLINE</option>
+                                <option value="Final" {{ old('klasifikasi_proses', $subdepartment->klasifikasi_proses) == "FINAL" ? 'selected':''}}>FINAL</option>
+                                <option value="NonProses" {{ old('klasifikasi_proses', $subdepartment->klasifikasi_proses) == "NONPROSES" ? 'selected':''}}>NON PROSES</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>

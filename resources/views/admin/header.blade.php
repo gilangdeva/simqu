@@ -17,6 +17,7 @@
     <link href="{{ url('/') }}/admin/bower_components/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css">
     <!-- Chartist CSS -->
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist-init.css" rel="stylesheet">
     <link href="{{ url('/') }}/admin/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <!-- Date picker plugins css -->
     <link href="{{ url('/') }}/admin/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
@@ -225,10 +226,13 @@
 
                     <li>
                         @if($menu == 'report')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else
-                            <a href="/report" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
+                            <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/report"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Report Defect Bagian</span></a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

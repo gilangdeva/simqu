@@ -689,6 +689,8 @@ class InspeksiInlineController extends Controller
             [
                 'list_inline'   => $list_inline,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/inline'
             ]);
         } else {
@@ -697,6 +699,8 @@ class InspeksiInlineController extends Controller
             [
                 'list_inline'   => $list_inline,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/inline'
             ]);
         }

@@ -117,14 +117,17 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 control-label"><label>Jam Mulai</label></div>
+                        <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" onblur="checkHours(event)" required>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 control-label"><label>Jam Selesai</label></div>
+                        <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
                         </div>
+                    </div>
 
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>PIC</label></div>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="pic" maxlength="120" placeholder="PIC (Operator)">
@@ -398,12 +401,13 @@
                         }
                     }
                 });
-            } else{
+            }else{
                 $('select[name="id_sub_departemen"]').empty();
             }
-        });
+    });
 
-        $('select[name="id_sub_departemen"]').on('change', function() {
+
+    $('select[name="id_sub_departemen"]').on('change', function() {
             var subDepartemenID = $(this).val();
             if(subDepartemenID) {
                 $.ajax({
@@ -475,6 +479,7 @@
         var eh = $("#jam_selesai").val();
         t1 = parseInt(sh.slice(0,2));
         t2 = parseInt(sh.slice(3,5));
+        cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
 
         if (cek_menit == 59){
@@ -484,11 +489,13 @@
             t2 = t2+1;
         }
 
+        if (cek_jam < 10 ){
+            t1 = "0"+t1;
+        }
+
         if (cek_menit < 10 ){
             t2 = "0"+t2;
         }
-
-        // alert('t1: '+t1+' t2 :'+t2);
 
         var stt = new Date("November 13, 2013 " + sh);
         stt = stt.getTime();
@@ -526,7 +533,12 @@
 
         document.getElementById("jam_mulai").value = h+":"+m;
         document.getElementById("jam_selesai").value = h+":"+m2;
-    } // re-init to show default status
+    }
+
+    function resetdata() {
+        document.getElementById("inline_data").reset();
+        $("select.select2").select2({ allowClear: true });
+    }
 </script>
 
 <script>

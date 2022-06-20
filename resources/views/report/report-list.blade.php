@@ -10,8 +10,8 @@
     <div class="white-box">
         <div class="row">
             <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                <div class="col-sm-5">
-                    <div class="col-sm-5">
+                <div class="col-sm-8">
+                    <div class="col-sm-3">
                         <select class="form-control select2" name="id_departemen" required>
                             <option value="0">Pilih Departemen</option>
                             @foreach ($departemen as $dept)
@@ -19,11 +19,9 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
 
-                <div class="col-sm-5">
-                    <div class="col-sm-5">
-                        <select class="form-control select-option" name="bulan" id="bulan">
+                    <div class="col-sm-2">
+                        <select class="form-control select2" name="bulan" id="bulan">
                             <option value="0">Pilih Bulan</option>
                             <option value="Januari">JANUARI</option>
                             <option value="Februari">FEBRUARI</option>
@@ -40,7 +38,7 @@
                         </select>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-1">
                         <button class="btn btn-primary waves-effect pull-right waves-light" type="submit">Submit</button>
                     </div>
                 </div>

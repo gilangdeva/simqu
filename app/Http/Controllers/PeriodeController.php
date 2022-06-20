@@ -21,12 +21,12 @@ class PeriodeController extends Controller
     // Menampilkan list periode
     public function PeriodeList(){
         // Get all data from database
-        $periode = PeriodeModel::all();
+        $periode = PeriodeModel::orderBy('tgl_mulai_periode', 'ASC')->groupBy('tahun', 'id_periode')->get();
 
         return view('admin.master.periode-list',[
-            'menu'  => 'master',
-            'sub'   => '/periode',
-            'periode' => $periode
+            'menu'      => 'master',
+            'sub'       => '/periode',
+            'periode'   => $periode
         ]);
     }
 
@@ -77,9 +77,9 @@ class PeriodeController extends Controller
         $period = PeriodeModel::find($id);
 
         return view('admin.master.periode-edit', [
-            'menu'  => 'master',
-            'sub'   => '/periode',
-            'periode' => $period,
+            'menu'      => 'master',
+            'sub'       => '/periode',
+            'periode'   => $period,
         ]);
     }
 

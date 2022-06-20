@@ -27,6 +27,7 @@
                                 <th>Nama Departemen</th>
                                 <th>Kode Sub Departemen</th>
                                 <th>Nama Sub Departemen</th>
+                                <th>Klasifikasi Proses</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                 <td>{{ $subdepartemen->nama_departemen }}</td>
                                 <td>{{ $subdepartemen->kode_sub_departemen }}</td>
                                 <td>{{ $subdepartemen->nama_sub_departemen }}</td>
+                                <td>{{ $subdepartemen->klasifikasi_proses }}</td>
                                 <td>
                                     <a href="/subdepartment-edit/{{ Crypt::encrypt($subdepartemen->id_sub_departemen) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($subdepartemen->id_sub_departemen) }}')"><i class="fa fa-times"></i></button>

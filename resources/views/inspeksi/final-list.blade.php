@@ -16,11 +16,19 @@
                         <div class="col-sm-6">
                             <div class="col-sm-2"><label>Periode :</label></div>
                             <div class="col-sm-5">
+                                @if(isset($start_date))
+                                <input type="date" class="form-control" name="start_date" value="{{ $start_date }}">
+                                @else
                                 <input type="date" class="form-control" name="start_date" value="{{ date('Y-m-01') }}">
+                            @endif
                             </div>
 
                             <div class="col-sm-5">
+                                @if(isset($end_date))
+                                <input type="date" class="form-control" name="end_date" value="{{ $end_date }}">
+                                @else
                                 <input type="date" class="form-control" name="end_date" value="{{ date('Y-m-d') }}">
+                            @endif
                             </div>
                         </div>
 
@@ -120,19 +128,19 @@
                                 <td>{{ $lf->hasil_verifikasi }}</td>
                                 <td>
                                 @if(isset($lf->picture_1))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" alt="defect-img" width="200">Foto 1</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
                                     @endif
                                     @if(isset($lf->picture_2))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_2 }}" alt="defect-img" width="200">Foto 2</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
                                     @endif
                                     @if(isset($lf->picture_3))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_3 }}" alt="defect-img" width="200">Foto 3</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
                                     @endif
                                     @if(isset($lf->picture_4))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_4 }}" alt="defect-img" width="200">Foto 4</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
                                     @endif
                                     @if(isset($lf->picture_5))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_5 }}" alt="defect-img" width="200">Foto 5</a>  
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
                                 </td>
                             </tr>
