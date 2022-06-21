@@ -231,7 +231,10 @@
                             <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/report"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Report Defect Bagian</span></a></li>
+                            <li><a href="/report-defect"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Defect Bagian</span></a></li>
+                            <li><a href="/report-inspeksi"><i class="mdi mdi-numeric fa-fw"></i> <span class="hide-menu">Total Inspeksi</span></a></li>
+                            <li><a href="/report-critical"><i class="mdi mdi-magnify-minus-outline fa-fw"></i> <span class="hide-menu">Temuan Critical</span></a></li>
+                            <li><a href="/report-reject"><i class="mdi mdi-basket-unfill fa-fw"></i> <span class="hide-menu">Rekap Reject</span></a></li>
                         </ul>
                     </li>
                 </ul>

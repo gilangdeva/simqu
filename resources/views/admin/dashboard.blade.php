@@ -8,6 +8,21 @@
     <!-- row -->
     <br>
     <div class="row">
+
+        <div class="col-lg-12 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Grafik Defect Tahun {{ date('Y') }}</h3>
+                <ul class="list-inline text-right">
+                    <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Minor</h5> </li>
+                    <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Major</h5> </li>
+                    <li><h5><i class="fa fa-circle m-r-5" style="color: #fcc9ba;"></i>Critical</h5> </li>
+                </ul>
+                <div>
+                    <div id="morris-bar-chart"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="white-box">
                 <h3 class="box-title">TOT. INSPEKSI THN {{ date('Y') }}</h3>
@@ -111,16 +126,6 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-12 col-sm-6 col-xs-12">
-            <div class="white-box">
-                <h3 class="box-title">Grafik Defect Tahun {{ date('Y') }}</h3>
-                <div id="morris-bar-chart"></div>
-            </div>
-        </div>
-    </div>
-
 
     <input type="hidden" width="500px" id="bln" value="{{ $bulan }}">
     <input type="hidden" width="500px" id="inl" value="{{ $inline }}">

@@ -131,5 +131,7 @@ Route::get('/jop', [JOPEdarController::class, 'Index'])->middleware('auth.check'
 Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->name('upload.jop')->middleware('auth.check');
 
 //Report
-Route::get('/report', [ReportController::class, 'ReportList'])->middleware('auth.check');
-Route::get('/report-filter/', [ReportController::class, 'FilterReportList'])->name('report.filter')->middleware('auth.check');
+Route::get('/report-defect', [ReportController::class, 'ReportDefect'])->middleware('auth.check');
+Route::get('/report-filter-defect/', [ReportController::class, 'FilterReportDefect'])->name('report.filter')->middleware('auth.check');
+Route::get('/report-inspeksi', [ReportController::class, 'ReportInspeksi'])->middleware('auth.check');
+Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportInspeksi'])->name('report.inspeksi')->middleware('auth.check');
