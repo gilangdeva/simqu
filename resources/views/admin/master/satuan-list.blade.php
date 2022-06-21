@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Defect List - SIMQU')
+@section('title', 'Satuan List - SIMQU')
 
 @section('content')
 
@@ -13,10 +13,10 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">LIST DEFECT</h3>
+                        <h3 class="box-title">LIST SATUAN</h3>
                     </div>
                     <div class="col-sm-6 col-xs-12">
-                        <a href="/defect-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
+                        <a href="/satuan-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -24,20 +24,20 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Kode Defect</th>
-                                <th>Temuan Defect</th>
+                                <th>Kode Satuan</th>
+                                <th>Nama Satuan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($defect as $def)
+                            @foreach ($satuan as $sat)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $def->kode_defect }}</td>
-                                <td>{{ $def->defect }}</td>
+                                <td>{{ $sat->kode_satuan }}</td>
+                                <td>{{ $sat->nama_satuan }}</td>
                                 <td>
-                                    <a href="/defect-edit/{{ Crypt::encrypt($def->id_defect) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($def->id_defect) }}')"><i class="fa fa-times"></i></button>
+                                    <a href="/satuan-edit/{{ Crypt::encrypt($sat->id_satuan) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($sat->id_satuan) }}')"><i class="fa fa-times"></i></button>
                                 </td>
                             </tr>
                             @endforeach
@@ -52,7 +52,7 @@
 <!-- end container-fluid -->
 <script>
     function deleteConfirmation(id) {
-        var urlsite = "http://"+window.location.hostname+':8000/defect-delete/'+id;
+        var urlsite = "http://"+window.location.hostname+':8000/satuan-delete/'+id;
         Swal.fire({
             title: 'Konfirmasi',
             text: "Apakah Anda yakin ingin menghapus data ini?",

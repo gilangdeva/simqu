@@ -13,6 +13,7 @@ use App\Http\Controllers\InspeksiInlineController;
 use App\Http\Controllers\InspeksiFinalController;
 use App\Http\Controllers\JOPEdarController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SatuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,14 @@ Route::post('/defect-input', [DefectController::class, 'SaveDefectData'])->name(
 Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData'])->middleware('auth.check');
 Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update')->middleware('auth.check');
 Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData'])->middleware('auth.check');
+
+// Master Satuan
+Route::get('/satuan', [SatuanController::class, 'SatuanList'])->middleware('auth.check');
+Route::get('/satuan-input/', [SatuanController::class, 'SatuanInput'])->middleware('auth.check');
+Route::post('/satuan-input', [SatuanController::class, 'SaveSatuanData'])->name('satuan.save')->middleware('auth.check');
+Route::get('/satuan-edit/{id}', [SatuanController::class, 'EditSatuanData'])->middleware('auth.check');
+Route::post('/satuan-update/', [SatuanController::class, 'SaveEditSatuanData'])->name('satuan.update')->middleware('auth.check');
+Route::get('/satuan-delete/{id}', [SatuanController::class, 'DeleteSatuanData'])->middleware('auth.check');
 
 //Inspeksi Inline
 Route::get('/inline', [InspeksiInlineController::class, 'InlineList'])->middleware('auth.check');
