@@ -171,20 +171,68 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty">
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)">
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty">
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Sample</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty Sample" required>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_sampling" id="qty_sampling" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_sampling" id="satuan_qty_sampling" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -329,9 +377,9 @@
                                     <td>{{ $d->lama_inspeksi }} Menit</td>
                                     <td>{{ $d->defect }}</td>
                                     <td>{{ $d->kriteria }}</td>
-                                    <td>{{ $d->qty_defect }}</td>
-                                    <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
-                                    <td>{{ $d->qty_sampling }}</td>
+                                    <td>{{ $d->qty_defect }} {{ $d->satuan_qty_temuan }}</td>
+                                    <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }}</td>
+                                    <td>{{ $d->qty_sampling }} {{ $d->satuan_qty_sampling }}</td>
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
