@@ -10,8 +10,8 @@
     <div class="white-box">
         <div class="row">
             <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                <div class="col-sm-5">
-                    <div class="col-sm-5">
+                <div class="col-sm-8">
+                    <div class="col-sm-3">
                         <select class="form-control select2" name="id_departemen" required>
                             <option value="0">Pilih Departemen</option>
                             @foreach ($departemen as $dept)
@@ -19,11 +19,9 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
 
-                <div class="col-sm-5">
-                    <div class="col-sm-5">
-                        <select class="form-control select-option" name="bulan" id="bulan">
+                    <div class="col-sm-2">
+                        <select class="form-control select2" name="bulan" id="bulan">
                             <option value="0">Pilih Bulan</option>
                             <option value="Januari">JANUARI</option>
                             <option value="Februari">FEBRUARI</option>
@@ -40,7 +38,7 @@
                         </select>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-1">
                         <button class="btn btn-primary waves-effect pull-right waves-light" type="submit">Submit</button>
                     </div>
                 </div>
@@ -80,18 +78,18 @@
                             @foreach($report_inline as $inl)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $inl->minggu_ke }}</td>
-                                    <td>{{ $inl->tgl_mulai_periode }}</td>
-                                    <td>{{ $inl->tgl_akhir_periode }}</td>
-                                    <td>{{ $inl->critical }}</td>
-                                    <td>{{ $inl->persen_critical }}%</td>
-                                    <td>{{ $inl->major }}</td>
-                                    <td>{{ $inl->persen_major }}%</td>
-                                    <td>{{ $inl->minor }}</td>
-                                    <td>{{ $inl->persen_minor }}%</td>
-                                    <td>{{ $inl->total }}</td>
+                                    <td>Minggu Ke{{ $ri->minggu_ke }}</td>
+                                    <td>{{ $ri->tgl_mulai_periode }}</td>
+                                    <td>{{ $ri->tgl_akhir_periode }}</td>
+                                    <td>{{ $ri->critical }}</td>
+                                    <td>{{ $ri->persen_critical }}%</td>
+                                    <td>{{ $ri->major }}</td>
+                                    <td>{{ $ri->persen_major }}%</td>
+                                    <td>{{ $ri->minor }}</td>
+                                    <td>{{ $ri->persen_minor }}%</td>
+                                    <td>{{ $ri->total }}</td>
                                     @if(isset($total_inl))
-                                    <td>{{ number_format(($inl->total/$total_inl)*100,1,'.','.')  }}%</td>
+                                    <td>{{ number_format(($ri->total/$total_inl)*100,1,'.','.')  }}%</td>
                                 @else
                                     <td>0%</td>
                                 @endif
@@ -222,8 +220,8 @@
                                     <td>{{ $krt->persen_minor }}%</td>
                                     <td>{{ $krt->total }}</td>
                                     <td>{{ $krt->qty_riil }}</td>
-                                    @if(isset($total_krt))
-                                    <td>{{ number_format(($krt->total/$total_krt)*100,1,'.','.')  }}%</td>
+                                    @if($krt->qty_riil <> '0')
+                                    <td>{{ number_format(($krt->total/$krt->qty_riil)*100,1,'.','.')  }}%</td>
                                 @else
                                     <td>0%</td>
                                 @endif

@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Change Password - PT. Bintang Cakra Kencana')
+@section('title', 'Change Password - SIMQU')
 
 @section('content')
 

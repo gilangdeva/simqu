@@ -42,6 +42,18 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-4 control-label">Klasifikasi Proses</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" name="klasifikasi_proses" required>
+                                <option value="0">Pilih Proses</option>
+                                <option value="INLINE">INLINE</option>
+                                <option value="FINAL">FINAL</option>
+                                <option value="NONPROSES">NON PROSES</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>

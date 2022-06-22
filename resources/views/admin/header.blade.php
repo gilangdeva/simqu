@@ -17,6 +17,7 @@
     <link href="{{ url('/') }}/admin/bower_components/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css">
     <!-- Chartist CSS -->
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist-init.css" rel="stylesheet">
     <link href="{{ url('/') }}/admin/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <!-- Date picker plugins css -->
     <link href="{{ url('/') }}/admin/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
@@ -191,6 +192,7 @@
                             <a href="#" class="waves-effect"><i class="mdi mdi-database-plus fa-fw"></i> <span class="hide-menu">Master Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
+                            <li><a href="/satuan"><i class="mdi mdi-ruler fa-fw"></i> <span class="hide-menu">Satuan</span></a></li>
                             <li><a href="/defect"><i class="mdi mdi-clipboard-check fa-fw"></i> <span class="hide-menu">Defect</span></a></li>
                             <li><a href="/mesin"><i class="mdi mdi-washing-machine fa-fw"></i> <span class="hide-menu">Mesin</span></a></li>
                             <li><a href="/department"><i class="mdi mdi-account-network fa-fw"></i> <span class="hide-menu">Departemen</span></a></li>
@@ -225,10 +227,13 @@
 
                     <li>
                         @if($menu == 'report')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else
-                            <a href="/report" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu"> Laporan</span></a>
+                            <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/report"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Report Defect Bagian</span></a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

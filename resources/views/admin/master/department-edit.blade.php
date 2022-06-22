@@ -18,8 +18,8 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Departemen</label>
                         <div class="col-sm-8">
-                            <input type="hidden" class="form-control" name="id_departemen" value="{{ $department->id_departemen }}" readonly autocomplete="false">                         
-                            <input type="text" class="form-control" name="kode_departemen" maxlength="3" placeholder="Kode Departemen" value="{{ $department->kode_departemen }}" readonly required> 
+                            <input type="hidden" class="form-control" name="id_departemen" value="{{ $department->id_departemen }}" readonly autocomplete="false">
+                            <input type="text" class="form-control" name="kode_departemen" maxlength="3" placeholder="Kode Departemen" value="{{ $department->kode_departemen }}" readonly required>
                         </div>
                     </div>
 
@@ -27,7 +27,7 @@
                         <label class="col-sm-4 control-label">Nama Departemen</label>
                         <div class="col-sm-8">
                             <input type="hidden" class="form-control" name="original_nama_departemen" maxlength="20" placeholder="Nama Departemen" value=" {{ $department->nama_departemen }}" required>
-                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required> 
+                            <input type="text" class="form-control" name="original_nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required>
                         </div>
                     </div>
 

@@ -16,11 +16,19 @@
                         <div class="col-sm-6">
                             <div class="col-sm-2"><label>Periode :</label></div>
                             <div class="col-sm-5">
+                                @if(isset($start_date))
+                                <input type="date" class="form-control" name="start_date" value="{{ $start_date }}">
+                                @else
                                 <input type="date" class="form-control" name="start_date" value="{{ date('Y-m-01') }}">
+                            @endif
                             </div>
 
                             <div class="col-sm-5">
+                                @if(isset($end_date))
+                                <input type="date" class="form-control" name="end_date" value="{{ $end_date }}">
+                                @else
                                 <input type="date" class="form-control" name="end_date" value="{{ date('Y-m-d') }}">
+                            @endif
                             </div>
                         </div>
 

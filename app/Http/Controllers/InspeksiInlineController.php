@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 // Tambahkan source dibawah ini
 use Illuminate\Support\Facades\DB;
 use App\Models\DepartmentModel;
+use App\Models\SatuanModel;
 use App\Models\SubDepartmentModel;
 use App\Models\MesinModel;
 use App\Models\DefectModel;
@@ -57,11 +58,13 @@ class InspeksiInlineController extends Controller
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
             'defect'        => $defect,
             'draft'         => $draft,
+            'satuan'        => $satuan,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/inline'
         ]);
@@ -132,12 +135,17 @@ class InspeksiInlineController extends Controller
             // tidak insert karena sudah ada di database
             $row = 1;
         }
+        $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
         // Parameters Detail
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
         $id_mesin = $request->id_mesin;
+        $satuan_qty_temuan = $request->satuan_qty_temuan;
+        $satuan_qty_ready_pcs = $request->satuan_qty_ready_pcs;
+        $satuan_qty_sampling = $request->satuan_qty_sampling;
+
         $qty_1 = $request->qty_1;
         $qty_5 = $request->qty_1*5;
         $pic = strtoupper($request->pic);
@@ -349,9 +357,12 @@ class InspeksiInlineController extends Controller
                 'picture_2'             => $name_p2,
                 'picture_3'             => $name_p3,
                 'picture_4'             => $name_p4,
-                'picture_5'             => $name_p5
-                // 'video_1'               => $name_v1,
-                // 'video_2'               => $name_v2
+                'picture_5'             => $name_p5,
+                'satuan_qty_temuan'     => $satuan_qty_temuan,
+                'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
+                'satuan_qty_sampling'   => $satuan_qty_sampling
+                // 'video_1'            => $name_v1,
+                // 'video_2'            => $name_v2
             ]);
 
         if(($row == 0) || ($row == '')){
@@ -361,6 +372,7 @@ class InspeksiInlineController extends Controller
                 'subdepartemen'     => $subdepartemen,
                 'mesin'             => $mesin,
                 'defect'            => $defect,
+                'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
                 'sub'               => '/inline'
             ]);
@@ -379,6 +391,7 @@ class InspeksiInlineController extends Controller
                 'mesin'             => $mesin,
                 'defect'            => $defect,
                 'draft'             => $draft,
+                'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
                 'sub'               => '/inline'
             ]);
@@ -435,6 +448,7 @@ class InspeksiInlineController extends Controller
                 $inline_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+                $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
                 return view('inspeksi.inline-input',[
                     'id_header'         => 0, //di set 0, nanti ketika save maka akan dapat id header baru
@@ -442,6 +456,7 @@ class InspeksiInlineController extends Controller
                     'subdepartemen'     => $subdepartemen,
                     'defect'            => $defect,
                     'draft'             => $draft,
+                    'satuan'            => $satuan,
                     'menu'              => 'inspeksi',
                     'sub'               => '/inline'
                 ]);
@@ -466,6 +481,7 @@ class InspeksiInlineController extends Controller
                     'draft'             => $draft,
                     'id_departemen'     => $id_departemen,
                     'id_sub_departemen' => $id_sub_departemen,
+                    'satuan'            => $satuan,
                     'menu'              => 'inspeksi',
                     'sub'               => '/inline'
                 ]);
@@ -610,6 +626,9 @@ class InspeksiInlineController extends Controller
             $picture_3 = $draft_detail->picture_3;
             $picture_4 = $draft_detail->picture_4;
             $picture_5 = $draft_detail->picture_5;
+            $satuan_qty_temuan = $draft_detail->satuan_qty_temuan;
+            $satuan_qty_ready_pcs = $draft_detail->satuan_qty_ready_pcs;
+            $satuan_qty_sampling = $draft_detail->satuan_qty_sampling;
 
 
             // insert into database
@@ -689,6 +708,8 @@ class InspeksiInlineController extends Controller
             [
                 'list_inline'   => $list_inline,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/inline'
             ]);
         } else {
@@ -697,6 +718,8 @@ class InspeksiInlineController extends Controller
             [
                 'list_inline'   => $list_inline,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/inline'
             ]);
         }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\DepartmentModel;
 use App\Models\SubDepartmentModel;
+use App\Models\SatuanModel;
 use App\Models\MesinModel;
 use App\Models\DefectModel;
 use App\Models\DraftHeaderModel;
@@ -58,11 +59,14 @@ class InspeksiFinalController extends Controller
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
+
 
         return view('inspeksi.final-input',[
             'departemen'    => $departemen,
             'defect'        => $defect,
             'draft'         => $draft,
+            'satuan'        => $satuan,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/final'
         ]);
@@ -164,7 +168,7 @@ class InspeksiFinalController extends Controller
         $picture_4 = $request->file('picture_4');
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
-        
+
             if ($picture_1 <> '') {
 
                 $this->validate($request, [
@@ -366,7 +370,7 @@ class InspeksiFinalController extends Controller
             'picture_3'             => $name_p3,
             'picture_4'             => $name_p4,
             'picture_5'             => $name_p5
-            
+
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -448,7 +452,7 @@ class InspeksiFinalController extends Controller
                 $final_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
-                
+
                 return view('inspeksi.final-input',[
                     'id_header'         => 0,
                     'departemen'        => $departemen,
@@ -700,6 +704,8 @@ class InspeksiFinalController extends Controller
             [
                 'list_final'   => $list_final,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/final'
             ]);
         } else {
@@ -708,6 +714,8 @@ class InspeksiFinalController extends Controller
             [
                 'list_final'   => $list_final,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/final'
             ]);
         }

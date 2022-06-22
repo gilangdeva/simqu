@@ -117,14 +117,17 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 control-label"><label>Jam Mulai</label></div>
+                        <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" onblur="checkHours(event)" required>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 control-label"><label>Jam Selesai</label></div>
+                        <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
                         </div>
+                    </div>
 
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>PIC</label></div>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="pic" maxlength="120" placeholder="PIC (Operator)">
@@ -168,20 +171,68 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty">
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)">
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty">
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Sample</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty Sample" required>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_sampling" id="qty_sampling" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_sampling" id="satuan_qty_sampling" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -326,9 +377,9 @@
                                     <td>{{ $d->lama_inspeksi }} Menit</td>
                                     <td>{{ $d->defect }}</td>
                                     <td>{{ $d->kriteria }}</td>
-                                    <td>{{ $d->qty_defect }}</td>
-                                    <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
-                                    <td>{{ $d->qty_sampling }}</td>
+                                    <td>{{ $d->qty_defect }} {{ $d->satuan_qty_temuan }}</td>
+                                    <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }}</td>
+                                    <td>{{ $d->qty_sampling }} {{ $d->satuan_qty_sampling }}</td>
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
@@ -398,12 +449,13 @@
                         }
                     }
                 });
-            } else{
+            }else{
                 $('select[name="id_sub_departemen"]').empty();
             }
-        });
+    });
 
-        $('select[name="id_sub_departemen"]').on('change', function() {
+
+    $('select[name="id_sub_departemen"]').on('change', function() {
             var subDepartemenID = $(this).val();
             if(subDepartemenID) {
                 $.ajax({
@@ -475,6 +527,7 @@
         var eh = $("#jam_selesai").val();
         t1 = parseInt(sh.slice(0,2));
         t2 = parseInt(sh.slice(3,5));
+        cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
 
         if (cek_menit == 59){
@@ -484,11 +537,13 @@
             t2 = t2+1;
         }
 
+        if (cek_jam < 10 ){
+            t1 = "0"+t1;
+        }
+
         if (cek_menit < 10 ){
             t2 = "0"+t2;
         }
-
-        // alert('t1: '+t1+' t2 :'+t2);
 
         var stt = new Date("November 13, 2013 " + sh);
         stt = stt.getTime();
@@ -507,6 +562,9 @@
         const event = new Date();
         var h = event.getHours();
         var m = event.getMinutes();
+        var m2 = event.getMinutes();
+
+        m2 = m2+2;
 
         if (h < 10) {
             h = "0"+h;
@@ -516,13 +574,19 @@
             m = "0"+m;
         }
 
+        if (m2 < 10) {
+            m2 = "0"+m2;
+        }
+
+
         document.getElementById("jam_mulai").value = h+":"+m;
+        document.getElementById("jam_selesai").value = h+":"+m2;
     }
 
     function resetdata() {
         document.getElementById("inline_data").reset();
-    $("select.select2").select2({ allowClear: true }); // re-init to show default status
-}
+        $("select.select2").select2({ allowClear: true });
+    }
 </script>
 
 <script>
