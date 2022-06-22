@@ -40,21 +40,27 @@ class ReportController extends Controller
 
         $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('Juni', '2022', '3', '".session()->get('id_user')."')");
         $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('Juni', '2022', '3', '".session()->get('id_user')."')");
+        $report_krt = DB::select("SELECT * FROM sp_report_kriteria('Juni', '2022', '3', '".session()->get('id_user')."')");
 
         $total_inl = DB::select("SELECT sum(total) FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $total_fnl = DB::select("SELECT sum(total) FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $total_krt = DB::select("SELECT sum(total) FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
         $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         return view('report.report-list',[
-            'menu'   => 'report',
-            'sub'    => '/report',
-            'departemen'    => $departemen,
-            'report_inline' => $report_inline,
-            'report_final'  => $report_final,
-            'total_inl'     => $total_inl
+            'menu'              => 'report',
+            'sub'               => '/report',
+            'departemen'        => $departemen,
+            'report_inline'     => $report_inline,
+            'report_final'      => $report_final,
+            'report_kriteria'   => $report_kriteria,
+            'total_inl'         => $total_inl,
+            'total_fnl'         => $total_fnl,
+            'total_krt'         => $total_krt
         ]);
     }
 
@@ -69,18 +75,22 @@ class ReportController extends Controller
         // Call Function / Stored Procedure
         $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
         $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
+        $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".date('Y', strtotime('+0 hours'))."', '".$id_dept."', '".session()->get('id_user')."')");
 
         //Get value total
         $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $total_fnl = DB::select("SELECT sum(total)as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $total_krt = DB::select("SELECT sum(total)as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
         $total_inl = $total_inl[0]->total_inline;
         $total_fnl = $total_fnl[0]->total_final;
+        $total_krt = $total_krt[0]->total_temuan;
 
 
         // select data from table report
         $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
         // Check total
         // if(isset($total_inl)){
@@ -97,16 +107,16 @@ class ReportController extends Controller
 
         // return back again list departemen
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-
-        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         return view('report.report-list',[
-            'menu'   => 'report',
-            'sub'    => '/report',
-            'departemen'    => $departemen,
-            'report_inline' => $report_inline,
-            'report_final'  => $report_final,
-            'total_inl'     => $total_inl,
-            'total_fin'     => $total_fnl
+            'menu'              => 'report',
+            'sub'               => '/report',
+            'departemen'        => $departemen,
+            'report_inline'     => $report_inline,
+            'report_final'      => $report_final,
+            'report_kriteria'   => $report_kriteria,
+            'total_inl'         => $total_inl,
+            'total_fnl'         => $total_fnl,
+            'total_krt'         => $total_krt
         ]);
 
         // if ( || request()->bulan) {

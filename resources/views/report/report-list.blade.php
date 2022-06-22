@@ -77,20 +77,24 @@
                     </thead>
                     <tbody>
                         @if(isset($report_inline[0]))
-                            @foreach($report_inline as $ri)
+                            @foreach($report_inline as $inl)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $ri->minggu_ke }}</td>
-                                    <td>{{ $ri->tgl_mulai_periode }}</td>
-                                    <td>{{ $ri->tgl_akhir_periode }}</td>
-                                    <td>{{ $ri->critical }}</td>
-                                    <td>{{ $ri->persen_critical }}%</td>
-                                    <td>{{ $ri->major }}</td>
-                                    <td>{{ $ri->persen_major }}%</td>
-                                    <td>{{ $ri->minor }}</td>
-                                    <td>{{ $ri->persen_minor }}%</td>
-                                    <td>{{ $ri->total }}</td>
-                                    <td>{{ ($ri->total/$total_inl)*100  }}%</td>
+                                    <td>Minggu Ke{{ $inl->minggu_ke }}</td>
+                                    <td>{{ $inl->tgl_mulai_periode }}</td>
+                                    <td>{{ $inl->tgl_akhir_periode }}</td>
+                                    <td>{{ $inl->critical }}</td>
+                                    <td>{{ $inl->persen_critical }}%</td>
+                                    <td>{{ $inl->major }}</td>
+                                    <td>{{ $inl->persen_major }}%</td>
+                                    <td>{{ $inl->minor }}</td>
+                                    <td>{{ $inl->persen_minor }}%</td>
+                                    <td>{{ $inl->total }}</td>
+                                    @if(isset($total_inl))
+                                    <td>{{ number_format(($inl->total/$total_inl)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
@@ -139,18 +143,22 @@
                     </thead>
                     <tbody>
                         @if(isset($report_final[0]))
-                            @foreach($report_final as $fin)
+                            @foreach($report_final as $fnl)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $fin->minggu_ke }}</td>
-                                    <td>{{ $fin->tgl_mulai_periode }}</td>
-                                    <td>{{ $fin->tgl_akhir_periode }}</td>
-                                    <td>{{ $fin->pass }}</td>
-                                    <td>{{ $fin->persen_pass }}%</td>
-                                    <td>{{ $fin->reject }}</td>
-                                    <td>{{ $fin->persen_reject }}%</td>
-                                    <td>{{ $fin->total }}</td>
-                                    <td>{{ ($fin->total/$total_fnl)*100 }}%</td>
+                                    <td>Minggu Ke{{ $fnl->minggu_ke }}</td>
+                                    <td>{{ $fnl->tgl_mulai_periode }}</td>
+                                    <td>{{ $fnl->tgl_akhir_periode }}</td>
+                                    <td>{{ $fnl->pass }}</td>
+                                    <td>{{ $fnl->persen_pass }}%</td>
+                                    <td>{{ $fnl->reject }}</td>
+                                    <td>{{ $fnl->persen_reject }}%</td>
+                                    <td>{{ $fnl->total }}</td>
+                                    @if(isset($total_fnl))
+                                    <td>{{ number_format(($fnl->total/$total_fnl)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
@@ -176,7 +184,7 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REKAP</h3>
+                        <h3 class="box-title">REPORT KRITERIA</h3>
                     </div>
                 </div>
 
@@ -188,34 +196,44 @@
                             <th>Tgl Awal</th>
                             <th>Tgl Akhir</th>
                             <th>Critical</th>
-                            <th>Persentase Critical</th>
+                            <th>% Critical</th>
                             <th>Major</th>
-                            <th>Persentase Major</th>
+                            <th>% Major</th>
                             <th>Minor</th>
-                            <th>Persentase Minor</th>
+                            <th>% Minor</th>
                             <th>Total</th>
                             <th>Total Sampling</th>
-                            <th>Persentase Sampling</th>
+                            <th>% Sampling</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($report_inline as $ri)
-                            <tr height="-10px;">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>Minggu Ke{{ $ri->minggu_ke }}</td>
-                                <td>{{ $ri->tgl_mulai_periode }}</td>
-                                <td>{{ $ri->tgl_akhir_periode }}</td>
-                                <td>{{ $ri->critical }}</td>
-                                <td>{{ $ri->persen_critical }}%</td>
-                                <td>{{ $ri->major }}</td>
-                                <td>{{ $ri->persen_major }}%</td>
-                                <td>{{ $ri->minor }}</td>
-                                <td>{{ $ri->persen_minor }}%</td>
-                                <td>{{ $ri->total }}</td>
-                                {{-- <td>{{ $ri->total_sampling }}</td> --}}
-                                {{-- <td>{{ $ri->persen_sampling }}</td> --}}
+                        @if(isset($report_kriteria[0]))
+                            @foreach($report_kriteria as $krt)
+                                <tr height="-10px;">
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>Minggu Ke{{ $krt->minggu_ke }}</td>
+                                    <td>{{ $krt->tgl_mulai_periode }}</td>
+                                    <td>{{ $krt->tgl_akhir_periode }}</td>
+                                    <td>{{ $krt->critical }}</td>
+                                    <td>{{ $krt->persen_critical }}%</td>
+                                    <td>{{ $krt->major }}</td>
+                                    <td>{{ $krt->persen_major }}%</td>
+                                    <td>{{ $krt->minor }}</td>
+                                    <td>{{ $krt->persen_minor }}%</td>
+                                    <td>{{ $krt->total }}</td>
+                                    <td>{{ $krt->qty_riil }}</td>
+                                    @if(isset($total_krt))
+                                    <td>{{ number_format(($krt->total/$total_krt)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="12">Tidak ada data untuk ditampilkan</td>
                             </tr>
-                        @endforeach
+                        @endif
                     </tbody>
 
                     <tfoot>
