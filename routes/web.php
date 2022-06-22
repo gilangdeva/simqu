@@ -48,6 +48,9 @@ Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->nam
 Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub')->middleware('auth.check');
 Route::get('/mesin-dropdown/{id}', [MesinController::class, 'getSubMesin'])->name('mesin.dropdown')->middleware('auth.check');
 
+Route::get('/defect-dropdown/{id}', [DefectController::class, 'getSubDefect'])->name('defect.dropdown')->middleware('auth.check');
+Route::get('/kriteria-dropdown/{id}', [DefectController::class, 'getKriteria'])->name('kriteria.dropdown')->middleware('auth.check');
+
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword'])->middleware('auth.check');
 Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->name('password.update')->middleware('auth.check');

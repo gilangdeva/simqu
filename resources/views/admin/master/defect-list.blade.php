@@ -24,8 +24,10 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>Nama Departemen</th>
                                 <th>Kode Defect</th>
                                 <th>Temuan Defect</th>
+                                <th>Kriteria</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -33,8 +35,19 @@
                             @foreach ($defect as $def)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $def->nama_departemen }}</td>
                                 <td>{{ $def->kode_defect }}</td>
                                 <td>{{ $def->defect }}</td>
+                                <td>
+                                    @if(isset($def->critical))
+                                        <a>Critical</a>
+                                    @endif
+                                    @if(isset($def->major))
+                                        <a>& Major</a>
+                                    @endif
+                                    @if(isset($def->minor))
+                                        <a>& Minor</a>
+                                    @endif
                                 <td>
                                     <a href="/defect-edit/{{ Crypt::encrypt($def->id_defect) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($def->id_defect) }}')"><i class="fa fa-times"></i></button>

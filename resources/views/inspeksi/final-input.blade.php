@@ -124,14 +124,25 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Brg Siap (Pack)</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
+                        <div class="col-sm-2">
                             <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
                         </div>
-
-                        <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs/Lbr)" required>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_ready_pack" id="qty_ready_pack" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_ready_pack" id="satuan_qty_ready_pack" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
