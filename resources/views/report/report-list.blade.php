@@ -7,52 +7,57 @@
 <div class="container-fluid">
     <!-- row -->
     <br>
-    <div class="white-box">
-        <div class="row">
-            <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                <div class="col-sm-8">
-                    <div class="col-sm-3">
-                        <select class="form-control select2" name="id_departemen" required>
-                            <option value="0">Pilih Departemen</option>
-                            @foreach ($departemen as $dept)
-                                <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-sm-2">
-                        <select class="form-control select2" name="bulan" id="bulan">
-                            <option value="0">Pilih Bulan</option>
-                            <option value="Januari">JANUARI</option>
-                            <option value="Februari">FEBRUARI</option>
-                            <option value="Maret">MARET</option>
-                            <option value="April">APRIL</option>
-                            <option value="Mei">MEI</option>
-                            <option value="Juni">JUNI</option>
-                            <option value="Juli">JULI</option>
-                            <option value="Agustus">AGUSTUS</option>
-                            <option value="September">SEPTEMBER</option>
-                            <option value="Oktober">OKTOBER</option>
-                            <option value="November">NOVEMBER</option>
-                            <option value="Desember">DESEMBER</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-1">
-                        <button class="btn btn-primary waves-effect pull-right waves-light" type="submit">Submit</button>
-                    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="white-box">
+                <div class="row">
+                    <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
+                        <div class="col-sm-6">
+                            <select class="form-control select2" name="id_departemen" required>
+                                <option value="0">Pilih Departemen</option>
+                                @foreach ($departemen as $dept)
+                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <select class="form-control select2" name="bulan" id="bulan">
+                                <option value="0">Pilih Bulan</option>
+                                <option value="Januari">JANUARI</option>
+                                <option value="Februari">FEBRUARI</option>
+                                <option value="Maret">MARET</option>
+                                <option value="April">APRIL</option>
+                                <option value="Mei">MEI</option>
+                                <option value="Juni">JUNI</option>
+                                <option value="Juli">JULI</option>
+                                <option value="Agustus">AGUSTUS</option>
+                                <option value="September">SEPTEMBER</option>
+                                <option value="Oktober">OKTOBER</option>
+                                <option value="November">NOVEMBER</option>
+                                <option value="Desember">DESEMBER</option>
+                            </select>
+                        </div>
+    
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary waves-effect pull-left waves-light" type="submit">Submit</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT INSPEKSI INLINE</h3>
+                        <h3 class="box-title">REPORT INSPEKSI INLINE   |   <b style="color: red">DEPT : 
+                            @if(isset($report_inline[0]) && isset($bulan))
+                                {{ $report_inline[0]->nama_departemen }} / {{ $bulan }}</b></h3> 
+                            @endif
                     </div>
                 </div>
 
@@ -69,8 +74,8 @@
                             <th>% Major</th>
                             <th>Minor</th>
                             <th>% Minor</th>
-                            <th>Total</th>
-                            <th>% Total</th>
+                            <th style="font-weight: bold;">Total</th>
+                            <th style="font-weight: bold;">% Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,7 +83,7 @@
                             @foreach($report_inline as $ri)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $ri->minggu_ke }}</td>
+                                    <td>Minggu Ke-{{ $ri->minggu_ke }}</td>
                                     <td>{{ $ri->tgl_mulai_periode }}</td>
                                     <td>{{ $ri->tgl_akhir_periode }}</td>
                                     <td>{{ $ri->critical }}</td>
@@ -87,12 +92,12 @@
                                     <td>{{ $ri->persen_major }}%</td>
                                     <td>{{ $ri->minor }}</td>
                                     <td>{{ $ri->persen_minor }}%</td>
-                                    <td>{{ $ri->total }}</td>
+                                    <td style="font-weight: bold; color:blue;">{{ $ri->total }}</td>
                                     @if(isset($total_inl))
-                                        <td>{{ ($ri->total/$total_inl)*100  }}%</td>
-                                    @else 
-                                        <td>0%</td>
-                                    @endif
+                                    <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td style="font-weight: bold;">0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
@@ -116,11 +121,15 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT INSPEKSI FINAL</h3>
+                        <h3 class="box-title">REPORT INSPEKSI FINAL   |   <b style="color: red">DEPT : 
+                            @if(isset($report_final[0]) && isset($bulan))
+                                {{ $report_final[0]->nama_departemen }} / {{ $bulan }}</b></h3> 
+                            @endif
+                        </h3>
                     </div>
                 </div>
 
@@ -135,28 +144,28 @@
                             <th>% Pass</th>
                             <th>Reject</th>
                             <th>% Reject</th>
-                            <th>Total</th>
-                            <th>% Total</th>
+                            <th style="font-weight: bold;">Total</th>
+                            <th style="font-weight: bold;">% Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if(isset($report_final[0]))
-                            @foreach($report_final as $fin)
+                            @foreach($report_final as $fnl)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $fin->minggu_ke }}</td>
-                                    <td>{{ $fin->tgl_mulai_periode }}</td>
-                                    <td>{{ $fin->tgl_akhir_periode }}</td>
-                                    <td>{{ $fin->pass }}</td>
-                                    <td>{{ $fin->persen_pass }}%</td>
-                                    <td>{{ $fin->reject }}</td>
-                                    <td>{{ $fin->persen_reject }}%</td>
-                                    <td>{{ $fin->total }}</td>
+                                    <td>Minggu Ke-{{ $fnl->minggu_ke }}</td>
+                                    <td>{{ $fnl->tgl_mulai_periode }}</td>
+                                    <td>{{ $fnl->tgl_akhir_periode }}</td>
+                                    <td>{{ $fnl->pass }}</td>
+                                    <td>{{ $fnl->persen_pass }}%</td>
+                                    <td>{{ $fnl->reject }}</td>
+                                    <td>{{ $fnl->persen_reject }}%</td>
+                                    <td style="font-weight: bold; color:blue;">{{ $fnl->total }}</td>
                                     @if(isset($total_fnl))
-                                        <td>{{ ($fin->total/$total_fnl)*100 }}%</td>
-                                    @else 
-                                        <td>0%</td>
-                                    @endif
+                                    <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td style="font-weight: bold; color:blue;">0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else
@@ -178,11 +187,15 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT KRITERIA</h3>
+                        <h3 class="box-title">REPORT KRITERIA   |   <b style="color: red">DEPT : 
+                            @if(isset($report_kriteria[0]) && isset($bulan))
+                                {{ $report_kriteria[0]->nama_departemen }} / {{ $bulan }}</b></h3> 
+                            @endif
+                        </h3>
                     </div>
                 </div>
 
@@ -199,8 +212,8 @@
                             <th>% Major</th>
                             <th>Minor</th>
                             <th>% Minor</th>
-                            <th>Total</th>
-                            <th>Total Sampling</th>
+                            <th>Tot.</th>
+                            <th>Tot. Smpling</th>
                             <th>% Sampling</th>
                         </tr>
                     </thead>
@@ -209,7 +222,7 @@
                             @foreach($report_kriteria as $krt)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke{{ $krt->minggu_ke }}</td>
+                                    <td>Minggu Ke-{{ $krt->minggu_ke }}</td>
                                     <td>{{ $krt->tgl_mulai_periode }}</td>
                                     <td>{{ $krt->tgl_akhir_periode }}</td>
                                     <td>{{ $krt->critical }}</td>
@@ -218,8 +231,13 @@
                                     <td>{{ $krt->persen_major }}%</td>
                                     <td>{{ $krt->minor }}</td>
                                     <td>{{ $krt->persen_minor }}%</td>
+                                    <td>{{ $krt->total }}</td>
                                     <td>{{ $krt->qty_riil }}</td>
-                                    <td>{{ ($krt->total/$total_krt)*100 }}%</td>
+                                    @if($krt->qty_riil <> '0')
+                                    <td>{{ number_format(($krt->total/$krt->qty_riil)*100,1,'.','.')  }}%</td>
+                                @else
+                                    <td>0%</td>
+                                @endif
                                 </tr>
                             @endforeach
                         @else

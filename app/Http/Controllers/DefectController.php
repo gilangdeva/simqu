@@ -51,7 +51,7 @@ class DefectController extends Controller
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Defect Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
-        }
+        }  
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect->defect."'");

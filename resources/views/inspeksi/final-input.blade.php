@@ -99,11 +99,12 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Jam Inspek</label></div>
-                        <div class="col-sm-2">
-                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required>
+                        <div class="col-sm-2 control-label"><label>Jam Mulai</label></div>
+                        <div class="col-sm-4">
+                            <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" onblur="checkHours(event)" required>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 control-label"><label>Jam Selesai</label></div>
+                        <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
                         </div>
                     </div>
@@ -201,7 +202,7 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:5px;">
-                        <div class="col-sm-2 control-label"><label>Verifikasi</label></div>
+                        <div class="col-sm-2 control-label"><label>Catatan Verifikasi</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Verifikasi" autocomplete="false"></textarea>
                         </div>
@@ -229,7 +230,7 @@
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
                             {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
-                        </div>  
+                        </div>
 
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
@@ -312,27 +313,27 @@
                                 <td>{{ $d->hasil_verifikasi }}</td>
                                 <td>
                                     @if(isset($d->picture_1))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
                                     @endif
                                     @if(isset($d->picture_2))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
                                     @endif
                                     @if(isset($d->picture_3))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
                                     @endif
                                     @if(isset($d->picture_4))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> / 
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
                                     @endif
                                     @if(isset($d->picture_5))
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>  
+                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
                                 </td>
 
-                                <!-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> / 
-                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> / 
-                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> / 
-                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> / 
-                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a> 
+                                <!-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
+                                    <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                 </td> -->
                             </tr>
                             @endforeach
@@ -452,7 +453,7 @@
         t2 = parseInt(sh.slice(3,5));
         cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
-        
+
 
         if (cek_menit == 59){
             t1 = t1+1;
@@ -469,19 +470,17 @@
             t2 = "0"+t2;
         }
 
-        alert('t1: '+t1+' t2 :'+t2);
+        var stt = new Date("November 13, 2013 " + sh);
+        stt = stt.getTime();
 
-        // var stt = new Date("November 13, 2013 " + sh);
-        // stt = stt.getTime();
+        var endt = new Date("November 13, 2013 " + eh);
+        endt = endt.getTime();
 
-        // var endt = new Date("November 13, 2013 " + eh);
-        // endt = endt.getTime();
-
-        // if (stt >= endt) {
-        //     alert('Jam Selesai harus lebih besar dari Jam Mulai');
-        //     document.getElementById("jam_selesai").value = t1+":"+t2;
-        //     document.getElementById("jam_selesai").focus();
-        // }
+        if (stt >= endt) {
+            alert('Jam Selesai harus lebih besar dari Jam Mulai');
+            document.getElementById("jam_selesai").value = t1+":"+t2;
+            document.getElementById("jam_selesai").focus();
+        }
     }
 
     function loadHours() {

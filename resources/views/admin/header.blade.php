@@ -192,6 +192,7 @@
                             <a href="#" class="waves-effect"><i class="mdi mdi-database-plus fa-fw"></i> <span class="hide-menu">Master Data<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
+                            <li><a href="/satuan"><i class="mdi mdi-ruler fa-fw"></i> <span class="hide-menu">Satuan</span></a></li>
                             <li><a href="/defect"><i class="mdi mdi-clipboard-check fa-fw"></i> <span class="hide-menu">Defect</span></a></li>
                             <li><a href="/mesin"><i class="mdi mdi-washing-machine fa-fw"></i> <span class="hide-menu">Mesin</span></a></li>
                             <li><a href="/department"><i class="mdi mdi-account-network fa-fw"></i> <span class="hide-menu">Departemen</span></a></li>
@@ -225,7 +226,7 @@
                     </li>
 
                     <li>
-                        @if($menu == 'report')
+                        @if($menu == 'laporan')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else
                             <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>

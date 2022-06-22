@@ -32,7 +32,7 @@
                         <tbody>
                             @foreach ($defect as $def)
                             <tr>
-                                <td align="center">{{ $loop->iteration }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $def->kode_defect }}</td>
                                 <td>{{ $def->defect }}</td>
                                 <td>

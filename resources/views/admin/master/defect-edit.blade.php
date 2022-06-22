@@ -27,7 +27,7 @@
                         <label class="col-sm-3 control-label">Temuan Defect</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control" name="defect" maxlength="50" placeholder="Temuan Defect" value="{{ $defect->defect }}" required>
-                            <input type="hidden" class="form-control" name="kode_defect" maxlength="50" placeholder="Temuan Defect" value="{{ $defect->defect }}" required>
+                            <input type="hidden" class="form-control" name="original_defect" maxlength="50" placeholder="Temuan Defect" value="{{ $defect->defect }}" required>
                         </div>
                     </div>
 

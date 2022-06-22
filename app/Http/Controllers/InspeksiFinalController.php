@@ -164,7 +164,7 @@ class InspeksiFinalController extends Controller
         $picture_4 = $request->file('picture_4');
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
-        
+
             if ($picture_1 <> '') {
 
                 $this->validate($request, [
@@ -366,7 +366,7 @@ class InspeksiFinalController extends Controller
             'picture_3'             => $name_p3,
             'picture_4'             => $name_p4,
             'picture_5'             => $name_p5
-            
+
         ]);
 
         if(($row == 0) || ($row == '')){
@@ -448,7 +448,7 @@ class InspeksiFinalController extends Controller
                 $final_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
-                
+
                 return view('inspeksi.final-input',[
                     'id_header'         => 0,
                     'departemen'        => $departemen,
@@ -700,6 +700,8 @@ class InspeksiFinalController extends Controller
             [
                 'list_final'   => $list_final,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/final'
             ]);
         } else {
@@ -708,6 +710,8 @@ class InspeksiFinalController extends Controller
             [
                 'list_final'   => $list_final,
                 'menu'          => 'inspeksi',
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
                 'sub'           => '/final'
             ]);
         }

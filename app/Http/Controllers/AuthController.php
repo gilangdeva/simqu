@@ -15,8 +15,8 @@ use DB;
 class AuthController extends Controller
 {
     public function LoginView(){
-        if (session()->get('username') <> '') {
-            return Redirect('/dashboard');
+        if (session()->get('kode_user') <> '') {
+            return Redirect('/');
         } else {
             return view('admin.login');
         }

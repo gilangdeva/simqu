@@ -88,7 +88,7 @@ class ReportController extends Controller
         }
         
         return view('report.report-list',[
-            'menu'              => 'report',
+            'menu'              => 'laporan',
             'sub'               => '/report-defect',
             'departemen'        => $departemen,
             'report_inline'     => $report_inline,
@@ -96,10 +96,12 @@ class ReportController extends Controller
             'report_kriteria'   => $report_kriteria,
             'total_inl'         => $total_inl,
             'total_fnl'         => $total_fnl,
-            'total_krt'         => $total_krt
+            'total_krt'         => $total_krt,
+            'bulan'             => $bulan
         ]);
     }
 
+    //Menampilkan report inspeksi
     public function ReportInspeksi(){
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
@@ -155,14 +157,117 @@ class ReportController extends Controller
                             ->get();
         
         return view('report.report-inspeksi',[
-            'menu'              => 'report',
+            'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
             'departemen'        => $departemen,
             'report_inspeksi'   => $report_inspeksi,
-            'report_summary'    => $report_summary
+            'report_summary'    => $report_summary,
+            'bulan'             => $bulan
         ]);
     }
 
+    // menampilkan report temuan critical
+    public function ReportCritical(){
+        $bulan = date('m', strtotime('+0 hours'));
+        $tahun = date('Y', strtotime('+0 hours'));
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+
+        if(isset($dept[0])){
+            $dept = $dept[0]->id_departemen;
+        } else {
+            $dept = 0;
+        }
+        
+        if ($bulan == '01') {
+            $bulan = 'Januari';
+        } else if ($bulan == '02'){
+            $bulan = 'Februari';
+        } else if ($bulan == '03'){
+            $bulan = 'Maret';
+        } else if ($bulan == '04'){
+            $bulan = 'April';
+        } else if ($bulan == '05'){
+            $bulan = 'Mei';
+        } else if ($bulan == '06'){
+            $bulan = 'Juni';
+        } else if ($bulan == '07'){
+            $bulan = 'Juli';
+        } else if ($bulan == '08'){
+            $bulan = 'Agustus';
+        } else if ($bulan == '09'){
+            $bulan = 'September';
+        } else if ($bulan == '10'){
+            $bulan = 'Oktober';
+        } else if ($bulan == '11'){
+            $bulan = 'November';
+        } else if ($bulan == '12'){
+            $bulan = 'Desember';
+        }
+
+        $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $report_critical = DB::table('report_rekap_critical')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+
+        $report_summary = DB::table('report_rekap_critical')
+                            ->select('id_departemen', 
+                                     'nama_departemen', 
+                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                                     DB::raw('sum(qty_reject) as qty_reject'),
+                                     DB::raw('sum(qty_critical) as qty_critical'),
+                                     DB::raw('sum(qty_defect) as qty_defect'))
+                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->groupBy('id_departemen','nama_departemen')
+                            ->get();
+        
+        return view('report.report-critical',[
+            'menu'              => 'laporan',
+            'sub'               => '/report-critical',
+            'departemen'        => $departemen,
+            'report_critical'   => $report_critical,
+            'report_summary'    => $report_summary,
+            'bulan'             => $bulan
+        ]);
+    }
+
+    // menampilkan report temuan critical
+    public function ReportReject(){
+        $tahun = date('Y', strtotime('+0 hours'));
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+
+        if(isset($dept[0])){
+            $dept = $dept[0]->id_departemen;
+        } else {
+            $dept = 0;
+        }
+        
+        $call_sp = DB::select("SELECT * FROM sp_report_reject('".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $report_reject = DB::table('report_rekap_reject')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+
+        $report_summary = DB::table('report_rekap_reject')
+                            ->select('id_departemen', 
+                                     'nama_departemen', 
+                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                                     DB::raw('sum(qty_reject) as qty_reject'),
+                                     DB::raw('sum(qty_critical) as qty_critical'),
+                                     DB::raw('sum(qty_defect) as qty_defect'))
+                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->groupBy('id_departemen','nama_departemen')
+                            ->get();
+        
+        return view('report.report-reject',[
+            'menu'              => 'laporan',
+            'sub'               => '/report-reject',
+            'departemen'        => $departemen,
+            'report_reject'   => $report_reject,
+            'report_summary'    => $report_summary,
+            'tahun'             => $tahun
+        ]);
+    }
 
     //Fungsi Filter List
     public function FilterReportDefect(Request $request){
@@ -180,8 +285,8 @@ class ReportController extends Controller
 
         //Get value total
         $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
-        $total_fnl = DB::select("SELECT sum(total)as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
-        $total_krt = DB::select("SELECT sum(total)as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+        $total_fnl = DB::select("SELECT sum(total) as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $total_krt = DB::select("SELECT sum(total) as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
         $total_inl = $total_inl[0]->total_inline;
         $total_fnl = $total_fnl[0]->total_final;
@@ -192,9 +297,8 @@ class ReportController extends Controller
         $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
         $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
-
         return view('report.report-list',[
-            'menu'              => 'report',
+            'menu'              => 'laporan',
             'sub'               => '/report-defect',
             'departemen'        => $departemen,
             'report_inline'     => $report_inline,
@@ -202,10 +306,12 @@ class ReportController extends Controller
             'report_kriteria'   => $report_kriteria,
             'total_inl'         => $total_inl,
             'total_fnl'         => $total_fnl,
-            'total_krt'         => $total_krt
+            'total_krt'         => $total_krt,
+            'bulan'             => $bulan
         ]);
     }
 
+    // Filter Report Inspeksi
     public function FilterReportInspeksi(Request $request){
         // Get value variable
         $dept = $request->id_departemen;
@@ -231,13 +337,84 @@ class ReportController extends Controller
                             ->get();
         
         return view('report.report-inspeksi',[
-            'menu'              => 'report',
+            'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
             'departemen'        => $departemen,
             'report_inspeksi'   => $report_inspeksi,
-            'report_summary'    => $report_summary
+            'report_summary'    => $report_summary,
+            'bulan'             => $bulan
         ]);
     }
 
-    
+
+    // Fungsi filter Report temuan critical
+    public function FilterReportCritical(Request $request){
+        // Get value variable
+        $dept = $request->id_departemen;
+        // return back again list departemen
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $bulan = $request->bulan;
+        $tahun = date('Y', strtotime('+0 hours'));
+
+        $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $report_critical = DB::table('report_rekap_critical')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+
+        $report_summary = DB::table('report_rekap_critical')
+                            ->select('id_departemen', 
+                                     'nama_departemen', 
+                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                                     DB::raw('sum(qty_reject) as qty_reject'),
+                                     DB::raw('sum(qty_critical) as qty_critical'),
+                                     DB::raw('sum(qty_defect) as qty_defect'))
+                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->groupBy('id_departemen','nama_departemen')
+                            ->get();
+        
+        return view('report.report-critical',[
+            'menu'              => 'laporan',
+            'sub'               => '/report-critical',
+            'departemen'        => $departemen,
+            'report_critical'   => $report_critical,
+            'report_summary'    => $report_summary,
+            'bulan'             => $bulan
+        ]);
+    }
+
+    // Fungsi filter Report rekap reject
+    public function FilterReportReject(Request $request){
+        // Get value variable
+        $dept = $request->id_departemen;
+        // return back again list departemen
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $tahun = date('Y', strtotime('+0 hours'));
+
+        $call_sp = DB::select("SELECT * FROM sp_report_reject('".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $report_reject = DB::table('report_rekap_reject')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+
+        $report_summary = DB::table('report_rekap_reject')
+                            ->select('id_departemen', 
+                                     'nama_departemen', 
+                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                                     DB::raw('sum(qty_reject) as qty_reject'),
+                                     DB::raw('sum(qty_critical) as qty_critical'),
+                                     DB::raw('sum(qty_defect) as qty_defect'))
+                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->groupBy('id_departemen','nama_departemen')
+                            ->get();
+        
+        return view('report.report-reject',[
+            'menu'              => 'laporan',
+            'sub'               => '/report-reject',
+            'departemen'        => $departemen,
+            'report_reject'     => $report_reject,
+            'report_summary'    => $report_summary,
+            'tahun'             => $tahun
+        ]);
+    }
+
+
 }

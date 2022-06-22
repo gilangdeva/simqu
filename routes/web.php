@@ -13,6 +13,7 @@ use App\Http\Controllers\InspeksiInlineController;
 use App\Http\Controllers\InspeksiFinalController;
 use App\Http\Controllers\JOPEdarController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SatuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.log
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Dashboard
+Route::get('/', [DashboardController::class, 'Index'])->middleware('auth.check');
 Route::get('/dashboard', [DashboardController::class, 'Index'])->middleware('auth.check');
 
 // Master Users
@@ -91,6 +93,14 @@ Route::get('/defect-edit/{id}', [DefectController::class, 'EditDefectData'])->mi
 Route::post('/defect-update/', [DefectController::class, 'SaveEditDefectData'])->name('defect.update')->middleware('auth.check');
 Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData'])->middleware('auth.check');
 
+// Master Satuan
+Route::get('/satuan', [SatuanController::class, 'SatuanList'])->middleware('auth.check');
+Route::get('/satuan-input/', [SatuanController::class, 'SatuanInput'])->middleware('auth.check');
+Route::post('/satuan-input', [SatuanController::class, 'SaveSatuanData'])->name('satuan.save')->middleware('auth.check');
+Route::get('/satuan-edit/{id}', [SatuanController::class, 'EditSatuanData'])->middleware('auth.check');
+Route::post('/satuan-update/', [SatuanController::class, 'SaveEditSatuanData'])->name('satuan.update')->middleware('auth.check');
+Route::get('/satuan-delete/{id}', [SatuanController::class, 'DeleteSatuanData'])->middleware('auth.check');
+
 //Inspeksi Inline
 Route::get('/inline', [InspeksiInlineController::class, 'InlineList'])->middleware('auth.check');
 Route::get('/inline-input', [InspeksiInlineController::class, 'DraftList'])->middleware('auth.check');
@@ -133,5 +143,12 @@ Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->na
 //Report
 Route::get('/report-defect', [ReportController::class, 'ReportDefect'])->middleware('auth.check');
 Route::get('/report-filter-defect/', [ReportController::class, 'FilterReportDefect'])->name('report.filter')->middleware('auth.check');
+
 Route::get('/report-inspeksi', [ReportController::class, 'ReportInspeksi'])->middleware('auth.check');
 Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportInspeksi'])->name('report.inspeksi')->middleware('auth.check');
+
+Route::get('/report-critical', [ReportController::class, 'ReportCritical'])->middleware('auth.check');
+Route::get('/report-filter-critical/', [ReportController::class, 'FilterReportCritical'])->name('report.critical')->middleware('auth.check');
+
+Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middleware('auth.check');
+Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');
