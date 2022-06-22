@@ -56,7 +56,7 @@ class InspeksiInlineController extends Controller
     // Redirect ke window input inspeksi inline
     public function InlineInput(){
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
-        $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
+        $defect = DB::select("SELECT id_defect, defect, critical, major, minor FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
@@ -103,6 +103,7 @@ class InspeksiInlineController extends Controller
         }
 
         $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
+        $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect WHERE id_departemen =".$id_departemen);
         $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
@@ -481,7 +482,6 @@ class InspeksiInlineController extends Controller
                     'draft'             => $draft,
                     'id_departemen'     => $id_departemen,
                     'id_sub_departemen' => $id_sub_departemen,
-                    'satuan'            => $satuan,
                     'menu'              => 'inspeksi',
                     'sub'               => '/inline'
                 ]);
@@ -501,6 +501,10 @@ class InspeksiInlineController extends Controller
             $picture_3 = $pictures[0]->picture_3;
             $picture_4 = $pictures[0]->picture_4;
             $picture_5 = $pictures[0]->picture_5;
+            $satuan = DB::select("SELECT satuan_qty_temuan, satuan_qty_ready_pcs, satuan_qty_sampling FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $satuan_qty_temuan = $satuan[0]->satuan_qty_temuan;
+            $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
+            $satuan_qty_sampling = $satuan[0]->satuan_qty_sampling;
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -596,7 +600,10 @@ class InspeksiInlineController extends Controller
                 'picture_2',
                 'picture_3',
                 'picture_4',
-                'picture_5'
+                'picture_5',
+                'satuan_qty_temuan',
+                'satuan_qty_ready_pcs',
+                'satuan_qty_sampling'
             )->where('id_inspeksi_detail', $id_detail)->first();
 
             $id_mesin = $draft_detail->id_mesin;
@@ -660,7 +667,10 @@ class InspeksiInlineController extends Controller
                 'picture_2'             => $picture_2,
                 'picture_3'             => $picture_3,
                 'picture_4'             => $picture_4,
-                'picture_5'             => $picture_5
+                'picture_5'             => $picture_5,
+                'satuan_qty_temuan'     => $satuan_qty_temuan,
+                'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
+                'satuan_qty_sampling'   => $satuan_qty_sampling
             ]);
         }
             // Delete header

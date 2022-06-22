@@ -136,6 +136,7 @@ class InspeksiFinalController extends Controller
             // tidak insert karena sudah ada di database
             $row = 1;
         }
+        $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
         // Parameters Detail
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");

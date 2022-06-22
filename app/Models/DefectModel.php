@@ -12,6 +12,8 @@ class DefectModel extends Model
     protected $fillable = [
     	'defect',
         'kode_defect',
+        'id_departemen',
+        'id_sub_departemen',
         'created_at',
         'updated_at'
     ];
