@@ -166,7 +166,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h4 class="modal-title" id="myModalLabel">Modal Heading</h4> </div>
+                                    <h4 class="modal-title" id="myModalLabel">Preview Gambar Temuan</h4> </div>
                                 <div class="modal-body">
                                     <div class="panel-wrapper p-b-10 collapse in">
                                         <div id="owl-demo" class="owl-carousel owl-theme">

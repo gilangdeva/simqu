@@ -178,6 +178,8 @@ class InspeksiInlineController extends Controller
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
 
+        return $kriteria;
+
             if ($picture_1 <> '') {
                 $this->validate($request, [
                     'picture_1' => 'image|mimes:jpg,png,jpeg'
