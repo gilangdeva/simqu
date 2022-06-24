@@ -194,15 +194,11 @@
 
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
-                            @if(isset($id_defect))
-                                <select class="form-control select2" name="kriteria" id="kriteria" style="background-color: #f4f4f4;" disabled>
-                            @else
-                                <select class="form-control select2" name="kriteria" id="kriteria" required>
-                            @endif
+                            <select class="form-control select2" name="kriteria" id="kriteria">
                                 <option>Pilih Kriteria</option>
-                                @if(isset($id_defect))
-                                    @foreach ($subdepartemen as $subdept)
-                                        <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
+                                @if(isset($kriteria))
+                                    @foreach ($kriteria as $krit)
+                                        <option value="{{ $krit->kriteria }}" {{ old('kriteria', $kriteria) == $krit->kriteria ? 'selected':''}}>{{ $krit->kriteria }}</option>
                                     @endforeach
                                 @else
                                     {{-- <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option> --}}
