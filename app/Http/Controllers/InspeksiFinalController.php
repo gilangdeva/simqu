@@ -143,8 +143,6 @@ class InspeksiFinalController extends Controller
         $satuan_qty_temuan = $request->satuan_qty_temuan;
         $satuan_qty_ready_pcs = $request->satuan_qty_ready_pcs;
         $satuan_qty_ready_pack = $request->satuan_qty_ready_pack;
-        $satuan_qty_sample_aql = $request->satuan_qty_sample_aql;
-        $satuan_qty_sample_riil = $request->satuan_qty_sample_riil;
         $satuan_qty_reject_all = $request->satuan_qty_reject_all;
 
         $jam_mulai = new DateTime($request->jam_mulai);
@@ -430,18 +428,24 @@ class InspeksiFinalController extends Controller
             $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return view('inspeksi.final-input',[
-                'id_header'         => $id_header,
-                'tgl_inspeksi'      => $tgl_inspeksi,
-                'shift'             => $shift,
-                'id_departemen'     => $id_departemen,
-                'departemen'        => $departemen,
-                'id_sub_departemen' => $id_sub_departemen,
-                'subdepartemen'     => $subdepartemen,
-                'defect'            => $defect,
-                'draft'             => $draft,
-                'satuan'            => $satuan,
-                'menu'              => 'inspeksi',
-                'sub'               => '/final'
+                'id_header'                 => $id_header,
+                'tgl_inspeksi'              => $tgl_inspeksi,
+                'shift'                     => $shift,
+                'id_departemen'             => $id_departemen,
+                'departemen'                => $departemen,
+                'id_sub_departemen'         => $id_sub_departemen,
+                'subdepartemen'             => $subdepartemen,
+                'defect'                    => $defect,
+                'draft'                     => $draft,
+                'satuan'                    => $satuan,
+                'satuan_qty_temuan'         => $satuan_qty_temuan,
+                'satuan_qty_ready_pcs'      => $satuan_qty_ready_pcs,
+                'satuan_qty_ready_pack'     => $satuan_qty_ready_pack,
+                'satuan_qty_sample_aql'     => $satuan_qty_sample_aql,
+                'satuan_qty_sample_riil'    => $satuan_qty_sample_riil,
+                'satuan_qty_reject_all'     => $satuan_qty_reject_all,
+                'menu'                      => 'inspeksi',
+                'sub'                       => '/final'
             ]);
         }
         //End Controller Wawan
@@ -460,6 +464,10 @@ class InspeksiFinalController extends Controller
             $picture_3 = $pictures[0]->picture_3;
             $picture_4 = $pictures[0]->picture_4;
             $picture_5 = $pictures[0]->picture_5;
+            $satuan = DB::select("SELECT satuan_qty_ready_pack, satuan_qty_ready_pcs, satuan_qty_reject_all FROM vg_draft_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $satuan_qty_ready_pack = $satuan[0]->satuan_qty_ready_pack;
+            $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
+            $satuan_qty_reject_all = $satuan[0]->satuan_qty_reject_all;
 
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_draft_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
