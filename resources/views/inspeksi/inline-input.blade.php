@@ -399,22 +399,42 @@
                                         @if(isset($d->picture_5))
                                             / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
                                         @endif
+                                        @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
+                                            | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
+                                        @endif
                                     </td>
-                                    {{-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200">Picture 1</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" width="200">Picture 2</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" width="200">Picture 3</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" width="200">Picture 4</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
-                                    </td> --}}
-
-                                    {{-- <td><img src="{{ url('/') }}/images/defect/{{ $d->video_1 }}" width="100"></td>
-                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->video_2 }}" width="100"></td> --}}
                                 </tr>
                             @endforeach
                         @endif
                     </tbody>
                     <button type="button" class="btn btn-info waves-effect pull-right waves-light" onclick="postConfirmation()">POST</i></button>
                 </table>
+
+                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">Modal Heading</h4> </div>
+                            <div class="modal-body">
+                                <div class="panel-wrapper p-b-10 collapse in">
+                                    <div id="owl-demo" class="owl-carousel owl-theme">
+                                        <div class="item"><img src="" id="img_1" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_2" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_3" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_4" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_5" style="max-width: 100%;" alt="Owl Image"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
             </div>
         </div>
     </div>
@@ -586,6 +606,40 @@
     function resetdata() {
         document.getElementById("inline_data").reset();
         $("select.select2").select2({ allowClear: true });
+    }
+
+    function checkPic(pic_1, pic_2, pic_3, pic_4, pic_5){
+        var p1 = pic_1;
+        var p2 = pic_2;
+        var p3 = pic_3;
+        var p4 = pic_4;
+        var p5 = pic_5;
+
+        if (p1 == '') {
+            p1 = 'Blank.jpg';
+        }
+
+        if (p2 == '') {
+            p2 = 'Blank.jpg';
+        }
+
+        if (p3 == '') {
+            p3 = 'Blank.jpg';
+        }
+
+        if (p4 == '') {
+            p4 = 'Blank.jpg';
+        }
+
+        if (p5 == '') {
+            p5 = 'Blank.jpg';
+        }
+
+        $("#img_1").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p1);
+        $("#img_2").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p2);
+        $("#img_3").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p3);
+        $("#img_4").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p4);
+        $("#img_5").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p5);
     }
 </script>
 

@@ -15,6 +15,11 @@
     <!-- Menu CSS -->
     <link href="{{ url('/') }}/admin/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet" type="text/css">
     <link href="{{ url('/') }}/admin/bower_components/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css">
+
+    <!--My admin Custom CSS -->
+    <link href="{{ url('/') }}/admin/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('/') }}/admin/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
+
     <!-- Chartist CSS -->
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist-init.css" rel="stylesheet">

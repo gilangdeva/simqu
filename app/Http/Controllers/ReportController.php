@@ -415,6 +415,4 @@ class ReportController extends Controller
             'tahun'             => $tahun
         ]);
     }
-
-
 }

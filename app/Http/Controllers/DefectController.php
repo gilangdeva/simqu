@@ -16,10 +16,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class DefectController extends Controller
 {
-
-
     // Menampilkan list defect
-    public function defectlist(){
+    public function defectlist() {
         // Get all data from database
         $defect = DefectModel::all();
 
@@ -36,7 +34,7 @@ class DefectController extends Controller
             'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'   => '/defect'
         ]);
-    }
+    } 
 
     //Simpan data defect
     public function SaveDefectData(Request $request){
@@ -60,13 +58,11 @@ class DefectController extends Controller
             return Redirect::back();
         }
 
-
        // Insert data into database
         $defect->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/defect');
     }
-
 
     // fungsi untuk redirect ke halaman edit
     public function EditDefectData($id){
@@ -91,33 +87,31 @@ class DefectController extends Controller
 
         // Is there a change in kode data?
         if ($request->defect <> $request->original_defect){
-        //cek apakah sudah ada di db
-        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect."'");
-        if (isset($defect_check['0'])) {
-            alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
-            return Redirect::back();
+            //cek apakah sudah ada di db
+            $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect."'");
+            if (isset($defect_check['0'])) {
+                alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
+                return Redirect::back();
+            } else {
+                //update data into db
+                DefectModel::where('id_defect', $id_defect)->update([
+                    'kode_defect'       => $kode_defect,
+                    'defect'            => $defect,
+                    'updated_at'        => $updated_at,
+                ]);
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
+                return redirect('/defect');
+            }
         } else {
-            //update data into db
-            DefectModel::where('id_defect', $id_defect)->update([
-                'kode_defect'       => $kode_defect,
-                'defect'            => $defect,
-                'updated_at'        => $updated_at,
-            ]);
-            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
-            return redirect('/defect');
+                //update data into db
+                DefectModel::where('id_defect', $id_defect)->update([
+                    'kode_defect'       => $kode_defect,
+                    'defect'            => $defect,
+                    'updated_at'        => $updated_at,
+                ]);
+                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
+                return redirect('/defect');
         }
-    } else {
-             //update data into db
-             DefectModel::where('id_defect', $id_defect)->update([
-                'kode_defect'       => $kode_defect,
-                'defect'            => $defect,
-                'updated_at'        => $updated_at,
-            ]);
-            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
-            return redirect('/defect');
-    }
-
-
     }
 
     // Fungsi hapus data
@@ -125,13 +119,11 @@ class DefectController extends Controller
         $id = Crypt::decryptString($id);
 
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
-    // Check user already used in other table or not yet
+        // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
             return Redirect::back();
-        }
-
-        {
+        } else {
         // Delete process
         $defect = DefectModel::find($id);
         $defect->delete();
