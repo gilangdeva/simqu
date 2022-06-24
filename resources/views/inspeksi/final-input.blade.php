@@ -198,7 +198,7 @@
                                 <option>Pilih Kriteria</option>
                                 @if(isset($kriteria))
                                     @foreach ($kriteria as $krit)
-                                        <option value="{{ $krit->kriteria }}" {{ old('kriteria', $kriteria) == $krit->kriteria ? 'selected':''}}>{{ $krit->kriteria }}</option>
+                                        <option value="{{ $krit->kriteria }}">{{ $krit->kriteria }}</option>
                                     @endforeach
                                 @else
                                     {{-- <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option> --}}

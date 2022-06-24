@@ -152,9 +152,9 @@
                         <div class="col-sm-4">
                                 <select class="form-control select2" name="id_defect" id="id_defect">
                                 <option>Pilih Defect</option>
-                                @if(isset($id_defect))
+                                @if(isset($defect))
                                     @foreach ($defect as $def)
-                                        <option value="{{ $def->id_defect }}" {{ old('id_defect', $id_defect) == $def->id_defect ? 'selected':''}}>{{ $def->defect }}</option>
+                                        <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
                                     @endforeach
                                 @else
 
@@ -184,10 +184,21 @@
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty">
                         </div>
-                        <div class="col-sm-2">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Qty Sample</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
+                        </div>
+
+                        
+
+                        <div class="col-sm-2 control-label"><label>Satuan</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -202,17 +213,6 @@
                                     @endif
                                 @endforeach
                             </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Qty Sample</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
-                        </div>
-
-                        <div class="col-sm-2 control-label"><label></label></div>
-                        <div class="col-sm-4">
                         </div>
                     </div>
 
