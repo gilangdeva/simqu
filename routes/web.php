@@ -14,6 +14,7 @@ use App\Http\Controllers\InspeksiFinalController;
 use App\Http\Controllers\JOPEdarController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\AqlController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::get('/getSubDept/{id}', 'UsersController@getSubDept')->middleware('auth.c
 Route::get('/users-sub/{id}', [UsersController::class, 'getSubDepartemen'])->name('users.sub')->middleware('auth.check');
 Route::get('/mesin-sub/{id}', [MesinController::class, 'getSubDepartemen'])->name('mesin.sub')->middleware('auth.check');
 Route::get('/mesin-dropdown/{id}', [MesinController::class, 'getSubMesin'])->name('mesin.dropdown')->middleware('auth.check');
+
+Route::get('/defect-dropdown/{id}', [DefectController::class, 'getSubDefect'])->name('defect.dropdown')->middleware('auth.check');
+Route::get('/kriteria-dropdown/{id}', [DefectController::class, 'getKriteria'])->name('kriteria.dropdown')->middleware('auth.check');
 
 // User Change Password
 Route::get('/change-password/{id}',[UsersController::class, 'ChangeUserPassword'])->middleware('auth.check');
@@ -100,6 +104,16 @@ Route::post('/satuan-input', [SatuanController::class, 'SaveSatuanData'])->name(
 Route::get('/satuan-edit/{id}', [SatuanController::class, 'EditSatuanData'])->middleware('auth.check');
 Route::post('/satuan-update/', [SatuanController::class, 'SaveEditSatuanData'])->name('satuan.update')->middleware('auth.check');
 Route::get('/satuan-delete/{id}', [SatuanController::class, 'DeleteSatuanData'])->middleware('auth.check');
+
+// Master Aql
+Route::get('/aql', [AqlController::class, 'aqlList'])->middleware('auth.check');
+Route::get('/aql-input/', [AqlController::class, 'AqlInput'])->middleware('auth.check');
+Route::post('/aql-input', [AqlController::class, 'SaveAqlData'])->name('aql.save')->middleware('auth.check');
+Route::get('/aql-edit/{id}', [AqlController::class, 'EditAqlData'])->middleware('auth.check');
+Route::post('/aql-update/', [AqlController::class, 'SaveEditAqlData'])->name('aql.update')->middleware('auth.check');
+Route::get('/aql-delete/{id}', [AqlController::class, 'DeleteAqlData'])->middleware('auth.check');
+
+Route::get('/aql-level/', [AqlController::class, 'ActivateLevel'])->name('aql.level')->middleware('auth.check');
 
 //Inspeksi Inline
 Route::get('/inline', [InspeksiInlineController::class, 'InlineList'])->middleware('auth.check');

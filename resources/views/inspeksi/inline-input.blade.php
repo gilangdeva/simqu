@@ -150,21 +150,29 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Defect</label></div>
                         <div class="col-sm-4">
-                            <select class="form-control select2" name="id_defect">
-                                <option value="0">Pilih Defect</option>
-                                @foreach ($defect as $def)
-                                    <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
-                                @endforeach
+                                <select class="form-control select2" name="id_defect" id="id_defect">
+                                <option>Pilih Defect</option>
+                                @if(isset($id_defect))
+                                    @foreach ($defect as $def)
+                                        <option value="{{ $def->id_defect }}" {{ old('id_defect', $id_defect) == $def->id_defect ? 'selected':''}}>{{ $def->defect }}</option>
+                                    @endforeach
+                                @else
+
+                                @endif
                             </select>
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
-                            <select id="kriteria" class="form-control select2" name="kriteria" autocomplete="false">
-                                <option value="">Pilih Kriteria</option>
-                                <option value="Minor">Minor</option>
-                                <option value="Major">Major</option>
-                                <option value="Critical">Critical</option>
+                            <select class="form-control select2" name="kriteria" id="kriteria">
+                                <option>Pilih Kriteria</option>
+                                @if(isset($kriteria))
+                                    @foreach ($kriteria as $krit)
+                                        <option value="{{ $krit->kriteria }}" {{ old('kriteria', $kriteria) == $krit->kriteria ? 'selected':''}}>{{ $krit->kriteria }}</option>
+                                    @endforeach
+                                @else
+
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -183,9 +191,9 @@
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->id_satuan }}" {{ old('id_satuan', $id_satuan) == $sat->id_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->id_satuan }}">{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -204,9 +212,9 @@
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->id_satuan }}" {{ old('id_satuan', $id_satuan) == $sat->id_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->id_satuan }}">{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -227,9 +235,9 @@
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->id_satuan }}" {{ old('id_satuan', $id_satuan) == $sat->id_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->id_satuan }}">{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -472,10 +480,10 @@
             }else{
                 $('select[name="id_sub_departemen"]').empty();
             }
-    });
+        });
 
 
-    $('select[name="id_sub_departemen"]').on('change', function() {
+        $('select[name="id_sub_departemen"]').on('change', function() {
             var subDepartemenID = $(this).val();
             if(subDepartemenID) {
                 $.ajax({
@@ -500,7 +508,59 @@
                 $('select[name="id_mesin"]').empty();
             }
         });
-    });
+
+        $('select[name="id_departemen"]').on('change', function() {
+            var departemenID = $(this).val();
+            if(departemenID) {
+                $.ajax({
+                    url: '/defect-dropdown/'+departemenID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="id_defect"]').empty();
+                            $('select[name="id_defect"]').append('<option value="0" selected>Pilih Defect</option>');
+                            // Remove options
+                            $('#id_defect').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="id_defect"]').append('<option value="'+ data[i].id_defect +'">'+ data[i].defect +'</option>');
+                            };
+                        } else {
+                            $('select[name="id_defect"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="id_defect"]').empty();
+            }
+        });
+
+        $('select[name="id_defect"]').on('change', function() {
+            var defectID = $(this).val();
+            if(defectID) {
+                $.ajax({
+                    url: '/kriteria-dropdown/'+defectID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="kriteria"]').empty();
+                            $('select[name="kriteria"]').append('<option value="0" selected>Pilih Kriteria</option>');
+                            // Remove options
+                            $('#kriteria').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="kriteria"]').append('<option value="'+ data[i].kriteria +'">'+ data[i].kriteria +'</option>');
+                            };
+                        } else {
+                            $('select[name="kriteria"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="kriteria"]').empty();
+            }
+        });
+});
 
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/inline-delete/'+id;

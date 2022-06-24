@@ -23,6 +23,18 @@
                         </div>
                     </div>
 
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Departemen</label>
+                        <div class="col-sm-7">
+                            <select class="form-control select2" name="id_departemen" required>
+                                <option value='0'>Pilih Departemen</option>
+                                @foreach ($departemen as $dept)
+                                    <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $defect->id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-bottom 3px;">
                         <label class="col-sm-3 control-label">Temuan Defect</label>
                         <div class="col-sm-7">
@@ -48,5 +60,36 @@
 <!-- end container-fluid -->
 
 @include('admin.footer')
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('select[name="id_departemen"]').on('change', function() {
+            var departemenID = $(this).val();
+            if(departemenID) {
+                $.ajax({
+                    url: '/defect-sub/'+departemenID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="id_sub_departemen"]').empty();
+                            $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Sub Departemen</option>');
+                            // Remove options
+                            $('#id_sub_departemen').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="id_sub_departemen"]').append('<option value="'+ data[i].id_sub_departemen +'">'+ data[i].nama_sub_departemen +'</option>');
+                            };
+                        } else {
+                            $('select[name="id_sub_departemen"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="id_sub_departemen"]').empty();
+            }
+        });
+    });
+</script>
 
 @endsection
