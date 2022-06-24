@@ -142,6 +142,13 @@ class InspeksiFinalController extends Controller
         $id_detail = DB::select("SELECT id_inspeksi_detail FROM vg_list_id_detail");
         $id_detail = $id_detail[0]->id_inspeksi_detail;
         $id_header = $id_header;
+        $satuan_qty_temuan = $request->satuan_qty_temuan;
+        $satuan_qty_ready_pcs = $request->satuan_qty_ready_pcs;
+        $satuan_qty_ready_pack = $request->satuan_qty_ready_pack;
+        $satuan_qty_sample_aql = $request->satuan_qty_sample_aql;
+        $satuan_qty_sample_riil = $request->satuan_qty_sample_riil;
+        $satuan_qty_reject_all = $request->satuan_qty_reject_all;
+
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
         // $interval = $jam_mulai->diff($jam_selesai);
@@ -370,7 +377,13 @@ class InspeksiFinalController extends Controller
             'picture_2'             => $name_p2,
             'picture_3'             => $name_p3,
             'picture_4'             => $name_p4,
-            'picture_5'             => $name_p5
+            'picture_5'             => $name_p5,
+            'satuan_qty_temuan'     => $satuan_qty_temuan, 
+            'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
+            'satuan_qty_ready_pack' => $satuan_qty_ready_pack,
+            'satuan_qty_sample_aql' => $satuan_qty_sample_aql,
+            'satuan_qty_sample_riil'=> $satuan_qty_sample_riil,
+            'satuan_qty_reject_all' => $satuan_qty_reject_all
 
         ]);
 
@@ -380,6 +393,7 @@ class InspeksiFinalController extends Controller
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
                 'defect'            => $defect,
+                'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
                 'sub'               => '/final'
             ]);
@@ -397,6 +411,7 @@ class InspeksiFinalController extends Controller
                 'subdepartemen'     => $subdepartemen,
                 'defect'            => $defect,
                 'draft'             => $draft,
+                'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
                 'sub'               => '/final'
             ]);
@@ -453,6 +468,7 @@ class InspeksiFinalController extends Controller
                 $final_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
+                $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
                 return view('inspeksi.final-input',[
                     'id_header'         => 0,
@@ -460,6 +476,7 @@ class InspeksiFinalController extends Controller
                     'subdepartemen'     => $subdepartemen,
                     'defect'            => $defect,
                     'draft'             => $draft,
+                    'satuan'            => $satuan,
                     'menu'              => 'inspeksi',
                     'sub'               => '/final'
                 ]);
@@ -501,6 +518,13 @@ class InspeksiFinalController extends Controller
             $picture_3 = $pictures[0]->picture_3;
             $picture_4 = $pictures[0]->picture_4;
             $picture_5 = $pictures[0]->picture_5;
+            $satuan = DB::select("SELECT satuan_qty_temuan, satuan_qty_ready_pcs, satuan_qty_ready_pack, satuan_qty_sample_aql, satuan_qty_sample_riil, satuan_qty_reject_all FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $satuan_qty_temuan = $satuan[0]->satuan_qty_temuan;
+            $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
+            $satuan_qty_ready_pack = $satuan[0]->satuan_qty_ready_pack;
+            $satuan_qty_sample_aql = $satuan[0]->satuan_qty_sample_aql;
+            $satuan_qty_sample_riil = $satuan[0]->satuan_qty_sample_riil;
+            $satuan_qty_reject_all = $satuan[0]->satuan_qty_reject_all;
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -595,8 +619,13 @@ class InspeksiFinalController extends Controller
                 'picture_2',
                 'picture_3',
                 'picture_4',
-                'picture_5'
-
+                'picture_5',
+                'satuan_qty_temuan',
+                'satuan_qty_ready_pcs',
+                'satuan_qty_ready_pack',
+                'satuan_qty_sample_aql',
+                'satuan_qty_sample_riil',
+                'satuan_qty_reject_all'
             )->where('id_inspeksi_detail', $id_detail)->first();
 
             $jam_mulai = new DateTime($draft_detail->jam_mulai);
@@ -627,6 +656,12 @@ class InspeksiFinalController extends Controller
             $picture_3 = $draft_detail->picture_3;
             $picture_4 = $draft_detail->picture_4;
             $picture_5 = $draft_detail->picture_5;
+            $satuan_qty_temuan = $draft_detail->satuan_qty_temuan;
+            $satuan_qty_ready_pcs = $draft_detail->satuan_qty_ready_pcs;
+            $satuan_qty_ready_pack = $draft_detail->satuan_qty_ready_pack;
+            $satuan_qty_sample_aql = $draft_detail->satuan_qty_sample_aql;
+            $satuan_qty_sample_riil = $draft_detail->satuan_qty_sample_riil;
+            $satuan_qty_reject_all = $draft_detail->satuan_qty_reject_all;
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -656,8 +691,13 @@ class InspeksiFinalController extends Controller
                 'picture_2'             => $picture_2,
                 'picture_3'             => $picture_3,
                 'picture_4'             => $picture_4,
-                'picture_5'             => $picture_5
-
+                'picture_5'             => $picture_5,
+                'satuan_qty_temuan'     => $satuan_qty_temuan,
+                'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
+                'satuan_qty_ready_pack' => $satuan_qty_ready_pack,
+                'satuan_qty_sample_aql' => $satuan_qty_sample_aql,
+                'satuan_qty_sample_riil'=> $satuan_qty_sample_riil,
+                'satuan_qty_reject_all' => $satuan_qty_reject_all
             ]);
         }
             // Delete header
@@ -680,19 +720,19 @@ class InspeksiFinalController extends Controller
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('jop', 'LIKE', "%{$text_search}%")
+                        ->where('jop', 'like', "%{$text_search}%")
                         ->get();
                 } else if ($type_search =="ITEM"){
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('item', 'LIKE', "%{$text_search}%")
+                        ->where('item', 'like', "%{$text_search}%")
                         ->get();
                 } else if ($type_search =="INSPEKTOR"){
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('nama_user', 'LIKE', "%{$text_search}%")
+                        ->where('nama_user', 'like', "%{$text_search}%")
                         ->get();
                 } else {
                     $list_final = DB::table('vg_list_final')

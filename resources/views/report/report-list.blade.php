@@ -75,7 +75,7 @@
                     </thead>
                     <tbody>
                         @if(isset($report_inline[0]))
-                            @foreach($report_inline as $inl)
+                            @foreach($report_inline as $ri)
                                 <tr height="-10px;">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>Minggu Ke{{ $ri->minggu_ke }}</td>

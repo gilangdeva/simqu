@@ -42,14 +42,14 @@
                         <div class="col-sm-2 control-label"><label>Shift</label></div>
                         <div class="col-sm-4">
                             @if (isset($shift))
-                                <select class="form-control select2" name="shift" id="shift" style="background-color: #f4f4f4;" disabled>
+                                <select type="text" class="form-control select2" name="shift" id="shift" style="background-color: #f4f4f4;" disabled>
                                     <option value="">Pilih Shift</option>
                                     <option value="A" {{ old('shift', $shift) == "A" ? 'selected':''}}>A</option>
                                     <option value="B" {{ old('shift', $shift) == "B" ? 'selected':''}}>B</option>
                                     <option value="C" {{ old('shift', $shift) == "C" ? 'selected':''}}>C</option>
                                 </select>
                             @else
-                                <select class="form-control select2" name="shift" id="shift" required>
+                                <select type="text" class="form-control select2" name="shift" id="shift" required>
                                     <option value="">Pilih Shift</option>
                                     <option value="A">A</option>
                                     <option value="B">B</option>
@@ -296,13 +296,13 @@
                         </div>
                     </div>
 
-                    {{-- <div class="form-group" style="margin-bottom:5px;">
+                     <!-- <div class="form-group" style="margin-bottom:5px;">
                         <label class="col-sm-2 control-label">Video</label>
                         <div class="col-sm-10">
                             <input type="file" id="input-file-now-custom-2" name="video_1" style="margin-bottom:5px;" />
                             <input type="file" id="input-file-now-custom-2" name="video_2" style="margin-bottom:5px;" />
                         </div>
-                    </div> --}}
+                    </div>  -->
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
@@ -561,6 +561,7 @@
             }
         })
     };
+
 
     function postConfirmation() {
         var urlsite = "http://"+window.location.hostname+':8000/inline-post/';

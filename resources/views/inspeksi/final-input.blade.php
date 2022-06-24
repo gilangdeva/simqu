@@ -124,11 +124,11 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pck/Box)</label></div>
+                        <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
                         </div>
-                        <div class="col-sm-2">
+                        <!-- <div class="col-sm-2">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pack" id="qty_ready_pack" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -143,19 +143,45 @@
                                     @endif
                                 @endforeach
                             </select>
+                        </div> -->
+
+                        
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs)">
                         </div>
-                    </div>
+                        <!-- <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div> -->
+                        </div>
+
+                        <br>
+                        
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Riil</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Qty Riil" required>
                         </div>
                         <div class="col-sm-2">
                             @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4f4;" disabled>
+                            <select class="form-control select2" name="qty_sample_riil" id="qty_sample_riil" style="background-color: #f4f4f4f4;" disabled>
                             @else
-                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
+                            <select class="form-control select2" name="satuan_qty_sample_riil" id="satuan_qty_sample_riil" required>
                             @endif
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
@@ -167,16 +193,17 @@
                                 @endforeach                        
                         </select>
                         </div>
+                       
 
                         <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Qty Aql" required>
                         </div>
                         <div class="col-sm-2">
                             @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4f4;" disabled>
+                            <select class="form-control select2" name="qty_sample_aql" id="qty_sample_aql" style="background-color: #f4f4f4f4;" disabled>
                             @else
-                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
+                            <select class="form-control select2" name="satuan_qty_sample_aql" id="satuan_qty_sample_aql" required>
                             @endif
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
@@ -188,7 +215,7 @@
                                 @endforeach                        
                         </select>
                         </div>
-                    </div>
+                        </div>
 
                     <br><br>
 
@@ -216,15 +243,47 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>    
+                                    @else
+                                    <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach                        
+                        </select>
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Qty Reject</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject">
                         </div>
-                    </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_reject_all" id="qty_reject_all" style="background-color: #f4f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_reject_all" id="satuan_qty_reject_all" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>    
+                                    @else
+                                    <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach                        
+                        </select>
+                        </div>
+                        </div>
 
                     <br><br>
 
@@ -238,6 +297,7 @@
                                 <option value="REJECT">Reject</option>
                             </select>
                         </div>
+                       
                         <div class="col-sm-2 control-label"><label>Rekomendasi</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="keterangan" placeholder="Rekomendasi" autocomplete="false"></textarea>
@@ -282,6 +342,7 @@
                     </div>
                 </form>
             </div>
+        </div>
         </div>
 
         <div class="col-md-7">
@@ -343,14 +404,14 @@
                                 <td>{{ $d->jam_mulai }}</td>
                                 <td>{{ $d->jam_selesai }}</td>
                                 <td>{{ $d->lama_inspeksi }} Menit</td>
-                                <td>{{ $d->qty_ready_pack }} (Pack/Box)</td>
-                                <td>{{ $d->qty_ready_pcs }} (Pcs/Lbr)</td>
-                                <td>{{ $d->qty_sample_riil }}</td>
-                                <td>{{ $d->qty_sample_aql }}</td>
+                                <td>{{ $d->qty_ready_pack }} {{ $d->satuan_qty_ready_pack }} (Pck/Box)</td>
+                                <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }} (Pcs)</td>
+                                <td>{{ $d->qty_sample_riil }} {{ $d->satuan_qty_sample_riil }}</td>
+                                <td>{{ $d->qty_sample_aql }} {{ $d->satuan_qty_sample_aql }}</td>
                                 <td>{{ $d->defect }}</td>
                                 <td>{{ $d->kriteria }}</td>
-                                <td>{{ $d->qty_defect }}</td>
-                                <td>{{ $d->qty_reject_all }}</td>
+                                <td>{{ $d->qty_defect }} {{ $d->satuan_qty_temuan }}</td>
+                                <td>{{ $d->qty_reject_all }} {{ $d->satuan_qty_reject_all }}</td>
                                 <td>{{ $d->status }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->hasil_verifikasi }}</td>
@@ -372,12 +433,12 @@
                                     @endif
                                 </td>
 
-                                <!-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
+                                <!--  <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
                                     <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
                                     <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
                                     <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
                                     <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
-                                </td> -->
+                                </td>  -->
                             </tr>
                             @endforeach
                         @endif
