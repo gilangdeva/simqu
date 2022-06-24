@@ -112,6 +112,8 @@ Route::get('/aql-edit/{id}', [AqlController::class, 'EditAqlData'])->middleware(
 Route::post('/aql-update/', [AqlController::class, 'SaveEditAqlData'])->name('aql.update')->middleware('auth.check');
 Route::get('/aql-delete/{id}', [AqlController::class, 'DeleteAqlData'])->middleware('auth.check');
 
+Route::get('/aql-level/', [AqlController::class, 'ActivateLevel'])->name('aql.level')->middleware('auth.check');
+
 //Inspeksi Inline
 Route::get('/inline', [InspeksiInlineController::class, 'InlineList'])->middleware('auth.check');
 Route::get('/inline-input', [InspeksiInlineController::class, 'DraftList'])->middleware('auth.check');

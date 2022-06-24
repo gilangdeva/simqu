@@ -83,19 +83,19 @@ class AqlController extends Controller
         $qty_accept_major   = $request->qty_accept_major;
         $updated_at         = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-            //update data into db
-            AqlModel::where('id_aql', $id_aql)->update([
-                'level_aql'         => $level_aql,
-                'kode_aql'          => $kode_aql,
-                'qty_lot_min'       => $qty_lot_min,
-                'qty_lot_max'       => $qty_lot_max,
-                'qty_sample_aql'    => $qty_sample_aql,
-                'qty_accept_minor'  => $qty_accept_minor,
-                'qty_accept_major'  => $qty_accept_major,
-                'updated_at'        => $updated_at,
-            ]);
-            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
-            return redirect('/aql');
+        //update data into db
+        AqlModel::where('id_aql', $id_aql)->update([
+            'level_aql'         => $level_aql,
+            'kode_aql'          => $kode_aql,
+            'qty_lot_min'       => $qty_lot_min,
+            'qty_lot_max'       => $qty_lot_max,
+            'qty_sample_aql'    => $qty_sample_aql,
+            'qty_accept_minor'  => $qty_accept_minor,
+            'qty_accept_major'  => $qty_accept_major,
+            'updated_at'        => $updated_at,
+        ]);
+        alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
+        return redirect('/aql');
     }
 
     // Fungsi hapus data
@@ -119,6 +119,30 @@ class AqlController extends Controller
             alert()->success('Berhasil!', 'Berhasil Menghapus');
             return redirect('/aql');
         }
+    }
+
+    //Fungsi activation level
+    public function ActivateLevel(Request $request){
+        $level = $request->level;
+        // $level_target = DB::select("SELECT * FROM tb_master_aql WHERE level_aql ='".$level."'");
+        // $activation = "Activated";
+        $activation = DB::table('tb_master_aql')
+            ->where('level_aql', '>=', $level)
+            ->update([
+                'status_level' => 'Activated'
+            ]);
+        $not_active = DB::table('tb_master_aql')
+        ->where('level_aql', '<>', $level)
+        ->update([
+            'status_level' => 'Not Active'
+        ]);
+        $aql = DB::select("SELECT * FROM vg_list_aql WHERE status_level = 'Activated'");
+
+        return view('admin.master.aql-list',[
+            'menu'  => 'master',
+            'sub'   => '/aql',
+            'aql'   => $aql
+        ]);
     }
 
 }

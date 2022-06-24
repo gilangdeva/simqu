@@ -16,7 +16,7 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Level</label>
                         <div class="col-sm-7">
-                            <input type="hidden" class="form-control" name="level_aql" value="{{ $aql->level_aql }}" readonly autocomplete="false">
+                            <input type="hidden" class="form-control" name="id_aql" value="{{ $aql->id_aql }}" readonly autocomplete="false">
                             <input type="text" class="form-control" name="level_aql" maxlength="3" placeholder="Level" value="{{ $aql->level_aql }}" readonly>
                         </div>
                     </div>

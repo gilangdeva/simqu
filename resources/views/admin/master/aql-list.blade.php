@@ -10,6 +10,27 @@
 
     <div class="row">
         <div class="col-md-12">
+
+            <div class="white-box">
+                <div class="row">
+                    <form action="{{ route('aql.level') }}" id="aql_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
+                        <div class="col-sm-6">
+                            <div class="col-sm-3">
+                                <select class="form-control select-option" name="level" id="level">
+                                    <option value="0">Pilih Level :</option>
+                                    <option value="1">Level 1</option>
+                                    <option value="2">Level 2</option>
+                                    <option value="3">Level 3</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-primary waves-effect pull-right waves-light" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
@@ -31,6 +52,7 @@
                                 <th>Qty Sample AQL</th>
                                 <th>Qty Accept Minor</th>
                                 <th>Qty Accept Major</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -45,6 +67,7 @@
                                 <td>{{ $e_aql->qty_sample_aql }}</td>
                                 <td>{{ $e_aql->qty_accept_minor }}</td>
                                 <td>{{ $e_aql->qty_accept_major }}</td>
+                                <td>{{ $e_aql->status_level }}</td>
                                 <td>
                                     <a href="/aql-edit/{{ Crypt::encrypt($e_aql->id_aql) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($e_aql->id_aql) }}')"><i class="fa fa-times"></i></button>
