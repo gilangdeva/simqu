@@ -179,10 +179,10 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty">
                         </div>
-                        <div class="col-sm-2">
+                        <!-- <div class="col-sm-2">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -197,7 +197,7 @@
                                     @endif
                                 @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
                         <div class="col-sm-2">
@@ -223,10 +223,10 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Sample</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
                         </div>
-                        <div class="col-sm-2">
+                        <!-- <div class="col-sm-2">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_sampling" id="qty_sampling" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -241,7 +241,7 @@
                                     @endif
                                 @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">

@@ -124,11 +124,11 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Brg Siap (Pck/Box)</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pack)</label></div>
+                        <div class="col-sm-2">
                             <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
                         </div>
-                        <!-- <div class="col-sm-2">
+                        <div class="col-sm-2">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pack" id="qty_ready_pack" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -139,19 +139,41 @@
                                     @if(isset($id_satuan))
                                         <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCK'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                             </select>
-                        </div> -->
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
+                        </div>
+                        <div class="col-sm-2">
+                            @if(isset($id_satuan))
+                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
+                            @else
+                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
+                            @endif
+                                <option>Satuan</option>
+                                @foreach ($satuan as $sat)
+                                    @if(isset($id_satuan))
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @else
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCS'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        </div>
 
                         
-                    <div class="form-group" style="margin-bottom:1px;">
+                    <!-- <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
                         <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs)">
                         </div>
-                        <!-- <div class="col-sm-2">
+                        <div class="col-sm-2">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -166,8 +188,8 @@
                                     @endif
                                 @endforeach
                             </select>
-                        </div> -->
                         </div>
+                        </div> -->
 
                         <br>
                         
@@ -193,29 +215,13 @@
                                 @endforeach                        
                         </select>
                         </div>
-                       
+                     
 
-                        <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
-                        <div class="col-sm-2">
+                        {{-- <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
+                        <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Qty Aql" required>
-                        </div>
-                        <div class="col-sm-2">
-                            @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_sample_aql" id="qty_sample_aql" style="background-color: #f4f4f4f4;" disabled>
-                            @else
-                            <select class="form-control select2" name="satuan_qty_sample_aql" id="satuan_qty_sample_aql" required>
-                            @endif
-                                <option>Satuan</option>
-                                @foreach ($satuan as $sat)
-                                    @if(isset($id_satuan))
-                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>    
-                                    @else
-                                    <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
-                                    @endif
-                                @endforeach                        
-                        </select>
-                        </div>
-                        </div>
+                        </div> --}}
+                    </div>
 
                     <br><br>
 
@@ -232,11 +238,19 @@
 
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
-                            <select id="kriteria" class="form-control select2" name="kriteria" autocomplete="false">
-                                <option value="">Pilih Kriteria</option>
-                                <option value="Minor">Minor</option>
-                                <option value="Major">Major</option>
-                                <option value="Critical">Critical</option>
+                            @if(isset($id_defect))
+                                <select class="form-control select2" name="kriteria" id="kriteria" style="background-color: #f4f4f4;" disabled>
+                            @else
+                                <select class="form-control select2" name="kriteria" id="kriteria" required>
+                            @endif
+                                <option>Pilih Kriteria</option>
+                                @if(isset($id_defect))
+                                    @foreach ($subdepartemen as $subdept)
+                                        <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
+                                    @endforeach
+                                @else
+                                    {{-- <option value="{{ $subdept->id_sub_departemen }}">{{ $subdept->nama_sub_departemen }}</option> --}}
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -269,52 +283,46 @@
                         </div>
                         <div class="col-sm-2">
                             @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_reject_all" id="qty_reject_all" style="background-color: #f4f4f4f4;" disabled>
+                            <select class="form-control select2" name="qty_reject_all" id="qty_reject_all" style="background-color: #f4f4f4;" disabled>
                             @else
                             <select class="form-control select2" name="satuan_qty_reject_all" id="satuan_qty_reject_all" required>
                             @endif
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>    
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                    <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCS'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @endif
-                                @endforeach                        
-                        </select>
+                                @endforeach
+                            </select>
                         </div>
-                        </div>
+                    </div>
 
                     <br><br>
 
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Hasil</label></div>
+                        {{-- <div class="col-sm-2 control-label"><label>Hasil</label></div>
                         <div class="col-sm-4">
                             <select id="status" class="form-control select2" name="status" maxlength="10" required="">
                                 <option value="">Pilih Hasil</option>
                                 <option value="PASS">Pass</option>
                                 <option value="REJECT">Reject</option>
                             </select>
-                        </div>
-                       
+                        </div> --}}
                         <div class="col-sm-2 control-label"><label>Rekomendasi</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="keterangan" placeholder="Rekomendasi" autocomplete="false"></textarea>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom:5px;">
                         <div class="col-sm-2 control-label"><label>Catatan Verifikasi</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Verifikasi" autocomplete="false"></textarea>
                         </div>
-
-                        <div class="col-sm-2 control-label"><label></label></div>
-                        <div class="col-sm-4">
-
-                        </div>
                     </div>
+                    <br>
+
 
                     <div class="form-group" style="margin-bottom:5px;">
                         <div class="col-sm-2 control-label"><label>Foto</label></div>
@@ -343,7 +351,8 @@
                 </form>
             </div>
         </div>
-        </div>
+     
+
 
         <div class="col-md-7">
             <div class="white-box">
@@ -483,32 +492,59 @@
             }
     });
 
-    $('select[name="id_sub_departemen"]').on('change', function() {
-            var subDepartemenID = $(this).val();
-            if(subDepartemenID) {
+    $('select[name="id_departemen"]').on('change', function() {
+            var departemenID = $(this).val();
+            if(departemenID) {
                 $.ajax({
-                    url: '/mesin-dropdown/'+subDepartemenID,
+                    url: '/defect-dropdown/'+departemenID,
                     type: "GET",
                     dataType: "json",
                     success:function(data) {
                         if (data){
-                            $('select[name="id_mesin"]').empty();
-                            $('select[name="id_mesin"]').append('<option value="0" selected>Pilih Mesin</option>');
+                            $('select[name="id_defect"]').empty();
+                            $('select[name="id_defect"]').append('<option value="0" selected>Pilih Defect</option>');
                             // Remove options
-                            $('#id_mesin').select2();
+                            $('#id_defect').select2();
                             for (var i=0;i<data.length;i++) {
-                                $('select[name="id_mesin"]').append('<option value="'+ data[i].id_mesin +'">'+ data[i].nama_mesin +'</option>');
+                                $('select[name="id_defect"]').append('<option value="'+ data[i].id_defect +'">'+ data[i].defect +'</option>');
                             };
                         } else {
-                            $('select[name="id_mesin"]').empty();
+                            $('select[name="id_defect"]').empty();
                         }
                     }
                 });
             }else{
-                $('select[name="id_mesin"]').empty();
+                $('select[name="id_defect"]').empty();
             }
         });
-    });
+
+        $('select[name="id_defect"]').on('change', function() {
+            var defectID = $(this).val();
+            if(defectID) {
+                $.ajax({
+                    url: '/kriteria-dropdown/'+defectID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        if (data){
+                            $('select[name="kriteria"]').empty();
+                            $('select[name="kriteria"]').append('<option value="0" selected>Pilih Kriteria</option>');
+                            // Remove options
+                            $('#kriteria').select2();
+                            for (var i=0;i<data.length;i++) {
+                                $('select[name="kriteria"]').append('<option value="'+ data[i].kriteria +'">'+ data[i].kriteria +'</option>');
+                            };
+                        } else {
+                            $('select[name="kriteria"]').empty();
+                        }
+                    }
+                });
+            }else{
+                $('select[name="kriteria"]').empty();
+            }
+        });
+});
+
 
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/final-delete/'+id;

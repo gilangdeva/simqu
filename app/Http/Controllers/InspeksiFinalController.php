@@ -11,8 +11,7 @@ use App\Models\SubDepartmentModel;
 use App\Models\SatuanModel;
 use App\Models\MesinModel;
 use App\Models\DefectModel;
-use App\Models\DraftHeaderModel;
-use App\Models\DraftDetailModel;
+use App\Models\AqlModel;
 
 use Carbon\Carbon;
 use Image;
@@ -176,6 +175,36 @@ class InspeksiFinalController extends Controller
         $picture_4 = $request->file('picture_4');
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
+
+        // Pass Reject
+        $master_aql = DB::select("SELECT * FROM tb_master_aql WHERE status_level= 'Activated'");
+
+        for ($i=0; $i < count($master_aql); $i++):
+            if(($qty_ready_pcs   >= $master_aql[$i]->qty_lot_min) && ($qty_ready_pcs <= $master_aql[$i]->qty_lot_max)){
+                    $qty_sample_aql   = $master_aql[$i]->qty_sample_aql;
+                    $qty_accept_minor = $master_aql[$i]->qty_accept_minor;
+                    $qty_accept_major = $master_aql[$i]->qty_accept_major;
+            }
+        endfor;
+
+        if ($kriteria='Major'){
+            if ($qty_defect <= $qty_accept_major){
+                $status ='PASS';
+            } else {
+                $status = 'REJECT';
+            };
+        }
+        else if ($kriteria='Minor'){
+            if ($qty_defect <= $qty_accept_minor){
+                $status ='PASS';
+            } else {
+                $status = 'REJECT';
+            };
+        }
+        else if($kriteria='Critical'){
+                $status = 'REJECT';
+        }
+
 
             if ($picture_1 <> '') {
 
