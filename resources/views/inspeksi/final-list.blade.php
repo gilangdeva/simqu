@@ -81,6 +81,7 @@
                                 <th>Shift</th>
                                 <th>Area</th>
                                 <th>JOP</th>
+                                <th>Status</th>
                                 <th>Inspektor</th>
                                 <th>Hapus</th>
                                 <th data-hide="all">Item</th>
@@ -95,7 +96,6 @@
                                 <th data-hide="all">Kriteria</th>
                                 <th data-hide="all">Jml Temuan</th>
                                 <th data-hide="all">Qty Reject</th>
-                                <th data-hide="all">Hasil</th>
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Verifikasi</th>
                                 <th data-hide="all">Foto</th>
@@ -109,6 +109,7 @@
                                 <td>{{ $lf->shift }}</td>
                                 <td>{{ $lf->nama_departemen }} - {{ $lf->nama_sub_departemen }}</td>
                                 <td>{{ $lf->jop }}</td>
+                                <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->nama_user }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ $lf->item }}</td>
@@ -123,7 +124,6 @@
                                 <td>{{ $lf->kriteria }}</td>
                                 <td>{{ $lf->qty_defect }}</td>
                                 <td>{{ $lf->qty_reject_all }}</td>
-                                <td>{{ $lf->status }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
                                 <td>

@@ -20,7 +20,7 @@
                                 @endforeach
                             </select>
                         </div>
-    
+
                         <div class="col-sm-4">
                             <select class="form-control select2" name="bulan" id="bulan">
                                 <option value="0">Pilih Bulan</option>
@@ -38,7 +38,7 @@
                                 <option value="Desember">DESEMBER</option>
                             </select>
                         </div>
-    
+
                         <div class="col-sm-2">
                             <button class="btn btn-primary waves-effect pull-left waves-light" type="submit">Submit</button>
                         </div>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-        
+
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
@@ -96,9 +96,9 @@
                                 <tr style="background-color: #F2F2F2; font-weight:bold;">
                                     <td colspan="4" align="center" style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">Total</td>
                                     <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ $s->inline }}</td>
-                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_inline), 2,'.','.')  }}%</td>
+                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_inline), 1,'.','.')  }}%</td>
                                     <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ $s->final }}</td>
-                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_final), 2,'.','.')  }}%</td>
+                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_final), 1,'.','.')  }}%</td>
                                 </tr>
                             @endforeach
                         @else

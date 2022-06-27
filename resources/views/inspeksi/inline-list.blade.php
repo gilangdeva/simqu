@@ -81,6 +81,7 @@
                             <th>Area</th>
                             <th>JOP</th>
                             <th>Item</th>
+                            <th>Status</th>
                             <th>Inspektor</th>
                             <th>Hapus</th>
                             <th data-hide="all">Mesin</th>
@@ -96,7 +97,6 @@
                             <th data-hide="all">Brg Siap</th>
                             <th data-hide="all">Jml Sampling</th>
                             <th data-hide="all">Penyebab</th>
-                            <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
                             <th data-hide="all">Foto</th>
                         </tr>
@@ -110,6 +110,7 @@
                                 <td>{{ $li->nama_departemen }} - {{ $li->nama_sub_departemen }}</td>
                                 <td>{{ $li->jop }}</td>
                                 <td>{{ $li->item }}</td>
+                                <td>{{ $li->status }}</td>
                                 <td>{{ $li->nama_user }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ $li->nama_mesin }}</td>
@@ -125,7 +126,6 @@
                                 <td>{{ $li->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $li->qty_sampling }}</td>
                                 <td>{{ $li->penyebab }}</td>
-                                <td>{{ $li->status }}</td>
                                 <td>{{ $li->keterangan }} </td>
                                 <td>
                                     @if(isset($li->picture_1))

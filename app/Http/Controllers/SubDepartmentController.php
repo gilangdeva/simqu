@@ -46,7 +46,7 @@ class SubDepartmentController extends Controller
         $subdepartment->id_departemen = $request->id_departemen;
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
-        $subdepartment->klasifikasi_proses = $request->klasifikasi_proses;
+        $subdepartment->klasifikasi_proses = strtoupper($request->klasifikasi_proses);
 
         // Validation data input
         if ($request->id_departemen == "0"){

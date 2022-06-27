@@ -308,6 +308,7 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Status</th>
                             <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Jam Mulai</th>
@@ -321,7 +322,6 @@
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
                             <th data-hide="all">Qty Reject</th>
-                            <th data-hide="all">Hasil</th>
                             <th data-hide="all">Rekomendasi</th>
                             <th data-hide="all">Verifikasi</th>
                             <th data-hide="all">Foto</th>
@@ -340,6 +340,7 @@
                                 <td>{{ $d->shift }}</td>
                                 <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                 <td>{{ $d->jop }}</td>
+                                <td>{{ $d->status }}</td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>
@@ -355,7 +356,6 @@
                                 <td>{{ $d->kriteria }}</td>
                                 <td>{{ $d->qty_defect }}</td>
                                 <td>{{ $d->qty_reject_all }}</td>
-                                <td>{{ $d->status }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->hasil_verifikasi }}</td>
                                 <td>
@@ -374,11 +374,10 @@
                                     @if(isset($d->picture_5))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
-                                </td>
-
-                                @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
+                                    @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
                                     | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
                                 @endif
+                                </td>
                             </tr>
                             @endforeach
                         @endif

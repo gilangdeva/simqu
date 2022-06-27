@@ -195,7 +195,7 @@
                             <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
                         </div>
 
-                        
+
 
                         <div class="col-sm-2 control-label"><label>Satuan</label></div>
                         <div class="col-sm-4">
@@ -308,6 +308,7 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Status</th>
                             <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
@@ -322,7 +323,6 @@
                             <th data-hide="all">Brg Siap</th>
                             <th data-hide="all">Jml Sampling</th>
                             <th data-hide="all">Penyebab</th>
-                            <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
                             <th data-hide="all">Foto</th>
                             <th data-hide="all"></th>
@@ -341,6 +341,7 @@
                                     <td>{{ $d->shift }}</td>
                                     <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                     <td>{{ $d->jop }}</td>
+                                    <td>{{ $d->status }}</td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                     </td>
@@ -357,7 +358,6 @@
                                     <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }}</td>
                                     <td>{{ $d->qty_sampling }} {{ $d->satuan_qty_sampling }}</td>
                                     <td>{{ $d->penyebab }}</td>
-                                    <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
                                     <td>
                                         @if(isset($d->picture_1))
