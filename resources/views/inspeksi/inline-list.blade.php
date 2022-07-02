@@ -81,6 +81,7 @@
                             <th>Area</th>
                             <th>JOP</th>
                             <th>Item</th>
+                            <th>Status</th>
                             <th>Inspektor</th>
                             <th>Status</th>
                             <th>Hapus</th>

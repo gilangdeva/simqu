@@ -27,7 +27,7 @@
                         <label class="col-sm-4 control-label">Nama Departemen</label>
                         <div class="col-sm-8">
                             <input type="hidden" class="form-control" name="original_nama_departemen" maxlength="20" placeholder="Nama Departemen" value=" {{ $department->nama_departemen }}" required>
-                            <input type="text" class="form-control" name="original_nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required>
+                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" value="{{ $department->nama_departemen }}" required>
                         </div>
                     </div>
 

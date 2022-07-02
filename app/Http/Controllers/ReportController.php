@@ -36,7 +36,7 @@ class ReportController extends Controller
         } else {
             $dept = 0;
         }
-        
+
         if ($bulan == '01') {
             $bulan = 'Januari';
         } else if ($bulan == '02'){
@@ -86,7 +86,7 @@ class ReportController extends Controller
         if(isset($total_krt)){
             $total_krt = $total_krt[0]->total_krt;
         }
-        
+
         return view('report.report-list',[
             'menu'              => 'laporan',
             'sub'               => '/report-defect',
@@ -113,7 +113,7 @@ class ReportController extends Controller
         } else {
             $dept = 0;
         }
-        
+
         if ($bulan == '01') {
             $bulan = 'Januari';
         } else if ($bulan == '02'){
@@ -146,16 +146,16 @@ class ReportController extends Controller
                             ->get();
 
         $report_summary = DB::table('report_total_inspeksi')
-                            ->select('id_departemen', 
-                                     'nama_departemen', 
-                                     DB::raw('sum(inline) as inline'), 
+                            ->select('id_departemen',
+                                     'nama_departemen',
+                                     DB::raw('sum(inline) as inline'),
                                      DB::raw('sum(inline)/sum(inline+final)*100 as persen_inline'),
                                      DB::raw('sum(final) as final'),
                                      DB::raw('sum(final)/sum(inline+final)*100 as persen_final'))
                             ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
-        
+
         return view('report.report-inspeksi',[
             'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
@@ -178,7 +178,7 @@ class ReportController extends Controller
         } else {
             $dept = 0;
         }
-        
+
         if ($bulan == '01') {
             $bulan = 'Januari';
         } else if ($bulan == '02'){
@@ -211,16 +211,16 @@ class ReportController extends Controller
                             ->get();
 
         $report_summary = DB::table('report_rekap_critical')
-                            ->select('id_departemen', 
-                                     'nama_departemen', 
-                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                            ->select('id_departemen',
+                                     'nama_departemen',
+                                     DB::raw('sum(qty_inspek) as qty_inspek'),
                                      DB::raw('sum(qty_reject) as qty_reject'),
                                      DB::raw('sum(qty_critical) as qty_critical'),
                                      DB::raw('sum(qty_defect) as qty_defect'))
                             ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
-        
+
         return view('report.report-critical',[
             'menu'              => 'laporan',
             'sub'               => '/report-critical',
@@ -242,23 +242,23 @@ class ReportController extends Controller
         } else {
             $dept = 0;
         }
-        
+
         $call_sp = DB::select("SELECT * FROM sp_report_reject('".$tahun."', '".$dept."', '".session()->get('id_user')."')");
         $report_reject = DB::table('report_rekap_reject')
                             ->where('id_user', '=', session()->get('id_user'))
                             ->get();
 
         $report_summary = DB::table('report_rekap_reject')
-                            ->select('id_departemen', 
-                                     'nama_departemen', 
-                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                            ->select('id_departemen',
+                                     'nama_departemen',
+                                     DB::raw('sum(qty_inspek) as qty_inspek'),
                                      DB::raw('sum(qty_reject) as qty_reject'),
                                      DB::raw('sum(qty_critical) as qty_critical'),
                                      DB::raw('sum(qty_defect) as qty_defect'))
                             ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
-        
+
         return view('report.report-reject',[
             'menu'              => 'laporan',
             'sub'               => '/report-reject',
@@ -326,16 +326,16 @@ class ReportController extends Controller
                             ->get();
 
         $report_summary = DB::table('report_total_inspeksi')
-                            ->select('id_departemen', 
-                                     'nama_departemen', 
-                                     DB::raw('sum(inline) as inline'), 
+                            ->select('id_departemen',
+                                     'nama_departemen',
+                                     DB::raw('sum(inline) as inline'),
                                      DB::raw('sum(inline)/sum(inline+final) as persen_inline'),
                                      DB::raw('sum(final) as final'),
                                      DB::raw('sum(final)/sum(inline+final) as persen_final'))
                             ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
-        
+
         return view('report.report-inspeksi',[
             'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
@@ -362,16 +362,16 @@ class ReportController extends Controller
                             ->get();
 
         $report_summary = DB::table('report_rekap_critical')
-                            ->select('id_departemen', 
-                                     'nama_departemen', 
-                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                            ->select('id_departemen',
+                                     'nama_departemen',
+                                     DB::raw('sum(qty_inspek) as qty_inspek'),
                                      DB::raw('sum(qty_reject) as qty_reject'),
                                      DB::raw('sum(qty_critical) as qty_critical'),
                                      DB::raw('sum(qty_defect) as qty_defect'))
                             ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
-        
+
         return view('report.report-critical',[
             'menu'              => 'laporan',
             'sub'               => '/report-critical',
@@ -396,16 +396,16 @@ class ReportController extends Controller
                             ->get();
 
         $report_summary = DB::table('report_rekap_reject')
-                            ->select('id_departemen', 
-                                     'nama_departemen', 
-                                     DB::raw('sum(qty_inspek) as qty_inspek'), 
+                            ->select('id_departemen',
+                                     'nama_departemen',
+                                     DB::raw('sum(qty_inspek) as qty_inspek'),
                                      DB::raw('sum(qty_reject) as qty_reject'),
                                      DB::raw('sum(qty_critical) as qty_critical'),
                                      DB::raw('sum(qty_defect) as qty_defect'))
                             ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
-        
+
         return view('report.report-reject',[
             'menu'              => 'laporan',
             'sub'               => '/report-reject',

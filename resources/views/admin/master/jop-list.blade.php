@@ -21,9 +21,9 @@
                         <form class="form-group" action="{{ route('upload.jop') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group" style="margin-bottom:10px;">
-                                <input type="file" name="upload_file" id="input-file-now-custom-1" class="dropify" /> 
+                                <input type="file" name="upload_file" id="input-file-now-custom-1" class="dropify" />
                             </div>
-                            
+
                             <div class="form-group" style="margin-bottom:1px;">
                                 <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Upload</button>
                             </div>
@@ -54,7 +54,7 @@
                         <h3 class="box-title">LIST JOP EDAR</h3>
                     </div>
                     <div class="col-sm-6 col-xs-12">
-                        
+
                     </div>
                 </div>
                 <div class="table-responsive">

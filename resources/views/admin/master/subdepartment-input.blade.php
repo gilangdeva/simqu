@@ -28,14 +28,14 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4">Kode Sub Departemen</label>
+                        <label class="col-sm-4 control-label">Kode Sub Departemen</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="kode_sub_departemen" maxlength="3" placeholder="Kode Sub Departemen" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4">Nama Sub Departemen</label>
+                        <label class="col-sm-4 control-label">Nama Sub Departemen</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" required>
                         </div>

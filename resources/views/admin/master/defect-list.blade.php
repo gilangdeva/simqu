@@ -40,13 +40,21 @@
                                 <td>{{ $def->defect }}</td>
                                 <td>
                                     @if(isset($def->critical))
+                                    @if($def->critical <> '')
                                         <a>Critical</a>
                                     @endif
-                                    @if(isset($def->major))
-                                        <a>& Major</a>
                                     @endif
+
+                                    @if(isset($def->major))
+                                    @if($def->major <> '')
+                                        <a>/ Major</a>
+                                    @endif
+                                    @endif
+
                                     @if(isset($def->minor))
-                                        <a>& Minor</a>
+                                    @if($def->minor <> '')
+                                        <a>/ Minor</a>
+                                    @endif
                                     @endif
                                 <td>
                                     <a href="/defect-edit/{{ Crypt::encrypt($def->id_defect) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>

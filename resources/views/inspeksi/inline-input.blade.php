@@ -195,7 +195,7 @@
                             <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
                         </div>
 
-                        
+
 
                         <div class="col-sm-2 control-label"><label>Satuan</label></div>
                         <div class="col-sm-4">
