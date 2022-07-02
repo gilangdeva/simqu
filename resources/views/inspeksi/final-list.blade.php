@@ -81,7 +81,6 @@
                                 <th>Shift</th>
                                 <th>Area</th>
                                 <th>JOP</th>
-                                <th>Status</th>
                                 <th>Inspektor</th>
                                 <th>Hasil</th>
                                 <th>Hapus</th>
