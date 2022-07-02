@@ -15,6 +15,11 @@
     <!-- Menu CSS -->
     <link href="{{ url('/') }}/admin/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet" type="text/css">
     <link href="{{ url('/') }}/admin/bower_components/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css">
+
+    <!--My admin Custom CSS -->
+    <link href="{{ url('/') }}/admin/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('/') }}/admin/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
+
     <!-- Chartist CSS -->
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/admin/bower_components/chartist-js/dist/chartist-init.css" rel="stylesheet">
@@ -227,13 +232,16 @@
                     </li>
 
                     <li>
-                        @if($menu == 'report')
+                        @if($menu == 'laporan')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else
                             <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/report"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Report Defect Bagian</span></a></li>
+                            <li><a href="/report-defect"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Defect Bagian</span></a></li>
+                            <li><a href="/report-inspeksi"><i class="mdi mdi-numeric fa-fw"></i> <span class="hide-menu">Total Inspeksi</span></a></li>
+                            <li><a href="/report-critical"><i class="mdi mdi-magnify-minus-outline fa-fw"></i> <span class="hide-menu">Temuan Critical</span></a></li>
+                            <li><a href="/report-reject"><i class="mdi mdi-basket-unfill fa-fw"></i> <span class="hide-menu">Rekap Reject</span></a></li>
                         </ul>
                     </li>
                 </ul>

@@ -62,18 +62,20 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Tanggal</th>
+                                <!-- <th>Tanggal</th> -->
                                 <th>JOP</th>
                                 <th>Nama Barang</th>
+                                <th>Order</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($jop as $j)
                             <tr>
                                 <td align="center">{{ $loop->iteration }}</td>
-                                <td>{{ $j->tgl_jop }}</td>
+                                <!-- <td>{{ $j->tgl_jop }}</td> -->
                                 <td>{{ $j->jop }}</td>
                                 <td>{{ $j->nama_barang }}</td>
+                                <td>{{ $j->order }}</td>
                             </tr>
                             @endforeach
                         </tbody>

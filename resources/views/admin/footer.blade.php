@@ -15,6 +15,10 @@
     <script src="{{ url('/') }}/admin/js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
     <script src="{{ url('/') }}/admin/js/waves.js"></script>
+    <!-- jQuery for carousel -->
+    <script src="{{ url('/') }}/admin/bower_components/owl.carousel/owl.carousel.min.js"></script>
+    <script src="{{ url('/') }}/admin/bower_components/owl.carousel/owl.custom.js"></script>
+
     <!--Morris JavaScript -->
     <script src="{{ url('/') }}/admin/bower_components/raphael/raphael-min.js"></script>
     <script src="{{ url('/') }}/admin/bower_components/morrisjs/morris.js"></script>

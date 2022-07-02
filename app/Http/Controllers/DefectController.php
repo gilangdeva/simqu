@@ -17,7 +17,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class DefectController extends Controller
 {
     // Menampilkan list defect
-    public function defectlist(){
+    public function defectlist() {
         // Get all data from database
         $defect = DB::select("SELECT * FROM vg_list_defect");
 
@@ -47,7 +47,7 @@ class DefectController extends Controller
             'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'   => '/defect'
         ]);
-    }
+    } 
 
     //Simpan data defect
     public function SaveDefectData(Request $request){
@@ -66,7 +66,7 @@ class DefectController extends Controller
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Defect Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
-        }
+        }  
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect->defect."'");
@@ -75,13 +75,11 @@ class DefectController extends Controller
             return Redirect::back();
         }
 
-
        // Insert data into database
         $defect->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/defect');
     }
-
 
     // fungsi untuk redirect ke halaman edit
     public function EditDefectData($id){
@@ -145,7 +143,7 @@ class DefectController extends Controller
         $id = Crypt::decryptString($id);
 
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
-    // Check user already used in other table or not yet
+        // Check user already used in other table or not yet
         if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data ini tidak dapat dihapus karena sudah dipakai tabel lain!');
             return Redirect::back();

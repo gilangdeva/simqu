@@ -33,6 +33,7 @@ Route::post('/auth-login', [AuthController::class, 'AuthLogin'])->name('auth.log
 Route::get('/auth-logout/{id}', [AuthController::class, 'AuthLogout']);
 
 // Dashboard
+Route::get('/', [DashboardController::class, 'Index'])->middleware('auth.check');
 Route::get('/dashboard', [DashboardController::class, 'Index'])->middleware('auth.check');
 
 // Master Users
@@ -154,5 +155,14 @@ Route::get('/jop', [JOPEdarController::class, 'Index'])->middleware('auth.check'
 Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->name('upload.jop')->middleware('auth.check');
 
 //Report
-Route::get('/report', [ReportController::class, 'ReportList'])->middleware('auth.check');
-Route::get('/report-filter/', [ReportController::class, 'FilterReportList'])->name('report.filter')->middleware('auth.check');
+Route::get('/report-defect', [ReportController::class, 'ReportDefect'])->middleware('auth.check');
+Route::get('/report-filter-defect/', [ReportController::class, 'FilterReportDefect'])->name('report.filter')->middleware('auth.check');
+
+Route::get('/report-inspeksi', [ReportController::class, 'ReportInspeksi'])->middleware('auth.check');
+Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportInspeksi'])->name('report.inspeksi')->middleware('auth.check');
+
+Route::get('/report-critical', [ReportController::class, 'ReportCritical'])->middleware('auth.check');
+Route::get('/report-filter-critical/', [ReportController::class, 'FilterReportCritical'])->name('report.critical')->middleware('auth.check');
+
+Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middleware('auth.check');
+Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');

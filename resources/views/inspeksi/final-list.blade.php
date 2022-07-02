@@ -82,6 +82,7 @@
                                 <th>Area</th>
                                 <th>JOP</th>
                                 <th>Inspektor</th>
+                                <th>Hasil</th>
                                 <th>Hapus</th>
                                 <th data-hide="all">Item</th>
                                 <th data-hide="all">Jam Mulai</th>
@@ -94,8 +95,7 @@
                                 <th data-hide="all">Kendala</th>
                                 <th data-hide="all">Kriteria</th>
                                 <th data-hide="all">Jml Temuan</th>
-                                <th data-hide="all">Qty Reject</th>
-                                <th data-hide="all">Hasil</th>
+                                <th data-hide="all">Qty Reject</th>                              
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Verifikasi</th>
                                 <th data-hide="all">Foto</th>
@@ -108,8 +108,9 @@
                                 <td>{{ $lf->tgl_inspeksi }}</td>
                                 <td>{{ $lf->shift }}</td>
                                 <td>{{ $lf->nama_departemen }} - {{ $lf->nama_sub_departemen }}</td>
-                                <td>{{ $lf->jop }}</td>
+                                <td>{{ $lf->jop }}</td>                                
                                 <td>{{ $lf->nama_user }}</td>
+                                <td>{{ $lf->status }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ $lf->item }}</td>
                                 <td>{{ $lf->jam_mulai }}</td>
@@ -122,8 +123,7 @@
                                 <td>{{ $lf->defect }}</td>
                                 <td>{{ $lf->kriteria }}</td>
                                 <td>{{ $lf->qty_defect }}</td>
-                                <td>{{ $lf->qty_reject_all }}</td>
-                                <td>{{ $lf->status }}</td>
+                                <td>{{ $lf->qty_reject_all }}</td>                               
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
                                 <td>
@@ -142,6 +142,9 @@
                                     @if(isset($lf->picture_5))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
+                                    @if((isset($lf->picture_1)) || (isset($lf->picture_2)) || (isset($lf->picture_3)) || (isset($lf->picture_4)) || (isset($lf->picture_5)))
+                                        | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $lf->picture_1 }}','{{ $lf->picture_2 }}', '{{ $lf->picture_3 }}', '{{ $lf->picture_4 }}', '{{ $lf->picture_5 }}')">Lihat</button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -156,8 +159,34 @@
                                 </td>
                             </tr>
                         </tfoot>
-
                     </table>
+
+                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel">Preview Gambar Temuan</h4> </div>
+                                <div class="modal-body">
+                                    <div class="panel-wrapper p-b-10 collapse in">
+                                        <div id="owl-demo" class="owl-carousel owl-theme">
+                                            <div class="item"><img src="" id="img_1" style="max-width: 100%;" alt="Owl Image"></div>
+                                            <div class="item"><img src="" id="img_2" style="max-width: 100%;" alt="Owl Image"></div>
+                                            <div class="item"><img src="" id="img_3" style="max-width: 100%;" alt="Owl Image"></div>
+                                            <div class="item"><img src="" id="img_4" style="max-width: 100%;" alt="Owl Image"></div>
+                                            <div class="item"><img src="" id="img_5" style="max-width: 100%;" alt="Owl Image"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -186,6 +215,40 @@
                 }
             }
         })
+    }
+
+    function checkPic(pic_1, pic_2, pic_3, pic_4, pic_5){
+        var p1 = pic_1;
+        var p2 = pic_2;
+        var p3 = pic_3;
+        var p4 = pic_4;
+        var p5 = pic_5;
+
+        if (p1 == '') {
+            p1 = 'Blank.jpg';
+        }
+
+        if (p2 == '') {
+            p2 = 'Blank.jpg';
+        }
+
+        if (p3 == '') {
+            p3 = 'Blank.jpg';
+        }
+
+        if (p4 == '') {
+            p4 = 'Blank.jpg';
+        }
+
+        if (p5 == '') {
+            p5 = 'Blank.jpg';
+        }
+
+        $("#img_1").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p1);
+        $("#img_2").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p2);
+        $("#img_3").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p3);
+        $("#img_4").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p4);
+        $("#img_5").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p5);
     }
 </script>
 @include('admin.footer')

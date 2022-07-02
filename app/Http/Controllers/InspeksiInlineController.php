@@ -106,6 +106,9 @@ class InspeksiInlineController extends Controller
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect WHERE id_departemen =".$id_departemen);
         $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
 
+
+       
+
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
             $id_header = $id_header[0]->id_inspeksi_header;
@@ -136,6 +139,7 @@ class InspeksiInlineController extends Controller
             // tidak insert karena sudah ada di database
             $row = 1;
         }
+
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
         // Parameters Detail
@@ -160,6 +164,7 @@ class InspeksiInlineController extends Controller
         $jop = strtoupper($request->jop);
         $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
+        
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
         $qty_ready_pcs = $request->qty_ready_pcs;
@@ -408,6 +413,7 @@ class InspeksiInlineController extends Controller
             $id_header = DB::select("SELECT id_inspeksi_header FROM draft_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
             $pictures = DB::select("SELECT picture_1, picture_2, picture_3, picture_4, picture_5 FROM vw_draft_inline WHERE id_inspeksi_detail='".$id_detail."'");
+            $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
             $picture_1 = $pictures[0]->picture_1;
             $picture_2 = $pictures[0]->picture_2;
             $picture_3 = $pictures[0]->picture_3;
@@ -449,7 +455,6 @@ class InspeksiInlineController extends Controller
                 $inline_detail  = DB::table('draft_header')->where('id_inspeksi_header',$id_header)->delete();
 
                 $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
-                $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
                 return view('inspeksi.inline-input',[
                     'id_header'         => 0, //di set 0, nanti ketika save maka akan dapat id header baru
@@ -470,6 +475,7 @@ class InspeksiInlineController extends Controller
                 $id_departemen = $draft[0]->id_departemen;
                 $id_sub_departemen = $draft[0]->id_sub_departemen;
                 $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
+                $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect where id_departemen =".$id_departemen);
 
                 return view('inspeksi.inline-input',[
                     'id_header'         => $id_header,
@@ -480,6 +486,7 @@ class InspeksiInlineController extends Controller
                     'subdepartemen'     => $subdepartemen,
                     'defect'            => $defect,
                     'draft'             => $draft,
+                    'satuan'            => $satuan,
                     'id_departemen'     => $id_departemen,
                     'id_sub_departemen' => $id_sub_departemen,
                     'menu'              => 'inspeksi',

@@ -12,8 +12,9 @@
         <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
-                <form id="inline_data" class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
+                <form id="inline_data" class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">   
+
+                {{ csrf_field() }}
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Tanggal</label></div>
@@ -152,12 +153,11 @@
                         <div class="col-sm-4">
                                 <select class="form-control select2" name="id_defect" id="id_defect">
                                 <option>Pilih Defect</option>
-                                @if(isset($id_defect))
+                                @if(isset($defect))
                                     @foreach ($defect as $def)
-                                        <option value="{{ $def->id_defect }}" {{ old('id_defect', $id_defect) == $def->id_defect ? 'selected':''}}>{{ $def->defect }}</option>
+                                        <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
                                     @endforeach
                                 @else
-
                                 @endif
                             </select>
                         </div>
@@ -182,42 +182,10 @@
                         <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty">
                         </div>
-                        <!-- <div class="col-sm-2">
-                            @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4;" disabled>
-                            @else
-                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
-                            @endif
-                                <option>Satuan</option>
-                                @foreach ($satuan as $sat)
-                                    @if(isset($id_satuan))
-                                        <option value="{{ $sat->id_satuan }}" {{ old('id_satuan', $id_satuan) == $sat->id_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
-                                    @else
-                                        <option value="{{ $sat->id_satuan }}">{{ $sat->kode_satuan }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div> -->
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty">
-                        </div>
-                        <div class="col-sm-2">
-                            @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
-                            @else
-                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
-                            @endif
-                                <option>Satuan</option>
-                                @foreach ($satuan as $sat)
-                                    @if(isset($id_satuan))
-                                        <option value="{{ $sat->id_satuan }}" {{ old('id_satuan', $id_satuan) == $sat->id_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
-                                    @else
-                                        <option value="{{ $sat->id_satuan }}">{{ $sat->kode_satuan }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
                         </div>
                     </div>
 
@@ -226,25 +194,25 @@
                         <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_sampling" maxlength="6" min="0" placeholder="Qty" required>
                         </div>
-                        <!-- <div class="col-sm-2">
+
+                        
+
+                        <div class="col-sm-2 control-label"><label>Satuan</label></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_sampling" id="qty_sampling" style="background-color: #f4f4f4;" disabled>
+                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
                             @else
-                            <select class="form-control select2" name="satuan_qty_sampling" id="satuan_qty_sampling" required>
+                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
                             @endif
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                        <option value="{{ $sat->id_satuan }}" {{ old('id_satuan', $id_satuan) == $sat->id_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                        <option value="{{ $sat->id_satuan }}">{{ $sat->kode_satuan }}</option>
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCS'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                             </select>
-                        </div> -->
-
-                        <div class="col-sm-2 control-label"><label></label></div>
-                        <div class="col-sm-4">
                         </div>
                     </div>
 
@@ -340,6 +308,7 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
+                            <th>Status</th>
                             <th>Hapus</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Mesin</th>
@@ -354,7 +323,6 @@
                             <th data-hide="all">Brg Siap</th>
                             <th data-hide="all">Jml Sampling</th>
                             <th data-hide="all">Penyebab</th>
-                            <th data-hide="all">Status</th>
                             <th data-hide="all">Keterangan</th>
                             <th data-hide="all">Foto</th>
                             <th data-hide="all"></th>
@@ -373,6 +341,7 @@
                                     <td>{{ $d->shift }}</td>
                                     <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                     <td>{{ $d->jop }}</td>
+                                    <td>{{ $d->status }}</td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                     </td>
@@ -389,7 +358,6 @@
                                     <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }}</td>
                                     <td>{{ $d->qty_sampling }} {{ $d->satuan_qty_sampling }}</td>
                                     <td>{{ $d->penyebab }}</td>
-                                    <td>{{ $d->status }}</td>
                                     <td>{{ $d->keterangan }}</td>
                                     <td>
                                         @if(isset($d->picture_1))
@@ -407,22 +375,42 @@
                                         @if(isset($d->picture_5))
                                             / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
                                         @endif
+                                        @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
+                                            | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
+                                        @endif
                                     </td>
-                                    {{-- <td><a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200">Picture 1</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" width="200">Picture 2</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" width="200">Picture 3</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" width="200">Picture 4</a> /
-                                        <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
-                                    </td> --}}
-
-                                    {{-- <td><img src="{{ url('/') }}/images/defect/{{ $d->video_1 }}" width="100"></td>
-                                    <td><img src="{{ url('/') }}/images/defect/{{ $d->video_2 }}" width="100"></td> --}}
                                 </tr>
                             @endforeach
                         @endif
                     </tbody>
                     <button type="button" class="btn btn-info waves-effect pull-right waves-light" onclick="postConfirmation()">POST</i></button>
                 </table>
+
+                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">Preview Gambar Temuan</h4> </div>
+                            <div class="modal-body">
+                                <div class="panel-wrapper p-b-10 collapse in">
+                                    <div id="owl-demo" class="owl-carousel owl-theme">
+                                        <div class="item"><img src="" id="img_1" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_2" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_3" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_4" style="max-width: 100%;" alt="Owl Image"></div>
+                                        <div class="item"><img src="" id="img_5" style="max-width: 100%;" alt="Owl Image"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
             </div>
         </div>
     </div>
@@ -647,6 +635,40 @@
     function resetdata() {
         document.getElementById("inline_data").reset();
         $("select.select2").select2({ allowClear: true });
+    }
+
+    function checkPic(pic_1, pic_2, pic_3, pic_4, pic_5){
+        var p1 = pic_1;
+        var p2 = pic_2;
+        var p3 = pic_3;
+        var p4 = pic_4;
+        var p5 = pic_5;
+
+        if (p1 == '') {
+            p1 = 'Blank.jpg';
+        }
+
+        if (p2 == '') {
+            p2 = 'Blank.jpg';
+        }
+
+        if (p3 == '') {
+            p3 = 'Blank.jpg';
+        }
+
+        if (p4 == '') {
+            p4 = 'Blank.jpg';
+        }
+
+        if (p5 == '') {
+            p5 = 'Blank.jpg';
+        }
+
+        $("#img_1").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p1);
+        $("#img_2").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p2);
+        $("#img_3").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p3);
+        $("#img_4").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p4);
+        $("#img_5").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p5);
     }
 </script>
 
