@@ -45,11 +45,14 @@ class InspeksiFinalController extends Controller
         ->where('tgl_inspeksi', '<=', $end_date)
         ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('inspeksi.final-list',
         [
             'list_final'   => $list_final,
             'menu'          => 'inspeksi',
-            'sub'           => '/final'
+            'sub'           => '/final',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -59,7 +62,7 @@ class InspeksiFinalController extends Controller
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
-
+        $jenis_user = session()->get('jenis_user');
 
         return view('inspeksi.final-input',[
             'departemen'    => $departemen,
@@ -67,7 +70,8 @@ class InspeksiFinalController extends Controller
             'draft'         => $draft,
             'satuan'        => $satuan,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
-            'sub'           => '/final'
+            'sub'           => '/final',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -78,6 +82,7 @@ class InspeksiFinalController extends Controller
         $cek_id_header = $request->id_inspeksi_header;
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters Header
         $type_form = "Final"; // Final
@@ -171,6 +176,8 @@ class InspeksiFinalController extends Controller
         $picture_4 = $request->file('picture_4');
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
+
+        $jenis_user = session()->get('jenis_user');
 
         // Pass Reject
         $master_aql = DB::select("SELECT * FROM tb_master_aql WHERE status_level= 'Activated'");
@@ -416,7 +423,8 @@ class InspeksiFinalController extends Controller
                 'defect'            => $defect,
                 'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
-                'sub'               => '/final'
+                'sub'               => '/final',
+                'jenis_user'        => $jenis_user
             ]);
         } else {
             // REFRESH DRAFT
@@ -438,7 +446,8 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_ready_pack'     => $satuan_qty_ready_pack,
                 'satuan_qty_reject_all'     => $satuan_qty_reject_all,
                 'menu'                      => 'inspeksi',
-                'sub'                       => '/final'
+                'sub'                       => '/final',
+                'jenis_user'                => $jenis_user
             ]);
         }
         //End Controller Wawan
@@ -463,9 +472,11 @@ class InspeksiFinalController extends Controller
             $satuan_qty_reject_all = $selected_satuan[0]->satuan_qty_reject_all;
 
             $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
-            
+
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vg_draft_final WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
+
+            $jenis_user = session()->get('jenis_user');
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -508,7 +519,8 @@ class InspeksiFinalController extends Controller
                     'draft'             => $draft,
                     'satuan'            => $satuan,
                     'menu'              => 'inspeksi',
-                    'sub'               => '/final'
+                    'sub'               => '/final',
+                    'jenis_user'        => $jenis_user
                 ]);
             } else if ($count > 1) {
                 $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -519,6 +531,7 @@ class InspeksiFinalController extends Controller
                 $id_departemen = $draft[0]->id_departemen;
                 $id_sub_departemen = $draft[0]->id_sub_departemen;
                 $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect where id_departemen =".$id_departemen);
+                $jenis_user = session()->get('jenis_user');
 
                 return view('inspeksi.final-input',[
                     'id_header'         => $id_header,
@@ -532,7 +545,8 @@ class InspeksiFinalController extends Controller
                     'id_departemen'     => $id_departemen,
                     'id_sub_departemen' => $id_sub_departemen,
                     'menu'              => 'inspeksi',
-                    'sub'               => '/final'
+                    'sub'               => '/final',
+                    'jenis_user'        => $jenis_user
                 ]);
             }
         }
@@ -555,6 +569,7 @@ class InspeksiFinalController extends Controller
             $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
             $satuan_qty_ready_pack = $satuan[0]->satuan_qty_ready_pack;
             $satuan_qty_reject_all = $satuan[0]->satuan_qty_reject_all;
+            $jenis_user = session()->get('jenis_user');
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -608,6 +623,7 @@ class InspeksiFinalController extends Controller
             $id_user = session()->get('id_user');
             $id_departemen = $draft_header->id_departemen;
             $id_sub_departemen = $draft_header->id_sub_departemen;
+            $jenis_user = session()->get('jenis_user');
 
             // insert into database
             DB::table('tb_inspeksi_header')->insert([
@@ -619,7 +635,8 @@ class InspeksiFinalController extends Controller
             'id_departemen'         => $id_departemen,
             'id_sub_departemen'     => $id_sub_departemen,
             'created_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
-            'updated_at'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+            'updated_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+            'jenis_user'            => $jenis_user
         ]);
 
         for ($i=0; $i<$count_detail; $i++) {
@@ -688,6 +705,7 @@ class InspeksiFinalController extends Controller
             $satuan_qty_ready_pcs = $draft_detail->satuan_qty_ready_pcs;
             $satuan_qty_ready_pack = $draft_detail->satuan_qty_ready_pack;
             $satuan_qty_reject_all = $draft_detail->satuan_qty_reject_all;
+            $jenis_user = session()->get('jenis_user');
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -740,6 +758,7 @@ class InspeksiFinalController extends Controller
             $end_date       = $request->end_date;
             $type_search    = $request->type_search;
             $text_search    = strtoupper($request->text_search);
+            $jenis_user = session()->get('jenis_user');
 
                 if ($type_search =="JOP") {
                     $list_final = DB::table('vg_list_final')
@@ -772,7 +791,8 @@ class InspeksiFinalController extends Controller
                 'menu'          => 'inspeksi',
                 'start_date'    => $start_date,
                 'end_date'      => $end_date,
-                'sub'           => '/final'
+                'sub'           => '/final',
+                'jenis_user'    => $jenis_user
             ]);
         } else {
             $list_final = DB::select("SELECT * FROM vg_list_final");
@@ -782,7 +802,8 @@ class InspeksiFinalController extends Controller
                 'menu'          => 'inspeksi',
                 'start_date'    => $start_date,
                 'end_date'      => $end_date,
-                'sub'           => '/final'
+                'sub'           => '/final',
+                'jenis_user'    => $jenis_user
             ]);
         }
 

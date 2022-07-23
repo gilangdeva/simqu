@@ -20,11 +20,13 @@ class DefectController extends Controller
     public function defectlist() {
         // Get all data from database
         $defect = DB::select("SELECT * FROM vg_list_defect");
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.defect-list',[
-            'menu'   => 'master',
-            'sub'    => '/defect',
-            'defect' => $defect
+            'menu'          => 'master',
+            'sub'           => '/defect',
+            'defect'        => $defect,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -41,13 +43,15 @@ class DefectController extends Controller
     // Redirect ke window input defect
     public function DefectInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.defect-input',[
             'departemen'   => $departemen,
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/defect'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/defect',
+            'jenis_user'    => $jenis_user
         ]);
-    } 
+    }
 
     //Simpan data defect
     public function SaveDefectData(Request $request){
@@ -60,13 +64,14 @@ class DefectController extends Controller
         $defect->critical = $request->critical;
         $defect->major = $request->major;
         $defect->minor = $request->minor;
+        $jenis_user = session()->get('jenis_user');
 
         // Check duplicate kode
         $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$defect->kode_defect."'");
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Defect Ini Sudah Didaftarkan Dalam Sistem!');
             return Redirect::back();
-        }  
+        }
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect->defect."'");
@@ -85,15 +90,17 @@ class DefectController extends Controller
     public function EditDefectData($id){
         $id = Crypt::decrypt($id);
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $def = DefectModel::find($id);
 
         return view('admin.master.defect-edit', [
-            'menu'      => 'master',
-            'sub'       => '/defect',
-            'defect'    => $def,
-            'departemen' => $departemen,
+            'menu'          => 'master',
+            'sub'           => '/defect',
+            'defect'        => $def,
+            'departemen'    => $departemen,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -141,6 +148,7 @@ class DefectController extends Controller
     // Fungsi hapus data
     public function DeleteDefectData($id){
         $id = Crypt::decryptString($id);
+        $jenis_user = session()->get('jenis_user');
 
         $creator_check = DB::select('SELECT * FROM tb_inspeksi_detail WHERE creator = '.$id);
         // Check user already used in other table or not yet

@@ -20,19 +20,24 @@ class AqlController extends Controller
     public function aqllist(){
         // Get all data from database
         $aql = DB::select("SELECT * FROM vg_list_aql");
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.aql-list',[
-            'menu'  => 'master',
-            'sub'   => '/aql',
-            'aql'   => $aql
+            'menu'          => 'master',
+            'sub'           => '/aql',
+            'aql'           => $aql,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
     // Redirect ke window input aql
     public function AqlInput(){
+        $jenis_user = session()->get('jenis_user');
+
         return view('admin.master.aql-input',[
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/aql'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/aql',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -60,14 +65,16 @@ class AqlController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditAqlData($id){
         $id = Crypt::decrypt($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $e_aql = AqlModel::find($id);
 
         return view('admin.master.aql-edit', [
-            'menu'      => 'master',
-            'sub'       => '/aql',
-            'aql'       => $e_aql,
+            'menu'          => 'master',
+            'sub'           => '/aql',
+            'aql'           => $e_aql,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -138,10 +145,13 @@ class AqlController extends Controller
         ]);
         $aql = DB::select("SELECT * FROM vg_list_aql WHERE status_level = 'Activated'");
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('admin.master.aql-list',[
-            'menu'  => 'master',
-            'sub'   => '/aql',
-            'aql'   => $aql
+            'menu'          => 'master',
+            'sub'           => '/aql',
+            'aql'           => $aql,
+            'jenis_user'    => $jenis_user
         ]);
     }
 

@@ -19,19 +19,23 @@ class DepartmentController extends Controller
     public function DepartmentList(){
         // Get all data from database
         $department = DepartmentModel::all();
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.department-list',[
-            'menu'       => 'master',
-            'sub'        => '/department',
-            'department' => $department
+            'menu'          => 'master',
+            'sub'           => '/department',
+            'department'    => $department,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
     // Redirect ke window input department
     public function DepartmentInput(){
+        $jenis_user = session()->get('jenis_user');
         return view('admin.master.department-input',[
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/department'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/department',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -44,6 +48,7 @@ class DepartmentController extends Controller
         $department->nama_departemen = strtoupper($request->nama_departemen);
         $department->creator         = session()->get('user_id');
         $department->pic             = session()->get('user_id');
+        $jenis_user = session()->get('jenis_user');
 
         // Check duplicate kode
         $kode_department_check = DB::select("SELECT kode_departemen FROM vg_list_departemen WHERE kode_departemen = '".$department->kode_departemen."'");
@@ -68,14 +73,16 @@ class DepartmentController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditDepartmentData($id){
         $id = Crypt::decrypt($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $departemen = DepartmentModel::find($id);
 
         return view('admin.master.department-edit', [
-            'menu'  => 'master',
-            'sub'   => '/department',
-            'department' => $departemen,
+            'menu'          => 'master',
+            'sub'           => '/department',
+            'department'    => $departemen,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -85,6 +92,7 @@ class DepartmentController extends Controller
         $kode_departemen = strtoupper($request->kode_departemen);
         $nama_departemen = strtoupper($request->nama_departemen);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $jenis_user = session()->get('jenis_user');
 
         // is there a change in nama departemen data?
         if ($request->nama_departemen <> $request->original_nama_departemen){
@@ -119,6 +127,7 @@ class DepartmentController extends Controller
     // Fungsi hapus data
     public function DeleteDepartmentData($id){
         $id = Crypt::decryptString($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Delete process
         $department = DepartmentModel::find($id);

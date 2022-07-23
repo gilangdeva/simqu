@@ -19,22 +19,26 @@ class SubDepartmentController extends Controller
     public function SubDepartmentList(){
         // Get all data from database
         $subdepartment = DB::select('SELECT * FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.subdepartment-list',[
             'menu'              => 'master',
             'sub'               => '/subdepartment',
-            'subdepartment'     => $subdepartment
+            'subdepartment'     => $subdepartment,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
     // Redirect ke window input subdepartment
     public function SubDepartmentInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.subdepartment-input',[
             'departemen'    => $departemen,
             'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'           => '/subdepartment'
+            'sub'           => '/subdepartment',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -81,6 +85,7 @@ class SubDepartmentController extends Controller
     public function EditSubDepartmentData($id){
         $id = Crypt::decrypt($id);
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $subdepartemen = SubDepartmentModel::find($id);
@@ -90,6 +95,7 @@ class SubDepartmentController extends Controller
             'sub'           => '/subdepartment',
             'subdepartment' => $subdepartemen,
             'departemen'    => $departemen,
+            'jenis_user'    => $jenis_user
         ]);
     }
 

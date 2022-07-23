@@ -36,6 +36,13 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" name="password" maxlength="20" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Jenis Pengguna</label>
                         <div class="col-sm-9">
                             <select class="form-control select2" name="jenis_user" required>

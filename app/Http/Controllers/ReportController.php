@@ -87,6 +87,8 @@ class ReportController extends Controller
             $total_krt = $total_krt[0]->total_krt;
         }
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-list',[
             'menu'              => 'laporan',
             'sub'               => '/report-defect',
@@ -97,7 +99,8 @@ class ReportController extends Controller
             'total_inl'         => $total_inl,
             'total_fnl'         => $total_fnl,
             'total_krt'         => $total_krt,
-            'bulan'             => $bulan
+            'bulan'             => $bulan,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -156,13 +159,16 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-inspeksi',[
             'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
             'departemen'        => $departemen,
             'report_inspeksi'   => $report_inspeksi,
             'report_summary'    => $report_summary,
-            'bulan'             => $bulan
+            'bulan'             => $bulan,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -221,13 +227,16 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-critical',[
             'menu'              => 'laporan',
             'sub'               => '/report-critical',
             'departemen'        => $departemen,
             'report_critical'   => $report_critical,
             'report_summary'    => $report_summary,
-            'bulan'             => $bulan
+            'bulan'             => $bulan,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -259,13 +268,16 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-reject',[
             'menu'              => 'laporan',
             'sub'               => '/report-reject',
             'departemen'        => $departemen,
             'report_reject'     => $report_reject,
             'report_summary'    => $report_summary,
-            'tahun'             => $tahun
+            'tahun'             => $tahun,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -297,6 +309,9 @@ class ReportController extends Controller
         $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
         $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-list',[
             'menu'              => 'laporan',
             'sub'               => '/report-defect',
@@ -307,7 +322,8 @@ class ReportController extends Controller
             'total_inl'         => $total_inl,
             'total_fnl'         => $total_fnl,
             'total_krt'         => $total_krt,
-            'bulan'             => $bulan
+            'bulan'             => $bulan,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -336,13 +352,16 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-inspeksi',[
             'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
             'departemen'        => $departemen,
             'report_inspeksi'   => $report_inspeksi,
             'report_summary'    => $report_summary,
-            'bulan'             => $bulan
+            'bulan'             => $bulan,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -372,13 +391,16 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-critical',[
             'menu'              => 'laporan',
             'sub'               => '/report-critical',
             'departemen'        => $departemen,
             'report_critical'   => $report_critical,
             'report_summary'    => $report_summary,
-            'bulan'             => $bulan
+            'bulan'             => $bulan,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -406,13 +428,16 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('report.report-reject',[
             'menu'              => 'laporan',
             'sub'               => '/report-reject',
             'departemen'        => $departemen,
             'report_reject'     => $report_reject,
             'report_summary'    => $report_summary,
-            'tahun'             => $tahun
+            'tahun'             => $tahun,
+            'jenis_user'        => $jenis_user
         ]);
     }
 }

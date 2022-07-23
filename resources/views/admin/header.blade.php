@@ -175,6 +175,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
+    @if ($jenis_user == 'Administrator')
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav slimscrollsidebar">
                 <div class="sidebar-head">
@@ -247,6 +248,82 @@
                 </ul>
             </div>
         </div>
+
+    @elseif($jenis_user == 'Inspektor')
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation Menu</span></h3>
+                </div>
+
+                <ul class="nav" id="side-menu">
+                    <li>
+                        @if($menu == 'dashboard')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard</span></a>
+                        @else
+                            <a href="/dashboard" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard</span></a>
+                        @endif
+                    </li>
+
+                    <li>
+                        @if($menu == 'inspeksi')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                        @else
+                            <a href="/inspeksi" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                        @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/inline"><i class="mdi mdi-sync fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
+                            <li><a href="/final"><i class="mdi mdi-wallet-giftcard fa-fw"></i> <span class="hide-menu">Final</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    @else
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation Menu</span></h3>
+                </div>
+
+                <ul class="nav" id="side-menu">
+                    <li>
+                        @if($menu == 'dashboard')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard</span></a>
+                        @else
+                            <a href="/dashboard" class="waves-effect"><i class="mdi mdi-av-timer fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard</span></a>
+                        @endif
+                    </li>
+
+                    <li>
+                        @if($menu == 'upload')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
+                        @else
+                            <a href="/upload" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
+                        @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/jop"><i class="mdi mdi-ticket-confirmation fa-fw"></i> <span class="hide-menu">JOP Edar</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        @if($menu == 'laporan')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
+                        @else
+                            <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
+                        @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/report-defect"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Defect Bagian</span></a></li>
+                            <li><a href="/report-inspeksi"><i class="mdi mdi-numeric fa-fw"></i> <span class="hide-menu">Total Inspeksi</span></a></li>
+                            <li><a href="/report-critical"><i class="mdi mdi-magnify-minus-outline fa-fw"></i> <span class="hide-menu">Temuan Critical</span></a></li>
+                            <li><a href="/report-reject"><i class="mdi mdi-basket-unfill fa-fw"></i> <span class="hide-menu">Rekap Reject</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    @endif
         <!-- ============================================================== -->
         <!-- End Left Sidebar -->
         <!-- ============================================================== -->

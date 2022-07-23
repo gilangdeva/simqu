@@ -33,11 +33,13 @@ class UsersController extends Controller
     public function UsersList(){
         // Get all data from database
         $users = DB::select('SELECT * FROM vw_list_users');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.users-list',[
-            'menu'  => 'master',
-            'sub'   => '/users',
-            'users' => $users
+            'menu'          => 'master',
+            'sub'           => '/users',
+            'users'         => $users,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -50,12 +52,14 @@ class UsersController extends Controller
     public function UsersInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.users-input',[
             'departemen'        => $departemen,
             'subdepartemen'     => $subdepartemen,
             'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'               => '/users' // selalu ada di tiap function dan disesuaikan
+            'sub'               => '/users', // selalu ada di tiap function dan disesuaikan
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -139,6 +143,7 @@ class UsersController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditUserData($id){
         $id = Crypt::decrypt($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select User ID Sub Departemen
         $id_departemen_selected = DB::select("SELECT id_departemen from tb_master_users WHERE id_user =".$id);
@@ -156,6 +161,7 @@ class UsersController extends Controller
             'users'         => $user,
             'departemen'    => $departemen,
             'subdepartemen' => $subdepartemen,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -262,14 +268,16 @@ class UsersController extends Controller
     // untuk beralih ke window ubah password
     public function ChangeUserPassword($id){
         $id = Crypt::decrypt($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $user = UsersModel::find($id);
 
         return view('admin.master.users-password',[
-            'menu'  => 'master',
-            'sub'   => '/users',
-            'users' => $user,
+            'menu'          => 'master',
+            'sub'           => '/users',
+            'users'         => $user,
+            'jenis_user'    => $jenis_user
         ]);
     }
 

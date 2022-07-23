@@ -20,19 +20,24 @@ class SatuanController extends Controller
     public function satuanlist(){
         // Get all data from database
         $satuan = DB::select('SELECT * FROM vg_list_satuan');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.satuan-list',[
-            'menu'   => 'master',
-            'sub'    => '/satuan',
-            'satuan' => $satuan
+            'menu'          => 'master',
+            'sub'           => '/satuan',
+            'satuan'        => $satuan,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
     // Redirect ke window input satuan
     public function SatuanInput(){
+        $jenis_user = session()->get('jenis_user');
+
         return view('admin.master.satuan-input',[
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/satuan'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/satuan',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -58,6 +63,8 @@ class SatuanController extends Controller
             return Redirect::back();
         }
 
+        $jenis_user = session()->get('jenis_user');
+
        // Insert data into database
         $satuan->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
@@ -71,10 +78,13 @@ class SatuanController extends Controller
         // Select data based on ID
         $sat = SatuanModel::find($id);
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('admin.master.satuan-edit', [
-            'menu'      => 'master',
-            'sub'       => '/satuan',
-            'satuan'    => $sat,
+            'menu'          => 'master',
+            'sub'           => '/satuan',
+            'satuan'        => $sat,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -84,6 +94,7 @@ class SatuanController extends Controller
         $kode_satuan          = strtoupper($request->kode_satuan);
         $nama_satuan          = strtoupper($request->nama_satuan);
         $updated_at           = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $jenis_user = session()->get('jenis_user');
 
         // Is there a change in kode data?
         if ($request->nama_satuan <> $request->original_nama_satuan){
@@ -117,6 +128,7 @@ class SatuanController extends Controller
     // Fungsi hapus data
     public function DeleteSatuanData($id){
         $id = Crypt::decryptString($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select table user to get user default value
         $sat = SatuanModel::find($id, ['kode_satuan']);

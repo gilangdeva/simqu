@@ -20,11 +20,13 @@ class JOPEdarController extends Controller
 
     public function index(){
         $jop = DB::select("SELECT * FROM vw_list_jop_edar");
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.jop-list',[
-            'jop'    => $jop,
-            'menu'   => 'upload',
-            'sub'    => '/upload-jop',
+            'jop'           => $jop,
+            'menu'          => 'upload',
+            'sub'           => '/upload-jop',
+            'jenis_user'    => $jenis_user
         ]);
     }
 

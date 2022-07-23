@@ -22,19 +22,24 @@ class PeriodeController extends Controller
     public function PeriodeList(){
         // Get all data from database
         $periode = PeriodeModel::orderBy('tgl_mulai_periode', 'ASC')->groupBy('tahun', 'id_periode')->get();
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.periode-list',[
-            'menu'      => 'master',
-            'sub'       => '/periode',
-            'periode'   => $periode
+            'menu'          => 'master',
+            'sub'           => '/periode',
+            'periode'       => $periode,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
     // Redirect ke window input periode
     public function PeriodeInput(){
+        $jenis_user = session()->get('jenis_user');
+
         return view('admin.master.periode-input',[
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/periode'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/periode',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -72,14 +77,16 @@ class PeriodeController extends Controller
     // fungsi untuk redirect ke halaman edit
     public function EditPeriodeData($id){
         $id = Crypt::decrypt($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $period = PeriodeModel::find($id);
 
         return view('admin.master.periode-edit', [
-            'menu'      => 'master',
-            'sub'       => '/periode',
-            'periode'   => $period,
+            'menu'          => 'master',
+            'sub'           => '/periode',
+            'periode'       => $period,
+            'jenis_user'    => $jenis_user
         ]);
     }
 

@@ -20,11 +20,13 @@ class MesinController extends Controller
     public function MesinList(){
         // Get all data from database
         $mesin = DB::select('SELECT * FROM vg_list_mesin');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.mesin-list',[
-            'menu'  => 'master',
-            'sub'   => '/mesin',
-            'mesin' => $mesin
+            'menu'          => 'master',
+            'sub'           => '/mesin',
+            'mesin'         => $mesin,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -42,12 +44,14 @@ class MesinController extends Controller
     public function MesinInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.mesin-input',[
-            'departemen'   => $departemen,
+            'departemen'    => $departemen,
             'subdepartemen' => $subdepartemen,
-            'menu'  => 'master', // selalu ada di tiap function dan disesuaikan
-            'sub'   => '/mesin'
+            'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+            'sub'           => '/mesin',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -94,16 +98,18 @@ class MesinController extends Controller
         $id = Crypt::decrypt($id);
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         // Select data based on ID
         $machine = MesinModel::find($id);
 
         return view('admin.master.mesin-edit', [
-            'menu'  => 'master',
-            'sub'   => '/mesin',
-            'mesin' => $machine,
-            'departemen' => $departemen,
+            'menu'          => 'master',
+            'sub'           => '/mesin',
+            'mesin'         => $machine,
+            'departemen'    => $departemen,
             'subdepartemen' => $subdepartemen,
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -155,6 +161,7 @@ class MesinController extends Controller
      // Fungsi hapus data
      public function DeleteMesinData($id){
         $id = Crypt::decryptString($id);
+        $jenis_user = session()->get('jenis_user');
 
         // Select table user to get user default value
         $machine = MesinModel::find($id, ['kode_mesin']);

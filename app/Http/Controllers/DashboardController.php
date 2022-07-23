@@ -15,7 +15,8 @@ class DashboardController extends Controller
         $inspeksi_final = DB::select("SELECT * from vw_dashboard_status_final");
         $inspeksi_ratio = DB::select("SELECT month, final, inline from vw_dashboard_graph_inline_vs_final WHERE years ='".date('Y', strtotime('+0 hours'))."'");
         $defect = DB::select("SELECT month, minor, major, critical FROM vw_dashboard_defect WHERE tahun ='".date('Y', strtotime('+0 hours'))."'");
-       
+        $jenis_user = session()->get('jenis_user');
+
         if(isset($inspeksi_ratio[0]->month)){ $bln = '"'.$inspeksi_ratio[0]->month.'"'; $inl = $inspeksi_ratio[0]->inline; $fin = $inspeksi_ratio[0]->final; } else { $bln = '"Jan"'; $inl = 0; $fin = 0; }
         if(isset($inspeksi_ratio[1]->month)){ $bln = $bln.', "'.$inspeksi_ratio[1]->month.'"'; $inl = $inl.", ".$inspeksi_ratio[1]->inline; $fin = $fin.", ".$inspeksi_ratio[1]->final; } else { $bln = $bln.', "Feb"'; $inl = $inl.", 0"; $fin = $fin.", 0"; }
         if(isset($inspeksi_ratio[2]->month)){ $bln = $bln.', "'.$inspeksi_ratio[2]->month.'"'; $inl = $inl.", ".$inspeksi_ratio[2]->inline; $fin = $fin.", ".$inspeksi_ratio[2]->final; } else { $bln = $bln.', "Mar"'; $inl = $inl.", 0"; $fin = $fin.", 0"; }
@@ -40,7 +41,8 @@ class DashboardController extends Controller
             'defect'            => $defect,
             'bulan'             => "[".$bln."]",
             'inline'            => "[".$inl."]",
-            'final'             => "[".$fin."]"
+            'final'             => "[".$fin."]",
+            'jenis_user'        => $jenis_user
         ]);
     }
 }

@@ -45,11 +45,14 @@ class InspeksiInlineController extends Controller
         ->where('tgl_inspeksi', '<=', $end_date)
         ->get();
 
+        $jenis_user = session()->get('jenis_user');
+
         return view('inspeksi.inline-list',
         [
             'list_inline'   => $list_inline,
             'menu'          => 'inspeksi',
-            'sub'           => '/inline'
+            'sub'           => '/inline',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -59,6 +62,7 @@ class InspeksiInlineController extends Controller
         $defect = DB::select("SELECT id_defect, defect, critical, major, minor FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
+        $jenis_user = session()->get('jenis_user');
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
@@ -66,7 +70,8 @@ class InspeksiInlineController extends Controller
             'draft'         => $draft,
             'satuan'        => $satuan,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
-            'sub'           => '/inline'
+            'sub'           => '/inline',
+            'jenis_user'    => $jenis_user
         ]);
     }
 
@@ -78,6 +83,7 @@ class InspeksiInlineController extends Controller
         $departemen = DB::select("SELECT id_departemen, nama_departemen FROM vg_list_departemen");
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters Header
         $type_form = "Inline"; // Inline
@@ -105,9 +111,6 @@ class InspeksiInlineController extends Controller
         $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen =".$id_departemen);
         $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect WHERE id_departemen =".$id_departemen);
         $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
-
-
-       
 
         if(($cek_id_header == '') || ($cek_id_header == '0')){
             $id_header = DB::select("SELECT id_inspeksi_header FROM vg_list_id_header");
@@ -164,7 +167,7 @@ class InspeksiInlineController extends Controller
         $jop = strtoupper($request->jop);
         $item = strtoupper($request->item);
         $id_defect = $request->id_defect;
-        
+
         $kriteria = $request->kriteria;
         $qty_defect = $request->qty_defect;
         $qty_ready_pcs = $request->qty_ready_pcs;
@@ -380,7 +383,8 @@ class InspeksiInlineController extends Controller
                 'defect'            => $defect,
                 'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
-                'sub'               => '/inline'
+                'sub'               => '/inline',
+                'jenis_user'        => $jenis_user
             ]);
         } else {
             // REFRESH DRAFT
@@ -399,7 +403,8 @@ class InspeksiInlineController extends Controller
                 'draft'             => $draft,
                 'satuan'            => $satuan,
                 'menu'              => 'inspeksi',
-                'sub'               => '/inline'
+                'sub'               => '/inline',
+                'jenis_user'        => $jenis_user
             ]);
         }
         //End Controller Wawan
@@ -422,6 +427,8 @@ class InspeksiInlineController extends Controller
 
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_draft_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
+
+            $jenis_user = session()->get('jenis_user');
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -464,7 +471,8 @@ class InspeksiInlineController extends Controller
                     'draft'             => $draft,
                     'satuan'            => $satuan,
                     'menu'              => 'inspeksi',
-                    'sub'               => '/inline'
+                    'sub'               => '/inline',
+                    'jenis_user'        => $jenis_user
                 ]);
             } else if ($count > 1) {
                 $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -476,6 +484,7 @@ class InspeksiInlineController extends Controller
                 $id_sub_departemen = $draft[0]->id_sub_departemen;
                 $mesin = DB::select("SELECT id_mesin, nama_mesin FROM vg_list_mesin WHERE id_sub_departemen =".$id_sub_departemen);
                 $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect where id_departemen =".$id_departemen);
+                $jenis_user = session()->get('jenis_user');
 
                 return view('inspeksi.inline-input',[
                     'id_header'         => $id_header,
@@ -490,7 +499,8 @@ class InspeksiInlineController extends Controller
                     'id_departemen'     => $id_departemen,
                     'id_sub_departemen' => $id_sub_departemen,
                     'menu'              => 'inspeksi',
-                    'sub'               => '/inline'
+                    'sub'               => '/inline',
+                    'jenis_user'        => $jenis_user
                 ]);
             }
         }
@@ -512,6 +522,7 @@ class InspeksiInlineController extends Controller
             $satuan_qty_temuan = $satuan[0]->satuan_qty_temuan;
             $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
             $satuan_qty_sampling = $satuan[0]->satuan_qty_sampling;
+            $jenis_user = session()->get('jenis_user');
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -565,6 +576,7 @@ class InspeksiInlineController extends Controller
             $id_user = session()->get('id_user');
             $id_departemen = $draft_header->id_departemen;
             $id_sub_departemen = $draft_header->id_sub_departemen;
+            $jenis_user = session()->get('jenis_user');
 
             // insert into database
             DB::table('tb_inspeksi_header')->insert([
@@ -643,6 +655,7 @@ class InspeksiInlineController extends Controller
             $satuan_qty_temuan = $draft_detail->satuan_qty_temuan;
             $satuan_qty_ready_pcs = $draft_detail->satuan_qty_ready_pcs;
             $satuan_qty_sampling = $draft_detail->satuan_qty_sampling;
+            $jenis_user = session()->get('jenis_user');
 
 
             // insert into database
@@ -695,6 +708,7 @@ class InspeksiInlineController extends Controller
             $end_date       = $request->end_date;
             $type_search    = $request->type_search;
             $text_search    = strtoupper($request->text_search);
+            $jenis_user = session()->get('jenis_user');
 
                 if ($type_search =="JOP") {
                     $list_inline = DB::table('vw_list_inline')
@@ -727,7 +741,8 @@ class InspeksiInlineController extends Controller
                 'menu'          => 'inspeksi',
                 'start_date'    => $start_date,
                 'end_date'      => $end_date,
-                'sub'           => '/inline'
+                'sub'           => '/inline',
+                'jenis_user'    => $jenis_user
             ]);
         } else {
             $list_inline = DB::select("SELECT * FROM vw_list_inline");
@@ -737,7 +752,8 @@ class InspeksiInlineController extends Controller
                 'menu'          => 'inspeksi',
                 'start_date'    => $start_date,
                 'end_date'      => $end_date,
-                'sub'           => '/inline'
+                'sub'           => '/inline',
+                'jenis_user'    => $jenis_user
             ]);
         }
 
