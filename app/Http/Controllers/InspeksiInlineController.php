@@ -185,6 +185,9 @@ class InspeksiInlineController extends Controller
         $picture_4 = $request->file('picture_4');
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
+        $video_1    = $request->file('video_1');
+        $video_2    = $request->file('video_2');
+        $file_original_video    = $request->original_video;
 
             if ($picture_1 <> '') {
                 $this->validate($request, [
@@ -337,6 +340,44 @@ class InspeksiInlineController extends Controller
                 $name_p5 = $file_original_picture;
             }
 
+            if ($video_1 <> '') {
+
+                $request->validate([
+                    'video_1' => 'file|mimes:mp4,jpg'
+                ]);
+
+                $file = $video_1;
+
+                $uploadedVideo = $request->file('video_1');
+                // create filename with merging the timestamp and unique ID
+                $name_v1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+                $destinationPath = public_path('/videos/defect/');
+                $uploadedVideo->move($destinationPath, $name_v1);
+                $video_1->video_1 = $destinationPath . $name_v1;
+
+            } else {
+                $name_v1 = $file_original_video;
+            }
+
+            if ($video_2 <> '') {
+
+                $request->validate([
+                    'video_2' => 'file|mimes:mp4,jpg'
+                ]);
+
+                $file = $video_2;
+
+                $uploadedVideo = $request->file('video_2');
+                // create filename with merging the timestamp and unique ID
+                $name_v2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+                $destinationPath = public_path('/videos/defect/');
+                $uploadedVideo->move($destinationPath, $name_v2);
+                $video_2->video_2 = $destinationPath . $name_v2;
+
+            } else {
+                $name_v2 = $file_original_video;
+            }
+
             // insert into database
             DB::table('draft_detail')->insert([
                 'id_inspeksi_detail'    => $id_detail,
@@ -369,9 +410,9 @@ class InspeksiInlineController extends Controller
                 'picture_5'             => $name_p5,
                 'satuan_qty_temuan'     => $satuan_qty_temuan,
                 'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
-                'satuan_qty_sampling'   => $satuan_qty_sampling
-                // 'video_1'            => $name_v1,
-                // 'video_2'            => $name_v2
+                'satuan_qty_sampling'   => $satuan_qty_sampling,
+                'video_1'               => $name_v1,
+                'video_2'               => $name_v2
             ]);
 
         if(($row == 0) || ($row == '')){
@@ -424,6 +465,9 @@ class InspeksiInlineController extends Controller
             $picture_3 = $pictures[0]->picture_3;
             $picture_4 = $pictures[0]->picture_4;
             $picture_5 = $pictures[0]->picture_5;
+            $videos     = DB::select("SELECT video_1, video_2 FROM vw_draft_inline WHERE id_inspeksi_detail='".$id_detail."'");
+            $video_1    = $videos[0]->video_1;
+            $video_2    = $videos[0]->video_2;
 
             $count_detail = DB::select("SELECT COUNT (id_inspeksi_detail) FROM vw_draft_inline WHERE id_user=".session()->get('id_user')." GROUP BY id_inspeksi_header");
             $count = $count_detail[0]->count;
@@ -454,6 +498,16 @@ class InspeksiInlineController extends Controller
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
+                }
+            }
+            if (isset($video_1)) {
+                if ($video_1 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_1));
+                }
+            }
+            if (isset($video_2)) {
+                if ($video_2 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_2));
                 }
             }
 
@@ -550,6 +604,16 @@ class InspeksiInlineController extends Controller
                     File::delete(public_path("/images/defect/".$picture_5));
                 }
             }
+            if (isset($video_1)) {
+                if ($video_1 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_1));
+                }
+            }
+            if (isset($video_2)) {
+                if ($video_2 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_2));
+                }
+            }
 
             if ($count == 1){
                 $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
@@ -622,7 +686,9 @@ class InspeksiInlineController extends Controller
                 'picture_5',
                 'satuan_qty_temuan',
                 'satuan_qty_ready_pcs',
-                'satuan_qty_sampling'
+                'satuan_qty_sampling',
+                'video_1',
+                'video_2'
             )->where('id_inspeksi_detail', $id_detail)->first();
 
             $id_mesin = $draft_detail->id_mesin;
@@ -656,6 +722,8 @@ class InspeksiInlineController extends Controller
             $satuan_qty_ready_pcs = $draft_detail->satuan_qty_ready_pcs;
             $satuan_qty_sampling = $draft_detail->satuan_qty_sampling;
             $jenis_user = session()->get('jenis_user');
+            $video_1    = $draft_detail->video_1;
+            $video_2    = $draft_detail->video_2;
 
 
             // insert into database
@@ -690,7 +758,9 @@ class InspeksiInlineController extends Controller
                 'picture_5'             => $picture_5,
                 'satuan_qty_temuan'     => $satuan_qty_temuan,
                 'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
-                'satuan_qty_sampling'   => $satuan_qty_sampling
+                'satuan_qty_sampling'   => $satuan_qty_sampling,
+                'video_1'               => $video_1,
+                'video_2'               => $video_2
             ]);
         }
             // Delete header

@@ -95,10 +95,11 @@
                                 <th data-hide="all">Kendala</th>
                                 <th data-hide="all">Kriteria</th>
                                 <th data-hide="all">Jml Temuan</th>
-                                <th data-hide="all">Qty Reject</th>                              
+                                <th data-hide="all">Qty Reject</th>
                                 <th data-hide="all">Keterangan</th>
                                 <th data-hide="all">Verifikasi</th>
                                 <th data-hide="all">Foto</th>
+                                <th data-hide="all">Video</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,7 +109,7 @@
                                 <td>{{ $lf->tgl_inspeksi }}</td>
                                 <td>{{ $lf->shift }}</td>
                                 <td>{{ $lf->nama_departemen }} - {{ $lf->nama_sub_departemen }}</td>
-                                <td>{{ $lf->jop }}</td>                                
+                                <td>{{ $lf->jop }}</td>
                                 <td>{{ $lf->nama_user }}</td>
                                 <td>{{ $lf->status }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
@@ -123,7 +124,7 @@
                                 <td>{{ $lf->defect }}</td>
                                 <td>{{ $lf->kriteria }}</td>
                                 <td>{{ $lf->qty_defect }}</td>
-                                <td>{{ $lf->qty_reject_all }}</td>                               
+                                <td>{{ $lf->qty_reject_all }}</td>
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
                                 <td>
@@ -146,6 +147,14 @@
                                         | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $lf->picture_1 }}','{{ $lf->picture_2 }}', '{{ $lf->picture_3 }}', '{{ $lf->picture_4 }}', '{{ $lf->picture_5 }}')">Lihat</button>
                                     @endif
                                 </td>
+                                <td>
+                                    @if(isset($lf->video_1))
+                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_1 }}" alt="defect" width="200">Video 1</a> /
+                                        @endif
+                                        @if(isset($lf->video_2))
+                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_2 }}" alt="defect" width="200">Video 2</a> /
+                                        @endif
+                                    </td>
                             </tr>
                             @endforeach
                         </tbody>

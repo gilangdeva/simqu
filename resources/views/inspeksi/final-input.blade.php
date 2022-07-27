@@ -167,7 +167,7 @@
                         </div>
                         </div>
 
-                        
+
                     <!-- <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
                         <div class="col-sm-4">
@@ -192,7 +192,7 @@
                         </div> -->
 
                         <br>
-                        
+
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Riil</label></div>
@@ -208,14 +208,14 @@
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>    
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
                                     <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
                                     @endif
-                                @endforeach                        
+                                @endforeach
                         </select>
                         </div>
-                     
+
 
                         {{-- <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
                         <div class="col-sm-4">
@@ -265,11 +265,11 @@
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>    
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
                                     <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
                                     @endif
-                                @endforeach                        
+                                @endforeach
                         </select>
                         </div>
 
@@ -331,6 +331,14 @@
                         </div>
                     </div>
 
+                    <div class="form-group" style="margin-bottom:5px;">
+                        <div class="col-sm-2 control-label"><label>Video</label></div>
+                        <div class="col-sm-10">
+                            <input type="file" id="input-file-now-custom-2" name="video_1" style="margin-bottom:5px;"/>
+                            <input type="file" id="input-file-now-custom-2" name="video_2" style="margin-bottom:5px;"/>
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
@@ -347,7 +355,7 @@
                 </form>
             </div>
         </div>
-     
+
 
 
         <div class="col-md-7">
@@ -383,13 +391,11 @@
                             <th data-hide="all">Jenis Temuan</th>
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
-                            <th data-hide="all">Qty Reject</th>                           
+                            <th data-hide="all">Qty Reject</th>
                             <th data-hide="all">Rekomendasi</th>
                             <th data-hide="all">Verifikasi</th>
                             <th data-hide="all">Foto</th>
-                            <th data-hide="all"></th>
-                            <th data-hide="all"></th>
-                            <th data-hide="all"></th>
+                            <th data-hide="all">Video</th>
                             <th data-hide="all"></th>
                         </tr>
                     </thead>
@@ -417,7 +423,7 @@
                                 <td>{{ $d->defect }}</td>
                                 <td>{{ $d->kriteria }}</td>
                                 <td>{{ $d->qty_defect }} {{ $d->satuan_qty_temuan }}</td>
-                                <td>{{ $d->qty_reject_all }} {{ $d->satuan_qty_reject_all }}</td>                                
+                                <td>{{ $d->qty_reject_all }} {{ $d->satuan_qty_reject_all }}</td>
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->hasil_verifikasi }}</td>
                                 <td>
@@ -440,6 +446,14 @@
                                     | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
                                 @endif
                                 </td>
+                                <td>
+                                    @if(isset($d->video_1))
+                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_1 }}" alt="defect" width="200">Video 1</a> /
+                                        @endif
+                                        @if(isset($d->video_2))
+                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_2 }}" alt="defect" width="200">Video 2</a> /
+                                        @endif
+                                    </td>
                             </tr>
                             @endforeach
                         @endif
@@ -659,7 +673,7 @@
         t2 = parseInt(sh.slice(3,5));
         cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
-        
+
 
 
         if (cek_menit == 59){

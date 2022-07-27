@@ -297,17 +297,6 @@
                     </li>
 
                     <li>
-                        @if($menu == 'upload')
-                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
-                        @else
-                            <a href="/upload" class="waves-effect"><i class="mdi mdi-upload fa-fw"></i> <span class="hide-menu"> Upload Data<span class="fa arrow"></span></span></a>
-                        @endif
-                        <ul class="nav nav-second-level">
-                            <li><a href="/jop"><i class="mdi mdi-ticket-confirmation fa-fw"></i> <span class="hide-menu">JOP Edar</span></a></li>
-                        </ul>
-                    </li>
-
-                    <li>
                         @if($menu == 'laporan')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else

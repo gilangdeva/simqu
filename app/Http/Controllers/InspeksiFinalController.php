@@ -176,6 +176,9 @@ class InspeksiFinalController extends Controller
         $picture_4 = $request->file('picture_4');
         $picture_5 = $request->file('picture_5');
         $file_original_picture = $request->original_picture;
+        $video_1    = $request->file('video_1');
+        $video_2    = $request->file('video_2');
+        $file_original_video    = $request->original_video;
 
         $jenis_user = session()->get('jenis_user');
 
@@ -377,6 +380,44 @@ class InspeksiFinalController extends Controller
                 $name_p5 = $file_original_picture;
             }
 
+            if ($video_1 <> '') {
+
+                $request->validate([
+                    'video_1' => 'file|mimes:mp4,jpg'
+                ]);
+
+                $file = $video_1;
+
+                $uploadedVideo = $request->file('video_1');
+                // create filename with merging the timestamp and unique ID
+                $name_v1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+                $destinationPath = public_path('/videos/defect/');
+                $uploadedVideo->move($destinationPath, $name_v1);
+                $video_1->video_1 = $destinationPath . $name_v1;
+
+            } else {
+                $name_v1 = $file_original_video;
+            }
+
+            if ($video_2 <> '') {
+
+                $request->validate([
+                    'video_2' => 'file|mimes:mp4,jpg'
+                ]);
+
+                $file = $video_2;
+
+                $uploadedVideo = $request->file('video_2');
+                // create filename with merging the timestamp and unique ID
+                $name_v2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+                $destinationPath = public_path('/videos/defect/');
+                $uploadedVideo->move($destinationPath, $name_v2);
+                $video_2->video_2 = $destinationPath . $name_v2;
+
+            } else {
+                $name_v2 = $file_original_video;
+            }
+
 
         // insert into database
         DB::table('draft_detail')->insert([
@@ -411,7 +452,9 @@ class InspeksiFinalController extends Controller
             'satuan_qty_temuan'         => $satuan_qty_temuan,
             'satuan_qty_ready_pcs'      => $satuan_qty_ready_pcs,
             'satuan_qty_ready_pack'     => $satuan_qty_ready_pack,
-            'satuan_qty_reject_all'     => $satuan_qty_reject_all
+            'satuan_qty_reject_all'     => $satuan_qty_reject_all,
+            'video_1'                   => $name_v1,
+            'video_2'                   => $name_v2
 
         ]);
 
@@ -470,6 +513,9 @@ class InspeksiFinalController extends Controller
             $satuan_qty_ready_pack = $selected_satuan[0]->satuan_qty_ready_pack;
             $satuan_qty_ready_pcs = $selected_satuan[0]->satuan_qty_ready_pcs;
             $satuan_qty_reject_all = $selected_satuan[0]->satuan_qty_reject_all;
+            $videos     = DB::select("SELECT video_1, video_2 FROM vg_draft_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $video_1    = $videos[0]->video_1;
+            $video_2    = $videos[0]->video_2;
 
             $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
 
@@ -502,6 +548,16 @@ class InspeksiFinalController extends Controller
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
+                }
+            }
+            if (isset($video_1)) {
+                if ($video_1 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_1));
+                }
+            }
+            if (isset($video_2)) {
+                if ($video_2 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_2));
                 }
             }
 
@@ -570,6 +626,9 @@ class InspeksiFinalController extends Controller
             $satuan_qty_ready_pack = $satuan[0]->satuan_qty_ready_pack;
             $satuan_qty_reject_all = $satuan[0]->satuan_qty_reject_all;
             $jenis_user = session()->get('jenis_user');
+            $videos     = DB::select("SELECT video_1, video_2 FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $video_1    = $videos[0]->video_1;
+            $video_2    = $videos[0]->video_2;
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -595,6 +654,16 @@ class InspeksiFinalController extends Controller
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
+                }
+            }
+            if (isset($video_1)) {
+                if ($video_1 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_1));
+                }
+            }
+            if (isset($video_2)) {
+                if ($video_2 <> "blank.jpg") {
+                    File::delete(public_path("/videos/defect/".$video_2));
                 }
             }
 
@@ -670,7 +739,9 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_temuan',
                 'satuan_qty_ready_pcs',
                 'satuan_qty_ready_pack',
-                'satuan_qty_reject_all'
+                'satuan_qty_reject_all',
+                'video_1',
+                'video_2'
             )->where('id_inspeksi_detail', $id_detail)->first();
 
             $jam_mulai = new DateTime($draft_detail->jam_mulai);
@@ -706,6 +777,8 @@ class InspeksiFinalController extends Controller
             $satuan_qty_ready_pack = $draft_detail->satuan_qty_ready_pack;
             $satuan_qty_reject_all = $draft_detail->satuan_qty_reject_all;
             $jenis_user = session()->get('jenis_user');
+            $video_1    = $draft_detail->video_1;
+            $video_2    = $draft_detail->video_2;
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([
@@ -739,7 +812,9 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_temuan'         => $satuan_qty_temuan,
                 'satuan_qty_ready_pcs'      => $satuan_qty_ready_pcs,
                 'satuan_qty_ready_pack'     => $satuan_qty_ready_pack,
-                'satuan_qty_reject_all'     => $satuan_qty_reject_all
+                'satuan_qty_reject_all'     => $satuan_qty_reject_all,
+                'video_1'                   => $video_1,
+                'video_2'                   => $video_2
 
             ]);
         }

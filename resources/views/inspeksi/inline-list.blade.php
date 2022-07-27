@@ -80,7 +80,7 @@
                             <th>Shift</th>
                             <th>Area</th>
                             <th>JOP</th>
-                            <th>Item</th>                      
+                            <th>Item</th>
                             <th>Inspektor</th>
                             <th>Status</th>
                             <th>Hapus</th>
@@ -99,6 +99,7 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Keterangan</th>
                             <th data-hide="all">Foto</th>
+                            <th data-hide="all">Video</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,7 +110,7 @@
                                 <td>{{ $li->shift }}</td>
                                 <td>{{ $li->nama_departemen }} - {{ $li->nama_sub_departemen }}</td>
                                 <td>{{ $li->jop }}</td>
-                                <td>{{ $li->item }}</td>                                
+                                <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_user }}</td>
                                 <td>{{ $li->status }}</td>
                                 <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
@@ -125,7 +126,7 @@
                                 <td>{{ $li->qty_defect }}</td>
                                 <td>{{ $li->qty_ready_pcs }} (Pcs/Lbr)</td>
                                 <td>{{ $li->qty_sampling }}</td>
-                                <td>{{ $li->penyebab }}</td>                                
+                                <td>{{ $li->penyebab }}</td>
                                 <td>{{ $li->keterangan }} </td>
                                 <td>
                                     @if(isset($li->picture_1))
@@ -145,6 +146,14 @@
                                     @endif
                                     @if((isset($li->picture_1)) || (isset($li->picture_2)) || (isset($li->picture_3)) || (isset($li->picture_4)) || (isset($li->picture_5)))
                                         | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $li->picture_1 }}','{{ $li->picture_2 }}', '{{ $li->picture_3 }}', '{{ $li->picture_4 }}', '{{ $li->picture_5 }}')">Lihat</button>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($li->video_1))
+                                        <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $li->video_1 }}" width="200">Video 1</a>
+                                    @endif
+                                    @if(isset($li->picture_2))
+                                        / <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $li->video_2 }}" width="200">Video 2</a>
                                     @endif
                                 </td>
                             </tr>

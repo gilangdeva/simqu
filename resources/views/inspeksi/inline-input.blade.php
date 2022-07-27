@@ -12,7 +12,7 @@
         <div class="col-md-5">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI INLINE</h3>
-                <form id="inline_data" class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">   
+                <form id="inline_data" class="form-horizontal" action="{{ route('inline.save') }}" method="POST" enctype="multipart/form-data">
 
                 {{ csrf_field() }}
 
@@ -264,19 +264,19 @@
                         </div>
                     </div>
 
-                     <!-- <div class="form-group" style="margin-bottom:5px;">
+                    <div class="form-group" style="margin-bottom:5px;">
                         <label class="col-sm-2 control-label">Video</label>
                         <div class="col-sm-10">
                             <input type="file" id="input-file-now-custom-2" name="video_1" style="margin-bottom:5px;" />
                             <input type="file" id="input-file-now-custom-2" name="video_2" style="margin-bottom:5px;" />
                         </div>
-                    </div>  -->
+                    </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
+                            <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10">Reset</button>
                             {{-- <a href="/inline-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
 
@@ -325,10 +325,7 @@
                             <th data-hide="all">Penyebab</th>
                             <th data-hide="all">Keterangan</th>
                             <th data-hide="all">Foto</th>
-                            <th data-hide="all"></th>
-                            <th data-hide="all"></th>
-                            <th data-hide="all"></th>
-                            <th data-hide="all"></th>
+                            <th data-hide="all">Video</th>
 
                         </tr>
                     </thead>
@@ -377,6 +374,15 @@
                                         @endif
                                         @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
                                             | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if(isset($d->video_1))
+                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_1 }}" width="200">Video 1</a>
+                                        @endif
+                                        @if(isset($d->video_2))
+                                            / <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_2 }}" width="200">Video 2</a>
                                         @endif
                                     </td>
                                 </tr>
