@@ -113,22 +113,25 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>JOP</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
                         </div>
+                    </div>
 
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Nama Item</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Brg Siap (Pack)</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pack" id="qty_ready_pack" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -139,17 +142,20 @@
                                     @if(isset($id_satuan))
                                         <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                    <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCK'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCK'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
+                    </div>
 
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -196,10 +202,11 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Riil</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Qty Riil" required>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_sample_riil" id="qty_sample_riil" style="background-color: #f4f4f4f4;" disabled>
                             @else
@@ -253,10 +260,11 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4f4;" disabled>
                             @else
@@ -272,12 +280,15 @@
                                 @endforeach
                         </select>
                         </div>
+                    </div>
 
+                    <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Reject</label></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_reject_all" id="qty_reject_all" style="background-color: #f4f4f4;" disabled>
                             @else
@@ -343,7 +354,7 @@
                         <div class="col-sm-2 control-label"><label></label></div>
                         <div class="col-sm-4">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                            <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10" style="margin-left:-10px;">Reset</button>
+                            <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10">Reset</button>
                             {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
 
