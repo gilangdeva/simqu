@@ -1,69 +1,42 @@
-@extends('admin.header')
-@section('title', 'Report List - SIMQU')
-
-@section('content')
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <!-- container-fluid -->
 <div class="container-fluid">
     <!-- row -->
     <br>
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="white-box">
-                <div class="row">
-                    <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                        <div class="col-sm-4">
-                            <select class="form-control select2" name="id_departemen" required>
-                                <option value="0">Pilih Departemen</option>
-                                @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                            <select class="form-control select2" name="bulan" id="bulan">
-                                <option value="0">Pilih Bulan</option>
-                                <option value="Januari">JANUARI</option>
-                                <option value="Februari">FEBRUARI</option>
-                                <option value="Maret">MARET</option>
-                                <option value="April">APRIL</option>
-                                <option value="Mei">MEI</option>
-                                <option value="Juni">JUNI</option>
-                                <option value="Juli">JULI</option>
-                                <option value="Agustus">AGUSTUS</option>
-                                <option value="September">SEPTEMBER</option>
-                                <option value="Oktober">OKTOBER</option>
-                                <option value="November">NOVEMBER</option>
-                                <option value="Desember">DESEMBER</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <button type="submit" name="action" value="submit" class="btn btn-primary waves-effect pull-right waves-light">Submit</button>
-                        </div>
 
-                        <div class="col-sm-2">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-primary" target="_blank">Export to PDF</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <style>
+        td,
+        th {
+            font-size: 10.5pt;
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+    </style>
+
+<div class="row">
+    <div>
+        <h3 class="box-title">REPORT LIST   |   <b style="color: red">DEPT :
+            @if(isset($report_inline[0]) && isset($bulan))
+                {{ $report_inline[0]->nama_departemen }} / {{ $bulan }}</b></h3>
+            @endif
     </div>
-
+</div>
+<br><br>
 
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT INSPEKSI INLINE   |   <b style="color: red">DEPT :
-                            @if(isset($report_inline[0]) && isset($bulan))
-                                {{ $report_inline[0]->nama_departemen }} / {{ $bulan }}</b></h3>
-                            @endif
+                    <div>
+                        <h3 class="box-title">REPORT INSPEKSI INLINE</h3>
                     </div>
                 </div>
 
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
+                <table class='table table-bordered'>
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
@@ -121,36 +94,18 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="white-box">
-             <div class="row">
-              <div class="col-sm-6 col-xs-12">
-                <h3 class="box-title">Grafik Inspeksi Inline</h3>
-                <div>
-                    <div id="morris-bar-chart"></div>
-                </div>
-                </div>
-             </div>
-            </div>
-        </div>
-    </div>
+<br><br><br><br><br><br><br><br>
 
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT INSPEKSI FINAL   |   <b style="color: red">DEPT :
-                            @if(isset($report_final[0]) && isset($bulan))
-                                {{ $report_final[0]->nama_departemen }} / {{ $bulan }}</b></h3>
-                            @endif
-                        </h3>
+                    <div>
+                        <h3 class="box-title">REPORT INSPEKSI FINAL</h3>
                     </div>
                 </div>
 
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
+                <table class='table table-bordered'>
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
@@ -203,34 +158,20 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-           <div class="white-box">
-            <div class="row">
-              <div class="col-sm-6 col-xs-12">
-                <h3 class="box-title">Grafik Inspeksi Final</h3>
-                <div>
-                    <div id="morris-bar-chart"></div>
-                </div>
-            </div>
-        </div>
-        </div>
-</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
 
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT KRITERIA   |   <b style="color: red">DEPT :
-                            @if(isset($report_kriteria[0]) && isset($bulan))
-                                {{ $report_kriteria[0]->nama_departemen }} / {{ $bulan }}</b></h3>
-                            @endif
-                        </h3>
+                    <div>
+                        <h3 class="box-title">REPORT KRITERIA</h3>
                     </div>
                 </div>
 
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
+                <table class='table table-bordered'>
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
@@ -287,64 +228,9 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-        <div class="col-md-8">
-           <div class="white-box">
-            <div class="row">
-              <div class="col-sm-6 col-xs-12">
-                <h3 class="box-title">Grafik Kriteria</h3>
-                <div>
-                    <div id="morris-bar-chart"></div>
-                </div>
-            </div>
-        </div>
-        </div>
-</div>
+
+
+
 <!-- end row -->
 </div>
 <!-- end container-fluid -->
-@include('admin.footer')
-
-<script>
-
-    var bln = document.getElementById('bln').value;
-    var inl = document.getElementById('inl').value;
-    var fin = document.getElementById('fin').value;
-
-    $(document).ready(function () {
-
-        // Morris Defect
-        Morris.Bar({
-            element: 'morris-bar-chart',
-            data: JSON.parse(defect),
-            xkey: 'month',
-            ykeys: ['minor', 'major', 'critical'],
-            labels: ['Minor', 'Major', 'Critical'],
-            barColors:['#b8edf0', '#b4c1d7', '#fcc9ba'],
-            hideHover: 'auto',
-            gridLineColor: '#eef0f2',
-            resize: true
-        });
-
-         // Chartist Status
-        //  new Chartist.Line('.ct-sm-line-chart', {
-        //     labels: JSON.parse(bln),
-        //     series: [JSON.parse(inl), JSON.parse(fin)]
-        //     }, {
-        //     fullWidth: true,
-
-        //     plugins: [
-        //         Chartist.plugins.tooltip()
-        //     ],
-        //     chartPadding: {
-        //         right: 40
-        //     }
-        // });
-    });
-
-
-
-</script>
-
-@endsection

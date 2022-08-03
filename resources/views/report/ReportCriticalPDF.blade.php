@@ -1,80 +1,24 @@
-@extends('admin.header')
-@section('title', 'Report Critical - SIMQU')
-
-@section('content')
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <!-- container-fluid -->
 <div class="container-fluid">
     <!-- row -->
     <br>
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="white-box">
-                <div class="row">
-                    <form action="{{ route('report.critical') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                        <div class="col-sm-4">
-                            @if(isset($id_departemen))
-                            <select class="form-control select2" name="id_departemen" id="id_departemen">
-                            @else
-                            <select class="form-control select2" name="id_departemen" id="id_departemen" required>
-                            @endif
-                                <option value="0">Pilih Departemen</option>
-                                @foreach ($departemen as $dept)
-                                @if(isset($id_departemen))
-                                    <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
-                                @else
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
-                                @endif
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <select class="form-control select2" name="bulan" id="bulan">
-                                <option value="0">Pilih Bulan</option>
-                                <option value="Januari">JANUARI</option>
-                                <option value="Februari">FEBRUARI</option>
-                                <option value="Maret">MARET</option>
-                                <option value="April">APRIL</option>
-                                <option value="Mei">MEI</option>
-                                <option value="Juni">JUNI</option>
-                                <option value="Juli">JULI</option>
-                                <option value="Agustus">AGUSTUS</option>
-                                <option value="September">SEPTEMBER</option>
-                                <option value="Oktober">OKTOBER</option>
-                                <option value="November">NOVEMBER</option>
-                                <option value="Desember">DESEMBER</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <button type="submit" name="action" value="submit" class="btn btn-primary waves-effect pull-right waves-light">Submit</button>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportCriticalPDF" class="btn btn-primary" target="_blank">Export to PDF</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div>
                         <h3 class="box-title">REPORT TEMUAN CRITICAL  |  <b style="color: red"> DEPT :
                             @if(isset($report_critical[0]))
-                                {{ $report_critical[0]->nama_departemen }} / {{ $bulan }}
+                                {{ $report_critical[0]->nama_departemen }}
                             @endif
                             </b>
                         </h3>
                     </div>
                 </div>
 
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
+                <table class='table table-bordered'>
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -136,6 +80,3 @@
 <!-- end row -->
 </div>
 <!-- end container-fluid -->
-@include('admin.footer')
-
-@endsection

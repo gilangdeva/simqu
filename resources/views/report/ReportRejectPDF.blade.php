@@ -1,44 +1,27 @@
-@extends('admin.header')
-@section('title', 'Report Reject - SIMQU')
-
-@section('content')
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <!-- container-fluid -->
 <div class="container-fluid">
     <!-- row -->
     <br>
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="white-box">
-                <div class="row">
-                    <form action="{{ route('report.reject') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                        <div class="col-sm-6">
-                            <select class="form-control select2" name="id_departemen" required>
-                                <option value="0">Pilih Departemen</option>
-                                @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
-                        <div class="col-sm-3">
-                            <button type="submit" name="action" value="submit" class="btn btn-primary waves-effect pull-right waves-light">Submit</button>
-                        </div>
+    <style>
+        td,
+        th {
+            font-size: 10.5pt;
+            border: 1px solid black;
+        }
 
-                        <div class="col-sm-3">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportRejectPDF" class="btn btn-primary" target="_blank">Export to PDF</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+        table {
+            border-collapse: collapse;
+        }
+
+    </style>
 
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div>
                         <h3 class="box-title">REPORT REKAPITULASI REJECT  |  <b style="color: red"> DEPT :
                             @if(isset($report_reject[0]))
                                 {{ $report_reject[0]->nama_departemen }} / {{ $tahun }}
@@ -48,7 +31,7 @@
                     </div>
                 </div>
 
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
+                <table class='table table-bordered'>
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -112,6 +95,3 @@
 <!-- end row -->
 </div>
 <!-- end container-fluid -->
-@include('admin.footer')
-
-@endsection
