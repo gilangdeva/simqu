@@ -21,7 +21,7 @@ class PeriodeController extends Controller
     // Menampilkan list periode
     public function PeriodeList(){
         // Get all data from database
-        $periode = PeriodeModel::orderBy('tgl_mulai_periode', 'ASC')->groupBy('tahun', 'id_periode')->get();
+        $periode = PeriodeModel::orderBy('urutan', 'ASC')->orderBy('minggu_ke', 'ASC')->groupBy('tahun', 'id_periode')->get();
         $jenis_user = session()->get('jenis_user');
 
         return view('admin.master.periode-list',[
@@ -53,6 +53,33 @@ class PeriodeController extends Controller
         $periode->minggu_ke = $request->minggu_ke;
         $periode->tgl_mulai_periode = $request->tgl_mulai_periode;
         $periode->tgl_akhir_periode = $request->tgl_akhir_periode;
+
+
+        if ($request->bulan =="Januari"){
+                $periode->urutan = "1";
+        } else if($request->bulan == "Februari"){
+                $periode->urutan = "2";
+        } else if($request->bulan == "Maret"){
+                $periode->urutan = "3";
+        } else if($request->bulan == "April"){
+                $periode->urutan = "4";
+        } else if($request->bulan == "Mei"){
+                $periode->urutan = "5";
+        } else if($request->bulan == "Juni"){
+                $periode->urutan = "6";
+        } else if($request->bulan == "Juli"){
+                $periode->urutan = "7";
+        } else if($request->bulan == "Agustus"){
+                $periode->urutan = "8";
+        } else if($request->bulan == "September"){
+                $periode->urutan = "9";
+        } else if($periode->bulan == "Oktober"){
+                $periode->urutan = "10";
+        } else if($periode->bulan == "November"){
+                $periode->urutan = "11";
+        } else if($periode->bulan == "Desember"){
+                $periode->urutan = "12";
+        }
 
         //Validasi data input
         if ($request->bulan == "0" || $request->minggu_ke == "0"){
