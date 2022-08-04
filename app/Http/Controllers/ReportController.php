@@ -241,6 +241,49 @@ class ReportController extends Controller
         ]);
     }
 
+        // menampilkan report qty defect
+        public function ReportQtyDefect(){
+            $bulan = 'Juni';
+            $tahun = date('Y', strtotime('+0 hours'));
+            $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+            $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+
+            if(isset($dept[0])){
+                $dept = $dept[0]->id_departemen;
+            } else {
+                $dept = 0;
+            }
+
+            $report_qty_defect_inline = DB::table('vw_rekap_defect')
+                                ->where('id_user', '=', session()->get('id_user'))
+                                ->where('id_departemen', '=', '169')
+                                ->where('bulan', '=', 'Juni')
+                                ->where('type_form', '=', 'Inline')
+                                ->get();
+
+            $report_qty_defect_final = DB::table('vw_rekap_defect')
+                                ->where('id_user', '=', session()->get('id_user'))
+                                ->where('id_departemen', '=', '169')
+                                ->where('bulan', '=', 'Juni')
+                                ->where('type_form', '=', 'Final')
+                                ->get();
+
+            $jenis_user = session()->get('jenis_user');
+
+            return view('report.report-qty-defect',
+            [
+                'menu'                      => 'laporan',
+                'sub'                       => '/report-qty-defect',
+                'departemen'                => $departemen,
+                'dept'                      => $dept,
+                'report_qty_defect_inline'  => $report_qty_defect_inline,
+                'report_qty_defect_final'   => $report_qty_defect_final,
+                'bulan'                     => $bulan,
+                'tahun'                     => $tahun,
+                'jenis_user'                => $jenis_user
+            ]);
+        }
+
 
     // menampilkan report temuan reject
     public function ReportReject(){
@@ -645,10 +688,97 @@ class ReportController extends Controller
                 'departemen'        => $departemen,
                 'report_reject'     => $report_reject,
                 'report_summary'    => $report_summary,
+                'bulan'             => $bulan,
                 'tahun'             => $tahun,
                 'jenis_user'        => $jenis_user
             ]);
             break;
         }
     }
+
+        // Fungsi filter Report qty defect
+        public function FilterReportQtyDefect(Request $request){
+            switch ($request->input('action')) {
+                case 'submit':
+                // Get value variable
+                $dept = $request->id_departemen;
+                // return back again list departemen
+                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+                $tahun = date('Y', strtotime('+0 hours'));
+                $bulan  = $request->bulan;
+
+                $report_qty_defect_inline = DB::table('vw_rekap_defect')
+                                        ->where('id_user', '=', session()->get('id_user'))
+                                        ->where('id_departemen', '=', '169')
+                                        ->where('bulan', '=', 'Juni')
+                                        ->where('type_form', '=', 'Inline')
+                                        ->get();
+
+                $report_qty_defect_final = DB::table('vw_rekap_defect')
+                                        ->where('id_user', '=', session()->get('id_user'))
+                                        ->where('id_departemen', '=', '169')
+                                        ->where('bulan', '=', 'Juni')
+                                        ->where('type_form', '=', 'Final')
+                                        ->get();
+
+                $jenis_user = session()->get('jenis_user');
+
+                return view('report.report-qty-defect',[
+                    'menu'                      => 'laporan',
+                    'dept'                      => $dept,
+                    'sub'                       => '/report-qty-defect',
+                    'departemen'                => $departemen,
+                    'report_qty_defect_inline'  => $report_qty_defect_inline,
+                    'report_qty_defect_final'   => $report_qty_defect_final,
+                    'bulan'                     => $bulan,
+                    'tahun'                     => $tahun,
+                    'jenis_user'                => $jenis_user
+                ]);
+                break;
+
+                case 'export_pdf':
+                // Get value variable
+                $dept = $request->id_departemen;
+                // return back again list departemen
+                $bulan = $request->bulan;
+                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+                $tahun = date('Y', strtotime('+0 hours'));
+
+                $report_qty_defect_inline = DB::table('vw_rekap_defect')
+                                        ->where('id_user', '=', session()->get('id_user'))
+                                        ->where('id_departemen', '=', '169')
+                                        ->where('bulan', '=', 'Juni')
+                                        ->where('type_form', '=', 'Inline')
+                                        ->get();
+
+                $report_qty_defect_final = DB::table('vw_rekap_defect')
+                                        ->where('id_user', '=', session()->get('id_user'))
+                                        ->where('id_departemen', '=', '169')
+                                        ->where('bulan', '=', 'Juni')
+                                        ->where('type_form', '=', 'Final')
+                                        ->get();
+
+                $jenis_user = session()->get('jenis_user');
+
+                $pdf = PDF::loadview('report.ReportQtyDefectPDF',[
+                    'report_qty_defect_inline'  => $report_qty_defect_inline,
+                    'report_qty_defect_final'   => $report_qty_defect_final,
+                    'tahun'                     => $tahun,
+                    'bulan'                     => $bulan
+                ]);
+                return $pdf->download('laporan-qty-defect.pdf');
+
+                return view('report.ReportQtyDefectPDF',[
+                    'menu'                      => 'laporan',
+                    'sub'                       => '/report-qty-defect',
+                    'departemen'                => $departemen,
+                    'report_qty_defect_inline'  => $report_qty_defect_inline,
+                    'report_qty_defect_final'   => $report_qty_defect_final,
+                    'bulan'                     => $bulan,
+                    'tahun'                     => $tahun,
+                    'jenis_user'                => $jenis_user
+                ]);
+                break;
+            }
+        }
 }

@@ -51,7 +51,7 @@
                                 </select>
                             @else
                                 <select type="text" class="form-control select2" name="shift" id="shift" required>
-                                    <option value="">Pilih Shift</option>
+                                    <option value="" selected>Pilih Shift</option>
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="C">C</option>

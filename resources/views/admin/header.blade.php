@@ -243,6 +243,7 @@
                             <li><a href="/report-inspeksi"><i class="mdi mdi-numeric fa-fw"></i> <span class="hide-menu">Total Inspeksi</span></a></li>
                             <li><a href="/report-critical"><i class="mdi mdi-magnify-minus-outline fa-fw"></i> <span class="hide-menu">Temuan Critical</span></a></li>
                             <li><a href="/report-reject"><i class="mdi mdi-basket-unfill fa-fw"></i> <span class="hide-menu">Rekap Reject</span></a></li>
+                            <li><a href="/report-qty-defect"><i class="mdi mdi-file-chart fa-fw"></i> <span class="hide-menu">Rekap Qty Defect</span></a></li>
                         </ul>
                     </li>
                 </ul>

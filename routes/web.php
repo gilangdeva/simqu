@@ -174,3 +174,8 @@ Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middlew
 Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');
 //Export PDF
 Route::get('/ReportRejectPDF', [ReportController::class, 'ReportRejectPDF'])->name('report.reject-pdf');
+
+Route::get('/report-qty-defect', [ReportController::class, 'ReportQtyDefect'])->middleware('auth.check');
+Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReportQtyDefect'])->name('report.qty_defect')->middleware('auth.check');
+//Export PDF
+Route::get('/ReportQtyDefectPDF', [ReportController::class, 'ReportQtyDefectPDF'])->name('report.qty-defect-pdf');
