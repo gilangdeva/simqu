@@ -179,3 +179,7 @@ Route::get('/report-qty-defect', [ReportController::class, 'ReportQtyDefect'])->
 Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReportQtyDefect'])->name('report.qty_defect')->middleware('auth.check');
 //Export PDF
 Route::get('/ReportQtyDefectPDF', [ReportController::class, 'ReportQtyDefectPDF'])->name('report.qty-defect-pdf');
+
+Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
+route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
+//EXPORT PDF
