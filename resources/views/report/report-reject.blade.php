@@ -108,10 +108,50 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="white-box">
+                <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <h3 class="box-title">Grafik Reject</h3>
+                    <ul class="list-inline text-right">
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Tot. Inspek</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Tot. Reject</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #fcc9ba;"></i>Tot. Critical</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #BB6464;"></i>Tot. Defect</h5> </li>
+                    </ul>
+                    <div>
+                        <div id="morris-reject"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- end row -->
 </div>
 <!-- end container-fluid -->
 @include('admin.footer')
+
+<script>
+    var graf_rej = @json(json_encode($graf_rej));
+
+    $(document).ready(function () {
+        // Morris Reject
+        Morris.Bar({
+            element: 'morris-reject',
+            data: JSON.parse(graf_rej),
+            xkey: 'bulan',
+            ykeys: ['qty_inspek', 'qty_reject', 'qty_critical', 'qty_defect'],
+            labels: ['T. Inspek', 'T. Reject', 'T. Critical', 'T. Defect'],
+            barColors:['#b8edf0', '#b4c1d7', '#fcc9ba', '#BB6464'],
+            hideHover: 'auto',
+            gridLineColor: '#eef0f2',
+            resize: true
+        });
+    });
+</script>
 
 @endsection

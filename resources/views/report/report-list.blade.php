@@ -123,13 +123,18 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-5">
             <div class="white-box">
              <div class="row">
-              <div class="col-sm-6 col-xs-12">
+              <div class="col-sm-12 col-xs-12">
                 <h3 class="box-title">Grafik Inspeksi Inline</h3>
+                <ul class="list-inline text-right">
+                    <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Minor</h5> </li>
+                    <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Major</h5> </li>
+                    <li><h5><i class="fa fa-circle m-r-5" style="color: #fcc9ba;"></i>Critical</h5> </li>
+                </ul>
                 <div>
-                    <div id="morris-bar-chart"></div>
+                    <div id="morris-inline"></div>
                 </div>
                 </div>
              </div>
@@ -204,18 +209,23 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-5">
            <div class="white-box">
-            <div class="row">
-              <div class="col-sm-6 col-xs-12">
-                <h3 class="box-title">Grafik Inspeksi Final</h3>
-                <div>
-                    <div id="morris-bar-chart"></div>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <h3 class="box-title">Grafik Inspeksi Final</h3>
+                        <ul class="list-inline text-right">
+                            <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Pass</h5> </li>
+                            <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Reject</h5> </li>
+                        </ul>
+                        <div>
+                            <div id="morris-final"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-</div>
+    </div>
 
     <div class="row">
         <div class="col-md-8">
@@ -287,38 +297,44 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-        <div class="col-md-8">
-           <div class="white-box">
-            <div class="row">
-              <div class="col-sm-6 col-xs-12">
-                <h3 class="box-title">Grafik Kriteria</h3>
-                <div>
-                    <div id="morris-bar-chart"></div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="white-box">
+                <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <h3 class="box-title">Grafik Kriteria</h3>
+                    <ul class="list-inline text-right">
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Minor</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Major</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #fcc9ba;"></i>Critical</h5> </li>
+                    </ul>
+                    <div>
+                        <div id="morris-kriteria"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-</div>
+    </div>
 <!-- end row -->
+</div>
 </div>
 <!-- end container-fluid -->
 @include('admin.footer')
 
 <script>
 
-    var bln = document.getElementById('bln').value;
-    var inl = document.getElementById('inl').value;
-    var fin = document.getElementById('fin').value;
+    var graf_inl = @json(json_encode($graf_inl));
+    var graf_fnl = @json(json_encode($graf_fnl));
+    var graf_krt = @json(json_encode($graf_krt));
 
     $(document).ready(function () {
 
-        // Morris Defect
+        // Morris Inline
         Morris.Bar({
-            element: 'morris-bar-chart',
-            data: JSON.parse(defect),
-            xkey: 'month',
+            element: 'morris-inline',
+            data: JSON.parse(graf_inl),
+            xkey: 'week',
             ykeys: ['minor', 'major', 'critical'],
             labels: ['Minor', 'Major', 'Critical'],
             barColors:['#b8edf0', '#b4c1d7', '#fcc9ba'],
@@ -327,24 +343,32 @@
             resize: true
         });
 
-         // Chartist Status
-        //  new Chartist.Line('.ct-sm-line-chart', {
-        //     labels: JSON.parse(bln),
-        //     series: [JSON.parse(inl), JSON.parse(fin)]
-        //     }, {
-        //     fullWidth: true,
+        // Morris Final
+        Morris.Bar({
+            element: 'morris-final',
+            data: JSON.parse(graf_fnl),
+            xkey: 'week',
+            ykeys: ['pass', 'reject'],
+            labels: ['Pass', 'Reject'],
+            barColors:['#b8edf0', '#b4c1d7'],
+            hideHover: 'auto',
+            gridLineColor: '#eef0f2',
+            resize: true
+        });
 
-        //     plugins: [
-        //         Chartist.plugins.tooltip()
-        //     ],
-        //     chartPadding: {
-        //         right: 40
-        //     }
-        // });
+        // Morris Keriteria
+        Morris.Bar({
+            element: 'morris-kriteria',
+            data: JSON.parse(graf_krt),
+            xkey: 'week',
+            ykeys: ['minor', 'major', 'critical'],
+            labels: ['Minor', 'Major', 'Critical'],
+            barColors:['#b8edf0', '#b4c1d7', '#fcc9ba'],
+            hideHover: 'auto',
+            gridLineColor: '#eef0f2',
+            resize: true
+        });
     });
-
-
-
 </script>
 
 @endsection

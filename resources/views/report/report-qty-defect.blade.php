@@ -61,10 +61,10 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-5">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-12 col-xs-12">
                         <h3 class="box-title">REPORT QTY DEFECT INLINE  |  <b style="color: red"> DEPT :
                             @if(isset($report_qty_defect_inline[0]))
                                 {{ $report_qty_defect_inline[0]->nama_departemen }} / {{ $bulan }}
@@ -78,7 +78,6 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Tahun</th>
                             <th>Nama Defect</th>
                             <th>Qty Defect</th>
                         </tr>
@@ -87,7 +86,6 @@
                         @foreach($report_qty_defect_inline as $rqdi)
                             <tr height="-10px;">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $rqdi->tahun }}</td>
                                 <td>{{ $rqdi->defect }}</td>
                                 <td>{{ $rqdi->qty }}</td>
                             </tr>
@@ -109,10 +107,10 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-5">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-12 col-xs-12">
                         <h3 class="box-title">REPORT QTY DEFECT FINAL  |  <b style="color: red"> DEPT :
                             @if(isset($report_qty_defect_final[0]))
                                 {{ $report_qty_defect_final[0]->nama_departemen }} / {{ $bulan }}
@@ -126,7 +124,6 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Tahun</th>
                             <th>Nama Defect</th>
                             <th>Qty Defect</th>
                         </tr>
@@ -135,7 +132,6 @@
                         @foreach($report_qty_defect_final as $rqdf)
                             <tr height="-10px;">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $rqdf->tahun }}</td>
                                 <td>{{ $rqdf->defect }}</td>
                                 <td>{{ $rqdf->qty }}</td>
                             </tr>

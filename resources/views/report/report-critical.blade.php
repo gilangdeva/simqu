@@ -20,11 +20,11 @@
                             @endif
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                @if(isset($id_departemen))
-                                    <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
-                                @else
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
-                                @endif
+                                    @if(isset($select_dept))
+                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -32,18 +32,18 @@
                         <div class="col-sm-4">
                             <select class="form-control select2" name="bulan" id="bulan">
                                 <option value="0">Pilih Bulan</option>
-                                <option value="Januari">JANUARI</option>
-                                <option value="Februari">FEBRUARI</option>
-                                <option value="Maret">MARET</option>
-                                <option value="April">APRIL</option>
-                                <option value="Mei">MEI</option>
-                                <option value="Juni">JUNI</option>
-                                <option value="Juli">JULI</option>
-                                <option value="Agustus">AGUSTUS</option>
-                                <option value="September">SEPTEMBER</option>
-                                <option value="Oktober">OKTOBER</option>
-                                <option value="November">NOVEMBER</option>
-                                <option value="Desember">DESEMBER</option>
+                                <option value="Januari" {{ old('bulan', $bulan) == "Januari" ? 'selected':''}}>JANUARI</option>
+                                <option value="Februari" {{ old('bulan', $bulan) == "Februari" ? 'selected':''}}>FEBRUARI</option>
+                                <option value="Maret" {{ old('bulan', $bulan) == "Maret" ? 'selected':''}}>MARET</option>
+                                <option value="April" {{ old('bulan', $bulan) == "April" ? 'selected':''}}>APRIL</option>
+                                <option value="Mei" {{ old('bulan', $bulan) == "Mei" ? 'selected':''}}>MEI</option>
+                                <option value="Juni" {{ old('bulan', $bulan) == "Juni" ? 'selected':''}}>JUNI</option>
+                                <option value="Juli" {{ old('bulan', $bulan) == "Juli" ? 'selected':''}}>JULI</option>
+                                <option value="Agustus" {{ old('bulan', $bulan) == "Agustus" ? 'selected':''}}>AGUSTUS</option>
+                                <option value="September" {{ old('bulan', $bulan) == "September" ? 'selected':''}}>SEPTEMBER</option>
+                                <option value="Oktober" {{ old('bulan', $bulan) == "Oktober" ? 'selected':''}}>OKTOBER</option>
+                                <option value="November" {{ old('bulan', $bulan) == "November" ? 'selected':''}}>NOVEMBER</option>
+                                <option value="Desember" {{ old('bulan', $bulan) == "Desember" ? 'selected':''}}>DESEMBER</option>
                             </select>
                         </div>
 
@@ -65,12 +65,10 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <h3 class="box-title">REPORT TEMUAN CRITICAL  |  <b style="color: red"> DEPT :
-                            @if(isset($report_critical[0]))
-                                {{ $report_critical[0]->nama_departemen }} / {{ $bulan }}
-                            @endif
-                            </b>
+                    @if(isset($n_dept))
+                        <h3 class="box-title">REPORT TEMUAN CRITICAL  |  <b style="color: red"> DEPT : {{ $n_dept }} / {{ $bulan }}</b>
                         </h3>
+                    @endif
                     </div>
                 </div>
 
@@ -132,10 +130,50 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-5">
+           <div class="white-box">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <h3 class="box-title">Grafik Critical</h3>
+                        <ul class="list-inline text-right">
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Minor</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Major</h5> </li>
+                        <li><h5><i class="fa fa-circle m-r-5" style="color: #fcc9ba;"></i>Critical</h5> </li>
+                        </ul>
+                        <div>
+                            <div id="morris-critical"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- end row -->
 </div>
 <!-- end container-fluid -->
 @include('admin.footer')
+
+<script>
+    var graf_crt = @json(json_encode($graf_crt));
+
+    $(document).ready(function () {
+        // Morris Final
+        Morris.Bar({
+            element: 'morris-critical',
+            data: JSON.parse(graf_crt),
+            xkey: 'week',
+            ykeys: ['qty_inspek', 'qty_reject', 'qty_defect'],
+            labels: ['Tot. Inspek', 'Tot. Reject', 'Tot. Defect'],
+            barColors:['#b8edf0', '#b4c1d7', '#fcc9ba'],
+            hideHover: 'auto',
+            gridLineColor: '#eef0f2',
+            resize: true
+        });
+    });
+</script>
 
 @endsection

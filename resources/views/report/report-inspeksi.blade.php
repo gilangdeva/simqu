@@ -124,10 +124,49 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-5">
+           <div class="white-box">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <h3 class="box-title">Grafik Total Inspeksi</h3>
+                        <ul class="list-inline text-right">
+                            <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Inline</h5> </li>
+                            <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Final</h5> </li>
+                        </ul>
+                        <div>
+                            <div id="morris-inspeksi"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- end row -->
 </div>
 <!-- end container-fluid -->
 @include('admin.footer')
+
+<script>
+    var graf_ins = @json(json_encode($graf_ins));
+
+    $(document).ready(function () {
+        // Morris Final
+        Morris.Bar({
+            element: 'morris-inspeksi',
+            data: JSON.parse(graf_ins),
+            xkey: 'week',
+            ykeys: ['inline', 'final'],
+            labels: ['Inline', 'Final'],
+            barColors:['#b8edf0', '#b4c1d7'],
+            hideHover: 'auto',
+            gridLineColor: '#eef0f2',
+            resize: true
+        });
+    });
+</script>
 
 @endsection

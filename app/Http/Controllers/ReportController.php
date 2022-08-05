@@ -76,6 +76,10 @@ class ReportController extends Controller
         $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
         $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
+        $graf_inl = DB::select("SELECT 'Minggu - ' || minggu_ke as week, minor, major, critical FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
+        $graf_fnl = DB::select("SELECT 'Minggu - ' || minggu_ke as week, pass, reject FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+        $graf_krt = DB::select("SELECT 'Minggu - ' || minggu_ke as week, minor, major, critical FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+
         if(isset($total_inl)){
             $total_inl = $total_inl[0]->total_inl;
         }
@@ -101,7 +105,10 @@ class ReportController extends Controller
             'total_fnl'         => $total_fnl,
             'total_krt'         => $total_krt,
             'bulan'             => $bulan,
-            'jenis_user'        => $jenis_user
+            'jenis_user'        => $jenis_user,
+            'graf_inl'          => $graf_inl,
+            'graf_fnl'          => $graf_fnl,
+            'graf_krt'          => $graf_krt
         ]);
     }
 
@@ -162,6 +169,9 @@ class ReportController extends Controller
 
         $jenis_user = session()->get('jenis_user');
 
+        //Grafik
+        $graf_ins = DB::select("SELECT 'Minggu - ' || minggu_ke as week, inline, final FROM report_total_inspeksi WHERE id_user =".session()->get('id_user'));
+
         return view('report.report-inspeksi',[
             'menu'              => 'laporan',
             'sub'               => '/report-inspeksi',
@@ -169,7 +179,8 @@ class ReportController extends Controller
             'report_inspeksi'   => $report_inspeksi,
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
-            'jenis_user'        => $jenis_user
+            'jenis_user'        => $jenis_user,
+            'graf_ins'          => $graf_ins
         ]);
     }
 
@@ -179,11 +190,18 @@ class ReportController extends Controller
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+        
 
         if(isset($dept[0])){
             $dept = $dept[0]->id_departemen;
         } else {
             $dept = 0;
+        }
+
+        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
+        // Get nama departemen terbanyak
+        if(isset($n_dept)){
+            $n_dept = $n_dept[0]->nama_departemen;
         }
 
         if ($bulan == '01') {
@@ -230,60 +248,22 @@ class ReportController extends Controller
 
         $jenis_user = session()->get('jenis_user');
 
+        //Grafik
+        $graf_crt = DB::select("SELECT 'Minggu - ' || minggu_ke as week, qty_inspek, qty_reject, qty_defect FROM report_rekap_critical WHERE id_user =".session()->get('id_user'));
+
         return view('report.report-critical',[
             'menu'              => 'laporan',
             'sub'               => '/report-critical',
             'departemen'        => $departemen,
+            'select_dept'       => $dept,
+            'n_dept'            => $n_dept,
             'report_critical'   => $report_critical,
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
-            'jenis_user'        => $jenis_user
+            'jenis_user'        => $jenis_user,
+            'graf_crt'          => $graf_crt
         ]);
     }
-
-        // menampilkan report qty defect
-        public function ReportQtyDefect(){
-            $bulan = 'Juni';
-            $tahun = date('Y', strtotime('+0 hours'));
-            $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-            $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
-
-            if(isset($dept[0])){
-                $dept = $dept[0]->id_departemen;
-            } else {
-                $dept = 0;
-            }
-
-            $report_qty_defect_inline = DB::table('vw_rekap_defect')
-                                ->where('id_user', '=', session()->get('id_user'))
-                                ->where('id_departemen', '=', '169')
-                                ->where('bulan', '=', 'Juni')
-                                ->where('type_form', '=', 'Inline')
-                                ->get();
-
-            $report_qty_defect_final = DB::table('vw_rekap_defect')
-                                ->where('id_user', '=', session()->get('id_user'))
-                                ->where('id_departemen', '=', '169')
-                                ->where('bulan', '=', 'Juni')
-                                ->where('type_form', '=', 'Final')
-                                ->get();
-
-            $jenis_user = session()->get('jenis_user');
-
-            return view('report.report-qty-defect',
-            [
-                'menu'                      => 'laporan',
-                'sub'                       => '/report-qty-defect',
-                'departemen'                => $departemen,
-                'dept'                      => $dept,
-                'report_qty_defect_inline'  => $report_qty_defect_inline,
-                'report_qty_defect_final'   => $report_qty_defect_final,
-                'bulan'                     => $bulan,
-                'tahun'                     => $tahun,
-                'jenis_user'                => $jenis_user
-            ]);
-        }
-
 
     // menampilkan report temuan reject
     public function ReportReject(){
@@ -315,6 +295,9 @@ class ReportController extends Controller
 
         $jenis_user = session()->get('jenis_user');
 
+        //Grafik
+        $graf_rej = DB::select("SELECT bulan, sum(qty_inspek) as qty_inspek , sum(qty_reject) as qty_reject, sum(qty_critical) as qty_critical, sum(qty_defect) as qty_defect FROM report_rekap_reject WHERE id_user =".session()->get('id_user')." GROUP BY bulan");
+
         return view('report.report-reject',[
             'menu'              => 'laporan',
             'sub'               => '/report-reject',
@@ -322,7 +305,78 @@ class ReportController extends Controller
             'report_reject'     => $report_reject,
             'report_summary'    => $report_summary,
             'tahun'             => $tahun,
-            'jenis_user'        => $jenis_user
+            'jenis_user'        => $jenis_user,
+            'graf_rej'          => $graf_rej
+
+        ]);
+    }
+
+    // menampilkan report qty defect
+    public function ReportQtyDefect(){
+        $bulan = date('m', strtotime('+0 hours'));
+        $tahun = date('Y', strtotime('+0 hours'));
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+
+        if(isset($dept[0])){
+            $dept = $dept[0]->id_departemen;
+        } else {
+            $dept = 0;
+        }
+
+        if ($bulan == '01') {
+            $bulan = 'Januari';
+        } else if ($bulan == '02'){
+            $bulan = 'Februari';
+        } else if ($bulan == '03'){
+            $bulan = 'Maret';
+        } else if ($bulan == '04'){
+            $bulan = 'April';
+        } else if ($bulan == '05'){
+            $bulan = 'Mei';
+        } else if ($bulan == '06'){
+            $bulan = 'Juni';
+        } else if ($bulan == '07'){
+            $bulan = 'Juli';
+        } else if ($bulan == '08'){
+            $bulan = 'Agustus';
+        } else if ($bulan == '09'){
+            $bulan = 'September';
+        } else if ($bulan == '10'){
+            $bulan = 'Oktober';
+        } else if ($bulan == '11'){
+            $bulan = 'November';
+        } else if ($bulan == '12'){
+            $bulan = 'Desember';
+        }
+
+        $report_qty_defect_inline = DB::table('vw_rekap_defect')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->where('id_departemen', '=', $dept)
+                            ->where('bulan', '=', $bulan)
+                            ->where('type_form', '=', 'Inline')
+                            ->get();
+
+        $report_qty_defect_final = DB::table('vw_rekap_defect')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->where('id_departemen', '=', $dept)
+                            ->where('bulan', '=', $bulan)
+                            ->where('type_form', '=', 'Final')
+                            ->get();
+
+        $jenis_user = session()->get('jenis_user');
+
+        return view('report.report-qty-defect',
+        [
+            'menu'                      => 'laporan',
+            'sub'                       => '/report-qty-defect',
+            'departemen'                => $departemen,
+            'dept'                      => $dept,
+            'report_qty_defect_inline'  => $report_qty_defect_inline,
+            'report_qty_defect_final'   => $report_qty_defect_final,
+            'bulan'                     => $bulan,
+            'tahun'                     => $tahun,
+            'jenis_user'                => $jenis_user
         ]);
     }
 
@@ -330,108 +384,116 @@ class ReportController extends Controller
     public function FilterReportDefect(Request $request){
         switch ($request->input('action')) {
             case 'submit':
-            // Get value variable
-            $id_dept = $request->id_departemen;
-            // return back again list departemen
-            $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-            $bulan = $request->bulan;
-            $tahun = date('Y', strtotime('+0 hours'));
+                // Get value variable
+                $id_dept = $request->id_departemen;
+                // return back again list departemen
+                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+                $bulan = $request->bulan;
+                $tahun = date('Y', strtotime('+0 hours'));
 
-            // Call Function / Stored Procedure
-            $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
-            $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
-            $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                // Call Function / Stored Procedure
+                $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
 
-            //Get value total
-            $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
-            $total_fnl = DB::select("SELECT sum(total) as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
-            $total_krt = DB::select("SELECT sum(total) as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+                //Get value total
+                $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
+                $total_fnl = DB::select("SELECT sum(total) as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+                $total_krt = DB::select("SELECT sum(total) as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
-            $total_inl = $total_inl[0]->total_inline;
-            $total_fnl = $total_fnl[0]->total_final;
-            $total_krt = $total_krt[0]->total_temuan;
+                $total_inl = $total_inl[0]->total_inline;
+                $total_fnl = $total_fnl[0]->total_final;
+                $total_krt = $total_krt[0]->total_temuan;
 
+                // select data from table report
+                $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
+                $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+                $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
-            // select data from table report
-            $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
-            $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
-            $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+                //Grafik
+                $graf_inl = DB::select("SELECT 'Minggu - ' || minggu_ke as week, minor, major, critical FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
+                $graf_fnl = DB::select("SELECT 'Minggu - ' || minggu_ke as week, pass, reject FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+                $graf_krt = DB::select("SELECT 'Minggu - ' || minggu_ke as week, minor, major, critical FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
-            $jenis_user = session()->get('jenis_user');
+                $jenis_user = session()->get('jenis_user');
 
-            return view('report.report-list',[
-                'menu'              => 'laporan',
-                'sub'               => '/report-defect',
-                'departemen'        => $departemen,
-                'report_inline'     => $report_inline,
-                'report_final'      => $report_final,
-                'report_kriteria'   => $report_kriteria,
-                'total_inl'         => $total_inl,
-                'total_fnl'         => $total_fnl,
-                'total_krt'         => $total_krt,
-                'bulan'             => $bulan,
-                'jenis_user'        => $jenis_user
-            ]);
+                return view('report.report-list',[
+                    'menu'              => 'laporan',
+                    'sub'               => '/report-defect',
+                    'departemen'        => $departemen,
+                    'report_inline'     => $report_inline,
+                    'report_final'      => $report_final,
+                    'report_kriteria'   => $report_kriteria,
+                    'total_inl'         => $total_inl,
+                    'total_fnl'         => $total_fnl,
+                    'total_krt'         => $total_krt,
+                    'bulan'             => $bulan,
+                    'jenis_user'        => $jenis_user,
+                    'graf_inl'          => $graf_inl,
+                    'graf_fnl'          => $graf_fnl,
+                    'graf_krt'          => $graf_krt
+                ]);
+                
             break;
 
             case 'export_pdf':
-            // Get value variable
-            $id_dept = $request->id_departemen;
-            // return back again list departemen
-            $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-            $bulan = $request->bulan;
-            $tahun = date('Y', strtotime('+0 hours'));
+                // Get value variable
+                $id_dept = $request->id_departemen;
+                // return back again list departemen
+                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+                $bulan = $request->bulan;
+                $tahun = date('Y', strtotime('+0 hours'));
 
-            // Call Function / Stored Procedure
-            $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
-            $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
-            $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                // Call Function / Stored Procedure
+                $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
 
-            //Get value total
-            $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
-            $total_fnl = DB::select("SELECT sum(total) as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
-            $total_krt = DB::select("SELECT sum(total) as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+                //Get value total
+                $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
+                $total_fnl = DB::select("SELECT sum(total) as total_final FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+                $total_krt = DB::select("SELECT sum(total) as total_temuan FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
-            $total_inl = $total_inl[0]->total_inline;
-            $total_fnl = $total_fnl[0]->total_final;
-            $total_krt = $total_krt[0]->total_temuan;
+                $total_inl = $total_inl[0]->total_inline;
+                $total_fnl = $total_fnl[0]->total_final;
+                $total_krt = $total_krt[0]->total_temuan;
 
 
-            // select data from table report
-            $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
-            $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
-            $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
+                // select data from table report
+                $report_inline = DB::select("SELECT * FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
+                $report_final = DB::select("SELECT * FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
+                $report_kriteria = DB::select("SELECT * FROM report_rekap_kriteria WHERE id_user =".session()->get('id_user'));
 
-            $jenis_user = session()->get('jenis_user');
+                $jenis_user = session()->get('jenis_user');
 
-            $pdf = PDF::loadview('report.ReportDefectPDF',[
-                'report_inl'        => $report_inl,
-                'report_fin'        => $report_fin,
-                'report_krt'        => $report_krt,
-                'total_inl'         => $total_inl,
-                'total_fnl'         => $total_fnl,
-                'total_krt'         => $total_krt,
-                'report_inline'     => $report_inline,
-                'report_final'      => $report_final,
-                'report_kriteria'   => $report_kriteria,
-                'bulan'             => $bulan,
-                'tahun'             => $tahun
-            ]);
-            return $pdf->download('laporan-defect.pdf');
+                $pdf = PDF::loadview('report.ReportDefectPDF',[
+                    'report_inl'        => $report_inl,
+                    'report_fin'        => $report_fin,
+                    'report_krt'        => $report_krt,
+                    'total_inl'         => $total_inl,
+                    'total_fnl'         => $total_fnl,
+                    'total_krt'         => $total_krt,
+                    'report_inline'     => $report_inline,
+                    'report_final'      => $report_final,
+                    'report_kriteria'   => $report_kriteria,
+                    'bulan'             => $bulan,
+                    'tahun'             => $tahun
+                ]);
+                return $pdf->download('laporan-defect.pdf');
 
-            return view('report.report-list',[
-                'menu'              => 'laporan',
-                'sub'               => '/report-defect',
-                'departemen'        => $departemen,
-                'report_inline'     => $report_inline,
-                'report_final'      => $report_final,
-                'report_kriteria'   => $report_kriteria,
-                'total_inl'         => $total_inl,
-                'total_fnl'         => $total_fnl,
-                'total_krt'         => $total_krt,
-                'bulan'             => $bulan,
-                'jenis_user'        => $jenis_user
-            ]);
+                return view('report.report-list',[
+                    'menu'              => 'laporan',
+                    'sub'               => '/report-defect',
+                    'departemen'        => $departemen,
+                    'report_inline'     => $report_inline,
+                    'report_final'      => $report_final,
+                    'report_kriteria'   => $report_kriteria,
+                    'total_inl'         => $total_inl,
+                    'total_fnl'         => $total_fnl,
+                    'total_krt'         => $total_krt,
+                    'bulan'             => $bulan,
+                    'jenis_user'        => $jenis_user
+                ]);
             break;
         }
 
@@ -466,6 +528,9 @@ class ReportController extends Controller
 
             $jenis_user = session()->get('jenis_user');
 
+            //Grafik
+            $graf_ins = DB::select("SELECT 'Minggu - ' || minggu_ke as week, inline, final FROM report_total_inspeksi WHERE id_user =".session()->get('id_user'));
+
             return view('report.report-inspeksi',[
                 'menu'              => 'laporan',
                 'sub'               => '/report-inspeksi',
@@ -473,7 +538,8 @@ class ReportController extends Controller
                 'report_inspeksi'   => $report_inspeksi,
                 'report_summary'    => $report_summary,
                 'bulan'             => $bulan,
-                'jenis_user'        => $jenis_user
+                'jenis_user'        => $jenis_user,
+                'graf_ins'          => $graf_ins
             ]);
             break;
 
@@ -528,40 +594,45 @@ class ReportController extends Controller
     public function FilterReportCritical(Request $request){
         switch ($request->input('action')) {
             case 'submit':
-            // Get value variable
-            $dept = $request->id_departemen;
-            // return back again list departemen
-            $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-            $bulan = $request->bulan;
-            $tahun = date('Y', strtotime('+0 hours'));
+                // Get value variable
+                $dept = $request->id_departemen;
+                // return back again list departemen
+                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+                $bulan = $request->bulan;
+                $tahun = date('Y', strtotime('+0 hours'));
 
-            $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
-            $report_critical = DB::table('report_rekap_critical')
-                                ->where('id_user', '=', session()->get('id_user'))
-                                ->get();
+                $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+                $report_critical = DB::table('report_rekap_critical')
+                                    ->where('id_user', '=', session()->get('id_user'))
+                                    ->get();
 
-            $report_summary = DB::table('report_rekap_critical')
-                                ->select('id_departemen',
-                                         'nama_departemen',
-                                         DB::raw('sum(qty_inspek) as qty_inspek'),
-                                         DB::raw('sum(qty_reject) as qty_reject'),
-                                         DB::raw('sum(qty_critical) as qty_critical'),
-                                         DB::raw('sum(qty_defect) as qty_defect'))
-                                ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
-                                ->groupBy('id_departemen','nama_departemen')
-                                ->get();
+                $report_summary = DB::table('report_rekap_critical')
+                                    ->select('id_departemen',
+                                            'nama_departemen',
+                                            DB::raw('sum(qty_inspek) as qty_inspek'),
+                                            DB::raw('sum(qty_reject) as qty_reject'),
+                                            DB::raw('sum(qty_critical) as qty_critical'),
+                                            DB::raw('sum(qty_defect) as qty_defect'))
+                                    ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                                    ->groupBy('id_departemen','nama_departemen')
+                                    ->get();
 
-            $jenis_user = session()->get('jenis_user');
+                $jenis_user = session()->get('jenis_user');
 
-            return view('report.report-critical',[
-                'menu'              => 'laporan',
-                'sub'               => '/report-critical',
-                'departemen'        => $departemen,
-                'report_critical'   => $report_critical,
-                'report_summary'    => $report_summary,
-                'bulan'             => $bulan,
-                'jenis_user'        => $jenis_user
-            ]);
+                //Grafik
+                $graf_crt = DB::select("SELECT 'Minggu - ' || minggu_ke as week, qty_inspek, qty_reject, qty_defect FROM report_rekap_critical WHERE id_user =".session()->get('id_user'));
+
+                return view('report.report-critical',[
+                    'menu'              => 'laporan',
+                    'sub'               => '/report-critical',
+                    'departemen'        => $departemen,
+                    'select_dept'       => $dept,
+                    'report_critical'   => $report_critical,
+                    'report_summary'    => $report_summary,
+                    'bulan'             => $bulan,
+                    'jenis_user'        => $jenis_user,
+                    'graf_crt'          => $graf_crt
+                ]);
             break;
 
             case 'export_pdf':
@@ -639,6 +710,9 @@ class ReportController extends Controller
 
             $jenis_user = session()->get('jenis_user');
 
+            //Grafik
+            $graf_rej = DB::select("SELECT bulan, sum(qty_inspek) as qty_inspek , sum(qty_reject) as qty_reject, sum(qty_critical) as qty_critical, sum(qty_defect) as qty_defect FROM report_rekap_reject WHERE id_user =".session()->get('id_user')." GROUP BY bulan");
+
             return view('report.report-reject',[
                 'menu'              => 'laporan',
                 'sub'               => '/report-reject',
@@ -646,7 +720,8 @@ class ReportController extends Controller
                 'report_reject'     => $report_reject,
                 'report_summary'    => $report_summary,
                 'tahun'             => $tahun,
-                'jenis_user'        => $jenis_user
+                'jenis_user'        => $jenis_user,
+                'graf_rej'          => $graf_rej
             ]);
             break;
 
@@ -696,10 +771,10 @@ class ReportController extends Controller
         }
     }
 
-        // Fungsi filter Report qty defect
-        public function FilterReportQtyDefect(Request $request){
-            switch ($request->input('action')) {
-                case 'submit':
+    // Fungsi filter Report qty defect
+    public function FilterReportQtyDefect(Request $request){
+        switch ($request->input('action')) {
+            case 'submit':
                 // Get value variable
                 $dept = $request->id_departemen;
                 // return back again list departemen
@@ -709,15 +784,15 @@ class ReportController extends Controller
 
                 $report_qty_defect_inline = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', '169')
-                                        ->where('bulan', '=', 'Juni')
+                                        ->where('id_departemen', '=', $dept)
+                                        ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Inline')
                                         ->get();
 
                 $report_qty_defect_final = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', '169')
-                                        ->where('bulan', '=', 'Juni')
+                                        ->where('id_departemen', '=', $dept)
+                                        ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Final')
                                         ->get();
 
@@ -725,8 +800,8 @@ class ReportController extends Controller
 
                 return view('report.report-qty-defect',[
                     'menu'                      => 'laporan',
-                    'dept'                      => $dept,
                     'sub'                       => '/report-qty-defect',
+                    'dept'                      => $dept,
                     'departemen'                => $departemen,
                     'report_qty_defect_inline'  => $report_qty_defect_inline,
                     'report_qty_defect_final'   => $report_qty_defect_final,
@@ -734,9 +809,9 @@ class ReportController extends Controller
                     'tahun'                     => $tahun,
                     'jenis_user'                => $jenis_user
                 ]);
-                break;
+            break;
 
-                case 'export_pdf':
+            case 'export_pdf':
                 // Get value variable
                 $dept = $request->id_departemen;
                 // return back again list departemen
@@ -746,15 +821,15 @@ class ReportController extends Controller
 
                 $report_qty_defect_inline = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', '169')
-                                        ->where('bulan', '=', 'Juni')
+                                        ->where('id_departemen', '=', $dept)
+                                        ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Inline')
                                         ->get();
 
                 $report_qty_defect_final = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', '169')
-                                        ->where('bulan', '=', 'Juni')
+                                        ->where('id_departemen', '=', $dept)
+                                        ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Final')
                                         ->get();
 
@@ -778,7 +853,7 @@ class ReportController extends Controller
                     'tahun'                     => $tahun,
                     'jenis_user'                => $jenis_user
                 ]);
-                break;
-            }
+            break;
         }
+    }
 }

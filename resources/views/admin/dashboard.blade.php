@@ -11,7 +11,7 @@
 
         <div class="col-lg-12 col-sm-6 col-xs-12">
             <div class="white-box">
-                <h3 class="box-title">#Grafik Defect Tahun {{ date('Y') }}</h3>
+                <h3 class="box-title">Grafik Defect Tahun {{ date('Y') }}</h3>
                 <ul class="list-inline text-right">
                     <li><h5><i class="fa fa-circle m-r-5" style="color: #b8edf0;"></i>Minor</h5> </li>
                     <li><h5><i class="fa fa-circle m-r-5" style="color: #b4c1d7;"></i>Major</h5> </li>
@@ -25,7 +25,7 @@
 
         <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="white-box">
-                <h3 class="box-title">#TOT. INSPEKSI THN {{ date('Y') }}</h3>
+                <h3 class="box-title">TOT. INSPEKSI THN {{ date('Y') }}</h3>
                 <ul class="list-inline two-part">
                     <li><i class="mdi mdi-marker-check text-success"></i></li>
                     <li class="text-right">
