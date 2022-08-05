@@ -13,28 +13,37 @@
                 <div class="row">
                     <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
                         <div class="col-sm-4">
-                            <select class="form-control select2" name="id_departemen" required>
+                            @if(isset($id_departemen))
+                            <select class="form-control select2" name="id_departemen" id="id_departemen">
+                            @else
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" required>
+                            @endif
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @if(isset($select_dept))
+                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="col-sm-4">
                             <select class="form-control select2" name="bulan" id="bulan">
                                 <option value="0">Pilih Bulan</option>
-                                <option value="Januari">JANUARI</option>
-                                <option value="Februari">FEBRUARI</option>
-                                <option value="Maret">MARET</option>
-                                <option value="April">APRIL</option>
-                                <option value="Mei">MEI</option>
-                                <option value="Juni">JUNI</option>
-                                <option value="Juli">JULI</option>
-                                <option value="Agustus">AGUSTUS</option>
-                                <option value="September">SEPTEMBER</option>
-                                <option value="Oktober">OKTOBER</option>
-                                <option value="November">NOVEMBER</option>
-                                <option value="Desember">DESEMBER</option>
+                                <option value="Januari" {{ old('bulan', $bulan) == "Januari" ? 'selected':''}}>JANUARI</option>
+                                <option value="Februari" {{ old('bulan', $bulan) == "Februari" ? 'selected':''}}>FEBRUARI</option>
+                                <option value="Maret" {{ old('bulan', $bulan) == "Maret" ? 'selected':''}}>MARET</option>
+                                <option value="April" {{ old('bulan', $bulan) == "April" ? 'selected':''}}>APRIL</option>
+                                <option value="Mei" {{ old('bulan', $bulan) == "Mei" ? 'selected':''}}>MEI</option>
+                                <option value="Juni" {{ old('bulan', $bulan) == "Juni" ? 'selected':''}}>JUNI</option>
+                                <option value="Juli" {{ old('bulan', $bulan) == "Juli" ? 'selected':''}}>JULI</option>
+                                <option value="Agustus" {{ old('bulan', $bulan) == "Agustus" ? 'selected':''}}>AGUSTUS</option>
+                                <option value="September" {{ old('bulan', $bulan) == "September" ? 'selected':''}}>SEPTEMBER</option>
+                                <option value="Oktober" {{ old('bulan', $bulan) == "Oktober" ? 'selected':''}}>OKTOBER</option>
+                                <option value="November" {{ old('bulan', $bulan) == "November" ? 'selected':''}}>NOVEMBER</option>
+                                <option value="Desember" {{ old('bulan', $bulan) == "Desember" ? 'selected':''}}>DESEMBER</option>
                             </select>
                         </div>
                         <div class="col-sm-2">

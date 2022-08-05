@@ -108,7 +108,8 @@ class ReportController extends Controller
             'jenis_user'        => $jenis_user,
             'graf_inl'          => $graf_inl,
             'graf_fnl'          => $graf_fnl,
-            'graf_krt'          => $graf_krt
+            'graf_krt'          => $graf_krt,
+            'select_dept'       => $dept,
         ]);
     }
 
@@ -123,6 +124,12 @@ class ReportController extends Controller
             $dept = $dept[0]->id_departemen;
         } else {
             $dept = 0;
+        }
+
+        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
+        // Get nama departemen terbanyak
+        if(isset($n_dept)){
+            $n_dept = $n_dept[0]->nama_departemen;
         }
 
         if ($bulan == '01') {
@@ -179,8 +186,10 @@ class ReportController extends Controller
             'report_inspeksi'   => $report_inspeksi,
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
+            'n_dept'            => $n_dept,
             'jenis_user'        => $jenis_user,
-            'graf_ins'          => $graf_ins
+            'graf_ins'          => $graf_ins,
+            'select_dept'       => $dept,
         ]);
     }
 
@@ -190,7 +199,6 @@ class ReportController extends Controller
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
-        
 
         if(isset($dept[0])){
             $dept = $dept[0]->id_departemen;
@@ -277,6 +285,12 @@ class ReportController extends Controller
             $dept = 0;
         }
 
+        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
+        // Get nama departemen terbanyak
+        if(isset($n_dept)){
+            $n_dept = $n_dept[0]->nama_departemen;
+        }
+
         $call_sp = DB::select("SELECT * FROM sp_report_reject('".$tahun."', '".$dept."', '".session()->get('id_user')."')");
         $report_reject = DB::table('report_rekap_reject')
                             ->where('id_user', '=', session()->get('id_user'))
@@ -306,7 +320,9 @@ class ReportController extends Controller
             'report_summary'    => $report_summary,
             'tahun'             => $tahun,
             'jenis_user'        => $jenis_user,
-            'graf_rej'          => $graf_rej
+            'graf_rej'          => $graf_rej,
+            'n_dept'            => $n_dept,
+            'select_dept'       => $dept,
 
         ]);
     }
@@ -322,6 +338,12 @@ class ReportController extends Controller
             $dept = $dept[0]->id_departemen;
         } else {
             $dept = 0;
+        }
+
+        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
+        // Get nama departemen terbanyak
+        if(isset($n_dept)){
+            $n_dept = $n_dept[0]->nama_departemen;
         }
 
         if ($bulan == '01') {
@@ -375,6 +397,28 @@ class ReportController extends Controller
             'report_qty_defect_inline'  => $report_qty_defect_inline,
             'report_qty_defect_final'   => $report_qty_defect_final,
             'bulan'                     => $bulan,
+            'tahun'                     => $tahun,
+            'jenis_user'                => $jenis_user,
+            'n_dept'                    => $n_dept,
+            'select_dept'               => $dept,
+        ]);
+    }
+
+    // menampilkan report historical by jop
+    public function ReportJop(){
+        $tahun = date('Y', strtotime('+0 hours'));
+
+        $report_jop = DB::table('vw_rekap_defect_by_jop')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+
+        $jenis_user = session()->get('jenis_user');
+
+        return view('report.report-historical-jop',
+        [
+            'menu'                      => 'laporan',
+            'sub'                       => '/report-historical-jop',
+            'report_jop'                => $report_jop,
             'tahun'                     => $tahun,
             'jenis_user'                => $jenis_user
         ]);
@@ -431,9 +475,9 @@ class ReportController extends Controller
                     'jenis_user'        => $jenis_user,
                     'graf_inl'          => $graf_inl,
                     'graf_fnl'          => $graf_fnl,
-                    'graf_krt'          => $graf_krt
+                    'graf_krt'          => $graf_krt,
                 ]);
-                
+
             break;
 
             case 'export_pdf':
@@ -539,7 +583,8 @@ class ReportController extends Controller
                 'report_summary'    => $report_summary,
                 'bulan'             => $bulan,
                 'jenis_user'        => $jenis_user,
-                'graf_ins'          => $graf_ins
+                'graf_ins'          => $graf_ins,
+                'select_dept'       => $dept,
             ]);
             break;
 
@@ -583,7 +628,8 @@ class ReportController extends Controller
                 'report_inspeksi'   => $report_inspeksi,
                 'report_summary'    => $report_summary,
                 'bulan'             => $bulan,
-                'jenis_user'        => $jenis_user
+                'jenis_user'        => $jenis_user,
+                'select_dept'       => $dept
             ]);
             break;
         }
@@ -631,7 +677,8 @@ class ReportController extends Controller
                     'report_summary'    => $report_summary,
                     'bulan'             => $bulan,
                     'jenis_user'        => $jenis_user,
-                    'graf_crt'          => $graf_crt
+                    'graf_crt'          => $graf_crt,
+                    'select_dept'       => $dept,
                 ]);
             break;
 
@@ -676,7 +723,8 @@ class ReportController extends Controller
                 'report_critical'   => $report_critical,
                 'report_summary'    => $report_summary,
                 'bulan'             => $bulan,
-                'jenis_user'        => $jenis_user
+                'jenis_user'        => $jenis_user,
+                'select_dept'       => $dept,
             ]);
             break;
         }
@@ -721,7 +769,8 @@ class ReportController extends Controller
                 'report_summary'    => $report_summary,
                 'tahun'             => $tahun,
                 'jenis_user'        => $jenis_user,
-                'graf_rej'          => $graf_rej
+                'graf_rej'          => $graf_rej,
+                'select_dept'       => $dept,
             ]);
             break;
 
@@ -765,7 +814,8 @@ class ReportController extends Controller
                 'report_summary'    => $report_summary,
                 'bulan'             => $bulan,
                 'tahun'             => $tahun,
-                'jenis_user'        => $jenis_user
+                'jenis_user'        => $jenis_user,
+                'select_dept'       => $dept,
             ]);
             break;
         }
@@ -807,7 +857,8 @@ class ReportController extends Controller
                     'report_qty_defect_final'   => $report_qty_defect_final,
                     'bulan'                     => $bulan,
                     'tahun'                     => $tahun,
-                    'jenis_user'                => $jenis_user
+                    'jenis_user'                => $jenis_user,
+                    'select_dept'               => $dept,
                 ]);
             break;
 
@@ -851,9 +902,37 @@ class ReportController extends Controller
                     'report_qty_defect_final'   => $report_qty_defect_final,
                     'bulan'                     => $bulan,
                     'tahun'                     => $tahun,
-                    'jenis_user'                => $jenis_user
+                    'jenis_user'                => $jenis_user,
+                    'select_dept'               => $dept,
                 ]);
             break;
         }
+    }
+
+    //Fungsi Filter Historical JOP
+    public function FilterReportJop(Request $request){
+            $text_search    = strtoupper($request->text_search);
+            $jenis_user     = session()->get('jenis_user');
+
+                if (isset($text_search)) {
+                    $report_jop = DB::table('vw_rekap_defect_by_jop')
+                        ->where('jop', 'like', "%".$text_search."%")
+                        ->orWhere('item', 'like', "%".$text_search."%")
+                        ->get();
+                } else {
+                    $report_jop = DB::table('vw_rekap_defect_by_jop')
+                    ->where('id_user', '=', session()->get('id_user'))
+                    ->get();
+                }
+
+            return view('report.report-historical-jop',
+            [
+                'report_jop'   => $report_jop,
+                'menu'          => 'report',
+                'text_search'    => $text_search,
+                'sub'           => '/report-historical-jop',
+                'jenis_user'    => $jenis_user
+            ]);
+
     }
 }

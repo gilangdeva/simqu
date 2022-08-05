@@ -13,10 +13,18 @@
                 <div class="row">
                     <form action="{{ route('report.reject') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
                         <div class="col-sm-6">
-                            <select class="form-control select2" name="id_departemen" required>
+                            @if(isset($id_departemen))
+                            <select class="form-control select2" name="id_departemen" id="id_departemen">
+                            @else
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" required>
+                            @endif
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @if(isset($select_dept))
+                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
