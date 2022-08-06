@@ -77,13 +77,12 @@
                         <tr>
                             <th data-toggle="true">No.</th>
                             <th>Tgl</th>
-                            <th>Shift</th>
-                            <th>Area</th>
+                            <th data-hide="phone">Shift</th>
+                            <th data-hide="phone">Area</th>
                             <th>JOP</th>
-                            <th>Item</th>
-                            <th>Inspektor</th>
-                            <th>Status</th>
-                            <th>Hapus</th>
+                            <th data-hide="phone">Item</th>
+                            <th data-hide="phone">Inspektor</th>
+                            <th data-hide="phone">Status</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
                             <th data-hide="all">Output/5 mnt</th>
@@ -100,6 +99,7 @@
                             <th data-hide="all">Keterangan</th>
                             <th data-hide="all">Foto</th>
                             <th data-hide="all">Video</th>
+                            <th data-hide="phone">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,7 +113,6 @@
                                 <td>{{ $li->item }}</td>
                                 <td>{{ $li->nama_user }}</td>
                                 <td>{{ $li->status }}</td>
-                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ $li->nama_mesin }}</td>
                                 <td>{{ $li->qty_1 }}</td>
                                 <td>{{ $li->qty_5 }}</td>
@@ -132,18 +131,23 @@
                                     @if(isset($li->picture_1))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200">Picture 1</a>
                                     @endif
+                                    
                                     @if(isset($li->picture_2))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_2 }}" width="200">Picture 2</a>
                                     @endif
+                                    
                                     @if(isset($li->picture_3))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_3 }}" width="200">Picture 3</a>
                                     @endif
+                                    
                                     @if(isset($li->picture_4))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_4 }}" width="200">Picture 4</a>
                                     @endif
+                                    
                                     @if(isset($li->picture_5))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_5 }}" width="200">Picture 5</a>
                                     @endif
+                                    
                                     @if((isset($li->picture_1)) || (isset($li->picture_2)) || (isset($li->picture_3)) || (isset($li->picture_4)) || (isset($li->picture_5)))
                                         | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $li->picture_1 }}','{{ $li->picture_2 }}', '{{ $li->picture_3 }}', '{{ $li->picture_4 }}', '{{ $li->picture_5 }}')">Lihat</button>
                                     @endif
@@ -152,17 +156,19 @@
                                     @if(isset($li->video_1))
                                         <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $li->video_1 }}" width="200">Video 1</a>
                                     @endif
+                                    
                                     @if(isset($li->picture_2))
                                         / <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $li->video_2 }}" width="200">Video 2</a>
                                     @endif
                                 </td>
+                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                             </tr>
                         @endforeach
                     </tbody>
 
                     <tfoot>
                         <tr>
-                            <td colspan="8">
+                            <td colspan="9">
                                 <div class="text-right">
                                     <ul class="pagination pagination-split m-t-30"> </ul>
                                 </div>

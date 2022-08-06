@@ -78,12 +78,11 @@
                             <tr>
                                 <th data-toggle="true">No.</th>
                                 <th>Tgl</th>
-                                <th>Shift</th>
-                                <th>Area</th>
+                                <th data-hide="phone">Shift</th>
+                                <th data-hide="phone">Area</th>
                                 <th>JOP</th>
-                                <th>Inspektor</th>
-                                <th>Hasil</th>
-                                <th>Hapus</th>
+                                <th data-hide="phone">Inspektor</th>
+                                <th data-hide="phone">Hasil</th>
                                 <th data-hide="all">Item</th>
                                 <th data-hide="all">Jam Mulai</th>
                                 <th data-hide="all">Jam Selesai</th>
@@ -100,6 +99,7 @@
                                 <th data-hide="all">Verifikasi</th>
                                 <th data-hide="all">Foto</th>
                                 <th data-hide="all">Video</th>
+                                <th data-hide="phone">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,7 +112,6 @@
                                 <td>{{ $lf->jop }}</td>
                                 <td>{{ $lf->nama_user }}</td>
                                 <td>{{ $lf->status }}</td>
-                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ $lf->item }}</td>
                                 <td>{{ $lf->jam_mulai }}</td>
                                 <td>{{ $lf->jam_selesai }}</td>
@@ -128,33 +127,39 @@
                                 <td>{{ $lf->keterangan }}</td>
                                 <td>{{ $lf->hasil_verifikasi }}</td>
                                 <td>
-                                @if(isset($lf->picture_1))
+                                    @if(isset($lf->picture_1))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
                                     @endif
+                                    
                                     @if(isset($lf->picture_2))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
                                     @endif
+                                    
                                     @if(isset($lf->picture_3))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
                                     @endif
+                                    
                                     @if(isset($lf->picture_4))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
                                     @endif
+                                    
                                     @if(isset($lf->picture_5))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
+                                    
                                     @if((isset($lf->picture_1)) || (isset($lf->picture_2)) || (isset($lf->picture_3)) || (isset($lf->picture_4)) || (isset($lf->picture_5)))
                                         | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $lf->picture_1 }}','{{ $lf->picture_2 }}', '{{ $lf->picture_3 }}', '{{ $lf->picture_4 }}', '{{ $lf->picture_5 }}')">Lihat</button>
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($lf->video_1))
-                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_1 }}" alt="defect" width="200">Video 1</a> /
-                                        @endif
-                                        @if(isset($lf->video_2))
-                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_2 }}" alt="defect" width="200">Video 2</a> /
-                                        @endif
-                                    </td>
+                                        <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_1 }}" alt="defect" width="200">Video 1</a> /
+                                    @endif
+                                    @if(isset($lf->video_2))
+                                        <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_2 }}" alt="defect" width="200">Video 2</a> /
+                                    @endif
+                                </td>
+                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
                             </tr>
                             @endforeach
                         </tbody>

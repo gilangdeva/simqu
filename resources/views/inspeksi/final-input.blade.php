@@ -9,7 +9,7 @@
     <br>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-7">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA INSPEKSI FINAL</h3>
                 <form id="final_data" class="form-horizontal" action="{{ route('final.save') }}" method="POST" enctype="multipart/form-data">
@@ -68,7 +68,7 @@
                             @else
                             <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @endif
-                                <option>Pilih Area Inspeksi</option>
+                                <option value="">Pilih Area Inspeksi</option>
                                 @foreach ($departemen as $dept)
                                     @if(isset($id_departemen))
                                         <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
@@ -79,14 +79,14 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Sub Dept.</label></div>
+                        <div class="col-sm-2 control-label"><label>Sub</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_sub_departemen))
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" style="background-color: #f4f4f4;" disabled>
                             @else
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
                             @endif
-                                <option>Pilih Bagian Inspeksi</option>
+                                <option value="">Pilih Bagian Inspeksi</option>
                                 @if(isset($id_sub_departemen))
                                     @foreach ($subdepartemen as $subdept)
                                         <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
@@ -99,38 +99,35 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Jam Mulai</label></div>
+                        <div class="col-sm-2 control-label"><label>Mulai</label></div>
                         <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" onblur="checkHours(event)" required>
                         </div>
-                        <div class="col-sm-2 control-label"><label>Jam Selesai</label></div>
+                        <div class="col-sm-2 control-label"><label>Selesai</label></div>
                         <div class="col-sm-4">
                             <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" onblur="checkHours(event)" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1px;">
+                        <div class="col-sm-2 control-label"><label>JOP</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
+                        </div>
+
+                        <div class="col-sm-2 control-label"><label>Item</label></div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
                         </div>
                     </div>
 
                     <br>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>JOP</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Pack</label></div>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
+                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Qty Barang Siap (Pack/Box)">
                         </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Nama Item</label></div>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Brg Siap (Pack)</label></div>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_ready_pack" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
-                        </div>
-                        <div class="col-sm-2"></div>
                         <div class="col-sm-4">
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pack" id="qty_ready_pack" style="background-color: #f4f4f4;" disabled>
@@ -150,9 +147,9 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Pcs</label></div>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pack/Box)">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty Barang Siap (Pcs)">
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -195,9 +192,8 @@
                                 @endforeach
                             </select>
                         </div>
-                        </div> -->
+                    </div> -->
 
-                        <br>
 
 
                     <div class="form-group" style="margin-bottom:1px;">
@@ -212,7 +208,7 @@
                             @else
                             <select class="form-control select2" name="satuan_qty_sample_riil" id="satuan_qty_sample_riil" required>
                             @endif
-                                <option>Satuan</option>
+                                <option value="">Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
                                     <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
@@ -223,30 +219,28 @@
                         </select>
                         </div>
 
-
                         {{-- <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
                         <div class="col-sm-4">
                             <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Qty Aql" required>
                         </div> --}}
                     </div>
 
-                    <br><br>
+                    <br>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Defect</label></div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <select class="form-control select2" name="id_defect">
-                                <option value="0">Pilih Defect</option>
+                                <option value="">Pilih Defect</option>
                                 @foreach ($defect as $def)
                                     <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
                             <select class="form-control select2" name="kriteria" id="kriteria">
-                                <option>Pilih Kriteria</option>
+                                <option value="">Pilih Kriteria Defect</option>
                                 @if(isset($kriteria))
                                     @foreach ($kriteria as $krit)
                                         <option value="{{ $krit->kriteria }}">{{ $krit->kriteria }}</option>
@@ -259,7 +253,7 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Def'</label></div>
                         <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
@@ -270,7 +264,7 @@
                             @else
                             <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
                             @endif
-                                <option>Satuan</option>
+                                <option value="">Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
                                     <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
@@ -283,7 +277,7 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Qty Reject</label></div>
+                        <div class="col-sm-2 control-label"><label>Qty Rj'ct</label></div>
                         <div class="col-sm-6">
                             <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject">
                         </div>
@@ -306,8 +300,7 @@
                         </div>
                     </div>
 
-                    <br><br>
-
+                    <br>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         {{-- <div class="col-sm-2 control-label"><label>Hasil</label></div>
@@ -318,12 +311,12 @@
                                 <option value="REJECT">Reject</option>
                             </select>
                         </div> --}}
-                        <div class="col-sm-2 control-label"><label>Rekomendasi</label></div>
+                        <div class="col-sm-2 control-label"><label>Recom'd</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="keterangan" placeholder="Rekomendasi" autocomplete="false"></textarea>
                         </div>
 
-                        <div class="col-sm-2 control-label"><label>Catatan Verifikasi</label></div>
+                        <div class="col-sm-2 control-label"><label>Verifikasi</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="hasil_verifikasi" placeholder="Verifikasi" autocomplete="false"></textarea>
                         </div>
@@ -352,24 +345,19 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label></label></div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" onclick="CheckingValue()">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10">Reset</button>
                             {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
-                        </div>
-
-                        <div class="col-sm-2 control-label"><label></label></div>
-                        <div class="col-sm-4">
-
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
 
-
-
-        <div class="col-md-7">
+    <div class="row">
+        <div class="col-md-12">
             <div class="white-box">
                 <h3 class="box-title m-b-0">DRAFT INSPEKSI</h3>
                 <label class="form-final">Show
@@ -381,16 +369,15 @@
                     </select> entries
                 </label>
 
-                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="5">
+                <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="10">
                     <thead>
                         <tr>
                             <th data-toggle="true">No.</th>
                             <th>Tgl</th>
-                            <th>Shift</th>
-                            <th>Area</th>
+                            <th data-hide="phone">Shift</th>
+                            <th data-hide="phone">Area</th>
                             <th>JOP</th>
-                            <th>Hasil</th>
-                            <th>Hapus</th>
+                            <th data-hide="phone">Hasil</th>
                             <th data-hide="all">Item</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
@@ -407,7 +394,7 @@
                             <th data-hide="all">Verifikasi</th>
                             <th data-hide="all">Foto</th>
                             <th data-hide="all">Video</th>
-                            <th data-hide="all"></th>
+                            <th data-hide="phone">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -420,9 +407,6 @@
                                 <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                 <td>{{ $d->jop }}</td>
                                 <td>{{ $d->status }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
-                                </td>
                                 <td>{{ $d->item }}</td>
                                 <td>{{ $d->jam_mulai }}</td>
                                 <td>{{ $d->jam_selesai }}</td>
@@ -441,30 +425,39 @@
                                     @if(isset($d->picture_1))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
                                     @endif
+                                    
                                     @if(isset($d->picture_2))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
                                     @endif
+                                    
                                     @if(isset($d->picture_3))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
                                     @endif
+                                    
                                     @if(isset($d->picture_4))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
                                     @endif
+                                    
                                     @if(isset($d->picture_5))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
+                                    
                                     @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
                                     | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
-                                @endif
+                                    @endif
                                 </td>
                                 <td>
                                     @if(isset($d->video_1))
-                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_1 }}" alt="defect" width="200">Video 1</a> /
-                                        @endif
-                                        @if(isset($d->video_2))
-                                            <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_2 }}" alt="defect" width="200">Video 2</a> /
-                                        @endif
-                                    </td>
+                                        <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_1 }}" alt="defect" width="200">Video 1</a> /
+                                    @endif
+
+                                    @if(isset($d->video_2))
+                                        <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_2 }}" alt="defect" width="200">Video 2</a> /
+                                    @endif
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                </td>
                             </tr>
                             @endforeach
                         @endif
@@ -518,7 +511,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="id_sub_departemen"]').empty();
-                            $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Bagian Inspeksi</option>');
+                            $('select[name="id_sub_departemen"]').append('<option value="" selected>Pilih Bagian Inspeksi</option>');
                             // Remove options
                             $('#id_sub_departemen').select2();
                             for (var i=0;i<data.length;i++) {
@@ -529,7 +522,7 @@
                         }
                     }
                 });
-            }else{
+            } else{
                 $('select[name="id_sub_departemen"]').empty();
             }
     });
@@ -544,7 +537,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="id_defect"]').empty();
-                            $('select[name="id_defect"]').append('<option value="0" selected>Pilih Defect</option>');
+                            $('select[name="id_defect"]').append('<option value="" selected>Pilih Defect</option>');
                             // Remove options
                             $('#id_defect').select2();
                             for (var i=0;i<data.length;i++) {
@@ -570,7 +563,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="kriteria"]').empty();
-                            $('select[name="kriteria"]').append('<option value="0" selected>Pilih Kriteria</option>');
+                            $('select[name="kriteria"]').append('<option value="" selected>Pilih Kriteria</option>');
                             // Remove options
                             $('#kriteria').select2();
                             for (var i=0;i<data.length;i++) {
@@ -777,6 +770,51 @@
         $("#img_3").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p3);
         $("#img_4").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p4);
         $("#img_5").attr("src","http://"+window.location.hostname+":8000/images/defect/"+p5);
+    }
+
+    function CheckingValue() {
+        var shift   = $('#shift').select2('val');
+        var dept    = $('#id_departemen').select2('val');
+        var sub     = $('#id_sub_departemen').select2('val');
+        var srl     = $('#satuan_qty_sample_riil').select2('val');
+        var def     = $('#id_defect').select2('val');
+        var krt     = $('#kriteria').select2('val');
+        var sat     = $('#satuan_qty_reject_all').select2('val');
+        
+        if(shift == ''){
+            alert('Data shift tidak boleh kosong!')
+            return $('#shift').select2('open');
+        }
+
+        if(dept == ''){
+            alert('Data departemen tidak boleh kosong!')
+            return $('#id_departemen').select2('open');
+        }
+
+        if(sub == ''){
+            alert('Data sub departemen tidak boleh kosong!')
+            return $('#id_sub_departemen').select2('open');
+        }
+
+        if(srl == ''){
+            alert('Data satuan Qty riil tidak boleh kosong!')
+            return $('#satuan_qty_sample_riil').select2('open');
+        }
+
+        if(def == ''){
+            alert('Data defect tidak boleh kosong!')
+            return $('#id_defect').select2('open');
+        }
+
+        if(krt == ''){
+            alert('Data kriteria tidak boleh kosong!')
+            return $('#kriteria').select2('open');
+        }
+
+        if(sat == ''){
+            alert('Data satuan tidak boleh kosong!')
+            return $('#satuan_qty_ready_pcs').select2('open');
+        }
     }
 
 </script>
