@@ -12,7 +12,7 @@
             <div class="white-box">
                 <div class="row">
                     <form action="{{ route('report.reject') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             @if(isset($id_departemen))
                             <select class="form-control select2" name="id_departemen" id="id_departemen">
                             @else
@@ -29,11 +29,28 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
+                            @if(isset($f_tahun))
+                            <select class="form-control select2" name="tahun" id="tahun">
+                            @else
+                            <select class="form-control select2" name="tahun" id="tahun" required>
+                            @endif
+                                <option value="0">Pilih Tahun</option>
+                                @foreach ($list_tahun as $lt)
+                                    @if(isset($select_tahun))
+                                        <option value="{{ $lt->tahun }}" {{ old("tahun", $select_tahun) == $lt->tahun ? 'selected':''}}>{{ $lt->tahun }}</option>
+                                    @else
+                                        <option value="{{ $lt->tahun }}">{{ $lt->tahun }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2">
                             <button type="submit" name="action" value="submit" class="btn btn-primary waves-effect pull-right waves-light">Submit</button>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <button type="submit" name="action" value="export_pdf" href="/ReportRejectPDF" class="btn btn-primary" target="_blank">Export to PDF</button>
                         </div>
                     </form>
@@ -49,7 +66,7 @@
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">REPORT REKAPITULASI REJECT  |  <b style="color: red"> DEPT :
                             @if(isset($report_reject[0]))
-                                {{ $report_reject[0]->nama_departemen }} / {{ $tahun }}
+                                {{ $report_reject[0]->nama_departemen }} / {{ $f_tahun }}
                             @endif
                             </b>
                         </h3>
