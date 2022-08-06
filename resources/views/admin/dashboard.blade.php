@@ -61,7 +61,7 @@
 
         <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="white-box">
-                <h3 class="box-title">TOT. INLINE</h3>
+                <h3 class="box-title">TOT. INLINE {{ date('Y') }}</h3>
                 <ul class="list-inline two-part">
                     <li><i class="mdi mdi-sync text-danger"></i></li>
                     <li class="text-right">
@@ -79,7 +79,7 @@
 
         <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="white-box">
-                <h3 class="box-title">TOT. FINAL</h3>
+                <h3 class="box-title">TOT. FINAL {{ date('Y') }}</h3>
                 <ul class="list-inline two-part">
                     <li><i class="mdi mdi-wallet-giftcard text-warning"></i></li>
                     <li class="text-right">
@@ -114,14 +114,14 @@
 
         <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="white-box">
-                <h3 class="box-title">Perbandingan Status Inline</h3>
+                <h3 class="box-title">Ratio Status Inline Th. {{ date('Y') }}</h3>
                 <div id="status-inline" style="height:300px;"></div>
             </div>
         </div>
 
         <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="white-box">
-                <h3 class="box-title">Perbandingan Status Final</h3>
+                <h3 class="box-title">Ratio Status Final Th. {{ date('Y') }}</h3>
                 <div id="status-final" style="height:300px;"></div>
             </div>
         </div>

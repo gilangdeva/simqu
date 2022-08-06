@@ -1004,22 +1004,22 @@ class ReportController extends Controller
             $text_search    = strtoupper($request->text_search);
             $jenis_user     = session()->get('jenis_user');
 
-                if (isset($text_search)) {
-                    $report_jop = DB::table('vw_rekap_defect_by_jop')
-                        ->where('jop', 'like', "%".$text_search."%")
-                        ->orWhere('item', 'like', "%".$text_search."%")
-                        ->get();
-                } else {
-                    $report_jop = DB::table('vw_rekap_defect_by_jop')
-                    ->where('id_user', '=', session()->get('id_user'))
+            if (isset($text_search)) {
+                $report_jop = DB::table('vw_rekap_defect_by_jop')
+                    ->where('jop', 'like', "%".$text_search."%")
+                    ->orWhere('item', 'like', "%".$text_search."%")
                     ->get();
-                }
+            } else {
+                $report_jop = DB::table('vw_rekap_defect_by_jop')
+                ->where('id_user', '=', session()->get('id_user'))
+                ->get();
+            }
 
             return view('report.report-historical-jop',
             [
-                'report_jop'   => $report_jop,
+                'report_jop'    => $report_jop,
                 'menu'          => 'report',
-                'text_search'    => $text_search,
+                'text_search'   => $text_search,
                 'sub'           => '/report-historical-jop',
                 'jenis_user'    => $jenis_user
             ]);

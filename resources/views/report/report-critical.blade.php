@@ -65,11 +65,11 @@
                         </div>
 
                         <div class="col-sm-2">
-                            <button type="submit" name="action" value="submit" class="btn btn-primary waves-effect pull-right waves-light">Submit</button>
+                            <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect pull-right waves-light">Submit</button>
                         </div>
 
                         <div class="col-sm-2">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportCriticalPDF" class="btn btn-primary" target="_blank">Export to PDF</button>
+                            <button type="submit" name="action" value="export_pdf" href="/ReportCriticalPDF" class="btn btn-info" target="_blank">Export to PDF</button>
                         </div>
                     </form>
                 </div>
