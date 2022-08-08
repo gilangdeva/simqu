@@ -17,8 +17,8 @@
                     </div>
                     <form action="{{ route('report.historical-jop') }}" id="f_jop" class="form-horizontal" method="GET" enctype="multipart/form-data">
                         <div class="col-sm-6">
-                            <div class="col-sm-2"><label>Search :</label></div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-5"><label></label></div>
+                            <div class="col-sm-6">
                                     <input type="text" class="form-control" name="text_search" id="text_search" maxlength="200" placeholder="Search...">
                             </div>
 

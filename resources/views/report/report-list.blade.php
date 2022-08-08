@@ -12,13 +12,13 @@
             <div class="white-box">
                 <div class="row">
                     <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                        <div class="col-sm-3">
+                        <div class="col-md-3">
                             @if(isset($id_departemen))
                             <select class="form-control select2" name="id_departemen" id="id_departemen">
                             @else
                             <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @endif
-                                <option value="0">Pilih Departemen</option>
+                                <option value="%">SEMUA DEPARTEMEN</option>
                                 @foreach ($departemen as $dept)
                                     @if(isset($select_dept))
                                         <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
@@ -29,9 +29,9 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-md-3">
                             <select class="form-control select2" name="bulan" id="bulan">
-                                <option value="0">Pilih Bulan</option>
+                                <option value="%">SEMUA BULAN</option>
                                 <option value="Januari" {{ old('bulan', $bulan) == "Januari" ? 'selected':''}}>JANUARI</option>
                                 <option value="Februari" {{ old('bulan', $bulan) == "Februari" ? 'selected':''}}>FEBRUARI</option>
                                 <option value="Maret" {{ old('bulan', $bulan) == "Maret" ? 'selected':''}}>MARET</option>
@@ -47,7 +47,7 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-md-2">
                             @if(isset($f_tahun))
                             <select class="form-control select2" name="tahun" id="tahun">
                             @else
@@ -64,12 +64,9 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-1">
-                            <button type="submit" name="action" value="submit" class="btn btn-primary waves-effect pull-right waves-light">Submit</button>
-                        </div>
-
-                        <div class="col-sm-1">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-primary" target="_blank">Export to PDF</button>
+                        <div class="col-md-3">
+                            <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect pull-left waves-light">Submit</button>
+                            <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-info waves-effect pull-left waves-light" target="_blank">Export to PDF</button>
                         </div>
                     </form>
                 </div>
@@ -90,61 +87,54 @@
                     </div>
                 </div>
 
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
-                    <thead>
-                        <tr>
-                            <th data-toggle="true">No.</th>
-                            <th>Periode</th>
-                            <th>Tgl Awal</th>
-                            <th>Tgl Akhir</th>
-                            <th>Critical</th>
-                            <th>% Critical</th>
-                            <th>Major</th>
-                            <th>% Major</th>
-                            <th>Minor</th>
-                            <th>% Minor</th>
-                            <th style="font-weight: bold;">Total</th>
-                            <th style="font-weight: bold;">% Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($report_inline[0]))
-                            @foreach($report_inline as $ri)
-                                <tr height="-10px;">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke-{{ $ri->minggu_ke }}</td>
-                                    <td>{{ $ri->tgl_mulai_periode }}</td>
-                                    <td>{{ $ri->tgl_akhir_periode }}</td>
-                                    <td>{{ $ri->critical }}</td>
-                                    <td>{{ $ri->persen_critical }}%</td>
-                                    <td>{{ $ri->major }}</td>
-                                    <td>{{ $ri->persen_major }}%</td>
-                                    <td>{{ $ri->minor }}</td>
-                                    <td>{{ $ri->persen_minor }}%</td>
-                                    <td style="font-weight: bold; color:blue;">{{ $ri->total }}</td>
-                                    @if(isset($total_inl))
-                                    <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100,2,'.','.')  }}%</td>
-                                @else
-                                    <td style="font-weight: bold;">0%</td>
-                                @endif
-                                </tr>
-                            @endforeach
-                        @else
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td colspan="12">Tidak ada data untuk ditampilkan</td>
+                                <th data-toggle="true">No.</th>
+                                <th>Periode</th>
+                                <th data-hide="phone">Tgl Awal</th>
+                                <th data-hide="phone">Tgl Akhir</th>
+                                <th data-hide="phone">Critical</th>
+                                <th data-hide="phone">% Critical</th>
+                                <th data-hide="phone">Major</th>
+                                <th data-hide="phone">% Major</th>
+                                <th data-hide="phone">Minor</th>
+                                <th data-hide="phone">% Minor</th>
+                                <th style="font-weight: bold;">Total</th>
+                                <th style="font-weight: bold;" data-hide="phone">% Total</th>
                             </tr>
-                        @endif
-                    </tbody>
-
-                    <tfoot>
-                        <tr>
-                            <td colspan="12">
-                                <div class="text-right">
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                            @if(isset($report_inline[0]))
+                                @foreach($report_inline as $ri)
+                                    <tr height="-10px;">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>Minggu Ke-{{ $ri->minggu_ke }}</td>
+                                        <td>{{ $ri->tgl_mulai_periode }}</td>
+                                        <td>{{ $ri->tgl_akhir_periode }}</td>
+                                        <td>{{ $ri->critical }}</td>
+                                        <td>{{ $ri->persen_critical }}%</td>
+                                        <td>{{ $ri->major }}</td>
+                                        <td>{{ $ri->persen_major }}%</td>
+                                        <td>{{ $ri->minor }}</td>
+                                        <td>{{ $ri->persen_minor }}%</td>
+                                        <td style="font-weight: bold; color:blue;">{{ $ri->total }}</td>
+                                        @if(isset($total_inl))
+                                            <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100,2,'.','.')  }}%</td>
+                                        @else
+                                            <td style="font-weight: bold;">0%</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="12">Tidak ada data untuk ditampilkan</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -178,59 +168,52 @@
                             @if(isset($report_final[0]) && isset($bulan))
                                 {{ $report_final[0]->nama_departemen }} / {{ $bulan }}</b></h3>
                             @endif
-                        </h3>
                     </div>
                 </div>
-
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
-                    <thead>
-                        <tr>
-                            <th data-toggle="true">No.</th>
-                            <th>Periode</th>
-                            <th>Tgl Awal</th>
-                            <th>Tgl Akhir</th>
-                            <th>Pass</th>
-                            <th>% Pass</th>
-                            <th>Reject</th>
-                            <th>% Reject</th>
-                            <th style="font-weight: bold;">Total</th>
-                            <th style="font-weight: bold;">% Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($report_final[0]))
-                            @foreach($report_final as $fnl)
-                                <tr height="-10px;">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke-{{ $fnl->minggu_ke }}</td>
-                                    <td>{{ $fnl->tgl_mulai_periode }}</td>
-                                    <td>{{ $fnl->tgl_akhir_periode }}</td>
-                                    <td>{{ $fnl->pass }}</td>
-                                    <td>{{ $fnl->persen_pass }}%</td>
-                                    <td>{{ $fnl->reject }}</td>
-                                    <td>{{ $fnl->persen_reject }}%</td>
-                                    <td style="font-weight: bold; color:blue;">{{ $fnl->total }}</td>
-                                    @if(isset($total_fnl))
-                                    <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100,2,'.','.')  }}%</td>
-                                @else
-                                    <td style="font-weight: bold; color:blue;">0%</td>
-                                @endif
-                                </tr>
-                            @endforeach
-                        @else
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td colspan="11">Tidak ada data untuk ditampilkan</td>
+                                <th>No.</th>
+                                <th>Periode</th>
+                                <th>Tgl Awal</th>
+                                <th>Tgl Akhir</th>
+                                <th>Pass</th>
+                                <th>% Pass</th>
+                                <th>Reject</th>
+                                <th>% Reject</th>
+                                <th style="font-weight: bold;">Total</th>
+                                <th style="font-weight: bold;">% Total</th>
                             </tr>
-                        @endif
-                    </tbody>
-
-                    <tfoot>
-                        <tr>
-                            <td colspan="12">
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                            @if(isset($report_final[0]))
+                                @foreach($report_final as $fnl)
+                                    <tr height="-10px;">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>Minggu Ke-{{ $fnl->minggu_ke }}</td>
+                                        <td>{{ $fnl->tgl_mulai_periode }}</td>
+                                        <td>{{ $fnl->tgl_akhir_periode }}</td>
+                                        <td>{{ $fnl->pass }}</td>
+                                        <td>{{ $fnl->persen_pass }}%</td>
+                                        <td>{{ $fnl->reject }}</td>
+                                        <td>{{ $fnl->persen_reject }}%</td>
+                                        <td style="font-weight: bold; color:blue;">{{ $fnl->total }}</td>
+                                        @if(isset($total_fnl))
+                                            <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100,2,'.','.')  }}%</td>
+                                        @else
+                                            <td style="font-weight: bold; color:blue;">0%</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="10">Tidak ada data untuk ditampilkan</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -266,61 +249,56 @@
                         </h3>
                     </div>
                 </div>
-
-                <table id="demo-foo" class="table m-b-0 toggle-arrow-tiny inspeksi-list">
-                    <thead>
-                        <tr>
-                            <th data-toggle="true">No.</th>
-                            <th>Periode</th>
-                            <th>Tgl Awal</th>
-                            <th>Tgl Akhir</th>
-                            <th>Critical</th>
-                            <th>% Critical</th>
-                            <th>Major</th>
-                            <th>% Major</th>
-                            <th>Minor</th>
-                            <th>% Minor</th>
-                            <th>Tot.</th>
-                            <th>Tot. Smpling</th>
-                            <th>% Sampling</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($report_kriteria[0]))
-                            @foreach($report_kriteria as $krt)
-                                <tr height="-10px;">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>Minggu Ke-{{ $krt->minggu_ke }}</td>
-                                    <td>{{ $krt->tgl_mulai_periode }}</td>
-                                    <td>{{ $krt->tgl_akhir_periode }}</td>
-                                    <td>{{ $krt->critical }}</td>
-                                    <td>{{ $krt->persen_critical }}%</td>
-                                    <td>{{ $krt->major }}</td>
-                                    <td>{{ $krt->persen_major }}%</td>
-                                    <td>{{ $krt->minor }}</td>
-                                    <td>{{ $krt->persen_minor }}%</td>
-                                    <td>{{ $krt->total }}</td>
-                                    <td>{{ $krt->qty_riil }}</td>
-                                    @if($krt->qty_riil <> '0')
-                                    <td style="font-weight: bold; color:blue;">{{ number_format(($krt->total/$krt->qty_riil)*100,2,'.','.')  }}%</td>
-                                @else
-                                    <td style="font-weight: bold; color:blue;">0%</td>
-                                @endif
-                                </tr>
-                            @endforeach
-                        @else
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td colspan="12">Tidak ada data untuk ditampilkan</td>
+                                <th data-toggle="true">No.</th>
+                                <th>Periode</th>
+                                <th data-hide="phone">Tgl Awal</th>
+                                <th data-hide="phone">Tgl Akhir</th>
+                                <th data-hide="phone">Critical</th>
+                                <th data-hide="phone">% Critical</th>
+                                <th data-hide="phone">Major</th>
+                                <th data-hide="phone">% Major</th>
+                                <th data-hide="phone">Minor</th>
+                                <th data-hide="phone">% Minor</th>
+                                <th data-hide="phone">Tot.</th>
+                                <th>Tot. Smpling</th>
+                                <th data-hide="phone">% Sampling</th>
                             </tr>
-                        @endif
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="15">
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                            @if(isset($report_kriteria[0]))
+                                @foreach($report_kriteria as $krt)
+                                    <tr height="-10px;">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>Minggu Ke-{{ $krt->minggu_ke }}</td>
+                                        <td>{{ $krt->tgl_mulai_periode }}</td>
+                                        <td>{{ $krt->tgl_akhir_periode }}</td>
+                                        <td>{{ $krt->critical }}</td>
+                                        <td>{{ $krt->persen_critical }}%</td>
+                                        <td>{{ $krt->major }}</td>
+                                        <td>{{ $krt->persen_major }}%</td>
+                                        <td>{{ $krt->minor }}</td>
+                                        <td>{{ $krt->persen_minor }}%</td>
+                                        <td>{{ $krt->total }}</td>
+                                        <td>{{ $krt->qty_riil }}</td>
+                                        @if($krt->qty_riil <> '0')
+                                        <td style="font-weight: bold; color:blue;">{{ number_format(($krt->total/$krt->qty_riil)*100,2,'.','.')  }}%</td>
+                                    @else
+                                        <td style="font-weight: bold; color:blue;">0%</td>
+                                    @endif
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="12">Tidak ada data untuk ditampilkan</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
