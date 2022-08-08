@@ -18,7 +18,7 @@
                         <div class="col-sm-2 control-label"><label>Tanggal</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_header))
-                                <input type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
+                                <input id="id_header" type="hidden" class="form-control" name="id_inspeksi_header" value="{{ $id_header }}">
                                 @if(isset($id_departemen))
                                     <input type="hidden" class="form-control" name="id_departemen_ori" value="{{ $id_departemen }}">
                                 @endif
@@ -329,7 +329,7 @@
                             @foreach($draft as $d)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $d->tgl_inspeksi }}</td>
+                                    <td id="tgl_inspeksi">{{ $d->tgl_inspeksi }}</td>
                                     <td>{{ $d->shift }}</td>
                                     <td>{{ $d->nama_departemen }} - {{ $d->nama_sub_departemen }}</td>
                                     <td>{{ $d->jop }}</td>
@@ -352,23 +352,23 @@
                                         @if(isset($d->picture_1))
                                             <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_1 }}" width="200">Picture 1</a>
                                         @endif
-                                        
+
                                         @if(isset($d->picture_2))
                                             / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_2 }}" width="200">Picture 2</a>
                                         @endif
-                                        
+
                                         @if(isset($d->picture_3))
                                             / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_3 }}" width="200">Picture 3</a>
                                         @endif
-                                        
+
                                         @if(isset($d->picture_4))
                                             / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_4 }}" width="200">Picture 4</a>
                                         @endif
-                                        
+
                                         @if(isset($d->picture_5))
                                             / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $d->picture_5 }}" width="200">Picture 5</a>
                                         @endif
-                                        
+
                                         @if((isset($d->picture_1)) || (isset($d->picture_2)) || (isset($d->picture_3)) || (isset($d->picture_4)) || (isset($d->picture_5)))
                                             | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $d->picture_1 }}','{{ $d->picture_2 }}', '{{ $d->picture_3 }}', '{{ $d->picture_4 }}', '{{ $d->picture_5 }}')">Lihat</button>
                                         @endif
@@ -378,7 +378,7 @@
                                         @if(isset($d->video_1))
                                             <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_1 }}" width="200">Video 1</a>
                                         @endif
-                                        
+
                                         @if(isset($d->video_2))
                                             / <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_2 }}" width="200">Video 2</a>
                                         @endif
@@ -690,7 +690,7 @@
         var krt     = $('#kriteria').select2('val');
         var sat     = $('#satuan_qty_ready_pcs').select2('val');
         var sts     = $('#status').select2('val');
-        
+
         if(shift == ''){
             alert('Data shift tidak boleh kosong!')
             return $('#shift').select2('open');
@@ -731,6 +731,16 @@
             return $('#status').select2('open');
         }
     }
+</script>
+
+<script>
+    $(document).ready(function(){
+        var dept    = $('#id_departemen').select2('val');
+
+        if(dept == '' && $('#tgl_inspeksi').length){
+            $("#inline_data :input").prop("disabled", true);
+        }
+    });
 </script>
 
 @endsection
