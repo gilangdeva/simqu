@@ -87,7 +87,7 @@
                             @endif
                     </div>
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -122,7 +122,7 @@
                                         <td>{{ $ri->persen_minor }}%</td>
                                         <td style="font-weight: bold; color:blue;">{{ $ri->total }}</td>
                                         @if(isset($total_inl))
-                                            <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100,1,'.','.')  }}%</td>
+                                            <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100,2,'.','.')  }}%</td>
                                         @else
                                             <td style="font-weight: bold;">0%</td>
                                         @endif
@@ -201,7 +201,7 @@
                                         <td>{{ $fnl->persen_reject }}%</td>
                                         <td style="font-weight: bold; color:blue;">{{ $fnl->total }}</td>
                                         @if(isset($total_fnl))
-                                            <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100,1,'.','.')  }}%</td>
+                                            <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100,2,'.','.')  }}%</td>
                                         @else
                                             <td style="font-weight: bold; color:blue;">0%</td>
                                         @endif

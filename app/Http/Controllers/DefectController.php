@@ -140,9 +140,7 @@ class DefectController extends Controller
             ]);
             alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/defect');
-    }
-
-
+        }
     }
 
     // Fungsi hapus data

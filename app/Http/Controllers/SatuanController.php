@@ -53,14 +53,14 @@ class SatuanController extends Controller
         $kode_satuan_check = DB::select("SELECT kode_satuan FROM vg_list_satuan WHERE kode_satuan = '".$satuan->kode_satuan."'");
         if (isset($kode_satuan_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Satuan Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            return back()->withInput();
         }
 
         // Check duplicate defect
         $nama_satuan_check = DB::select("SELECT nama_satuan FROM vg_list_satuan WHERE nama_satuan = '".$satuan->nama_satuan."'");
         if (isset($nama_satuan_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama Satuan Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            return back()->withInput();
         }
 
         $jenis_user = session()->get('jenis_user');
@@ -149,4 +149,3 @@ class SatuanController extends Controller
         }
     }
 }
-
