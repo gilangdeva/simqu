@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Report List - SIMQU')
+@section('title', 'Tot. Kriteria / Departemen - SIMQU')
 
 @section('content')
 
@@ -14,24 +14,24 @@
                     <form action="{{ route('report.filter') }}" id="report_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
                         <div class="col-md-3">
                             @if(isset($id_departemen))
-                            <select class="form-control select2" name="id_departemen" id="id_departemen">
+                            <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @else
                             <select class="form-control select2" name="id_departemen" id="id_departemen" required>
                             @endif
-                                <option value="%">SEMUA DEPARTEMEN</option>
+                                <option value="">PILIH DEPARTEMEN</option>
                                 @foreach ($departemen as $dept)
                                     @if(isset($select_dept))
-                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                        <option value="{{ $dept->nama_departemen }}" {{ old("nama_departemen", $select_dept) == $dept->nama_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
                                     @else
-                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                        <option value="{{ $dept->nama_departemen }}">{{ $dept->nama_departemen }}</option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="col-md-3">
-                            <select class="form-control select2" name="bulan" id="bulan">
-                                <option value="%">SEMUA BULAN</option>
+                            <select class="form-control select2" name="bulan" id="bulan" required>
+                                <option value="">PILIH BULAN</option>
                                 <option value="Januari" {{ old('bulan', $bulan) == "Januari" ? 'selected':''}}>JANUARI</option>
                                 <option value="Februari" {{ old('bulan', $bulan) == "Februari" ? 'selected':''}}>FEBRUARI</option>
                                 <option value="Maret" {{ old('bulan', $bulan) == "Maret" ? 'selected':''}}>MARET</option>
@@ -65,8 +65,10 @@
                         </div>
 
                         <div class="col-md-3">
-                            <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect pull-left waves-light">Submit</button>
-                            <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-info waves-effect pull-left waves-light" target="_blank">Export to PDF</button>
+                            <div class="button-box">
+                                <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect waves-light"><i class="fa fa-search"></i></button>
+                                <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-info waves-effect waves-light" target="_blank"><i class="fa fa-download"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -74,15 +76,14 @@
         </div>
     </div>
 
-
     <div class="row">
         <div class="col-md-8">
             <div class="white-box">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">REPORT INSPEKSI INLINE   |   <b style="color: red">DEPT :
-                            @if(isset($report_inline[0]) && isset($bulan))
-                                {{ $report_inline[0]->nama_departemen }} / {{ $bulan }} {{ $tahun }}</b></h3>
+                            @if(isset($select_dept) && isset($bulan))
+                                {{ $select_dept }} / {{ $bulan }} {{ $tahun }}</b></h3>
                             @endif
                     </div>
                 </div>
@@ -111,8 +112,8 @@
                                     <tr height="-10px;">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>Minggu Ke-{{ $ri->minggu_ke }}</td>
-                                        <td>{{ $ri->tgl_mulai_periode }}</td>
-                                        <td>{{ $ri->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($ri->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($ri->tgl_akhir_periode)) }}</td>
                                         <td>{{ $ri->critical }}</td>
                                         <td>{{ $ri->persen_critical }}%</td>
                                         <td>{{ $ri->major }}</td>
@@ -165,8 +166,8 @@
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">REPORT INSPEKSI FINAL   |   <b style="color: red">DEPT :
-                            @if(isset($report_final[0]) && isset($bulan))
-                                {{ $report_final[0]->nama_departemen }} / {{ $bulan }}</b></h3>
+                            @if(isset($select_dept) && isset($bulan))
+                                {{ $select_dept }} / {{ $bulan }} {{ $tahun }}</b></h3>
                             @endif
                     </div>
                 </div>
@@ -192,8 +193,8 @@
                                     <tr height="-10px;">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>Minggu Ke-{{ $fnl->minggu_ke }}</td>
-                                        <td>{{ $fnl->tgl_mulai_periode }}</td>
-                                        <td>{{ $fnl->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($fnl->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($fnl->tgl_akhir_periode)) }}</td>
                                         <td>{{ $fnl->pass }}</td>
                                         <td>{{ $fnl->persen_pass }}%</td>
                                         <td>{{ $fnl->reject }}</td>
@@ -243,8 +244,8 @@
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">REPORT KRITERIA   |   <b style="color: red">DEPT :
-                            @if(isset($report_kriteria[0]) && isset($bulan))
-                                {{ $report_kriteria[0]->nama_departemen }} / {{ $bulan }}</b></h3>
+                            @if(isset($select_dept) && isset($bulan))
+                                {{ $select_dept }} / {{ $bulan }} {{ $tahun }}</b></h3>
                             @endif
                         </h3>
                     </div>
@@ -274,8 +275,8 @@
                                     <tr height="-10px;">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>Minggu Ke-{{ $krt->minggu_ke }}</td>
-                                        <td>{{ $krt->tgl_mulai_periode }}</td>
-                                        <td>{{ $krt->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($krt->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($krt->tgl_akhir_periode)) }}</td>
                                         <td>{{ $krt->critical }}</td>
                                         <td>{{ $krt->persen_critical }}%</td>
                                         <td>{{ $krt->major }}</td>
@@ -285,10 +286,10 @@
                                         <td>{{ $krt->total }}</td>
                                         <td>{{ $krt->qty_riil }}</td>
                                         @if($krt->qty_riil <> '0')
-                                        <td style="font-weight: bold; color:blue;">{{ number_format(($krt->total/$krt->qty_riil)*100,1,'.','.')  }}%</td>
-                                    @else
-                                        <td style="font-weight: bold; color:blue;">0%</td>
-                                    @endif
+                                            <td style="font-weight: bold; color:blue;">{{ number_format(($krt->total/$krt->qty_riil)*100,2,'.','.')  }}%</td>
+                                        @else
+                                            <td style="font-weight: bold; color:blue;">0%</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else

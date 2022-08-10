@@ -30,13 +30,20 @@ class ReportController extends Controller
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+        $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+        $n_dept = $dept[0]->nama_departemen;
 
         if(isset($dept[0])){
-            $dept = $dept[0]->id_departemen;
+            $dept = $dept[0]->nama_departemen;
         } else {
-            $dept = 0;
+            $dept = '%';
+        }
+
+        if(isset($list_tahun[0])){
+            $f_tahun = $list_tahun[0]->tahun;
+        } else {
+            $f_tahun = 0;
         }
 
         if ($bulan == '01') {
@@ -65,21 +72,9 @@ class ReportController extends Controller
             $bulan = 'Desember';
         }
 
-        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
-        // Get nama departemen terbanyak
-        if(isset($n_dept)){
-            $n_dept = $n_dept[0]->nama_departemen;
-        }
-
-        if(isset($list_tahun[0])){
-            $f_tahun = $list_tahun[0]->tahun;
-        } else {
-            $f_tahun = 0;
-        }
-
-        $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
-        $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
-        $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
+        $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
+        $report_krt = DB::select("SELECT * FROM sp_report_kriteria('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
 
         $total_inl = DB::select("SELECT sum(total) as total_inl FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
         $total_fnl = DB::select("SELECT sum(total) as total_fnl FROM report_rekap_defect_final WHERE id_user =".session()->get('id_user'));
@@ -122,7 +117,7 @@ class ReportController extends Controller
             'graf_inl'          => $graf_inl,
             'graf_fnl'          => $graf_fnl,
             'graf_krt'          => $graf_krt,
-            'select_dept'       => $dept,
+            'select_dept'       => $n_dept,
             'tahun'             => $tahun,
             'f_tahun'           => $f_tahun,
             'list_tahun'        => $list_tahun,
@@ -135,25 +130,19 @@ class ReportController extends Controller
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+        $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
 
         if(isset($dept[0])){
-            $dept = $dept[0]->id_departemen;
+            $dept = $dept[0]->nama_departemen;
         } else {
-            $dept = 0;
+            $dept = '%';
         }
 
         if(isset($list_tahun[0])){
             $f_tahun = $list_tahun[0]->tahun;
         } else {
             $f_tahun = 0;
-        }
-
-        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
-        // Get nama departemen terbanyak
-        if(isset($n_dept)){
-            $n_dept = $n_dept[0]->nama_departemen;
         }
 
         if ($bulan == '01') {
@@ -182,7 +171,7 @@ class ReportController extends Controller
             $bulan = 'Desember';
         }
 
-        $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
         $report_inspeksi = DB::table('report_total_inspeksi')
                             ->where('id_user', '=', session()->get('id_user'))
                             ->get();
@@ -194,7 +183,7 @@ class ReportController extends Controller
                                      DB::raw('sum(inline)/sum(inline+final)*100 as persen_inline'),
                                      DB::raw('sum(final) as final'),
                                      DB::raw('sum(final)/sum(inline+final)*100 as persen_final'))
-                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
@@ -210,7 +199,7 @@ class ReportController extends Controller
             'report_inspeksi'   => $report_inspeksi,
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
-            'n_dept'            => $n_dept,
+            'n_dept'            => $dept,
             'jenis_user'        => $jenis_user,
             'graf_ins'          => $graf_ins,
             'select_dept'       => $dept,
@@ -226,25 +215,19 @@ class ReportController extends Controller
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+        $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
 
         if(isset($dept[0])){
-            $dept = $dept[0]->id_departemen;
+            $dept = $dept[0]->nama_departemen;
         } else {
-            $dept = 0;
+            $dept = '%';
         }
 
         if(isset($list_tahun[0])){
             $f_tahun = $list_tahun[0]->tahun;
         } else {
             $f_tahun = 0;
-        }
-
-        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
-        // Get nama departemen terbanyak
-        if(isset($n_dept)){
-            $n_dept = $n_dept[0]->nama_departemen;
         }
 
         if ($bulan == '01') {
@@ -273,7 +256,7 @@ class ReportController extends Controller
             $bulan = 'Desember';
         }
 
-        $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $call_sp = DB::select("SELECT * FROM sp_report_critical('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
         $report_critical = DB::table('report_rekap_critical')
                             ->where('id_user', '=', session()->get('id_user'))
                             ->get();
@@ -285,7 +268,7 @@ class ReportController extends Controller
                                      DB::raw('sum(qty_reject) as qty_reject'),
                                      DB::raw('sum(qty_critical) as qty_critical'),
                                      DB::raw('sum(qty_defect) as qty_defect'))
-                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
@@ -299,7 +282,7 @@ class ReportController extends Controller
             'sub'               => '/report-critical',
             'departemen'        => $departemen,
             'select_dept'       => $dept,
-            'n_dept'            => $n_dept,
+            'n_dept'            => $dept,
             'report_critical'   => $report_critical,
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
@@ -316,19 +299,13 @@ class ReportController extends Controller
     public function ReportReject(){
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+        $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
 
         if(isset($dept[0])){
-            $dept = $dept[0]->id_departemen;
+            $dept = $dept[0]->nama_departemen;
         } else {
-            $dept = 0;
-        }
-
-        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
-        // Get nama departemen terbanyak
-        if(isset($n_dept)){
-            $n_dept = $n_dept[0]->nama_departemen;
+            $dept = '%';
         }
 
         if(isset($list_tahun[0])){
@@ -337,7 +314,7 @@ class ReportController extends Controller
             $f_tahun = 0;
         }
 
-        $call_sp = DB::select("SELECT * FROM sp_report_reject('".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+        $call_sp = DB::select("SELECT * FROM sp_report_reject('%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
         $report_reject = DB::table('report_rekap_reject')
                             ->where('id_user', '=', session()->get('id_user'))
                             ->get();
@@ -349,7 +326,7 @@ class ReportController extends Controller
                                      DB::raw('sum(qty_reject) as qty_reject'),
                                      DB::raw('sum(qty_critical) as qty_critical'),
                                      DB::raw('sum(qty_defect) as qty_defect'))
-                            ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                            ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
@@ -366,7 +343,6 @@ class ReportController extends Controller
             'report_summary'    => $report_summary,
             'jenis_user'        => $jenis_user,
             'graf_rej'          => $graf_rej,
-            'n_dept'            => $n_dept,
             'select_dept'       => $dept,
             'tahun'             => $tahun,
             'f_tahun'           => $f_tahun,
@@ -381,25 +357,19 @@ class ReportController extends Controller
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
-        $dept = DB::select("SELECT id_departemen from tb_inspeksi_header group by id_departemen order by count(id_departemen) desc");
+        $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
 
         if(isset($dept[0])){
-            $dept = $dept[0]->id_departemen;
+            $dept = $dept[0]->nama_departemen;
         } else {
-            $dept = 0;
+            $dept = '%';
         }
 
         if(isset($list_tahun[0])){
             $f_tahun = $list_tahun[0]->tahun;
         } else {
             $f_tahun = 0;
-        }
-
-        $n_dept = DB::select("SELECT nama_departemen FROM tb_master_departemen WHERE id_departemen =".$dept);
-        // Get nama departemen terbanyak
-        if(isset($n_dept)){
-            $n_dept = $n_dept[0]->nama_departemen;
         }
 
         if ($bulan == '01') {
@@ -430,14 +400,14 @@ class ReportController extends Controller
 
         $report_qty_defect_inline = DB::table('vw_rekap_defect')
                             ->where('id_user', '=', session()->get('id_user'))
-                            ->where('id_departemen', '=', $dept)
+                            ->where('nama_departemen', 'like', $dept)
                             ->where('bulan', '=', $bulan)
                             ->where('type_form', '=', 'Inline')
                             ->get();
 
         $report_qty_defect_final = DB::table('vw_rekap_defect')
                             ->where('id_user', '=', session()->get('id_user'))
-                            ->where('id_departemen', '=', $dept)
+                            ->where('nama_departemen', 'like', $dept)
                             ->where('bulan', '=', $bulan)
                             ->where('type_form', '=', 'Final')
                             ->get();
@@ -455,7 +425,6 @@ class ReportController extends Controller
             'bulan'                     => $bulan,
             'tahun'                     => $tahun,
             'jenis_user'                => $jenis_user,
-            'n_dept'                    => $n_dept,
             'select_dept'               => $dept,
             'tahun'                     => $tahun,
             'f_tahun'                   => $f_tahun,
@@ -484,12 +453,40 @@ class ReportController extends Controller
         ]);
     }
 
+    public function ReportInspeksiThn() {
+        $tahun    = date('Y', strtotime('+0 hours'));
+        $s_tahun = $tahun;
+
+        if($tahun == ''){
+            $tahun = '%';
+            $s_tahun = 'SEMUA TAHUN';
+        }
+
+        $call_sp  = DB::select("SELECT * FROM sp_report_inspeksi_thn('%".$tahun."%', '".session()->get('id_user')."')");
+        $report   =  DB::table('report_inspeksi_thn')
+                    ->where('id_user', '=', session()->get('id_user'))
+                    ->get();
+        $jenis_user = session()->get('jenis_user');
+        $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+        return view('report.report-inspeksi-thn',[
+            'menu'              => 'laporan',
+            'sub'               => '/rekap-inspeksi',
+            'report_inspeksi'   => $report,
+            'tahun'             => $tahun,
+            's_tahun'           => $s_tahun,
+            'list_tahun'        => $list_tahun,
+            'jenis_user'        => $jenis_user
+        ]);
+    }
+
     //Fungsi Filter List
     public function FilterReportDefect(Request $request){
         switch ($request->input('action')) {
             case 'submit':
                 // Get value variable
                 $dept = $request->id_departemen;
+                $s_dept = $dept;
                 // return back again list departemen
                 $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
                 $bulan = $request->bulan;
@@ -497,10 +494,14 @@ class ReportController extends Controller
                 $f_tahun = $request->tahun;
                 $list_tahun = DB::select("select * from vw_filter_tahun");
 
+                if($dept == ''){
+                    $s_dept = '%';
+                }
+
                 // Call Function / Stored Procedure
-                $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$f_tahun."', '".$dept."', '".session()->get('id_user')."')");
-                $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$f_tahun."', '".$dept."', '".session()->get('id_user')."')");
-                $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$f_tahun."', '".$dept."', '".session()->get('id_user')."')");
+                $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
+                $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
+                $report_krt = DB::select("SELECT * FROM sp_report_kriteria('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
 
                 //Get value total
                 $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
@@ -538,7 +539,7 @@ class ReportController extends Controller
                     'graf_inl'          => $graf_inl,
                     'graf_fnl'          => $graf_fnl,
                     'graf_krt'          => $graf_krt,
-                    'select_dept'       => $dept,
+                    'select_dept'       => $s_dept,
                     'f_tahun'           => $f_tahun,
                     'list_tahun'        => $list_tahun,
                     'select_tahun'      => $f_tahun,
@@ -549,16 +550,16 @@ class ReportController extends Controller
 
             case 'export_pdf':
                 // Get value variable
-                $id_dept = $request->id_departemen;
+                $dept = $request->id_departemen;
                 // return back again list departemen
                 $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
                 $bulan = $request->bulan;
                 $tahun = $request->tahun;
 
                 // Call Function / Stored Procedure
-                $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
-                $report_fin = DB::select("SELECT * FROM sp_report_defect_final('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
-                $report_krt = DB::select("SELECT * FROM sp_report_kriteria('".$bulan."', '".$tahun."', '".$id_dept."', '".session()->get('id_user')."')");
+                $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
+                $report_fnl = DB::select("SELECT * FROM sp_report_defect_final('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
+                $report_krt = DB::select("SELECT * FROM sp_report_kriteria('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
 
                 //Get value total
                 $total_inl = DB::select("SELECT sum(total) as total_inline FROM report_rekap_defect_inline WHERE id_user =".session()->get('id_user'));
@@ -579,7 +580,7 @@ class ReportController extends Controller
 
                 $pdf = PDF::loadview('report.ReportDefectPDF',[
                     'report_inl'        => $report_inl,
-                    'report_fin'        => $report_fin,
+                    'report_fnl'        => $report_fnl,
                     'report_krt'        => $report_krt,
                     'total_inl'         => $total_inl,
                     'total_fnl'         => $total_fnl,
@@ -609,7 +610,7 @@ class ReportController extends Controller
             break;
         }
 
-    }
+    }    
 
     // Filter Report Inspeksi
     public function FilterReportInspeksi(Request $request){
@@ -624,7 +625,7 @@ class ReportController extends Controller
             $f_tahun = $request->tahun;
             $list_tahun = DB::select("select * from vw_filter_tahun");
 
-            $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('".$bulan."', '".$f_tahun."', '".$dept."', '".session()->get('id_user')."')");
+            $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('%".$bulan."%', '%".$f_tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
             $report_inspeksi = DB::table('report_total_inspeksi')
                                 ->where('id_user', '=', session()->get('id_user'))
                                 ->get();
@@ -633,10 +634,10 @@ class ReportController extends Controller
                                 ->select('id_departemen',
                                         'nama_departemen',
                                         DB::raw('sum(inline) as inline'),
-                                        DB::raw('sum(inline)/sum(inline+final) as persen_inline'),
+                                        DB::raw('sum(inline)/sum(inline+final)*100 as persen_inline'),
                                         DB::raw('sum(final) as final'),
-                                        DB::raw('sum(final)/sum(inline+final) as persen_final'))
-                                ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                                        DB::raw('sum(final)/sum(inline+final)*100 as persen_final'))
+                                ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                                 ->groupBy('id_departemen','nama_departemen')
                                 ->get();
 
@@ -670,7 +671,7 @@ class ReportController extends Controller
             $bulan = $request->bulan;
             $tahun = $request->tahun;
 
-            $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+            $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
             $report_inspeksi = DB::table('report_total_inspeksi')
                                 ->where('id_user', '=', session()->get('id_user'))
                                 ->get();
@@ -679,10 +680,10 @@ class ReportController extends Controller
                                 ->select('id_departemen',
                                         'nama_departemen',
                                         DB::raw('sum(inline) as inline'),
-                                        DB::raw('sum(inline)/sum(inline+final) as persen_inline'),
+                                        DB::raw('sum(inline)/sum(inline+final)*100 as persen_inline'),
                                         DB::raw('sum(final) as final'),
-                                        DB::raw('sum(final)/sum(inline+final) as persen_final'))
-                                ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                                        DB::raw('sum(final)/sum(inline+final)*100 as persen_final'))
+                                ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                                 ->groupBy('id_departemen','nama_departemen')
                                 ->get();
 
@@ -709,7 +710,6 @@ class ReportController extends Controller
         }
     }
 
-
     // Fungsi filter Report temuan critical
     public function FilterReportCritical(Request $request){
         switch ($request->input('action')) {
@@ -719,10 +719,10 @@ class ReportController extends Controller
                 // return back again list departemen
                 $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
                 $bulan = $request->bulan;
-                $f_tahun = $request->tahun;
-                $list_tahun = DB::select("select * from vw_filter_tahun");
+                $tahun = $request->tahun;
+                $list_tahun = DB::select("SELECT * FROM vw_filter_tahun");
 
-                $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$f_tahun."', '".$dept."', '".session()->get('id_user')."')");
+                $call_sp = DB::select("SELECT * FROM sp_report_critical('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
                 $report_critical = DB::table('report_rekap_critical')
                                     ->where('id_user', '=', session()->get('id_user'))
                                     ->get();
@@ -734,7 +734,7 @@ class ReportController extends Controller
                                             DB::raw('sum(qty_reject) as qty_reject'),
                                             DB::raw('sum(qty_critical) as qty_critical'),
                                             DB::raw('sum(qty_defect) as qty_defect'))
-                                    ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                                    ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                                     ->groupBy('id_departemen','nama_departemen')
                                     ->get();
 
@@ -753,9 +753,9 @@ class ReportController extends Controller
                     'jenis_user'        => $jenis_user,
                     'graf_crt'          => $graf_crt,
                     'select_dept'       => $dept,
-                    'f_tahun'           => $f_tahun,
+                    'f_tahun'           => $tahun,
                     'list_tahun'        => $list_tahun,
-                    'select_tahun'      => $f_tahun
+                    'select_tahun'      => $tahun
                 ]);
             break;
 
@@ -767,7 +767,7 @@ class ReportController extends Controller
             $bulan = $request->bulan;
             $tahun = $request->tahun;
 
-            $call_sp = DB::select("SELECT * FROM sp_report_critical('".$bulan."', '".$tahun."', '".$dept."', '".session()->get('id_user')."')");
+            $call_sp = DB::select("SELECT * FROM sp_report_critical('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
             $report_critical = DB::table('report_rekap_critical')
                                 ->where('id_user', '=', session()->get('id_user'))
                                 ->get();
@@ -820,7 +820,7 @@ class ReportController extends Controller
             $f_tahun = $request->tahun;
             $list_tahun = DB::select("select * from vw_filter_tahun");
 
-            $call_sp = DB::select("SELECT * FROM sp_report_reject('".$f_tahun."', '".$dept."', '".session()->get('id_user')."')");
+            $call_sp = DB::select("SELECT * FROM sp_report_reject('%".$f_tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
             $report_reject = DB::table('report_rekap_reject')
                                 ->where('id_user', '=', session()->get('id_user'))
                                 ->get();
@@ -832,7 +832,7 @@ class ReportController extends Controller
                                         DB::raw('sum(qty_reject) as qty_reject'),
                                         DB::raw('sum(qty_critical) as qty_critical'),
                                         DB::raw('sum(qty_defect) as qty_defect'))
-                                ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                                ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                                 ->groupBy('id_departemen','nama_departemen')
                                 ->get();
 
@@ -875,7 +875,7 @@ class ReportController extends Controller
                                         DB::raw('sum(qty_reject) as qty_reject'),
                                         DB::raw('sum(qty_critical) as qty_critical'),
                                         DB::raw('sum(qty_defect) as qty_defect'))
-                                ->where('id_user', '=', session()->get('id_user'))->where('id_departemen', '=', $dept)
+                                ->where('id_user', '=', session()->get('id_user'))->where('nama_departemen', '=', $dept)
                                 ->groupBy('id_departemen','nama_departemen')
                                 ->get();
 
@@ -910,24 +910,23 @@ class ReportController extends Controller
                 // Get value variable
                 $dept = $request->id_departemen;
                 // return back again list departemen
-                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
                 $tahun = $request->tahun;
                 $bulan  = $request->bulan;
-                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
                 $f_tahun = $request->tahun;
+                $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
                 $list_tahun = DB::select("select * from vw_filter_tahun");
 
                 $report_qty_defect_inline = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', $dept)
+                                        ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('tahun', '=', $f_tahun)
                                         ->where('type_form', '=', 'Inline')
                                         ->get();
 
                 $report_qty_defect_final = DB::table('vw_rekap_defect')
-                                        ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', $dept)
+                                        ->where('id_user', 'like', session()->get('id_user'))
+                                        ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('tahun', '=', $f_tahun)
                                         ->where('type_form', '=', 'Final')
@@ -962,14 +961,14 @@ class ReportController extends Controller
 
                 $report_qty_defect_inline = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', $dept)
+                                        ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Inline')
                                         ->get();
 
                 $report_qty_defect_final = DB::table('vw_rekap_defect')
                                         ->where('id_user', '=', session()->get('id_user'))
-                                        ->where('id_departemen', '=', $dept)
+                                        ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Final')
                                         ->get();
@@ -1024,5 +1023,72 @@ class ReportController extends Controller
                 'jenis_user'    => $jenis_user
             ]);
 
+    }
+
+    // Fungsi filter rekapitulasi inspeksi tahun
+    public function FilterReportInspeksiThn(Request $request) {
+        switch ($request->input('action')) {
+            case 'submit':
+                $tahun = $request->tahun;
+                $s_tahun = $tahun;
+                
+                if($tahun == ''){
+                    $tahun = '%';
+                    $s_tahun = 'SEMUA TAHUN';
+                }
+
+                $call_sp  = DB::select("SELECT * FROM sp_report_inspeksi_thn('%".$tahun."%', '".session()->get('id_user')."')");
+                $report   =  DB::table('report_inspeksi_thn')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+                $jenis_user = session()->get('jenis_user');
+                $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+                return view('report.report-inspeksi-thn',[
+                    'menu'              => 'laporan',
+                    'sub'               => '/rekap-inspeksi',
+                    'report_inspeksi'   => $report,
+                    'tahun'             => $tahun,
+                    's_tahun'           => $s_tahun,
+                    'list_tahun'        => $list_tahun,
+                    'jenis_user'        => $jenis_user
+                ]);
+            break;
+
+            case 'export_pdf':
+                $tahun = $request->tahun;
+                $s_tahun = $tahun;
+                
+                if($tahun == ''){
+                    $tahun = '%';
+                    $s_tahun = 'SEMUA TAHUN';
+                }
+
+                $call_sp  = DB::select("SELECT * FROM sp_report_inspeksi_thn('%".$tahun."%', '".session()->get('id_user')."')");
+                $report   =  DB::table('report_inspeksi_thn')
+                            ->where('id_user', '=', session()->get('id_user'))
+                            ->get();
+                $jenis_user = session()->get('jenis_user');
+                $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+                $pdf = PDF::loadview('report.ReportInspeksiTahun',[
+                    'report_inspeksi'   => $report,
+                    'tahun'             => $tahun,
+                    's_tahun'           => $s_tahun
+                ]);
+
+                return $pdf->download('rekapitulasi-inspeksi-tahun.pdf');
+
+                return view('report.report-inspeksi-thn',[
+                    'menu'              => 'laporan',
+                    'sub'               => '/rekap-inspeksi',
+                    'report_inspeksi'   => $report,
+                    'tahun'             => $tahun,
+                    's_tahun'           => $s_tahun,
+                    'list_tahun'        => $list_tahun,
+                    'jenis_user'        => $jenis_user
+                ]);
+            break;
+        }
     }
 }

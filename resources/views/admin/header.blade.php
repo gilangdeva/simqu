@@ -239,12 +239,13 @@
                             <a href="#" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @endif
                         <ul class="nav nav-second-level">
-                            <li><a href="/report-defect"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Defect Bagian</span></a></li>
-                            <li><a href="/report-inspeksi"><i class="mdi mdi-numeric fa-fw"></i> <span class="hide-menu">Total Inspeksi</span></a></li>
-                            <li><a href="/report-critical"><i class="mdi mdi-magnify-minus-outline fa-fw"></i> <span class="hide-menu">Temuan Critical</span></a></li>
-                            <li><a href="/report-reject"><i class="mdi mdi-basket-unfill fa-fw"></i> <span class="hide-menu">Rekap Reject</span></a></li>
-                            <li><a href="/report-qty-defect"><i class="mdi mdi-file-chart fa-fw"></i> <span class="hide-menu">Rekap Qty Defect</span></a></li>
-                            <li><a href="/report-historical-jop"><i class="mdi mdi-timer-sand fa-fw"></i> <span class="hide-menu">Rekap Historical JOP</span></a></li>
+                            <li><a href="/report-defect"><i class="mdi mdi-comment-check-outline fa-fw"></i> <span class="hide-menu">Tot. Kriteria / Dept</span></a></li>
+                            <li><a href="/report-inspeksi"><i class="mdi mdi-numeric fa-fw"></i> <span class="hide-menu">Tot. Inspek / Dept</span></a></li>
+                            <li><a href="/report-critical"><i class="mdi mdi-magnify-minus-outline fa-fw"></i> <span class="hide-menu">Tot. Critical / Dept</span></a></li>
+                            <li><a href="/report-qty-defect"><i class="mdi mdi-file-chart fa-fw"></i> <span class="hide-menu">Tot. Defect / Dept</span></a></li>
+                            <li><a href="/report-reject"><i class="mdi mdi-basket-unfill fa-fw"></i> <span class="hide-menu">Rekap Reject / Dept</span></a></li>
+                            <li><a href="/rekap-inspeksi"><i class="mdi mdi-book fa-fw"></i> <span class="hide-menu">Rekap Inspek / Thn</span></a></li>
+                            <li><a href="/report-historical-jop"><i class="mdi mdi-timer-sand fa-fw"></i> <span class="hide-menu">Historical JOP</span></a></li>
                         </ul>
                     </li>
                 </ul>

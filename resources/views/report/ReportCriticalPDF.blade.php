@@ -5,7 +5,7 @@
     <br>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="white-box">
                 <div class="row">
                     <div>
@@ -38,8 +38,8 @@
                                     <tr height="-10px;">
                                         <td>{{ $i+1 }}</td>
                                         <td>Minggu Ke-{{ $report_critical[$i]->minggu_ke }}</td>
-                                        <td>{{ $report_critical[$i]->tgl_mulai_periode }}</td>
-                                        <td>{{ $report_critical[$i]->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_critical[$i]->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_critical[$i]->tgl_akhir_periode)) }}</td>
                                         <td>{{ $report_critical[$i]->qty_inspek }}</td>
                                         <td>{{ $report_critical[$i]->qty_reject }}</td>
                                         <td>{{ $report_critical[$i]->qty_critical }}</td>

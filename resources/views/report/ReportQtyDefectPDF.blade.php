@@ -18,13 +18,13 @@
     </style>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <div class="white-box">
             <div class="row">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-12 col-xs-12">
                     <h3 class="box-title">REPORT QTY DEFECT INLINE  |  <b style="color: red"> DEPT :
                         @if(isset($report_qty_defect_inline[0]))
-                            {{ $report_qty_defect_inline[0]->nama_departemen }} / {{ $bulan }}
+                            {{ $report_qty_defect_inline[0]->nama_departemen }} / {{ strtoupper($bulan) }}
                         @endif
                         </b>
                     </h3>
@@ -63,10 +63,10 @@
     <div class="col-md-8">
         <div class="white-box">
             <div class="row">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-12 col-xs-12">
                     <h3 class="box-title">REPORT QTY DEFECT FINAL  |  <b style="color: red"> DEPT :
                         @if(isset($report_qty_defect_final[0]))
-                            {{ $report_qty_defect_final[0]->nama_departemen }} / {{ $bulan }}
+                            {{ $report_qty_defect_final[0]->nama_departemen }} / {{ strtoupper($bulan) }}
                         @endif
                         </b>
                     </h3>

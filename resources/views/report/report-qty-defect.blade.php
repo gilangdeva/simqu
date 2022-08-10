@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Report Qty Defect - SIMQU')
+@section('title', 'Tot. Defect / Departemen - SIMQU')
 
 @section('content')
 
@@ -21,9 +21,9 @@
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
                                     @if(isset($select_dept))
-                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                        <option value="{{ $dept->nama_departemen }}" {{ old("nama_departemen", $select_dept) == $dept->nama_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
                                     @else
-                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                        <option value="{{ $dept->nama_departemen }}">{{ $dept->nama_departemen }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -64,12 +64,11 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-1">
-                            <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect pull-right waves-light">Submit</button>
-                        </div>
-
-                        <div class="col-sm-1">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportQtyDefectPDF" class="btn btn-info" target="_blank">Export to PDF</button>
+                        <div class="col-md-3">
+                            <div class="button-box">
+                                <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect waves-light"><i class="fa fa-search"></i></button>
+                                <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-info waves-effect waves-light" target="_blank"><i class="fa fa-download"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -83,8 +82,8 @@
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <h3 class="box-title">REPORT QTY DEFECT INLINE  |  <b style="color: red"> DEPT :
-                            @if(isset($report_qty_defect_inline[0]))
-                                {{ $report_qty_defect_inline[0]->nama_departemen }} / {{ $bulan }}
+                            @if(isset($select_dept))
+                                {{ $select_dept }} / {{ strtoupper($bulan) }}
                             @endif
                             </b>
                         </h3>
@@ -129,8 +128,8 @@
                 <div class="row">
                     <div class="col-sm-12 col-xs-12">
                         <h3 class="box-title">REPORT QTY DEFECT FINAL  |  <b style="color: red"> DEPT :
-                            @if(isset($report_qty_defect_final[0]))
-                                {{ $report_qty_defect_final[0]->nama_departemen }} / {{ $bulan }}
+                            @if(isset($select_dept))
+                                {{ $select_dept }} / {{ $bulan }}
                             @endif
                             </b>
                         </h3>

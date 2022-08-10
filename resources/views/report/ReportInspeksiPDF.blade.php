@@ -5,13 +5,13 @@
     <br>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="white-box">
                 <div class="row">
                     <div>
                         <h3 class="box-title">REPORT TOTAL INSPEKSI  |  <b style="color: red"> DEPT :
                             @if(isset($report_inspeksi[0]))
-                                {{ $report_inspeksi[0]->nama_departemen }} / {{ $bulan }}
+                                {{ $report_inspeksi[0]->nama_departemen }} / {{ strtoupper($bulan) }}
                             @endif
                             </b>
                         </h3>
@@ -38,8 +38,8 @@
                                     <tr height="-10px;">
                                         <td>{{ $i+1 }}</td>
                                         <td>Minggu Ke-{{ $report_inspeksi[$i]->minggu_ke }}</td>
-                                        <td>{{ $report_inspeksi[$i]->tgl_mulai_periode }}</td>
-                                        <td>{{ $report_inspeksi[$i]->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_inspeksi[$i]->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_inspeksi[$i]->tgl_akhir_periode)) }}</td>
                                         <td>{{ $report_inspeksi[$i]->inline }}</td>
                                         <td>{{ $report_inspeksi[$i]->persen_inline }}%</td>
                                         <td>{{ $report_inspeksi[$i]->final }}</td>
@@ -52,9 +52,9 @@
                                 <tr style="background-color: #F2F2F2; font-weight:bold;">
                                     <td colspan="4" align="center" style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">Total</td>
                                     <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ $s->inline }}</td>
-                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_inline), 1,'.','.')  }}%</td>
+                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_inline), 2,'.','.')  }}%</td>
                                     <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ $s->final }}</td>
-                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_final), 1,'.','.')  }}%</td>
+                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_final), 2,'.','.')  }}%</td>
                                 </tr>
                             @endforeach
                         @else

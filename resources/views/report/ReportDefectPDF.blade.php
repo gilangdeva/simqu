@@ -21,7 +21,7 @@
     <div>
         <h3 class="box-title">REPORT LIST   |   <b style="color: red">DEPT :
             @if(isset($report_inline[0]) && isset($bulan))
-                {{ $report_inline[0]->nama_departemen }} / {{ $bulan }}</b></h3>
+                {{ $report_inline[0]->nama_departemen }} / {{ strtoupper($bulan) }}</b></h3>
             @endif
     </div>
 </div>
@@ -69,7 +69,7 @@
                                     <td>{{ $ri->persen_minor }}%</td>
                                     <td style="font-weight: bold; color:blue;">{{ $ri->total }}</td>
                                     @if(isset($total_inl))
-                                    <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100,1,'.','.')  }}%</td>
+                                    <td style="font-weight: bold; color:blue;">{{ number_format(($ri->total/$total_inl)*100, 2,'.','.')  }}%</td>
                                 @else
                                     <td style="font-weight: bold;">0%</td>
                                 @endif
@@ -134,7 +134,7 @@
                                     <td>{{ $fnl->persen_reject }}%</td>
                                     <td style="font-weight: bold; color:blue;">{{ $fnl->total }}</td>
                                     @if(isset($total_fnl))
-                                    <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100,1,'.','.')  }}%</td>
+                                    <td style="font-weight: bold; color:blue;">{{ number_format(($fnl->total/$total_fnl)*100, 2,'.','.')  }}%</td>
                                 @else
                                     <td style="font-weight: bold; color:blue;">0%</td>
                                 @endif
@@ -163,7 +163,7 @@
 
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="white-box">
                 <div class="row">
                     <div>
@@ -206,7 +206,7 @@
                                     <td>{{ $krt->total }}</td>
                                     <td>{{ $krt->qty_riil }}</td>
                                     @if($krt->qty_riil <> '0')
-                                    <td style="font-weight: bold; color:blue;">{{ number_format(($krt->total/$krt->qty_riil)*100,1,'.','.')  }}%</td>
+                                    <td style="font-weight: bold; color:blue;">{{ number_format(($krt->total/$krt->qty_riil)*100, 2,'.','.')  }}%</td>
                                 @else
                                     <td style="font-weight: bold; color:blue;">0%</td>
                                 @endif

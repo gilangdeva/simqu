@@ -18,13 +18,13 @@
     </style>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="white-box">
                 <div class="row">
                     <div>
                         <h3 class="box-title">REPORT REKAPITULASI REJECT  |  <b style="color: red"> DEPT :
                             @if(isset($report_reject[0]))
-                                {{ $report_reject[0]->nama_departemen }} / {{ $tahun }}
+                                {{ $report_reject[0]->nama_departemen }} / {{ strtoupper($tahun) }}
                             @endif
                             </b>
                         </h3>
@@ -53,8 +53,8 @@
                                         <td>{{ $i+1 }}</td>
                                         <td>{{ $report_reject[$i]->bulan }}</td>
                                         <td>Minggu Ke-{{ $report_reject[$i]->minggu_ke }}</td>
-                                        <td>{{ $report_reject[$i]->tgl_mulai_periode }}</td>
-                                        <td>{{ $report_reject[$i]->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_reject[$i]->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_reject[$i]->tgl_akhir_periode)) }}</td>
                                         <td>{{ $report_reject[$i]->qty_inspek }}</td>
                                         <td>{{ $report_reject[$i]->qty_reject }}</td>
                                         <td>{{ $report_reject[$i]->qty_critical }}</td>
