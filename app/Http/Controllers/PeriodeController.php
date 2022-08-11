@@ -46,6 +46,7 @@ class PeriodeController extends Controller
     //Simpan data periode
     public function SavePeriodeData(Request $request){
         $periode = new PeriodeModel();
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters
         $periode->tahun = $request->tahun;
@@ -56,42 +57,54 @@ class PeriodeController extends Controller
 
 
         if ($request->bulan =="Januari"){
-                $periode->urutan = "1";
+            $periode->urutan = "1";
         } else if($request->bulan == "Februari"){
-                $periode->urutan = "2";
+            $periode->urutan = "2";
         } else if($request->bulan == "Maret"){
-                $periode->urutan = "3";
+            $periode->urutan = "3";
         } else if($request->bulan == "April"){
-                $periode->urutan = "4";
+            $periode->urutan = "4";
         } else if($request->bulan == "Mei"){
-                $periode->urutan = "5";
+            $periode->urutan = "5";
         } else if($request->bulan == "Juni"){
-                $periode->urutan = "6";
+            $periode->urutan = "6";
         } else if($request->bulan == "Juli"){
-                $periode->urutan = "7";
+            $periode->urutan = "7";
         } else if($request->bulan == "Agustus"){
-                $periode->urutan = "8";
+            $periode->urutan = "8";
         } else if($request->bulan == "September"){
-                $periode->urutan = "9";
+            $periode->urutan = "9";
         } else if($periode->bulan == "Oktober"){
-                $periode->urutan = "10";
+            $periode->urutan = "10";
         } else if($periode->bulan == "November"){
-                $periode->urutan = "11";
+            $periode->urutan = "11";
         } else if($periode->bulan == "Desember"){
-                $periode->urutan = "12";
+            $periode->urutan = "12";
         }
 
         //Validasi data input
         if ($request->bulan == "0" || $request->minggu_ke == "0"){
             alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
-            return Redirect::back();
+            
+            return view('admin.master.periode-input',[
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/periode',
+                'select'        => $periode,
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate date
         $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
         if (isset($available_date_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Periode Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+
+            return view('admin.master.periode-input',[
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/periode',
+                'select'        => $periode,
+                'jenis_user'    => $jenis_user
+            ]);
         } else {
             // Insert data into database
             $periode->save();
@@ -99,7 +112,6 @@ class PeriodeController extends Controller
             return redirect('/periode');
         }
     }
-
 
     // fungsi untuk redirect ke halaman edit
     public function EditPeriodeData($id){
@@ -119,6 +131,7 @@ class PeriodeController extends Controller
 
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditPeriodeData(Request $request){
+        $jenis_user = session()->get('jenis_user');
         $id_periode = $request->id_periode;
         $tahun = $request->tahun;
         $bulan = $request->bulan;
@@ -133,7 +146,16 @@ class PeriodeController extends Controller
             $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
             if (isset($available_date_check['0'])) {
                 alert()->error('Gagal!', 'Maaf, Periode Ini Sudah Didaftarkan Dalam Sistem!');
-                return Redirect::back();
+                        
+                $period = PeriodeModel::find($id_periode);
+
+                return view('admin.master.periode-edit', [
+                    'menu'          => 'master',
+                    'sub'           => '/periode',
+                    'periode'       => $period,
+                    'jenis_user'    => $jenis_user
+                ]);
+
             } else {
             // Update data into database
             PeriodeModel::where('id_periode', $id_periode)->update([

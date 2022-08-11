@@ -58,6 +58,9 @@ class MesinController extends Controller
     //Simpan data mesin
     public function SaveMesinData(Request $request){
         $mesin = new MesinModel();
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters
         $mesin->id_departemen = $request->id_departemen;
@@ -65,24 +68,50 @@ class MesinController extends Controller
         $mesin->kode_mesin = strtoupper($request->kode_mesin);
         $mesin->nama_mesin = strtoupper($request->nama_mesin);
 
-        // // Validation data input
+        $sub_dept = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen = '.$mesin->id_departemen);
+
+        // Validation data input
         if ($request->id_departemen == "0" || $request->id_sub_departemen =="0"){
             alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
-            return Redirect::back();
+            return view('admin.master.mesin-input',[
+                'departemen'    => $departemen,
+                'subdepartemen' => $subdepartemen,
+                'sub_dept'      => $sub_dept,
+                'select'        => $mesin,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/mesin',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate kode
         $kode_check = DB::select("SELECT kode_mesin FROM vg_list_mesin WHERE kode_mesin = '".$mesin->kode_mesin."'");
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Mesin Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            return view('admin.master.mesin-input',[
+                'departemen'    => $departemen,
+                'subdepartemen' => $subdepartemen,
+                'sub_dept'      => $sub_dept,
+                'select'        => $mesin,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/mesin',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate nama
         $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$mesin->nama_mesin."'");
         if (isset($nama_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama Mesin Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            return view('admin.master.mesin-input',[
+                'departemen'    => $departemen,
+                'subdepartemen' => $subdepartemen,
+                'sub_dept'      => $sub_dept,
+                'select'        => $mesin,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/mesin',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
 
@@ -122,13 +151,29 @@ class MesinController extends Controller
         $nama_mesin = strtoupper($request->nama_mesin);
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
+
+        // Select data based on ID
+        $machine = MesinModel::find($id_mesin);
+
         // is there a change in nama mesin data?
         if ($request->nama_mesin <> $request->original_nama_mesin){
          // Check duplicate nama
          $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$nama_mesin."'");
          if (isset($nama_check['0'])) {
              alert()->error('Gagal Menyimpan!', 'Maaf, Nama Mesin Ini Sudah Didaftarkan Dalam Sistem!');
-             return Redirect::back();
+             
+             return view('admin.master.mesin-edit', [
+                'menu'          => 'master',
+                'sub'           => '/mesin',
+                'mesin'         => $machine,
+                'departemen'    => $departemen,
+                'subdepartemen' => $subdepartemen,
+                'jenis_user'    => $jenis_user
+            ]);
+
             } else {
                 //update data into database
                 MesinModel::where('id_mesin', $id_mesin)->update([

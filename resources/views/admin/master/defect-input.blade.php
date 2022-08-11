@@ -18,7 +18,11 @@
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-3 control-label">Kode Defect</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="kode_defect" maxlength="6" placeholder="Kode Defect" required>
+                            @if (isset($select))
+                                <input type="text" class="form-control" name="kode_defect" maxlength="6" value="{{ $select->kode_defect }}" required>
+                            @else
+                                <input type="text" class="form-control" name="kode_defect" maxlength="6" placeholder="Kode Defect" required>    
+                            @endif
                         </div>
                     </div>
 
@@ -28,7 +32,11 @@
                             <select class="form-control select2" name="id_departemen" required>
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @if (isset($select))
+                                        <option value="{{ $dept->id_departemen }} {{ old('id_departemen', $select->id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -37,16 +45,40 @@
                     <div class="form-group" style="margin-bottom:5px";>
                         <label class="col-sm-3 control-label">Temuan Defect</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="defect" maxlength="50" placeholder="Temuan Defect" required>
+                            @if (isset($select))
+                                <input type="text" class="form-control" name="defect" maxlength="50" value="{{ $select->defect }}" required>
+                            @else
+                                <input type="text" class="form-control" name="defect" maxlength="50" placeholder="Temuan Defect" required>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-3 control-label">Kriteria</label>
                         <div class="col-sm-7">
-                            <input type="checkbox" name="critical" value="1" id="kriteria">Critical
-                            <input type="checkbox" name="major" value="1" id="kriteria">Major
-                            <input type="checkbox" name="minor" value="1" id="kriteria">Minor
+                            @if (isset($select))
+                                @if ($select->critical == 1)
+                                    <input type="checkbox" name="critical" value="1" id="kriteria" checked> Critical    
+                                @else 
+                                    <input type="checkbox" name="critical" value="1" id="kriteria"> Critical
+                                @endif
+
+                                @if ($select->major == 1)
+                                    <input type="checkbox" name="major" value="1" id="kriteria" checked> Major
+                                @else 
+                                    <input type="checkbox" name="major" value="1" id="kriteria"> Major
+                                @endif 
+                                
+                                @if ($select->minor == 1)
+                                    <input type="checkbox" name="minor" value="1" id="kriteria" checked> Minor    
+                                @else
+                                    <input type="checkbox" name="minor" value="1" id="kriteria"> Minor    
+                                @endif
+                            @else
+                                <input type="checkbox" name="critical" value="1" id="kriteria"> Critical
+                                <input type="checkbox" name="major" value="1" id="kriteria"> Major
+                                <input type="checkbox" name="minor" value="1" id="kriteria"> Minor
+                            @endif
                         </div>
                     </div>
 

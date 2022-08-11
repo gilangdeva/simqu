@@ -17,14 +17,22 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="kode_departemen" maxlength="3" placeholder="Kode Departemen" required> 
+                            @if(isset($select->kode_departemen))
+                                <input type="text" class="form-control" name="kode_departemen" maxlength="3" value="{{ $select->kode_departemen }}" required> 
+                            @else 
+                                <input type="text" class="form-control" name="kode_departemen" maxlength="3" placeholder="Kode Departemen" required> 
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" required>
+                            @if(isset($select->kode_departemen))
+                                <input type="text" class="form-control" name="nama_departemen" maxlength="20" value="{{ $select->nama_departemen }}" required>
+                            @else 
+                                <input type="text" class="form-control" name="nama_departemen" maxlength="20" placeholder="Nama Departemen" required>
+                            @endif
                         </div>
                     </div>
 

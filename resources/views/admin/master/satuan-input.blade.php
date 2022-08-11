@@ -18,14 +18,22 @@
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-3 control-label">Kode Satuan</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="kode_satuan" maxlength="10" placeholder="Kode Satuan" required>
+                            @if (isset($select))
+                                <input type="text" class="form-control" name="kode_satuan" maxlength="10" value="{{ $select->kode_satuan }}" required>
+                            @else   
+                                <input type="text" class="form-control" name="kode_satuan" maxlength="10" placeholder="Kode Satuan" required>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-3 control-label">Nama Satuan</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" name="nama_satuan" maxlength="50" placeholder="Nama Satuan" required>
+                            @if (isset($select))
+                                <input type="text" class="form-control" name="nama_satuan" maxlength="50" value="{{ $select->nama_satuan }}" required>
+                            @else
+                                <input type="text" class="form-control" name="nama_satuan" maxlength="50" placeholder="Nama Satuan" required>
+                            @endif
                         </div>
                     </div>
 

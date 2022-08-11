@@ -56,6 +56,8 @@ class DefectController extends Controller
     //Simpan data defect
     public function SaveDefectData(Request $request){
         $defect = new DefectModel();
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters
         $defect->id_departemen = $request->id_departemen;
@@ -70,20 +72,41 @@ class DefectController extends Controller
         $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$defect->kode_defect."'");
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Defect Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            
+            return view('admin.master.defect-input',[
+                'departemen'    => $departemen,
+                'select'        => $defect,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/defect',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate defect
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect->defect."'");
         if (isset($defect_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Defect Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            
+            return view('admin.master.defect-input',[
+                'departemen'    => $departemen,
+                'select'        => $defect,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/defect',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
        // Insert data into database
         $defect->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-            return redirect('/defect');
+            
+            return view('admin.master.defect-input',[
+                'departemen'    => $departemen,
+                'select'        => $defect,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/defect',
+                'jenis_user'    => $jenis_user
+            ]);
     }
 
     // fungsi untuk redirect ke halaman edit
@@ -106,6 +129,9 @@ class DefectController extends Controller
 
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditDefectData(Request $request){
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
+
         $id_defect              = $request->id_defect;
         $id_departemen          = $request->id_departemen;
         $kode_defect            = strtoupper($request->kode_defect);
@@ -115,10 +141,20 @@ class DefectController extends Controller
         // Is there a change in kode data?
         if ($request->defect <> $request->original_defect){
         //cek apakah sudah ada di db
-        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect."'");
+        $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect."' AND id_departemen = ".$id_departemen);
             if (isset($defect_check['0'])) {
                 alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
-                return Redirect::back();
+
+                $def = DefectModel::find($id_defect);
+                
+                return view('admin.master.defect-edit', [
+                    'menu'          => 'master',
+                    'sub'           => '/defect',
+                    'defect'        => $def,
+                    'departemen'    => $departemen,
+                    'jenis_user'    => $jenis_user
+                ]);
+
             } else {
                 //update data into db
                 DefectModel::where('id_defect', $id_defect)->update([

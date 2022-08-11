@@ -18,7 +18,11 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Mesin</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="kode_mesin" maxlength="4" placeholder="Kode Mesin" required>
+                            @if (isset($select->kode_mesin))
+                                <input type="text" class="form-control" name="kode_mesin" maxlength="4" value="{{ $select->kode_mesin }}" required>
+                            @else
+                                <input type="text" class="form-control" name="kode_mesin" maxlength="4" placeholder="Kode Mesin" required>
+                            @endif
                         </div>
                     </div>
 
@@ -28,7 +32,11 @@
                             <select class="form-control select2" name="id_departemen" required>
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @if (isset($select->id_departemen))
+                                        <option value="{{ $dept->id_departemen }}" {{ old('id_departemen', $select->id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -38,7 +46,14 @@
                         <label class="col-sm-4 control-label">Sub Dept</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen" required>
-                                <option selected>Pilih Sub Departemen</option>
+                                @if(isset($sub_dept))
+                                    <option value="">Pilih Sub Departemen</option>
+                                    @foreach ($sub_dept as $s)
+                                        <option value="{{ $s->id_sub_departemen }}">{{ $s->nama_sub_departemen }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="">Pilih Sub Departemen</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -46,7 +61,11 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Mesin</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" required>
+                            @if (isset($select->kode_mesin))
+                                <input type="text" class="form-control" name="nama_mesin" maxlength="20" value="{{ $select->kode_mesin }}" required>
+                            @else 
+                                <input type="text" class="form-control" name="nama_mesin" maxlength="20" placeholder="Nama Mesin" required>
+                            @endif
                         </div>
                     </div>
 

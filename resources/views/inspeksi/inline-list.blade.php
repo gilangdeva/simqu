@@ -38,7 +38,6 @@
                                     <option value="0">Pilih Filter :</option>
                                     <option value="JOP">JOP</option>
                                     <option value="ITEM">Nama Item</option>
-                                    <option value="INSPEKTOR">Inspektor</option>
                                 </select>
                             </div>
 

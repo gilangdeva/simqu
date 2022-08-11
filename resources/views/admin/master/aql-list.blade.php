@@ -10,12 +10,11 @@
 
     <div class="row">
         <div class="col-md-12">
-
             <div class="white-box">
                 <div class="row">
                     <form action="{{ route('aql.level') }}" id="aql_data" class="form-horizontal" method="GET" enctype="multipart/form-data">
-                        <div class="col-sm-6">
-                            <div class="col-sm-3">
+                        <div class="col-sm-4">
+                            <div class="col-sm-10">
                                 <select class="form-control select-option" name="level" id="level">
                                     <option value="0">Pilih Level :</option>
                                     <option value="1">Level 1</option>
@@ -23,7 +22,7 @@
                                     <option value="3">Level 3</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <button class="btn btn-primary waves-effect pull-right waves-light" type="submit">Submit</button>
                             </div>
                         </div>
