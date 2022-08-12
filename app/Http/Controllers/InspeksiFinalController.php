@@ -531,31 +531,37 @@ class InspeksiFinalController extends Controller
                     File::delete(public_path("/images/defect/".$picture_1));
                 }
             }
+
             if (isset($picture_2)) {
                 if ($picture_2 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_2));
                 }
             }
+
             if (isset($picture_3)) {
                 if ($picture_3 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_3));
                 }
             }
+
             if (isset($picture_4)) {
                 if ($picture_4 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_4));
                 }
             }
+
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
                 }
             }
+
             if (isset($video_1)) {
                 if ($video_1 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_1));
                 }
             }
+            
             if (isset($video_2)) {
                 if ($video_2 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_2));
@@ -637,31 +643,37 @@ class InspeksiFinalController extends Controller
                     File::delete(public_path("/images/defect/".$picture_1));
                 }
             }
+
             if (isset($picture_2)) {
                 if ($picture_2 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_2));
                 }
             }
+
             if (isset($picture_3)) {
                 if ($picture_3 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_3));
                 }
             }
+
             if (isset($picture_4)) {
                 if ($picture_4 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_4));
                 }
             }
+
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
                 }
             }
+
             if (isset($video_1)) {
                 if ($video_1 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_1));
                 }
             }
+
             if (isset($video_2)) {
                 if ($video_2 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_2));
