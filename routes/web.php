@@ -113,7 +113,6 @@ Route::post('/aql-input', [AqlController::class, 'SaveAqlData'])->name('aql.save
 Route::get('/aql-edit/{id}', [AqlController::class, 'EditAqlData'])->middleware('auth.check');
 Route::post('/aql-update/', [AqlController::class, 'SaveEditAqlData'])->name('aql.update')->middleware('auth.check');
 Route::get('/aql-delete/{id}', [AqlController::class, 'DeleteAqlData'])->middleware('auth.check');
-
 Route::get('/aql-level/', [AqlController::class, 'ActivateLevel'])->name('aql.level')->middleware('auth.check');
 
 //Inspeksi Inline
@@ -170,9 +169,6 @@ Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReje
 
 Route::get('/report-qty-defect', [ReportController::class, 'ReportQtyDefect'])->middleware('auth.check');
 Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReportQtyDefect'])->name('report.qty_defect')->middleware('auth.check');
-
-Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
-Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
 
 Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
 Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');

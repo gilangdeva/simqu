@@ -519,17 +519,8 @@ class InspeksiInlineController extends Controller
 
             $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
 
-            return view('inspeksi.inline-input',[
-                'id_header'         => 0, //di set 0, nanti ketika save maka akan dapat id header baru
-                'departemen'        => $departemen,
-                'subdepartemen'     => $subdepartemen,
-                'defect'            => $defect,
-                'draft'             => $draft,
-                'satuan'            => $satuan,
-                'menu'              => 'inspeksi',
-                'sub'               => '/inline',
-                'jenis_user'        => $jenis_user
-            ]);
+            return redirect('/inline-input');
+
         } else if ($count > 1) {
             $inline_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
 
@@ -542,22 +533,7 @@ class InspeksiInlineController extends Controller
                 $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect where id_departemen =".$id_departemen);
                 $jenis_user = session()->get('jenis_user');
 
-                return view('inspeksi.inline-input',[
-                    'id_header'         => $id_header,
-                    'tgl_inspeksi'      => $tgl_inspeksi,
-                    'shift'             => $shift,
-                    'mesin'             => $mesin,
-                    'departemen'        => $departemen,
-                    'subdepartemen'     => $subdepartemen,
-                    'defect'            => $defect,
-                    'draft'             => $draft,
-                    'satuan'            => $satuan,
-                    'id_departemen'     => $id_departemen,
-                    'id_sub_departemen' => $id_sub_departemen,
-                    'menu'              => 'inspeksi',
-                    'sub'               => '/inline',
-                    'jenis_user'        => $jenis_user
-                ]);
+                return redirect('/inline-input');
             }
         }
 
@@ -666,9 +642,6 @@ class InspeksiInlineController extends Controller
                 'submitted_by'           => $submitted_by
             ]);
 
-            // $cek_id_detail = DB::select("SELECT id_inspeksi_detail FROM tb_history_inspeksi WHERE id_inspeksi_detail='".$id_detail."'");
-            // $cek_id_detail = $cek_id_detail[0]->id_inspeksi_detail;
-
             $cek_submitted   = DB::select("SELECT id_inspeksi_detail, status_approval FROM tb_history_inspeksi WHERE id_inspeksi_detail='".$id_detail."'");
             $cek_id_detail  = $cek_submitted[0]->id_inspeksi_detail;
             $cek_status     = $cek_submitted[0]->status_approval;
@@ -689,81 +662,81 @@ class InspeksiInlineController extends Controller
                 $id_detail = Crypt::decryptString($id);
                 $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
                 $id_header = $id_header[0]->id_inspeksi_header;
-            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vw_list_inline WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
-            $count = $count_detail[0]->count;
-            $pictures = DB::select("SELECT picture_1, picture_2, picture_3, picture_4, picture_5 FROM vw_list_inline WHERE id_inspeksi_detail='".$id_detail."'");
-            $picture_1 = $pictures[0]->picture_1;
-            $picture_2 = $pictures[0]->picture_2;
-            $picture_3 = $pictures[0]->picture_3;
-            $picture_4 = $pictures[0]->picture_4;
-            $picture_5 = $pictures[0]->picture_5;
-            $satuan = DB::select("SELECT satuan_qty_temuan, satuan_qty_ready_pcs, satuan_qty_sampling FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
-            $satuan_qty_temuan = $satuan[0]->satuan_qty_temuan;
-            $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
-            $satuan_qty_sampling = $satuan[0]->satuan_qty_sampling;
-            $jenis_user = session()->get('jenis_user');
+                $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vw_list_inline WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
+                $count = $count_detail[0]->count;
+                $pictures = DB::select("SELECT picture_1, picture_2, picture_3, picture_4, picture_5 FROM vw_list_inline WHERE id_inspeksi_detail='".$id_detail."'");
+                $picture_1 = $pictures[0]->picture_1;
+                $picture_2 = $pictures[0]->picture_2;
+                $picture_3 = $pictures[0]->picture_3;
+                $picture_4 = $pictures[0]->picture_4;
+                $picture_5 = $pictures[0]->picture_5;
+                $satuan = DB::select("SELECT satuan_qty_temuan, satuan_qty_ready_pcs, satuan_qty_sampling FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+                $satuan_qty_temuan = $satuan[0]->satuan_qty_temuan;
+                $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
+                $satuan_qty_sampling = $satuan[0]->satuan_qty_sampling;
+                $jenis_user = session()->get('jenis_user');
 
-            // Delete Pictures
-            if (isset($picture_1)) {
-                if ($picture_1 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_1));
+                // Delete Pictures
+                if (isset($picture_1)) {
+                    if ($picture_1 <> "blank.jpg") {
+                        File::delete(public_path("/images/defect/".$picture_1));
+                    }
                 }
-            }
-            if (isset($picture_2)) {
-                if ($picture_2 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_2));
+                if (isset($picture_2)) {
+                    if ($picture_2 <> "blank.jpg") {
+                        File::delete(public_path("/images/defect/".$picture_2));
+                    }
                 }
-            }
-            if (isset($picture_3)) {
-                if ($picture_3 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_3));
+                if (isset($picture_3)) {
+                    if ($picture_3 <> "blank.jpg") {
+                        File::delete(public_path("/images/defect/".$picture_3));
+                    }
                 }
-            }
-            if (isset($picture_4)) {
-                if ($picture_4 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_4));
+                if (isset($picture_4)) {
+                    if ($picture_4 <> "blank.jpg") {
+                        File::delete(public_path("/images/defect/".$picture_4));
+                    }
                 }
-            }
-            if (isset($picture_5)) {
-                if ($picture_5 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_5));
+                if (isset($picture_5)) {
+                    if ($picture_5 <> "blank.jpg") {
+                        File::delete(public_path("/images/defect/".$picture_5));
+                    }
                 }
-            }
-            if (isset($video_1)) {
-                if ($video_1 <> "blank.jpg") {
-                    File::delete(public_path("/videos/defect/".$video_1));
+                if (isset($video_1)) {
+                    if ($video_1 <> "blank.jpg") {
+                        File::delete(public_path("/videos/defect/".$video_1));
+                    }
                 }
-            }
-            if (isset($video_2)) {
-                if ($video_2 <> "blank.jpg") {
-                    File::delete(public_path("/videos/defect/".$video_2));
-                }
-            }
-
-            if ($count == 1){
-                $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                $inline_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
-                // $tb_history     = DB::table('tb_history_inspeksi')->where('id_inspeksi_detail', $id_detail)->delete();
-            } else if ($count > 1) {
-                $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                // $tb_history     = DB::table('tb_history_inspeksi')->where('id_inspeksi_detail', $id_detail)->delete();
+                if (isset($video_2)) {
+                    if ($video_2 <> "blank.jpg") {
+                        File::delete(public_path("/videos/defect/".$video_2));
+                    }
                 }
 
-                $approved_by = session()->get('id_user');
-                $approved_by = DB::select("SELECT nama_user FROM tb_master_users WHERE id_user='".$approved_by."'");
-                $approved_by = $approved_by[0]->nama_user;
+                if ($count == 1){
+                    $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                    $inline_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
+                    // $tb_history     = DB::table('tb_history_inspeksi')->where('id_inspeksi_detail', $id_detail)->delete();
+                } else if ($count > 1) {
+                    $inline_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                    // $tb_history     = DB::table('tb_history_inspeksi')->where('id_inspeksi_detail', $id_detail)->delete();
+                    }
 
-                $status_approval = "Deleted";
+                    $approved_by = session()->get('id_user');
+                    $approved_by = DB::select("SELECT nama_user FROM tb_master_users WHERE id_user='".$approved_by."'");
+                    $approved_by = $approved_by[0]->nama_user;
 
-                // update status approval
-                DB::table('tb_history_inspeksi')->where('id_inspeksi_detail',$id_detail)->update([
-                    'status_approval'     => $status_approval,
-                    'approved_by'           => $approved_by
-                ]);
+                    $status_approval = "Deleted";
 
-                alert()->success('Berhasil!', 'Data Berhasil Dihapus Dari List Inspeksi!');
-                return Redirect::back();
-        }
+                    // update status approval
+                    DB::table('tb_history_inspeksi')->where('id_inspeksi_detail',$id_detail)->update([
+                        'status_approval'     => $status_approval,
+                        'approved_by'           => $approved_by
+                    ]);
+
+                    alert()->success('Berhasil!', 'Data Berhasil Dihapus Dari List Inspeksi!');
+                    return Redirect::back();
+           }
 
             // Fungsi keep data list approval
             public function ApprovalKeepInlineDataList($id){
