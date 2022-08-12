@@ -164,8 +164,6 @@ Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportIn
 
 Route::get('/report-critical', [ReportController::class, 'ReportCritical'])->middleware('auth.check');
 Route::get('/report-filter-critical/', [ReportController::class, 'FilterReportCritical'])->name('report.critical')->middleware('auth.check');
-//Export PDF
-// Route::get('/ReportCriticalPDF', [ReportController::class, 'ReportCriticalPDF'])->name('report.critical-pdf');
 
 Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middleware('auth.check');
 Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');
@@ -175,6 +173,12 @@ Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReport
 
 Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
 Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
+
+Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
+Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
+
+Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
+route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
 
 //Approval
 Route::get('/approval', [ApprovalController::class, 'ApprovalList'])->middleware('auth.check');
