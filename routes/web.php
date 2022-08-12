@@ -15,6 +15,7 @@ use App\Http\Controllers\JOPEdarController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\AqlController;
+use App\Http\Controllers\ApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,13 +125,12 @@ Route::get('/inline-edit/{id}', [InspeksiInlineController::class, 'EditInlineDat
 Route::post('/inline-update/', [InspeksiInlineController::class, 'SaveEditInlineData'])->name('inline.update')->middleware('auth.check');
 Route::get('/inline-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineData'])->middleware('auth.check');
 Route::get('/inline-filter/', [InspeksiInlineController::class, 'FilterInlineList'])->name('inline.filter')->middleware('auth.check');
-
+Route::get('/approval-inline-delete/{id}', [InspeksiInlineController::class, 'ApprovalDeleteInlineDatalist'])->middleware('auth.check');
 Route::get('/inlinelist-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineDataList'])->middleware('auth.check');
+Route::get('/approval-inline-keep/{id}', [InspeksiInlineController::class, 'ApprovalKeepInlineDatalist'])->middleware('auth.check');
 
 // Post Function (Inline)
 Route::get('/inline-post/', [InspeksiInlineController::class, 'PostInline'])->middleware('auth.check');
-
-Route::get('/inlinelist-delete/{id}', [InspeksiInlineController::class, 'DeleteInlineDataList'])->middleware('auth.check');
 
 // Post Function (Inline)
 Route::get('/inline-post/', [InspeksiInlineController::class, 'PostInline'])->middleware('auth.check');
@@ -144,8 +144,9 @@ Route::get('/final-edit/{id}', [InspeksiFinalController::class, 'EditFinalData']
 Route::post('/final-update/', [InspeksiFinalController::class, 'SaveEditFinalData'])->name('final.update')->middleware('auth.check');
 Route::get('/final-delete/{id}', [InspeksiFinalController::class, 'DeleteFinalData'])->middleware('auth.check');
 Route::get('/final-filter/', [InspeksiFinalController::class, 'FilterFinalList'])->name('final.filter')->middleware('auth.check');
-
+Route::get('/approval-final-delete/{id}', [InspeksiFinalController::class, 'ApprovalDeleteFinalDatalist'])->middleware('auth.check');
 Route::get('/finallist-delete/{id}', [InspeksiFinalController::class, 'DeleteFinalDataList'])->middleware('auth.check');
+Route::get('/approval-final-keep/{id}', [InspeksiFinalController::class, 'ApprovalKeepFinalDatalist'])->middleware('auth.check');
 
 // Post Function (Final)
 Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middleware('auth.check');
@@ -163,6 +164,8 @@ Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportIn
 
 Route::get('/report-critical', [ReportController::class, 'ReportCritical'])->middleware('auth.check');
 Route::get('/report-filter-critical/', [ReportController::class, 'FilterReportCritical'])->name('report.critical')->middleware('auth.check');
+//Export PDF
+// Route::get('/ReportCriticalPDF', [ReportController::class, 'ReportCriticalPDF'])->name('report.critical-pdf');
 
 Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middleware('auth.check');
 Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');
@@ -171,7 +174,8 @@ Route::get('/report-qty-defect', [ReportController::class, 'ReportQtyDefect'])->
 Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReportQtyDefect'])->name('report.qty_defect')->middleware('auth.check');
 
 Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
-route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
+Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
 
-Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
-route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
+//Approval
+Route::get('/approval', [ApprovalController::class, 'ApprovalList'])->middleware('auth.check');
+Route::get('/approval-list/', [ApprovalController::class, 'FilterApproval'])->name('inspeksi.approval-list')->middleware('auth.check');

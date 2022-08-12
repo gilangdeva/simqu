@@ -43,7 +43,6 @@ class InspeksiFinalController extends Controller
         $list_final = DB::table('vg_list_final')
         ->where('tgl_inspeksi', '>=', $start_date)
         ->where('tgl_inspeksi', '<=', $end_date)
-        ->where('id_user', '=', session()->get('id_user'))
         ->get();
 
         $jenis_user = session()->get('jenis_user');
@@ -531,37 +530,31 @@ class InspeksiFinalController extends Controller
                     File::delete(public_path("/images/defect/".$picture_1));
                 }
             }
-
             if (isset($picture_2)) {
                 if ($picture_2 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_2));
                 }
             }
-
             if (isset($picture_3)) {
                 if ($picture_3 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_3));
                 }
             }
-
             if (isset($picture_4)) {
                 if ($picture_4 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_4));
                 }
             }
-
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
                 }
             }
-
             if (isset($video_1)) {
                 if ($video_1 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_1));
                 }
             }
-            
             if (isset($video_2)) {
                 if ($video_2 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_2));
@@ -619,17 +612,23 @@ class InspeksiFinalController extends Controller
             $id_detail = Crypt::decryptString($id);
             $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
             $id_header = $id_header[0]->id_inspeksi_header;
-
-            $draft = DB::table('vg_list_final')->WHERE('id_inspeksi_header',$id_header)->first();
-
-            $type_form = "Final";
-            $tgl_inspeksi = $draft->tgl_inspeksi;
-            $shift = strtoupper($draft->shift);
-            $id_user = session()->get('id_user');
-            $id_departemen = $draft->id_departemen;
-            $id_sub_departemen = $draft->id_sub_departemen;
+            $count_detail = DB::select("SELECT COUNT ($id_detail) FROM vg_list_final WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");            $count = $count_detail[0]->count;
+            $count = $count_detail[0]->count;
+            $pictures = DB::select("SELECT picture_1, picture_2, picture_3, picture_4, picture_5 FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $picture_1 = $pictures[0]->picture_1;
+            $picture_2 = $pictures[0]->picture_2;
+            $picture_3 = $pictures[0]->picture_3;
+            $picture_4 = $pictures[0]->picture_4;
+            $picture_5 = $pictures[0]->picture_5;
+            $satuan = DB::select("SELECT satuan_qty_temuan, satuan_qty_ready_pcs, satuan_qty_ready_pack, satuan_qty_sample_aql, satuan_qty_sample_riil, satuan_qty_reject_all FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $satuan_qty_temuan = $satuan[0]->satuan_qty_temuan;
+            $satuan_qty_ready_pcs = $satuan[0]->satuan_qty_ready_pcs;
+            $satuan_qty_ready_pack = $satuan[0]->satuan_qty_ready_pack;
+            $satuan_qty_reject_all = $satuan[0]->satuan_qty_reject_all;
             $jenis_user = session()->get('jenis_user');
-            $status_approval = "Submitted";
+            $videos     = DB::select("SELECT video_1, video_2 FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $video_1    = $videos[0]->video_1;
+            $video_2    = $videos[0]->video_2;
 
             // Delete Pictures
             if (isset($picture_1)) {
@@ -637,218 +636,46 @@ class InspeksiFinalController extends Controller
                     File::delete(public_path("/images/defect/".$picture_1));
                 }
             }
-
             if (isset($picture_2)) {
                 if ($picture_2 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_2));
                 }
             }
-
             if (isset($picture_3)) {
                 if ($picture_3 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_3));
                 }
             }
-
             if (isset($picture_4)) {
                 if ($picture_4 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_4));
                 }
             }
-
             if (isset($picture_5)) {
                 if ($picture_5 <> "blank.jpg") {
                     File::delete(public_path("/images/defect/".$picture_5));
                 }
             }
-
             if (isset($video_1)) {
                 if ($video_1 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_1));
                 }
             }
-
             if (isset($video_2)) {
                 if ($video_2 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_2));
                 }
             }
 
-            $id_approval = DB::select("SELECT id_approval FROM vg_list_id_approval");
-            $id_approval = $id_approval[0]->id_approval;
-
-            $picture_1 = $draft->picture_1;
-            $picture_2 = $draft->picture_2;
-            $picture_3 = $draft->picture_3;
-            $picture_4 = $draft->picture_4;
-            $picture_5 = $draft->picture_5;
-
-            $jam_mulai = new DateTime($draft->jam_mulai);
-            $jam_selesai = new DateTime($draft->jam_selesai);
-            $interval = round(($jam_selesai->format('U') - $jam_mulai->format('U')) / 60);
-            $lama_inspeksi = $interval;
-            $jop = $draft->jop;
-            $item = $draft->item;
-            $id_defect = $draft->id_defect;
-            $kriteria = $draft->kriteria;
-            $qty_defect = $draft->qty_defect;
-            $status = $draft->status;
-            $keterangan = $draft->keterangan;
-            $created_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-            $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
-            $creator = session()->get('id_user');
-            $updater = session()->get('id_user');
-            $satuan_qty_temuan = $draft->satuan_qty_temuan;
-            $satuan_qty_ready_pcs = $draft->satuan_qty_ready_pcs;
-            $satuan_qty_ready_pack = $draft->satuan_qty_ready_pack;
-            $satuan_qty_reject_all = $draft->satuan_qty_reject_all;
-            $qty_ready_pcs      = $draft->qty_ready_pcs;
-            $qty_ready_pack     = $draft->qty_ready_pack;
-            $qty_sample_riil    = $draft->qty_sample_riil;
-            $qty_sample_aql     = $draft->qty_sample_aql;
-            $jenis_user = session()->get('jenis_user');
-
-            $video_1    = $draft->video_1;
-            $video_2    = $draft->video_2;
-
-            $submitted_by = session()->get('id_user');
-            $submitted_by = DB::select("SELECT nama_user FROM tb_master_users WHERE id_user='".$submitted_by."'");
-            $submitted_by = $submitted_by[0]->nama_user;
-
-            // insert into database
-            DB::table('tb_history_inspeksi')->insert([
-                'id_inspeksi_header'    => $id_header,
-                'type_form'             => $type_form,
-                'tgl_inspeksi'          => $tgl_inspeksi,
-                'shift'                 => $shift,
-                'id_user'               => $id_user,
-                'id_departemen'         => $id_departemen,
-                'id_sub_departemen'     => $id_sub_departemen,
-                'created_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
-                'updated_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
-                'id_inspeksi_detail'    => $id_detail,
-                'jam_mulai'             => $jam_mulai,
-                'jam_selesai'           => $jam_selesai,
-                'lama_inspeksi'         => $lama_inspeksi,
-                'jop'                   => $jop,
-                'item'                  => $item,
-                'id_defect'             => $id_defect,
-                'kriteria'              => $kriteria,
-                'qty_defect'            => $qty_defect,
-                'qty_ready_pcs'         => $qty_ready_pcs,
-                'qty_ready_pack'        => $qty_ready_pack,
-                'qty_sample_riil'       => $qty_sample_riil,
-                'qty_sample_aql'        => $qty_sample_aql,
-                'status'                => $status,
-                'keterangan'            => $keterangan,
-                'creator'               => $creator,
-                'updater'               => $updater,
-                'picture_1'             => $picture_1,
-                'picture_2'             => $picture_2,
-                'picture_3'             => $picture_3,
-                'picture_4'             => $picture_4,
-                'picture_5'             => $picture_5,
-                'satuan_qty_temuan'     => $satuan_qty_temuan,
-                'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
-                'satuan_qty_ready_pack' => $satuan_qty_ready_pack,
-                'satuan_qty_reject_all' => $satuan_qty_reject_all,
-                'video_1'               => $video_1,
-                'video_2'               => $video_2,
-                'status_approval'       => $status_approval,
-                'id_approval'           => $id_approval,
-                'submitted_by'          => $submitted_by
-            ]);
-
-            $cek_id_detail = DB::select("SELECT id_inspeksi_detail FROM tb_history_inspeksi WHERE id_inspeksi_detail='".$id_detail."'");
-            $cek_id_detail = $cek_id_detail[0]->id_inspeksi_detail;
-
-            if(($id_detail == $cek_id_detail)) {
-                alert()->error('Harap Tunggu!', 'Menunggu Approval Dari Manajer!');
-                return Redirect::back();
+            if ($count == 1){
+                $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                $final_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
+                return redirect('/final');
+            } else if ($count > 1) {
+                $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
+                return redirect('/final');
             }
         }
-
-            // Fungsi hapus data list approval
-            public function ApprovalDeleteFinalDataList($id){
-                $id_detail              = Crypt::decryptString($id);
-                $id_header              = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
-                $id_header              = $id_header[0]->id_inspeksi_header;
-                $count_detail           = DB::select("SELECT COUNT ($id_detail) FROM vg_list_final WHERE id_inspeksi_header='".$id_header."' GROUP BY id_inspeksi_header");
-                $count                  = $count_detail[0]->count;
-                $pictures               = DB::select("SELECT picture_1, picture_2, picture_3, picture_4, picture_5 FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
-                $picture_1              = $pictures[0]->picture_1;
-                $picture_2              = $pictures[0]->picture_2;
-                $picture_3              = $pictures[0]->picture_3;
-                $picture_4              = $pictures[0]->picture_4;
-                $picture_5              = $pictures[0]->picture_5;
-                $satuan                 = DB::select("SELECT satuan_qty_temuan, satuan_qty_ready_pcs, satuan_qty_ready_pack, satuan_qty_reject_all  FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
-                $satuan_qty_temuan      = $satuan[0]->satuan_qty_temuan;
-                $satuan_qty_ready_pcs   = $satuan[0]->satuan_qty_ready_pcs;
-                $satuan_qty_ready_pack  = $satuan[0]->satuan_qty_ready_pack;
-                $satuan_qty_reject_all  = $satuan[0]->satuan_qty_reject_all;
-                $jenis_user             = session()->get('jenis_user');
-
-                // Delete Pictures
-                if (isset($picture_1)) {
-                    if ($picture_1 <> "blank.jpg") {
-                        File::delete(public_path("/images/defect/".$picture_1));
-                    }
-                }
-                if (isset($picture_2)) {
-                    if ($picture_2 <> "blank.jpg") {
-                        File::delete(public_path("/images/defect/".$picture_2));
-                    }
-                }
-                if (isset($picture_3)) {
-                    if ($picture_3 <> "blank.jpg") {
-                        File::delete(public_path("/images/defect/".$picture_3));
-                    }
-                }
-                if (isset($picture_4)) {
-                    if ($picture_4 <> "blank.jpg") {
-                        File::delete(public_path("/images/defect/".$picture_4));
-                    }
-                }
-                if (isset($picture_5)) {
-                    if ($picture_5 <> "blank.jpg") {
-                        File::delete(public_path("/images/defect/".$picture_5));
-                    }
-                }
-                if (isset($video_1)) {
-                    if ($video_1 <> "blank.jpg") {
-                        File::delete(public_path("/videos/defect/".$video_1));
-                    }
-                }
-                if (isset($video_2)) {
-                    if ($video_2 <> "blank.jpg") {
-                        File::delete(public_path("/videos/defect/".$video_2));
-                    }
-                }
-
-                if ($count == 1){
-                    $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                    $final_detail  = DB::table('tb_inspeksi_header')->where('id_inspeksi_header',$id_header)->delete();
-                    // $tb_history     = DB::table('tb_history_inspeksi')->where('id_inspeksi_detail', $id_detail)->delete();
-                } else if ($count > 1) {
-                    $final_detail  = DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->delete();
-                    // $tb_history     = DB::table('tb_history_inspeksi')->where('id_inspeksi_detail', $id_detail)->delete();
-                }
-
-                $approved_by = session()->get('id_user');
-                $approved_by = DB::select("SELECT nama_user FROM tb_master_users WHERE id_user='".$approved_by."'");
-                $approved_by = $approved_by[0]->nama_user;
-
-                $status_approval = "Deleted";
-
-                // update status approval
-                DB::table('tb_history_inspeksi')->where('id_inspeksi_detail',$id_detail)->update([
-                    'status_approval'       => $status_approval,
-                    'approved_by'           => $approved_by
-                ]);
-
-                alert()->success('Berhasil!', 'Data Berhasil Dihapus Dari List Inspeksi!');
-                return Redirect::back();
-            }
 
         //Fungsi post final into list
         public function PostFinal(){
@@ -988,6 +815,7 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_reject_all'     => $satuan_qty_reject_all,
                 'video_1'                   => $video_1,
                 'video_2'                   => $video_2
+
             ]);
         }
             // Delete header
@@ -1019,6 +847,12 @@ class InspeksiFinalController extends Controller
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('item', 'like', "%{$text_search}%")
                         ->get();
+                } else if ($type_search =="INSPEKTOR"){
+                    $list_final = DB::table('vg_list_final')
+                        ->where('tgl_inspeksi', '>=', $start_date)
+                        ->where('tgl_inspeksi', '<=', $end_date)
+                        ->where('nama_user', 'like', "%{$text_search}%")
+                        ->get();
                 } else {
                     $list_final = DB::table('vg_list_final')
                     ->where('tgl_inspeksi', '>=', $start_date)
@@ -1047,5 +881,6 @@ class InspeksiFinalController extends Controller
                 'jenis_user'    => $jenis_user
             ]);
         }
+
     }
 }
