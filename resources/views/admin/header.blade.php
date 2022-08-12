@@ -218,6 +218,7 @@
                         <ul class="nav nav-second-level">
                             <li><a href="/inline"><i class="mdi mdi-sync fa-fw"></i> <span class="hide-menu">Inline</span></a></li>
                             <li><a href="/final"><i class="mdi mdi-wallet-giftcard fa-fw"></i> <span class="hide-menu">Final</span></a></li>
+                            <li><a href="/approval"><i class="mdi mdi-check fa-fw"></i> <span class="hide-menu">Approval</span></a></li>
                         </ul>
                     </li>
 
