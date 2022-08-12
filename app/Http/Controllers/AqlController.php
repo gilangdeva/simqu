@@ -14,8 +14,7 @@ use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AqlController extends Controller
-{
+class AqlController extends Controller {
     // Menampilkan list sample aql
     public function aqllist(){
         // Get all data from database
@@ -44,6 +43,7 @@ class AqlController extends Controller
     //Simpan data aql
     public function SaveAqlData(Request $request){
         $aql = new AqlModel();
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters
         $aql->level_aql         = strtoupper($request->level_aql);
@@ -56,10 +56,22 @@ class AqlController extends Controller
         $aql->created_at        = $request->created_at;
         $aql->updated_at        = $request->updated_at;
 
-        // Insert data into database
-        $aql->save();
+        $check_aql = DB::select("SELECT id_aql FROM vg_list_aql WHERE level_aql = '".strtoupper($request->level_aql)."' AND kode_aql = '".strtoupper($request->kode_aql)."'");
+
+        if(isset($check_aql)){
+            alert()->error('Gagal!', 'Data AQL sudah terdaftar di sistem!');
+            return view('admin.master.aql-input',[
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/aql',
+                'select'        => $aql,
+                'jenis_user'    => $jenis_user
+            ]);
+        } else {
+            // Insert data into database
+            $aql->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
             return redirect('/aql');
+        }
     }
 
     // fungsi untuk redirect ke halaman edit

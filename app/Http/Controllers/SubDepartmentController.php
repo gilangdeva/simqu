@@ -44,6 +44,8 @@ class SubDepartmentController extends Controller
 
     //Simpan data subdepartemen
     public function SaveSubDepartmentData(Request $request){
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
         $subdepartment = new SubDepartmentModel();
 
         // Parameters
@@ -51,25 +53,44 @@ class SubDepartmentController extends Controller
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $subdepartment->klasifikasi_proses = strtoupper($request->klasifikasi_proses);
-
+        
         // Validation data input
         if ($request->id_departemen == "0"){
-            alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
-            return Redirect::back();
+            alert()->error('Gagal Input Data!', 'Maaf, Anda belum memilih Departemen!');
+            
+            return view('admin.master.subdepartment-input',[
+                'departemen'    => $departemen,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'select'        => $subdepartment,
+                'sub'           => '/subdepartment',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate kode
         $kode_sub_department_check = DB::select("SELECT kode_sub_departemen FROM vg_list_sub_departemen WHERE kode_sub_departemen = '".strtoupper ($subdepartment->kode_sub_departemen)."'");
         if (isset($kode_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            return view('admin.master.subdepartment-input',[
+                'departemen'    => $departemen,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'select'        => $subdepartment,
+                'sub'           => '/subdepartment',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate nama
         $nama_sub_department_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".strtoupper ($subdepartment->nama_sub_departemen)."'");
         if (isset($nama_sub_department_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            return view('admin.master.subdepartment-input',[
+                'departemen'    => $departemen,
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'select'        => $subdepartment,
+                'sub'           => '/subdepartment',
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Insert data into database
@@ -101,6 +122,9 @@ class SubDepartmentController extends Controller
 
     // simpan perubahan dari data yang sudah di edit
     public function SaveEditSubDepartmentData(Request $request){
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $jenis_user = session()->get('jenis_user');
+
         $id_sub_departemen = $request->id_sub_departemen;
         $id_departemen = $request->id_departemen;
         $kode_sub_departemen = strtoupper($request->kode_sub_departemen);
@@ -114,7 +138,18 @@ class SubDepartmentController extends Controller
             $namasub_check = DB::select("SELECT nama_sub_departemen FROM vg_list_sub_departemen WHERE nama_sub_departemen = '".$nama_sub_departemen."'");
             if (isset($namasub_check['0'])) {
                 alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
-                return Redirect::back();
+
+                // Select data based on ID
+                $subdepartemen = SubDepartmentModel::find($id_sub_departemen);
+                
+                return view('admin.master.subdepartment-edit', [
+                    'menu'          => 'master',
+                    'sub'           => '/subdepartment',
+                    'subdepartment' => $subdepartemen,
+                    'departemen'    => $departemen,
+                    'jenis_user'    => $jenis_user
+                ]);
+
             } else {
                 //update data into db
                 SubDepartmentModel::where('id_sub_departemen', $id_sub_departemen)->update([
@@ -154,8 +189,7 @@ class SubDepartmentController extends Controller
         if (isset($creator_check[0])) {
             Alert::error("Gagal!", 'Data Ini Tidak Dapat Dihapus Karena Sudah Dipakai Tabel Lain!');
             return Redirect::back();
-        }
-        {
+        } else {
             // Delete process
             $subdepartemen = SubDepartmentModel::find($id);
             $subdepartemen->delete();

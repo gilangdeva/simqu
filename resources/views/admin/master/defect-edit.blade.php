@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom 3px;">
+                    <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Temuan Defect</label>
                         <div class="col-sm-7">
                             <input type="text" class="form-control" name="defect" maxlength="50" placeholder="Temuan Defect" value="{{ $defect->defect }}" required>
@@ -46,9 +46,9 @@
                     <div class="form-group" style="margin-bottom:3px";>
                         <label class="col-sm-3 control-label">Kriteria</label>
                         <div class="col-sm-7">
-                            <input type="checkbox" name="critical" value="1" id="kriteria">Critical
-                            <input type="checkbox" name="major" value="1" id="kriteria">Major
-                            <input type="checkbox" name="minor" value="1" id="kriteria">Minor
+                            <input type="checkbox" name="critical" value="1" id="kriteria"> Critical
+                            <input type="checkbox" name="major" value="1" id="kriteria"> Major
+                            <input type="checkbox" name="minor" value="1" id="kriteria"> Minor
                         </div>
                     </div>
 

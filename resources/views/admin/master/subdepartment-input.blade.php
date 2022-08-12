@@ -21,7 +21,11 @@
                             <select class="form-control select2" name="id_departemen" required>
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
-                                    <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @if(isset($select->id_departemen))
+                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select->id_departemen) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                    @else
+                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -30,14 +34,22 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Kode Sub Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="kode_sub_departemen" maxlength="3" placeholder="Kode Sub Departemen" required>
+                            @if (isset($select->kode_sub_departemen))
+                                <input type="text" class="form-control" name="kode_sub_departemen" maxlength="3" value="{{ $select->kode_sub_departemen }}" required>
+                            @else
+                                <input type="text" class="form-control" name="kode_sub_departemen" maxlength="3" placeholder="Kode Sub Departemen" required>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Nama Sub Departemen</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" required>
+                            @if (isset($select->nama_sub_departemen))
+                                <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" value="{{ $select->nama_sub_departemen }}" required>
+                            @else
+                                <input type="text" class="form-control" name="nama_sub_departemen" maxlength="20" placeholder="Nama Sub Departemen" required>
+                            @endif
                         </div>
                     </div>
 
@@ -45,10 +57,17 @@
                         <label class="col-sm-4 control-label">Klasifikasi Proses</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" name="klasifikasi_proses" required>
-                                <option value="0">Pilih Proses</option>
-                                <option value="INLINE">INLINE</option>
-                                <option value="FINAL">FINAL</option>
-                                <option value="NONPROSES">NON PROSES</option>
+                                @if (isset($select->klasifikasi_proses))
+                                    <option value="0">Pilih Proses</option>
+                                    <option value="INLINE" {{ old('klasifikasi_proses', $select->klasifikasi_proses) == "INLINE" ? 'selected':''}}>INLINE</option>
+                                    <option value="FINAL" {{ old('klasifikasi_proses', $select->klasifikasi_proses) == "FINAL" ? 'selected':''}}>FINAL</option>
+                                    <option value="NONPROSES" {{ old('klasifikasi_proses', $select->klasifikasi_proses) == "NONPROSES" ? 'selected':''}}>NON PROSES</option>
+                                @else
+                                    <option value="0">Pilih Proses</option>
+                                    <option value="INLINE">INLINE</option>
+                                    <option value="FINAL">FINAL</option>
+                                    <option value="NONPROSES">NON PROSES</option>
+                                @endif
                             </select>
                         </div>
                     </div>

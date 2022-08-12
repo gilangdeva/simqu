@@ -15,51 +15,45 @@
                     {{ csrf_field() }}
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Level</label>
-                        <div class="col-sm-7">
+                        <div class="col-sm-3">
                             <input type="hidden" class="form-control" name="id_aql" value="{{ $aql->id_aql }}" readonly autocomplete="false">
                             <input type="text" class="form-control" name="level_aql" maxlength="3" placeholder="Level" value="{{ $aql->level_aql }}" readonly>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom 3px;">
-                        <label class="col-sm-3 control-label">Kode AQL</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="kode_aql" maxlength="50" placeholder="Kode AQL" value="{{ $aql->kode_aql }}" required>
+                        <label class="col-sm-2 control-label">Kode AQL</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="kode_aql" maxlength="50" placeholder="Kode AQL" value="{{ $aql->kode_aql }}" readonly>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom 3px;">
-                        <label class="col-sm-3 control-label">Brg Siap Min</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="qty_lot_min" maxlength="50" placeholder="Brg Siap Min" value="{{ $aql->qty_lot_min }}" required>
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Qty Sample</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="50" min="1" placeholder="Qty Sample AQL" value="{{ $aql->qty_sample_aql }}" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom 3px;">
-                        <label class="col-sm-3 control-label">Brg Siap Max</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="qty_lot_max" maxlength="50" placeholder="Brg Siap Max" value="{{ $aql->qty_lot_max }}" required>
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Qty Lot Min</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control" name="qty_lot_min" maxlength="50" min="1" placeholder="Qty Lot Min" value="{{ $aql->qty_lot_min }}" required>
+                        </div>
+
+                        <label class="col-sm-2 control-label">Lot Max</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_lot_max" maxlength="50" min="1" placeholder="Qty Lot Max" value="{{ $aql->qty_lot_max }}" required>
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom 3px;">
-                        <label class="col-sm-3 control-label">Qty Sample AQL</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="qty_sample_aql" maxlength="50" placeholder="Qty Sample AQL" value="{{ $aql->qty_sample_aql }}" required>
+                    <div class="form-group" style="margin-bottom:3px;">
+                        <label class="col-sm-3 control-label">Accept Minor</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control" name="qty_accept_minor" maxlength="50" min="1" placeholder="Qty Accept Minor" value="{{ $aql->qty_accept_minor }}" required>
                         </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom 3px;">
-                        <label class="col-sm-3 control-label">Qty Accept Minor</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="qty_accept_minor" maxlength="50" placeholder="Qty Accept Minor" value="{{ $aql->qty_accept_minor }}" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom 3px;">
-                        <label class="col-sm-3 control-label">Qty Accept Major</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="qty_accept_major" maxlength="50" placeholder="Qty Accept Major" value="{{ $aql->qty_accept_major }}" required>
+                        <label class="col-sm-2 control-label">Major</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" name="qty_accept_major" maxlength="50" min="1" placeholder="Qty Accept Major" value="{{ $aql->qty_accept_major }}" required>
                         </div>
                     </div>
 

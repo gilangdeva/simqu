@@ -44,6 +44,7 @@ class SatuanController extends Controller
     //Simpan data satuan
     public function SaveSatuanData(Request $request){
         $satuan = new SatuanModel();
+        $jenis_user = session()->get('jenis_user');
 
         // Parameters
         $satuan->kode_satuan = strtoupper($request->kode_satuan);
@@ -53,17 +54,27 @@ class SatuanController extends Controller
         $kode_satuan_check = DB::select("SELECT kode_satuan FROM vg_list_satuan WHERE kode_satuan = '".$satuan->kode_satuan."'");
         if (isset($kode_satuan_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Satuan Ini Sudah Didaftarkan Dalam Sistem!');
-            return back()->withInput();
+            
+            return view('admin.master.satuan-input',[
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/satuan',
+                'select'        => $satuan,
+                'jenis_user'    => $jenis_user
+            ]);
         }
 
         // Check duplicate defect
         $nama_satuan_check = DB::select("SELECT nama_satuan FROM vg_list_satuan WHERE nama_satuan = '".$satuan->nama_satuan."'");
         if (isset($nama_satuan_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama Satuan Ini Sudah Didaftarkan Dalam Sistem!');
-            return back()->withInput();
+            
+            return view('admin.master.satuan-input',[
+                'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'           => '/satuan',
+                'select'        => $satuan,
+                'jenis_user'    => $jenis_user
+            ]);
         }
-
-        $jenis_user = session()->get('jenis_user');
 
        // Insert data into database
         $satuan->save();
@@ -94,15 +105,24 @@ class SatuanController extends Controller
         $kode_satuan          = strtoupper($request->kode_satuan);
         $nama_satuan          = strtoupper($request->nama_satuan);
         $updated_at           = date('Y-m-d H:i:s', strtotime('+0 hours'));
-        $jenis_user = session()->get('jenis_user');
+        $jenis_user           = session()->get('jenis_user');
 
         // Is there a change in kode data?
         if ($request->nama_satuan <> $request->original_nama_satuan){
         //cek apakah sudah ada di db
         $satuan_check = DB::select("SELECT nama_satuan FROM vg_list_satuan WHERE nama_satuan = '".$nama_satuan."'");
             if (isset($satuan_check['0'])) {
-                alert()->error('Gagal Menyimpan!', 'Maaf, Satuan Ini Sudah Digunakan');
-                return Redirect::back();
+                alert()->error('Gagal Menyimpan!', 'Maaf, Satuan Ini Sudah Ada!');
+                
+                $sat = SatuanModel::find($id_satuan);
+
+                return view('admin.master.satuan-edit', [
+                    'menu'          => 'master',
+                    'sub'           => '/satuan',
+                    'satuan'        => $sat,
+                    'jenis_user'    => $jenis_user
+                ]);
+
             } else {
                 //update data into db
                 SatuanModel::where('id_satuan', $id_satuan)->update([

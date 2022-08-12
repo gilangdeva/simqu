@@ -9,7 +9,7 @@
     <br>
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-3">
             <div class="white-box">
                 <h3 class="box-title">INPUT DATA PERIODE</h3>
                 <form class="form-horizontal" action="{{ route('periode.save') }}" method="POST" enctype="multipart/form-data">
@@ -17,7 +17,11 @@
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-4 control-label">Tahun</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="tahun" maxlength="10" placeholder="Tahun" required>
+                            @if (isset($select))
+                                <input type="number" class="form-control" name="tahun" maxlength="10" min="2022" max="2050" value="{{ $select->tahun }}" required>
+                            @else
+                                <input type="number" class="form-control" name="tahun" maxlength="10" min="2022" max="2050" placeholder="Tahun" required>
+                            @endif
                         </div>
                     </div>
 
@@ -26,18 +30,33 @@
                         <div class="col-sm-8">
                             <select id="bulan" class="form-control select2" name="bulan" maxlength="20" required>
                                 <option value="0">Pilih Bulan</option>
-                                <option value="Januari">Januari</option>
-                                <option value="Februari">Februari</option>
-                                <option value="Maret">Maret</option>
-                                <option value="April">April</option>
-                                <option value="Mei">Mei</option>
-                                <option value="Juni">Juni</option>
-                                <option value="Juli">Juli</option>
-                                <option value="Agustus">Agustus</option>
-                                <option value="September">September</option>
-                                <option value="Oktober">Oktober</option>
-                                <option value="November">November</option>
-                                <option value="Desember">Desember</option>
+                                @if (isset($select))
+                                    <option value="Januari" {{ old('bulan', $select->bulan) == "Januari" ? 'selected':''}}>JANUARI</option>
+                                    <option value="Februari" {{ old('bulan', $select->bulan) == "Februari" ? 'selected':''}}>FEBRUARI</option>
+                                    <option value="Maret" {{ old('bulan', $select->bulan) == "Maret" ? 'selected':''}}>MARET</option>
+                                    <option value="April" {{ old('bulan', $select->bulan) == "April" ? 'selected':''}}>APRIL</option>
+                                    <option value="Mei" {{ old('bulan', $select->bulan) == "Mei" ? 'selected':''}}>MEI</option>
+                                    <option value="Juni" {{ old('bulan', $select->bulan) == "Juni" ? 'selected':''}}>JUNI</option>
+                                    <option value="Juli" {{ old('bulan', $select->bulan) == "Juli" ? 'selected':''}}>JULI</option>
+                                    <option value="Agustus" {{ old('bulan', $select->bulan) == "Agustus" ? 'selected':''}}>AGUSTUS</option>
+                                    <option value="September" {{ old('bulan', $select->bulan) == "September" ? 'selected':''}}>SEPTEMBER</option>
+                                    <option value="Oktober" {{ old('bulan', $select->bulan) == "Oktober" ? 'selected':''}}>OKTOBER</option>
+                                    <option value="November" {{ old('bulan', $select->bulan) == "November" ? 'selected':''}}>NOVEMBER</option>
+                                    <option value="Desember" {{ old('bulan', $select->bulan) == "Desember" ? 'selected':''}}>DESEMBER</option>    
+                                @else
+                                    <option value="Januari">JANUARI</option>
+                                    <option value="Februari">FEBRUARI</option>
+                                    <option value="Maret">MARET</option>
+                                    <option value="April">APRIL</option>
+                                    <option value="Mei">MEI</option>
+                                    <option value="Juni">JUNI</option>
+                                    <option value="Juli">JULI</option>
+                                    <option value="Agustus">AGUSTUS</option>
+                                    <option value="September">SEPTEMBER</option>
+                                    <option value="Oktober">OKTOBER</option>
+                                    <option value="November">NOVEMBER</option>
+                                    <option value="Desember">DESEMBER</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -47,26 +66,42 @@
                         <div class="col-sm-8">
                             <select id="minggu_ke" class="form-control select2" name="minggu_ke" maxlength="20" required>
                                 <option value="0">Pilih Minggu</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                @if (isset($select))
+                                    <option value="1" {{ old('minggu_ke', $select->minggu_ke) == "1" ? 'selected':''}}>1</option>
+                                    <option value="2" {{ old('minggu_ke', $select->minggu_ke) == "2" ? 'selected':''}}>2</option>
+                                    <option value="3" {{ old('minggu_ke', $select->minggu_ke) == "3" ? 'selected':''}}>3</option>
+                                    <option value="4" {{ old('minggu_ke', $select->minggu_ke) == "4" ? 'selected':''}}>4</option>
+                                    <option value="5" {{ old('minggu_ke', $select->minggu_ke) == "5" ? 'selected':''}}>5</option>
+                                @else
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                @endif
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Tanggal Mulai Periode</label>
+                        <label class="col-sm-4 control-label">Tgl Mulai</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" name="tgl_mulai_periode" maxlength="150" placeholder="Tanggal Mulai" required>
+                            @if (isset($select))
+                                <input type="date" class="form-control" name="tgl_mulai_periode" maxlength="150" value="{{ date('Y-m-d', strtotime($select->tgl_mulai_periode)) }}" required>
+                            @else
+                                <input type="date" class="form-control" name="tgl_mulai_periode" maxlength="150" required>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <label class="col-sm-4 control-label">Tanggal Akhir Periode</label>
+                        <label class="col-sm-4 control-label">Tgl Akhir</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" name="tgl_akhir_periode" maxlength="150" placeholder="Tanggal Akhir" required>
+                            @if (isset($select))
+                                <input type="date" class="form-control" name="tgl_akhir_periode" maxlength="150" value="{{ date('Y-m-d', strtotime($select->tgl_akhir_periode)) }}" required>                                
+                            @else
+                                <input type="date" class="form-control" name="tgl_akhir_periode" maxlength="150" required>
+                            @endif
                         </div>
                     </div>
 
@@ -88,3 +123,4 @@
 @include('admin.footer')
 
 @endsection
+

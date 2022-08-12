@@ -43,6 +43,7 @@ class InspeksiFinalController extends Controller
         $list_final = DB::table('vg_list_final')
         ->where('tgl_inspeksi', '>=', $start_date)
         ->where('tgl_inspeksi', '<=', $end_date)
+        ->where('id_user', '=', session()->get('id_user'))
         ->get();
 
         $jenis_user = session()->get('jenis_user');
@@ -969,12 +970,6 @@ class InspeksiFinalController extends Controller
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('item', 'like', "%{$text_search}%")
                         ->get();
-                } else if ($type_search =="INSPEKTOR"){
-                    $list_final = DB::table('vg_list_final')
-                        ->where('tgl_inspeksi', '>=', $start_date)
-                        ->where('tgl_inspeksi', '<=', $end_date)
-                        ->where('nama_user', 'like', "%{$text_search}%")
-                        ->get();
                 } else {
                     $list_final = DB::table('vg_list_final')
                     ->where('tgl_inspeksi', '>=', $start_date)
@@ -1003,6 +998,5 @@ class InspeksiFinalController extends Controller
                 'jenis_user'    => $jenis_user
             ]);
         }
-
     }
 }

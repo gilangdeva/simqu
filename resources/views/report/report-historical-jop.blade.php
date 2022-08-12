@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="col-sm-1">
-                                <button class="btn btn-primary waves-effect pull-right waves-light" type="submit">Cari</button>
+                                <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect waves-light"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </form>

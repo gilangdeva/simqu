@@ -38,7 +38,6 @@
                                     <option value="0">Pilih Filter :</option>
                                     <option value="JOP">JOP</option>
                                     <option value="ITEM">Nama Item</option>
-                                    <option value="INSPEKTOR">Inspektor</option>
                                 </select>
                             </div>
 
@@ -64,13 +63,13 @@
                     </div>
                 </div>
 
-                <label class="form-final">Tampilkan
+                <label class="form-inline">Tampilkan
                     <select id="demo-show-entries" class="form-control input-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
                         <option value="20" selected>20</option>
-                    </select> data
+                    </select> Data 
                 </label>
 
                     <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" date-page-size="20">

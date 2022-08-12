@@ -65,6 +65,10 @@ class UsersController extends Controller
 
     //Simpan data user
     public function SaveUserData(Request $request){
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
+        $jenis_user = session()->get('jenis_user');
+
         $users = new UsersModel();
 
         // Parameters
@@ -79,11 +83,22 @@ class UsersController extends Controller
         $users->creator = session()->get('user_id');
         $users->pic = session()->get('user_id');
 
+        $sub_dept = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen WHERE id_departemen = '.$users->id_departemen);
+
         // Check duplicate email
         $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
         if (isset($email_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Email Ini Sudah Didaftarkan Dalam Sistem!');
-            return Redirect::back();
+            
+            return view('admin.master.users-input',[
+                'departemen'        => $departemen,
+                'subdepartemen'     => $subdepartemen,
+                'select'            => $users,
+                'sub_dept'          => $sub_dept,
+                'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'               => '/users', // selalu ada di tiap function dan disesuaikan
+                'jenis_user'        => $jenis_user
+            ]);
         }
 
         // Check duplicate username
@@ -91,7 +106,16 @@ class UsersController extends Controller
         if (isset($usersname_check['0'])) {
             // If username already registered
             alert()->error('Gagal Menyimpan!', 'Maaf, NIK Dudah Digunakan!');
-            return Redirect::back();
+            
+            return view('admin.master.users-input',[
+                'departemen'        => $departemen,
+                'subdepartemen'     => $subdepartemen,
+                'select'            => $users,
+                'sub_dept'          => $sub_dept,
+                'menu'              => 'master', // selalu ada di tiap function dan disesuaikan
+                'sub'               => '/users', // selalu ada di tiap function dan disesuaikan
+                'jenis_user'        => $jenis_user
+            ]);
         } else {
             // If username not registered
             // Save profile picture
@@ -178,6 +202,8 @@ class UsersController extends Controller
         $pic = session()->get('id_user');
         $file_picture = $request->file('picture');
         $file_original_picture = $request->original_picture;
+        $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
+        $subdepartemen = DB::select("SELECT id_sub_departemen, nama_sub_departemen FROM vs_list_sub_departemen WHERE id_departemen =".$id_departemen);
 
 
 
@@ -221,7 +247,17 @@ class UsersController extends Controller
             $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
             if (isset($email_check['0'])) {
                 alert()->error('Gagal!', 'Maaf, Email Ini Sudah Terdaftar Dalam Sistem!');
-                return Redirect::back();
+                
+                $user = UsersModel::find($id_user);
+
+                return view('admin.master.users-edit', [
+                    'menu'          => 'master',
+                    'sub'           => '/users',
+                    'users'         => $user,
+                    'departemen'    => $departemen,
+                    'subdepartemen' => $subdepartemen,
+                    'jenis_user'    => $jenis_user
+                ]);
             } else {
                 // Update data into database
                 UsersModel::where('id_user', $id_user)->update([

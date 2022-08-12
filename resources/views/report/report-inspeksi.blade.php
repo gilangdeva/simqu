@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('title', 'Report Inspeksi - SIMQU')
+@section('title', 'Tot. Inspeksi / Departemen - SIMQU')
 
 @section('content')
 
@@ -21,9 +21,9 @@
                                 <option value="0">Pilih Departemen</option>
                                 @foreach ($departemen as $dept)
                                     @if(isset($select_dept))
-                                        <option value="{{ $dept->id_departemen }}" {{ old("id_departemen", $select_dept) == $dept->id_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
+                                        <option value="{{ $dept->nama_departemen }}" {{ old("nama_departemen", $select_dept) == $dept->nama_departemen ? 'selected':''}}>{{ $dept->nama_departemen }}</option>
                                     @else
-                                        <option value="{{ $dept->id_departemen }}">{{ $dept->nama_departemen }}</option>
+                                        <option value="{{ $dept->nama_departemen }}">{{ $dept->nama_departemen }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -64,12 +64,11 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-1">
-                            <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect pull-right waves-light">Submit</button>
-                        </div>
-
-                        <div class="col-sm-1">
-                            <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-info" target="_blank">Export to PDF</button>
+                        <div class="col-md-3">
+                            <div class="button-box">
+                                <button type="submit" name="action" value="submit" class="btn btn-danger waves-effect waves-light"><i class="fa fa-search"></i></button>
+                                <button type="submit" name="action" value="export_pdf" href="/ReportInspeksiPDF" class="btn btn-info waves-effect waves-light" target="_blank"><i class="fa fa-download"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -83,8 +82,8 @@
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">REPORT TOTAL INSPEKSI  |  <b style="color: red"> DEPT :
-                            @if(isset($report_inspeksi[0]))
-                                {{ $report_inspeksi[0]->nama_departemen }} / {{ $bulan }} {{ $f_tahun }}
+                            @if(isset($select_dept))
+                                {{ $select_dept }} / {{ $bulan }} {{ $f_tahun }}
                             @endif
                             </b>
                         </h3>
@@ -111,8 +110,8 @@
                                     <tr height="-10px;">
                                         <td>{{ $i+1 }}</td>
                                         <td>Minggu Ke-{{ $report_inspeksi[$i]->minggu_ke }}</td>
-                                        <td>{{ $report_inspeksi[$i]->tgl_mulai_periode }}</td>
-                                        <td>{{ $report_inspeksi[$i]->tgl_akhir_periode }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_inspeksi[$i]->tgl_mulai_periode)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($report_inspeksi[$i]->tgl_akhir_periode)) }}</td>
                                         <td>{{ $report_inspeksi[$i]->inline }}</td>
                                         <td>{{ $report_inspeksi[$i]->persen_inline }}%</td>
                                         <td>{{ $report_inspeksi[$i]->final }}</td>
@@ -125,9 +124,9 @@
                                 <tr style="background-color: #F2F2F2; font-weight:bold;">
                                     <td colspan="4" align="center" style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">Total</td>
                                     <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ $s->inline }}</td>
-                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_inline), 1,'.','.')  }}%</td>
+                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_inline), 2,'.','.')  }}%</td>
                                     <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ $s->final }}</td>
-                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_final), 1,'.','.')  }}%</td>
+                                    <td style="border-top: 2px solid; border-bottom: 2px solid; color:blue;">{{ number_format(($s->persen_final), 2,'.','.')  }}%</td>
                                 </tr>
                             @endforeach
                         @else
