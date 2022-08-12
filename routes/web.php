@@ -113,7 +113,6 @@ Route::post('/aql-input', [AqlController::class, 'SaveAqlData'])->name('aql.save
 Route::get('/aql-edit/{id}', [AqlController::class, 'EditAqlData'])->middleware('auth.check');
 Route::post('/aql-update/', [AqlController::class, 'SaveEditAqlData'])->name('aql.update')->middleware('auth.check');
 Route::get('/aql-delete/{id}', [AqlController::class, 'DeleteAqlData'])->middleware('auth.check');
-
 Route::get('/aql-level/', [AqlController::class, 'ActivateLevel'])->name('aql.level')->middleware('auth.check');
 
 //Inspeksi Inline
@@ -158,21 +157,14 @@ Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->na
 //Report
 Route::get('/report-defect', [ReportController::class, 'ReportDefect'])->middleware('auth.check');
 Route::get('/report-filter-defect/', [ReportController::class, 'FilterReportDefect'])->name('report.filter')->middleware('auth.check');
-
 Route::get('/report-inspeksi', [ReportController::class, 'ReportInspeksi'])->middleware('auth.check');
 Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportInspeksi'])->name('report.inspeksi')->middleware('auth.check');
-
 Route::get('/report-critical', [ReportController::class, 'ReportCritical'])->middleware('auth.check');
 Route::get('/report-filter-critical/', [ReportController::class, 'FilterReportCritical'])->name('report.critical')->middleware('auth.check');
-//Export PDF
-// Route::get('/ReportCriticalPDF', [ReportController::class, 'ReportCriticalPDF'])->name('report.critical-pdf');
-
 Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middleware('auth.check');
 Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');
-
 Route::get('/report-qty-defect', [ReportController::class, 'ReportQtyDefect'])->middleware('auth.check');
 Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReportQtyDefect'])->name('report.qty_defect')->middleware('auth.check');
-
 Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
 Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
 

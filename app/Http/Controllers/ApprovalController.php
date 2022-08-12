@@ -28,6 +28,12 @@ class ApprovalController extends Controller
     public function ApprovalList(){
         // $start_date     = date('Y-m-01', strtotime('+0 hours'));
         // $end_date       = date('Y-m-d', strtotime('+0 hours'));
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Manager"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect::back();
+        }
 
         $list_approval_inline   = DB::table('vw_list_approval_inline')
         ->get();
@@ -35,7 +41,7 @@ class ApprovalController extends Controller
         $list_approval_final    = DB::table('vw_list_approval_final')
         ->get();
 
-        $jenis_user = session()->get('jenis_user');
+
 
         return view('inspeksi.approval-list',
         [

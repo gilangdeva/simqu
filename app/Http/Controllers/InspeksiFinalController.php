@@ -568,17 +568,8 @@ class InspeksiFinalController extends Controller
 
                 $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user'));
 
-                return view('inspeksi.final-input',[
-                    'id_header'         => 0,
-                    'departemen'        => $departemen,
-                    'subdepartemen'     => $subdepartemen,
-                    'defect'            => $defect,
-                    'draft'             => $draft,
-                    'satuan'            => $satuan,
-                    'menu'              => 'inspeksi',
-                    'sub'               => '/final',
-                    'jenis_user'        => $jenis_user
-                ]);
+                return redirect('/final-input');
+
             } else if ($count > 1) {
                 $final_detail  = DB::table('draft_detail')->where('id_inspeksi_detail',$id_detail)->delete();
 
@@ -590,21 +581,7 @@ class InspeksiFinalController extends Controller
                 $defect = DB::select("SELECT id_defect, defect FROM vg_list_defect where id_departemen =".$id_departemen);
                 $jenis_user = session()->get('jenis_user');
 
-                return view('inspeksi.final-input',[
-                    'id_header'         => $id_header,
-                    'tgl_inspeksi'      => $tgl_inspeksi,
-                    'shift'             => $shift,
-                    'departemen'        => $departemen,
-                    'subdepartemen'     => $subdepartemen,
-                    'defect'            => $defect,
-                    'draft'             => $draft,
-                    'satuan'            => $satuan,
-                    'id_departemen'     => $id_departemen,
-                    'id_sub_departemen' => $id_sub_departemen,
-                    'menu'              => 'inspeksi',
-                    'sub'               => '/final',
-                    'jenis_user'        => $jenis_user
-                ]);
+                return redirect('/final-input');
             }
         }
 
