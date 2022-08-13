@@ -739,6 +739,7 @@
 
         if(dept == '' && $('#tgl_inspeksi').length){
             $("#inline_data :input").prop("disabled", true);
+
             $('.select2').css('background-color', '#f1f1f1');
         }
     });

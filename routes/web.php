@@ -157,16 +157,24 @@ Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->na
 //Report
 Route::get('/report-defect', [ReportController::class, 'ReportDefect'])->middleware('auth.check');
 Route::get('/report-filter-defect/', [ReportController::class, 'FilterReportDefect'])->name('report.filter')->middleware('auth.check');
+
 Route::get('/report-inspeksi', [ReportController::class, 'ReportInspeksi'])->middleware('auth.check');
 Route::get('/report-filter-inspeksi/', [ReportController::class, 'FilterReportInspeksi'])->name('report.inspeksi')->middleware('auth.check');
+
 Route::get('/report-critical', [ReportController::class, 'ReportCritical'])->middleware('auth.check');
 Route::get('/report-filter-critical/', [ReportController::class, 'FilterReportCritical'])->name('report.critical')->middleware('auth.check');
+
 Route::get('/report-reject', [ReportController::class, 'ReportReject'])->middleware('auth.check');
 Route::get('/report-filter-reject/', [ReportController::class, 'FilterReportReject'])->name('report.reject')->middleware('auth.check');
+
 Route::get('/report-qty-defect', [ReportController::class, 'ReportQtyDefect'])->middleware('auth.check');
 Route::get('/report-filter-qty-defect/', [ReportController::class, 'FilterReportQtyDefect'])->name('report.qty_defect')->middleware('auth.check');
+
 Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->middleware('auth.check');
 Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
+
+Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
+route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
 
 //Approval
 Route::get('/approval', [ApprovalController::class, 'ApprovalList'])->middleware('auth.check');
