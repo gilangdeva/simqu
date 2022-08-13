@@ -111,13 +111,16 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>JOP</label></div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" name="jop" maxlength="8" id="jop" onblur="GetJOPData()" placeholder="JOP" required>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" onclick="clearJOPData()" id="clearjop" class="btn btn-danger pull-left waves-effect waves-light m-r-10" style="visibility: hidden">Clear</button>
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Item</label></div>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
+                            <input type="text" class="form-control" name="item" maxlength="200" id="item" placeholder="Nama Item" required>
                         </div>
                     </div>
 
@@ -149,7 +152,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Pcs</label></div>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty Barang Siap (Pcs)">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="2" placeholder="Qty Barang Siap (Pcs)">
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -168,7 +171,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        </div>
+                    </div>
 
 
                     <!-- <div class="form-group" style="margin-bottom:1px;">
@@ -348,6 +351,7 @@
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" onclick="CheckingValue()">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10">Reset</button>
+                            
                             {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
                     </div>
@@ -496,6 +500,35 @@
     <!-- end row -->
 </div>
 <!-- end container-fluid -->
+
+<!-- sample modal content -->
+<div id="JOPModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">JOP Edar List</h4>
+            </div>
+            
+            <div class="modal-body" style="overflow-y:auto;">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="joplist">
+                        <thead>
+                            <tr>
+                                <th>JOP</th>
+                                <th>Item</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 @include('admin.footer')
 
@@ -831,8 +864,76 @@
 
         if(dept == '' && $('#tgl_inspeksi').length){
             $("#final_data :input").prop("disabled", true);
+            $('.select2').css('background-color', '#f1f1f1');
         }
     });
+
+    function GetJOPData() {
+        var text = document.getElementById('jop').value;
+
+        $.ajax({
+            url: "http://"+window.location.hostname+":8000/jop-search/"+text, //please always check the suitable of url that will be use
+            type: 'get',
+            dataType: 'json',
+            success: function(response){
+                var len = 0;
+                    $('#joplist tbody').empty(); // Empty <tbody>
+                    if(response['data'] != null){
+                    len = response['data'].length;
+                }
+
+                if(len > 0){
+                    for(var i=0; i<len; i++){
+                    var jop = response['data'][i].jop;
+                    var nama_barang = response['data'][i].nama_barang;
+                    var pname = nama_barang .split(' ').join('_');
+                    
+                    var tr_str = "<tr onclick=setJOPField('" + jop.trim() + "','"+pname.trim()+"')>" +
+                        "<td align='left' id='code_value'>" + jop + "</td>" +
+                        "<td align='left' id='name_value'>" + nama_barang + "</td>" +
+                    "</tr>";
+                    $("#joplist tbody").append(tr_str);
+                    }
+                } else{
+                    var tr_str = "<tr>" +
+                    "<td align='center' colspan='3'>Tidak ada data.</td>" +
+                    "</tr>";
+
+                    $("#joplist tbody").append(tr_str);
+                    document.getElementById('item').focus();
+                }
+                $('#JOPModal').modal('show');
+            }
+        });
+    }
+
+    function setJOPField(code,name){
+        pname = name.split('_').join(' ');
+        document.getElementById('jop').value = code; // Set value for product code field
+        document.getElementById('item').value = pname; // Set value for product name field
+        $('#JOPModal').modal('hide');
+        document.getElementById('clearjop').style.visibility = 'visible';
+
+        // Set Readonly field - on
+        $("#jop").prop('readonly', true);
+        $("#item").prop('readonly', true);
+
+        //Set Autocomplete field - off
+        $("#jop").prop('autocomplete', false);
+        $("#item").prop('autocomplete', false);
+    }
+
+    function clearJOPData(){
+        document.getElementById('jop').value = '';
+        document.getElementById('item').value = '';
+        document.getElementById('clearjop').style.visibility = 'hidden';
+
+        // Set Readonly field - on
+        $("#jop").prop('readonly', false);
+        $("#item").prop('readonly', false);
+
+        document.getElementById('jop').focus();
+    }
 </script>
 
 @endsection

@@ -137,19 +137,24 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>JOP</label></div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="jop" maxlength="8" placeholder="JOP" required>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" name="jop" id="jop" maxlength="8" onblur="GetJOPData()" placeholder="JOP" required>
                         </div>
+
+                        <div class="col-sm-2">
+                            <button type="button" onclick="clearJOPData()" id="clearjop" class="btn btn-danger pull-left waves-effect waves-light m-r-10" style="visibility: hidden">Clear</button>
+                        </div>
+
                         <div class="col-sm-2 control-label"><label>Item</label></div>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="item" maxlength="200" placeholder="Nama Item" required>
+                            <input type="text" class="form-control" name="item" id="item" maxlength="200" placeholder="Nama Item" required>
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Defect</label></div>
                         <div class="col-sm-4">
-                                <select class="form-control select2" name="id_defect" id="id_defect">
+                            <select class="form-control select2" name="id_defect" id="id_defect">
                                 <option>Pilih Defect</option>
                                 @if(isset($defect))
                                     @foreach ($defect as $def)
@@ -243,13 +248,6 @@
                         <div class="col-sm-4">
                         </div>
                     </div>
-                    {{-- <div class="form-group" style="margin-bottom:1px;">
-                        <label class="col-sm-2 control-label">Foto Temuan Defect</label>
-                        <div class="col-sm-10">
-                            <input type="file" id="input-file-now-custom-2" name="picture" class="dropify" data-height="130" />
-                            <input type="text" class="form-control" name="capt_pict" maxlength="200" placeholder="Keterangan Foto">
-                        </div>
-                    </div> --}}
 
                     <div class="form-group" style="margin-bottom:5px;">
                         <label class="col-sm-2 control-label">Foto</label>
@@ -424,6 +422,35 @@
     <!-- end row -->
 </div>
 <!-- end container-fluid -->
+
+<!-- sample modal content -->
+<div id="JOPModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">JOP Edar List</h4>
+            </div>
+            
+            <div class="modal-body">
+                <div class="table-responsive" style="height: 50%">
+                    <table class="table table-hover" id="joplist">
+                        <thead>
+                            <tr>
+                                <th>JOP</th>
+                                <th>Item</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 @include('admin.footer')
 
@@ -743,6 +770,73 @@
             $('.select2').css('background-color', '#f1f1f1');
         }
     });
+    
+    function GetJOPData() {
+        var text = document.getElementById('jop').value;
+
+        $.ajax({
+            url: "http://"+window.location.hostname+":8000/jop-search/"+text, //please always check the suitable of url that will be use
+            type: 'get',
+            dataType: 'json',
+            success: function(response){
+                var len = 0;
+                    $('#joplist tbody').empty(); // Empty <tbody>
+                    if(response['data'] != null){
+                    len = response['data'].length;
+                }
+
+                if(len > 0){
+                    for(var i=0; i<len; i++){
+                    var jop = response['data'][i].jop;
+                    var nama_barang = response['data'][i].nama_barang;
+                    var pname = nama_barang .split(' ').join('_');
+                    
+                    var tr_str = "<tr onclick=setJOPField('" + jop.trim() + "','"+pname.trim()+"')>" +
+                        "<td align='left' id='code_value'>" + jop + "</td>" +
+                        "<td align='left' id='name_value'>" + nama_barang + "</td>" +
+                    "</tr>";
+                    $("#joplist tbody").append(tr_str);
+                    }
+                } else{
+                    var tr_str = "<tr>" +
+                    "<td align='center' colspan='3'>Tidak ada data.</td>" +
+                    "</tr>";
+
+                    $("#joplist tbody").append(tr_str);
+                    document.getElementById('item').focus();
+                }
+                $('#JOPModal').modal('show');
+            }
+        });
+    }
+
+    function setJOPField(code,name){
+        pname = name.split('_').join(' ');
+        document.getElementById('jop').value = code; // Set value for product code field
+        document.getElementById('item').value = pname; // Set value for product name field
+        $('#JOPModal').modal('hide');
+        document.getElementById('clearjop').style.visibility = 'visible';
+
+        // Set Readonly field - on
+        $("#jop").prop('readonly', true);
+        $("#item").prop('readonly', true);
+
+        //Set Autocomplete field - off
+        $("#jop").prop('autocomplete', false);
+        $("#item").prop('autocomplete', false);
+    }
+
+    function clearJOPData(){
+        document.getElementById('jop').value = '';
+        document.getElementById('item').value = '';
+        document.getElementById('clearjop').style.visibility = 'hidden';
+
+        // Set Readonly field - on
+        $("#jop").prop('readonly', false);
+        $("#item").prop('readonly', false);
+
+        document.getElementById('jop').focus();
+    }
 </script>
 
 @endsection
