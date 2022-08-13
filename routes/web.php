@@ -153,6 +153,7 @@ Route::get('/final-post/', [InspeksiFinalController::class, 'PostFinal'])->middl
 //Upload JOP Edar
 Route::get('/jop', [JOPEdarController::class, 'Index'])->middleware('auth.check');
 Route::post('/upload-jop/', [JOPEdarController::class, 'UploadDataJOPEdar'])->name('upload.jop')->middleware('auth.check');
+Route::get('/jop-search/{text}', [JOPEdarController::class, 'JOPSearch'])->middleware('auth.check');
 
 //Report
 Route::get('/report-defect', [ReportController::class, 'ReportDefect'])->middleware('auth.check');

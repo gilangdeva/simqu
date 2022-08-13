@@ -197,7 +197,7 @@ class InspeksiFinalController extends Controller
         $master_aql = DB::select("SELECT * FROM tb_master_aql WHERE status_level= 'Activated'");
 
         for ($i=0; $i < count($master_aql); $i++):
-            if(($qty_ready_pcs   >= $master_aql[$i]->qty_lot_min) && ($qty_ready_pcs <= $master_aql[$i]->qty_lot_max)){
+            if(($qty_ready_pcs >= $master_aql[$i]->qty_lot_min) && ($qty_ready_pcs <= $master_aql[$i]->qty_lot_max)){
                     $qty_sample_aql   = $master_aql[$i]->qty_sample_aql;
                     $qty_accept_minor = $master_aql[$i]->qty_accept_minor;
                     $qty_accept_major = $master_aql[$i]->qty_accept_major;
@@ -209,226 +209,227 @@ class InspeksiFinalController extends Controller
                 $status ='PASS';
             } else {
                 $status = 'REJECT';
-            };
+            }
         } else if ($kriteria == 'Minor'){
             if ($qty_defect <= $qty_accept_minor){
                 $status ='PASS';
             } else {
                 $status = 'REJECT';
-            };
+            }
         } else if($kriteria == 'Critical'){
                 $status = 'REJECT';
         }
 
+        
 
-            if ($picture_1 <> '') {
 
-                $this->validate($request, [
-                    'picture_1' => 'required|image|mimes:jpg,png,jpeg'
-                ]);
+        if ($picture_1 <> '') {
 
-                $file = $picture_1;
+            $this->validate($request, [
+                'picture_1' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
 
-                // create filename with merging the timestamp and unique ID
-                $name_p1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            $file = $picture_1;
 
-                // upload original file (dimension hasn't been comppressed)
-                // Image::make($file)->save($this->path . '/' . $f_name);
+            // create filename with merging the timestamp and unique ID
+            $name_p1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
-                //Looping array of image dimension that has been specify on contruct
-                foreach ($this->dimensions as $row) {
-                    //create image canvas according to dimension on array
-                    $canvas = Image::canvas($row, $row);
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
 
-                    //rezise according the dimension on array (still keep ratio)
-                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                        $constraint->aspectRatio();
-                    });
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
 
-                    // insert image that compressed into canvas
-                    $canvas->insert($resizeImage, 'center');
+                //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    // move image in folder
-                    $canvas->save($this->path . '/' . $name_p1);
-                }
-            } else {
-                $name_p1 = $file_original_picture;
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
+
+                // move image in folder
+                $canvas->save($this->path . '/' . $name_p1);
             }
+        } else {
+            $name_p1 = $file_original_picture;
+        }
 
-            if ($picture_2 <> '') {
+        if ($picture_2 <> '') {
 
-                $this->validate($request, [
-                    'picture_2' => 'required|image|mimes:jpg,png,jpeg'
-                ]);
+            $this->validate($request, [
+                'picture_2' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
 
-                $file = $picture_2;
+            $file = $picture_2;
 
-                // create filename with merging the timestamp and unique ID
-                $name_p2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            // create filename with merging the timestamp and unique ID
+            $name_p2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
-                // upload original file (dimension hasn't been comppressed)
-                // Image::make($file)->save($this->path . '/' . $f_name);
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
 
-                //Looping array of image dimension that has been specify on contruct
-                foreach ($this->dimensions as $row) {
-                    //create image canvas according to dimension on array
-                    $canvas = Image::canvas($row, $row);
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
 
-                    //rezise according the dimension on array (still keep ratio)
-                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                        $constraint->aspectRatio();
-                    });
+                //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    // insert image that compressed into canvas
-                    $canvas->insert($resizeImage, 'center');
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
 
-                    // move image in folder
-                    $canvas->save($this->path . '/' . $name_p2);
-                }
-            } else {
-                $name_p2 = $file_original_picture;
+                // move image in folder
+                $canvas->save($this->path . '/' . $name_p2);
             }
+        } else {
+            $name_p2 = $file_original_picture;
+        }
 
-            if ($picture_3 <> '') {
+        if ($picture_3 <> '') {
 
-                $this->validate($request, [
-                    'picture_3' => 'required|image|mimes:jpg,png,jpeg'
-                ]);
+            $this->validate($request, [
+                'picture_3' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
 
-                $file = $picture_3;
+            $file = $picture_3;
 
-                // create filename with merging the timestamp and unique ID
-                $name_p3 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            // create filename with merging the timestamp and unique ID
+            $name_p3 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
-                // upload original file (dimension hasn't been comppressed)
-                // Image::make($file)->save($this->path . '/' . $f_name);
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
 
-                //Looping array of image dimension that has been specify on contruct
-                foreach ($this->dimensions as $row) {
-                    //create image canvas according to dimension on array
-                    $canvas = Image::canvas($row, $row);
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
 
-                    //rezise according the dimension on array (still keep ratio)
-                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                        $constraint->aspectRatio();
-                    });
+                //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    // insert image that compressed into canvas
-                    $canvas->insert($resizeImage, 'center');
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
 
-                    // move image in folder
-                    $canvas->save($this->path . '/' . $name_p3);
-                }
-            } else {
-                $name_p3 = $file_original_picture;
+                // move image in folder
+                $canvas->save($this->path . '/' . $name_p3);
             }
+        } else {
+            $name_p3 = $file_original_picture;
+        }
 
-            if ($picture_4 <> '') {
+        if ($picture_4 <> '') {
 
-                $this->validate($request, [
-                    'picture_4' => 'required|image|mimes:jpg,png,jpeg'
-                ]);
+            $this->validate($request, [
+                'picture_4' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
 
-                $file = $picture_4;
+            $file = $picture_4;
 
-                // create filename with merging the timestamp and unique ID
-                $name_p4 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            // create filename with merging the timestamp and unique ID
+            $name_p4 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
-                // upload original file (dimension hasn't been comppressed)
-                // Image::make($file)->save($this->path . '/' . $f_name);
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
 
-                //Looping array of image dimension that has been specify on contruct
-                foreach ($this->dimensions as $row) {
-                    //create image canvas according to dimension on array
-                    $canvas = Image::canvas($row, $row);
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
 
-                    //rezise according the dimension on array (still keep ratio)
-                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                        $constraint->aspectRatio();
-                    });
+                //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    // insert image that compressed into canvas
-                    $canvas->insert($resizeImage, 'center');
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
 
-                    // move image in folder
-                    $canvas->save($this->path . '/' . $name_p4);
-                }
-            } else {
-                $name_p4 = $file_original_picture;
+                // move image in folder
+                $canvas->save($this->path . '/' . $name_p4);
             }
+        } else {
+            $name_p4 = $file_original_picture;
+        }
 
-            if ($picture_5 <> '') {
+        if ($picture_5 <> '') {
 
-                $this->validate($request, [
-                    'picture_5' => 'required|image|mimes:jpg,png,jpeg'
-                ]);
+            $this->validate($request, [
+                'picture_5' => 'required|image|mimes:jpg,png,jpeg'
+            ]);
 
-                $file = $picture_5;
+            $file = $picture_5;
 
-                // create filename with merging the timestamp and unique ID
-                $name_p5 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            // create filename with merging the timestamp and unique ID
+            $name_p5 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
 
-                // upload original file (dimension hasn't been comppressed)
-                // Image::make($file)->save($this->path . '/' . $f_name);
+            // upload original file (dimension hasn't been comppressed)
+            // Image::make($file)->save($this->path . '/' . $f_name);
 
-                //Looping array of image dimension that has been specify on contruct
-                foreach ($this->dimensions as $row) {
-                    //create image canvas according to dimension on array
-                    $canvas = Image::canvas($row, $row);
+            //Looping array of image dimension that has been specify on contruct
+            foreach ($this->dimensions as $row) {
+                //create image canvas according to dimension on array
+                $canvas = Image::canvas($row, $row);
 
-                    //rezise according the dimension on array (still keep ratio)
-                    $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
-                        $constraint->aspectRatio();
-                    });
+                //rezise according the dimension on array (still keep ratio)
+                $resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-                    // insert image that compressed into canvas
-                    $canvas->insert($resizeImage, 'center');
+                // insert image that compressed into canvas
+                $canvas->insert($resizeImage, 'center');
 
-                    // move image in folder
-                    $canvas->save($this->path . '/' . $name_p5);
-                }
-            } else {
-                $name_p5 = $file_original_picture;
+                // move image in folder
+                $canvas->save($this->path . '/' . $name_p5);
             }
+        } else {
+            $name_p5 = $file_original_picture;
+        }
 
-            if ($video_1 <> '') {
+        if ($video_1 <> '') {
 
-                $request->validate([
-                    'video_1' => 'file|mimes:mp4,jpg'
-                ]);
+            $request->validate([
+                'video_1' => 'file|mimes:mp4,jpg'
+            ]);
 
-                $file = $video_1;
+            $file = $video_1;
 
-                $uploadedVideo = $request->file('video_1');
-                // create filename with merging the timestamp and unique ID
-                $name_v1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
-                $destinationPath = public_path('/videos/defect/');
-                $uploadedVideo->move($destinationPath, $name_v1);
-                $video_1->video_1 = $destinationPath . $name_v1;
+            $uploadedVideo = $request->file('video_1');
+            // create filename with merging the timestamp and unique ID
+            $name_v1 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            $destinationPath = public_path('/videos/defect/');
+            $uploadedVideo->move($destinationPath, $name_v1);
+            $video_1->video_1 = $destinationPath . $name_v1;
 
-            } else {
-                $name_v1 = $file_original_video;
-            }
+        } else {
+            $name_v1 = $file_original_video;
+        }
 
-            if ($video_2 <> '') {
+        if ($video_2 <> '') {
 
-                $request->validate([
-                    'video_2' => 'file|mimes:mp4,jpg'
-                ]);
+            $request->validate([
+                'video_2' => 'file|mimes:mp4,jpg'
+            ]);
 
-                $file = $video_2;
+            $file = $video_2;
 
-                $uploadedVideo = $request->file('video_2');
-                // create filename with merging the timestamp and unique ID
-                $name_v2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
-                $destinationPath = public_path('/videos/defect/');
-                $uploadedVideo->move($destinationPath, $name_v2);
-                $video_2->video_2 = $destinationPath . $name_v2;
+            $uploadedVideo = $request->file('video_2');
+            // create filename with merging the timestamp and unique ID
+            $name_v2 = Carbon::now()->timestamp . '_' . uniqid() . '.'. $file->getClientOriginalExtension();
+            $destinationPath = public_path('/videos/defect/');
+            $uploadedVideo->move($destinationPath, $name_v2);
+            $video_2->video_2 = $destinationPath . $name_v2;
 
-            } else {
-                $name_v2 = $file_original_video;
-            }
-
+        } else {
+            $name_v2 = $file_original_video;
+        }
 
         // insert into database
         DB::table('draft_detail')->insert([

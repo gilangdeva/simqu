@@ -430,14 +430,12 @@ class ReportController extends Controller
         }
 
         $report_qty_defect_inline = DB::table('vw_rekap_defect')
-                            ->where('id_user', '=', session()->get('id_user'))
                             ->where('nama_departemen', 'like', $dept)
                             ->where('bulan', '=', $bulan)
                             ->where('type_form', '=', 'Inline')
                             ->get();
 
         $report_qty_defect_final = DB::table('vw_rekap_defect')
-                            ->where('id_user', '=', session()->get('id_user'))
                             ->where('nama_departemen', 'like', $dept)
                             ->where('bulan', '=', $bulan)
                             ->where('type_form', '=', 'Final')
