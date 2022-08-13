@@ -175,10 +175,10 @@ Route::get('/report-historical-jop', [ReportController::class, 'ReportJop'])->mi
 Route::get('/report-filter-jop/', [ReportController::class, 'FilterReportJop'])->name('report.historical-jop')->middleware('auth.check');
 
 Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
-route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
+Route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
 
 //Approval
 Route::get('/approval', [ApprovalController::class, 'ApprovalList'])->middleware('auth.check');
 Route::get('/approval-list/', [ApprovalController::class, 'FilterApproval'])->name('inspeksi.approval-list')->middleware('auth.check');
 Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
-route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
+Route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
