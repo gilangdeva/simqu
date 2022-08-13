@@ -37,9 +37,9 @@
                             <th data-hide="phone">Area</th>
                             <th>JOP</th>
                             <th data-hide="phone">Item</th>
-                            <th>Diajukan Oleh</th>
-                            <th data-hide="phone">Inspektor</th>
+                            <th data-hide="phone">Diajukan Tgl</th>
                             <th data-hide="phone">Status</th>
+                            <th data-hide="all">Inspektor</th>
                             <th data-hide="all">Mesin</th>
                             <th data-hide="all">Output/1 mnt</th>
                             <th data-hide="all">Output/5 mnt</th>
@@ -68,9 +68,9 @@
                                 <td>{{ $lai->nama_departemen }} - {{ $lai->nama_sub_departemen }}</td>
                                 <td>{{ $lai->jop }}</td>
                                 <td>{{ $lai->item }}</td>
-                                <td>{{ $lai->submitted_by }}</td>
-                                <td>{{ $lai->nama_user }}</td>
+                                <td>{{ date('d/m/Y', strtotime($lai->created_at)) }}</td>
                                 <td>{{ $lai->status }}</td>
+                                <td>{{ $lai->nama_user }}</td>
                                 <td>{{ $lai->nama_mesin }}</td>
                                 <td>{{ $lai->qty_1 }}</td>
                                 <td>{{ $lai->qty_5 }}</td>
@@ -182,9 +182,9 @@
                             <th data-hide="phone">Area</th>
                             <th>JOP</th>
                             <th data-hide="phone">Item</th>
-                            <th>Diajukan Oleh</th>
-                            <th data-hide="phone">Inspektor</th>
+                            <th data-hide="phone">Diajukan Tgl</th>
                             <th data-hide="phone">Status</th>
+                            <th data-hide="all">Inspektor</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
                             <th data-hide="all">Lama Inspeksi</th>
@@ -211,9 +211,9 @@
                                 <td>{{ $laf->nama_departemen }} - {{ $laf->nama_sub_departemen }}</td>
                                 <td>{{ $laf->jop }}</td>
                                 <td>{{ $laf->item }}</td>
-                                <td>{{ $laf->submitted_by }}</td>
-                                <td>{{ $laf->nama_user }}</td>
+                                <td>{{ date('d/m/Y', strtotime($laf->created_at)) }}</td>
                                 <td>{{ $laf->status }}</td>
+                                <td>{{ $laf->nama_user }}</td>
                                 <td>{{ $laf->jam_mulai }}</td>
                                 <td>{{ $laf->jam_selesai }}</td>
                                 <td>{{ $laf->lama_inspeksi }} Menit</td>

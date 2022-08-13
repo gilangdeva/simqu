@@ -26,8 +26,6 @@ class ApprovalController extends Controller
 {
     // Menampilkan list inspeksi inline
     public function ApprovalList(){
-        // $start_date     = date('Y-m-01', strtotime('+0 hours'));
-        // $end_date       = date('Y-m-d', strtotime('+0 hours'));
         $jenis_user = session()->get('jenis_user');
 
         if($jenis_user <> "Manager"){

@@ -467,7 +467,6 @@ class ReportController extends Controller
         $tahun = date('Y', strtotime('+0 hours'));
 
         $report_jop = DB::table('vw_rekap_defect_by_jop')
-                            ->where('id_user', '=', session()->get('id_user'))
                             ->get();
 
         $jenis_user = session()->get('jenis_user');
@@ -997,7 +996,6 @@ class ReportController extends Controller
                 $list_tahun = DB::select("select * from vw_filter_tahun");
 
                 $report_qty_defect_inline = DB::table('vw_rekap_defect')
-                                        ->where('id_user', '=', session()->get('id_user'))
                                         ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('tahun', '=', $f_tahun)
@@ -1005,7 +1003,6 @@ class ReportController extends Controller
                                         ->get();
 
                 $report_qty_defect_final = DB::table('vw_rekap_defect')
-                                        ->where('id_user', 'like', session()->get('id_user'))
                                         ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('tahun', '=', $f_tahun)
@@ -1045,14 +1042,12 @@ class ReportController extends Controller
                 $tahun = $request->tahun;
 
                 $report_qty_defect_inline = DB::table('vw_rekap_defect')
-                                        ->where('id_user', '=', session()->get('id_user'))
                                         ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Inline')
                                         ->get();
 
                 $report_qty_defect_final = DB::table('vw_rekap_defect')
-                                        ->where('id_user', '=', session()->get('id_user'))
                                         ->where('nama_departemen', 'like', $dept)
                                         ->where('bulan', '=', $bulan)
                                         ->where('type_form', '=', 'Final')

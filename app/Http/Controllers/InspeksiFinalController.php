@@ -618,49 +618,6 @@ class InspeksiFinalController extends Controller
             $jenis_user = session()->get('jenis_user');
             $status_approval = "Submitted";
 
-            // Delete Pictures
-            if (isset($picture_1)) {
-                if ($picture_1 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_1));
-                }
-            }
-
-            if (isset($picture_2)) {
-                if ($picture_2 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_2));
-                }
-            }
-
-            if (isset($picture_3)) {
-                if ($picture_3 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_3));
-                }
-            }
-
-            if (isset($picture_4)) {
-                if ($picture_4 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_4));
-                }
-            }
-
-            if (isset($picture_5)) {
-                if ($picture_5 <> "blank.jpg") {
-                    File::delete(public_path("/images/defect/".$picture_5));
-                }
-            }
-
-            if (isset($video_1)) {
-                if ($video_1 <> "blank.jpg") {
-                    File::delete(public_path("/videos/defect/".$video_1));
-                }
-            }
-
-            if (isset($video_2)) {
-                if ($video_2 <> "blank.jpg") {
-                    File::delete(public_path("/videos/defect/".$video_2));
-                }
-            }
-
             $id_approval = DB::select("SELECT id_approval FROM vg_list_id_approval");
             $id_approval = $id_approval[0]->id_approval;
 
@@ -711,8 +668,8 @@ class InspeksiFinalController extends Controller
                 'id_user'               => $id_user,
                 'id_departemen'         => $id_departemen,
                 'id_sub_departemen'     => $id_sub_departemen,
-                'created_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
-                'updated_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'created_at'            => $created_at,
+                'updated_at'            => $updated_at,
                 'id_inspeksi_detail'    => $id_detail,
                 'jam_mulai'             => $jam_mulai,
                 'jam_selesai'           => $jam_selesai,
@@ -985,8 +942,32 @@ class InspeksiFinalController extends Controller
             return redirect('/final');
         }
 
+        // Fungsi keep data list approval
+        public function ApprovalKeepFinalDataList($id){
+            $id_detail = Crypt::decryptString($id);
+            $id_header = DB::select("SELECT id_inspeksi_header FROM tb_inspeksi_detail WHERE id_inspeksi_detail='".$id_detail."'");
+            $id_header = $id_header[0]->id_inspeksi_header;
+
+            $jenis_user = session()->get('jenis_user');
+
+            $approved_by = session()->get('id_user');
+            $approved_by = DB::select("SELECT nama_user FROM tb_master_users WHERE id_user='".$approved_by."'");
+            $approved_by = $approved_by[0]->nama_user;
+
+            $status_approval = "Keeped";
+
+            // update status approval
+            DB::table('tb_history_inspeksi')->where('id_inspeksi_detail',$id_detail)->update([
+                'status_approval'       => $status_approval,
+                'approved_by'           => $approved_by
+            ]);
+
+            alert()->success('Berhasil!', 'Data Telah Diapprove!');
+            return Redirect::back();
+        }
+
         //Fungsi Filter List
-    public function FilterFinalList(Request $request){
+        public function FilterFinalList(Request $request){
         if (request()->start_date || request()->end_date) {
             $start_date     = $request->start_date;
             $end_date       = $request->end_date;
@@ -999,17 +980,23 @@ class InspeksiFinalController extends Controller
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('jop', 'like', "%{$text_search}%")
+                        ->where('jenis_user', '=', session()->get('jenis_user'))
+                        ->where('id_user', '=', session()->get('id_user'))
                         ->get();
                 } else if ($type_search =="ITEM"){
                     $list_final = DB::table('vg_list_final')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('item', 'like', "%{$text_search}%")
+                        ->where('jenis_user', '=', session()->get('jenis_user'))
+                        ->where('id_user', '=', session()->get('id_user'))
                         ->get();
                 } else {
                     $list_final = DB::table('vg_list_final')
                     ->where('tgl_inspeksi', '>=', $start_date)
                     ->where('tgl_inspeksi', '<=', $end_date)
+                    ->where('jenis_user', '=', session()->get('jenis_user'))
+                    ->where('id_user', '=', session()->get('id_user'))
                     ->get();
                 }
 

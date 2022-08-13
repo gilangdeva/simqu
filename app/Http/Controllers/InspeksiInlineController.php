@@ -605,8 +605,8 @@ class InspeksiInlineController extends Controller
                 'id_user'               => $id_user,
                 'id_departemen'         => $id_departemen,
                 'id_sub_departemen'     => $id_sub_departemen,
-                'created_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
-                'updated_at'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'created_at'            => $created_at,
+                'updated_at'            => $updated_at,
                 'id_inspeksi_detail'    => $id_detail,
                 'id_mesin'              => $id_mesin,
                 'qty_1'                 => $qty_1,
@@ -922,17 +922,23 @@ class InspeksiInlineController extends Controller
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('jop', 'like', "%".$text_search."%")
+                        ->where('jenis_user', '=', session()->get('jenis_user'))
+                        ->where('id_user', '=', session()->get('id_user'))
                         ->get();
                 } else if ($type_search =="ITEM"){
                     $list_inline = DB::table('vw_list_inline')
                         ->where('tgl_inspeksi', '>=', $start_date)
                         ->where('tgl_inspeksi', '<=', $end_date)
                         ->where('item', 'like', "%".$text_search."%")
+                        ->where('jenis_user', '=', session()->get('jenis_user'))
+                        ->where('id_user', '=', session()->get('id_user'))
                         ->get();
                 } else {
                     $list_inline = DB::table('vw_list_inline')
                     ->where('tgl_inspeksi', '>=', $start_date)
                     ->where('tgl_inspeksi', '<=', $end_date)
+                    ->where('jenis_user', '=', session()->get('jenis_user'))
+                    ->where('id_user', '=', session()->get('id_user'))
                     ->get();
                 }
 
