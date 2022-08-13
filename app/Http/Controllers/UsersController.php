@@ -35,6 +35,11 @@ class UsersController extends Controller
         $users = DB::select('SELECT * FROM vw_list_users');
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.users-list',[
             'menu'          => 'master',
             'sub'           => '/users',
@@ -53,6 +58,11 @@ class UsersController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.users-input',[
             'departemen'        => $departemen,
@@ -89,7 +99,7 @@ class UsersController extends Controller
         $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
         if (isset($email_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Email Ini Sudah Didaftarkan Dalam Sistem!');
-            
+
             return view('admin.master.users-input',[
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
@@ -106,7 +116,7 @@ class UsersController extends Controller
         if (isset($usersname_check['0'])) {
             // If username already registered
             alert()->error('Gagal Menyimpan!', 'Maaf, NIK Dudah Digunakan!');
-            
+
             return view('admin.master.users-input',[
                 'departemen'        => $departemen,
                 'subdepartemen'     => $subdepartemen,
@@ -247,7 +257,7 @@ class UsersController extends Controller
             $email_check = DB::select("SELECT email FROM vw_list_users WHERE email = '".$request->email."'");
             if (isset($email_check['0'])) {
                 alert()->error('Gagal!', 'Maaf, Email Ini Sudah Terdaftar Dalam Sistem!');
-                
+
                 $user = UsersModel::find($id_user);
 
                 return view('admin.master.users-edit', [

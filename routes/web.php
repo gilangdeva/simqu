@@ -180,3 +180,5 @@ route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportIns
 //Approval
 Route::get('/approval', [ApprovalController::class, 'ApprovalList'])->middleware('auth.check');
 Route::get('/approval-list/', [ApprovalController::class, 'FilterApproval'])->name('inspeksi.approval-list')->middleware('auth.check');
+Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
+route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');

@@ -21,6 +21,11 @@ class SubDepartmentController extends Controller
         $subdepartment = DB::select('SELECT * FROM vg_list_sub_departemen');
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.subdepartment-list',[
             'menu'              => 'master',
             'sub'               => '/subdepartment',
@@ -33,6 +38,11 @@ class SubDepartmentController extends Controller
     public function SubDepartmentInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.subdepartment-input',[
             'departemen'    => $departemen,
@@ -53,11 +63,11 @@ class SubDepartmentController extends Controller
         $subdepartment->kode_sub_departemen = strtoupper($request->kode_sub_departemen);
         $subdepartment->nama_sub_departemen = strtoupper($request->nama_sub_departemen);
         $subdepartment->klasifikasi_proses = strtoupper($request->klasifikasi_proses);
-        
+
         // Validation data input
         if ($request->id_departemen == "0"){
             alert()->error('Gagal Input Data!', 'Maaf, Anda belum memilih Departemen!');
-            
+
             return view('admin.master.subdepartment-input',[
                 'departemen'    => $departemen,
                 'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
@@ -108,6 +118,11 @@ class SubDepartmentController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         // Select data based on ID
         $subdepartemen = SubDepartmentModel::find($id);
 
@@ -141,7 +156,7 @@ class SubDepartmentController extends Controller
 
                 // Select data based on ID
                 $subdepartemen = SubDepartmentModel::find($id_sub_departemen);
-                
+
                 return view('admin.master.subdepartment-edit', [
                     'menu'          => 'master',
                     'sub'           => '/subdepartment',

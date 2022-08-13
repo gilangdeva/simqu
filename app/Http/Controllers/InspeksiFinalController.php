@@ -48,6 +48,11 @@ class InspeksiFinalController extends Controller
 
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user == "Manager"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('inspeksi.final-list',
         [
             'list_final'   => $list_final,
@@ -64,6 +69,11 @@ class InspeksiFinalController extends Controller
         $draft = DB::select("SELECT * FROM vg_draft_final WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Manager"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('inspeksi.final-input',[
             'departemen'    => $departemen,
@@ -562,7 +572,7 @@ class InspeksiFinalController extends Controller
                     File::delete(public_path("/videos/defect/".$video_1));
                 }
             }
-            
+
             if (isset($video_2)) {
                 if ($video_2 <> "blank.jpg") {
                     File::delete(public_path("/videos/defect/".$video_2));

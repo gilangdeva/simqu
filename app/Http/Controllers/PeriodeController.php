@@ -24,6 +24,11 @@ class PeriodeController extends Controller
         $periode = PeriodeModel::orderBy('urutan', 'ASC')->orderBy('minggu_ke', 'ASC')->groupBy('tahun', 'id_periode')->get();
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.periode-list',[
             'menu'          => 'master',
             'sub'           => '/periode',
@@ -35,6 +40,11 @@ class PeriodeController extends Controller
     // Redirect ke window input periode
     public function PeriodeInput(){
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.periode-input',[
             'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
@@ -85,7 +95,7 @@ class PeriodeController extends Controller
         //Validasi data input
         if ($request->bulan == "0" || $request->minggu_ke == "0"){
             alert()->error('Gagal Input Data!', 'Maaf, Ada Kesalahan Penginputan Data!');
-            
+
             return view('admin.master.periode-input',[
                 'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
                 'sub'           => '/periode',
@@ -118,6 +128,11 @@ class PeriodeController extends Controller
         $id = Crypt::decrypt($id);
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         // Select data based on ID
         $period = PeriodeModel::find($id);
 
@@ -146,7 +161,7 @@ class PeriodeController extends Controller
             $available_date_check = DB::select("SELECT * FROM vg_list_periode WHERE tahun = '".$request->tahun."' AND bulan = '".$request->bulan."' AND minggu_ke = '".$request->minggu_ke."'");
             if (isset($available_date_check['0'])) {
                 alert()->error('Gagal!', 'Maaf, Periode Ini Sudah Didaftarkan Dalam Sistem!');
-                        
+
                 $period = PeriodeModel::find($id_periode);
 
                 return view('admin.master.periode-edit', [

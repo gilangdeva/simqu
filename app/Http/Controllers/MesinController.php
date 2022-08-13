@@ -22,6 +22,11 @@ class MesinController extends Controller
         $mesin = DB::select('SELECT * FROM vg_list_mesin');
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.mesin-list',[
             'menu'          => 'master',
             'sub'           => '/mesin',
@@ -45,6 +50,11 @@ class MesinController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.mesin-input',[
             'departemen'    => $departemen,
@@ -129,6 +139,11 @@ class MesinController extends Controller
         $subdepartemen = DB::select('SELECT id_sub_departemen, nama_sub_departemen FROM vg_list_sub_departemen');
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         // Select data based on ID
         $machine = MesinModel::find($id);
 
@@ -164,7 +179,7 @@ class MesinController extends Controller
          $nama_check = DB::select("SELECT nama_mesin FROM vg_list_mesin WHERE nama_mesin = '".$nama_mesin."'");
          if (isset($nama_check['0'])) {
              alert()->error('Gagal Menyimpan!', 'Maaf, Nama Mesin Ini Sudah Didaftarkan Dalam Sistem!');
-             
+
              return view('admin.master.mesin-edit', [
                 'menu'          => 'master',
                 'sub'           => '/mesin',

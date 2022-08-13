@@ -32,7 +32,7 @@ class ApprovalController extends Controller
 
         if($jenis_user <> "Manager"){
             alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
-            return Redirect::back();
+            return Redirect('/');
         }
 
         $list_approval_inline   = DB::table('vw_list_approval_inline')

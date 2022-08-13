@@ -301,6 +301,17 @@
                     </li>
 
                     <li>
+                        @if($menu == 'inspeksi')
+                            <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                        @else
+                            <a href="/inspeksi" class="waves-effect"><i class="mdi mdi-magnify fa-fw"></i> <span class="hide-menu"> Inspeksi<span class="fa arrow"></span></span></a>
+                        @endif
+                        <ul class="nav nav-second-level">
+                            <li><a href="/approval"><i class="mdi mdi-check fa-fw"></i> <span class="hide-menu">Approval</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li>
                         @if($menu == 'laporan')
                             <a href="{{ $sub }}" class="waves-effect"><i class="mdi mdi-book-open-page-variant fa-fw"></i> <span class="hide-menu">Report<span class="fa arrow"></span></span></a>
                         @else
