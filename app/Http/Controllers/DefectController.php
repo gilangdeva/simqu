@@ -22,6 +22,11 @@ class DefectController extends Controller
         $defect = DB::select("SELECT * FROM vg_list_defect");
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.defect-list',[
             'menu'          => 'master',
             'sub'           => '/defect',
@@ -44,6 +49,11 @@ class DefectController extends Controller
     public function DefectInput(){
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.defect-input',[
             'departemen'   => $departemen,
@@ -72,7 +82,7 @@ class DefectController extends Controller
         $kode_check = DB::select("SELECT kode_defect FROM vg_list_defect WHERE kode_defect = '".$defect->kode_defect."'");
         if (isset($kode_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Defect Ini Sudah Didaftarkan Dalam Sistem!');
-            
+
             return view('admin.master.defect-input',[
                 'departemen'    => $departemen,
                 'select'        => $defect,
@@ -86,7 +96,7 @@ class DefectController extends Controller
         $defect_check = DB::select("SELECT defect FROM vg_list_defect WHERE defect = '".$defect->defect."'");
         if (isset($defect_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Defect Ini Sudah Didaftarkan Dalam Sistem!');
-            
+
             return view('admin.master.defect-input',[
                 'departemen'    => $departemen,
                 'select'        => $defect,
@@ -99,7 +109,7 @@ class DefectController extends Controller
        // Insert data into database
         $defect->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-            
+
             return view('admin.master.defect-input',[
                 'departemen'    => $departemen,
                 'select'        => $defect,
@@ -114,6 +124,11 @@ class DefectController extends Controller
         $id = Crypt::decrypt($id);
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         // Select data based on ID
         $def = DefectModel::find($id);
@@ -146,7 +161,7 @@ class DefectController extends Controller
                 alert()->error('Gagal Menyimpan!', 'Maaf, Nama Ini Sudah Digunakan');
 
                 $def = DefectModel::find($id_defect);
-                
+
                 return view('admin.master.defect-edit', [
                     'menu'          => 'master',
                     'sub'           => '/defect',

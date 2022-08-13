@@ -22,6 +22,11 @@ class SatuanController extends Controller
         $satuan = DB::select('SELECT * FROM vg_list_satuan');
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.satuan-list',[
             'menu'          => 'master',
             'sub'           => '/satuan',
@@ -33,6 +38,11 @@ class SatuanController extends Controller
     // Redirect ke window input satuan
     public function SatuanInput(){
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.satuan-input',[
             'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
@@ -54,7 +64,7 @@ class SatuanController extends Controller
         $kode_satuan_check = DB::select("SELECT kode_satuan FROM vg_list_satuan WHERE kode_satuan = '".$satuan->kode_satuan."'");
         if (isset($kode_satuan_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Kode Satuan Ini Sudah Didaftarkan Dalam Sistem!');
-            
+
             return view('admin.master.satuan-input',[
                 'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
                 'sub'           => '/satuan',
@@ -67,7 +77,7 @@ class SatuanController extends Controller
         $nama_satuan_check = DB::select("SELECT nama_satuan FROM vg_list_satuan WHERE nama_satuan = '".$satuan->nama_satuan."'");
         if (isset($nama_satuan_check['0'])) {
             alert()->error('Gagal Menyimpan!', 'Maaf, Nama Satuan Ini Sudah Didaftarkan Dalam Sistem!');
-            
+
             return view('admin.master.satuan-input',[
                 'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
                 'sub'           => '/satuan',
@@ -91,6 +101,11 @@ class SatuanController extends Controller
 
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.satuan-edit', [
             'menu'          => 'master',
             'sub'           => '/satuan',
@@ -113,7 +128,7 @@ class SatuanController extends Controller
         $satuan_check = DB::select("SELECT nama_satuan FROM vg_list_satuan WHERE nama_satuan = '".$nama_satuan."'");
             if (isset($satuan_check['0'])) {
                 alert()->error('Gagal Menyimpan!', 'Maaf, Satuan Ini Sudah Ada!');
-                
+
                 $sat = SatuanModel::find($id_satuan);
 
                 return view('admin.master.satuan-edit', [

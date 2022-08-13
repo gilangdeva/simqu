@@ -21,6 +21,11 @@ class DepartmentController extends Controller
         $department = DepartmentModel::all();
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.department-list',[
             'menu'          => 'master',
             'sub'           => '/department',
@@ -32,6 +37,12 @@ class DepartmentController extends Controller
     // Redirect ke window input department
     public function DepartmentInput(){
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.department-input',[
             'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/department',
@@ -85,6 +96,11 @@ class DepartmentController extends Controller
     public function EditDepartmentData($id){
         $id = Crypt::decrypt($id);
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         // Select data based on ID
         $departemen = DepartmentModel::find($id);

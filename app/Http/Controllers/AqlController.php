@@ -21,6 +21,11 @@ class AqlController extends Controller {
         $aql = DB::select("SELECT * FROM vg_list_aql");
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.aql-list',[
             'menu'          => 'master',
             'sub'           => '/aql',
@@ -32,6 +37,11 @@ class AqlController extends Controller {
     // Redirect ke window input aql
     public function AqlInput(){
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('admin.master.aql-input',[
             'menu'          => 'master', // selalu ada di tiap function dan disesuaikan
@@ -78,6 +88,11 @@ class AqlController extends Controller {
     public function EditAqlData($id){
         $id = Crypt::decrypt($id);
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         // Select data based on ID
         $e_aql = AqlModel::find($id);

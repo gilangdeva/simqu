@@ -22,6 +22,11 @@ class JOPEdarController extends Controller
         $jop = DB::select("SELECT * FROM vw_list_jop_edar");
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user <> "Administrator"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('admin.master.jop-list',[
             'jop'           => $jop,
             'menu'          => 'upload',

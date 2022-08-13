@@ -149,7 +149,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Pcs</label></div>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Qty Barang Siap (Pcs)">
+                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="2" placeholder="Qty Barang Siap (Pcs)">
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -831,6 +831,7 @@
 
         if(dept == '' && $('#tgl_inspeksi').length){
             $("#final_data :input").prop("disabled", true);
+            $('.select2').css('background-color', '#f1f1f1');
         }
     });
 </script>

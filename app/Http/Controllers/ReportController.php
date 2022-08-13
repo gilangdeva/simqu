@@ -34,6 +34,13 @@ class ReportController extends Controller
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
         $n_dept = $dept[0]->nama_departemen;
 
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         if(isset($dept[0])){
             $dept = $dept[0]->nama_departemen;
         } else {
@@ -113,7 +120,6 @@ class ReportController extends Controller
             'total_fnl'         => $total_fnl,
             'total_krt'         => $total_krt,
             'bulan'             => $bulan,
-            'jenis_user'        => $jenis_user,
             'graf_inl'          => $graf_inl,
             'graf_fnl'          => $graf_fnl,
             'graf_krt'          => $graf_krt,
@@ -121,7 +127,8 @@ class ReportController extends Controller
             'tahun'             => $tahun,
             'f_tahun'           => $f_tahun,
             'list_tahun'        => $list_tahun,
-            'select_tahun'      => $f_tahun
+            'select_tahun'      => $f_tahun,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -132,6 +139,13 @@ class ReportController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         if(isset($dept[0])){
             $dept = $dept[0]->nama_departemen;
@@ -200,13 +214,13 @@ class ReportController extends Controller
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
             'n_dept'            => $dept,
-            'jenis_user'        => $jenis_user,
             'graf_ins'          => $graf_ins,
             'select_dept'       => $dept,
             'tahun'             => $tahun,
             'f_tahun'           => $f_tahun,
             'list_tahun'        => $list_tahun,
-            'select_tahun'      => $f_tahun
+            'select_tahun'      => $f_tahun,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -217,6 +231,13 @@ class ReportController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         if(isset($dept[0])){
             $dept = $dept[0]->nama_departemen;
@@ -272,8 +293,6 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
-        $jenis_user = session()->get('jenis_user');
-
         //Grafik
         $graf_crt = DB::select("SELECT 'Minggu - ' || minggu_ke as week, qty_inspek, qty_reject, qty_defect FROM report_rekap_critical WHERE id_user =".session()->get('id_user'));
 
@@ -286,12 +305,12 @@ class ReportController extends Controller
             'report_critical'   => $report_critical,
             'report_summary'    => $report_summary,
             'bulan'             => $bulan,
-            'jenis_user'        => $jenis_user,
             'graf_crt'          => $graf_crt,
             'tahun'             => $tahun,
             'f_tahun'           => $f_tahun,
             'list_tahun'        => $list_tahun,
-            'select_tahun'      => $f_tahun
+            'select_tahun'      => $f_tahun,
+            'jenis_user'        => $jenis_user
         ]);
     }
 
@@ -301,6 +320,13 @@ class ReportController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         if(isset($dept[0])){
             $dept = $dept[0]->nama_departemen;
@@ -330,8 +356,6 @@ class ReportController extends Controller
                             ->groupBy('id_departemen','nama_departemen')
                             ->get();
 
-        $jenis_user = session()->get('jenis_user');
-
         //Grafik
         $graf_rej = DB::select("SELECT bulan, sum(qty_inspek) as qty_inspek , sum(qty_reject) as qty_reject, sum(qty_critical) as qty_critical, sum(qty_defect) as qty_defect FROM report_rekap_reject WHERE id_user =".session()->get('id_user')." GROUP BY bulan");
 
@@ -359,6 +383,13 @@ class ReportController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         if(isset($dept[0])){
             $dept = $dept[0]->nama_departemen;
@@ -412,8 +443,6 @@ class ReportController extends Controller
                             ->where('type_form', '=', 'Final')
                             ->get();
 
-        $jenis_user = session()->get('jenis_user');
-
         return view('report.report-qty-defect',
         [
             'menu'                      => 'laporan',
@@ -443,6 +472,11 @@ class ReportController extends Controller
 
         $jenis_user = session()->get('jenis_user');
 
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
+
         return view('report.report-historical-jop',
         [
             'menu'                      => 'laporan',
@@ -466,8 +500,14 @@ class ReportController extends Controller
         $report   =  DB::table('report_inspeksi_thn')
                     ->where('id_user', '=', session()->get('id_user'))
                     ->get();
-        $jenis_user = session()->get('jenis_user');
         $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+        $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Inspektor"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/');
+        }
 
         return view('report.report-inspeksi-thn',[
             'menu'              => 'laporan',
@@ -524,6 +564,11 @@ class ReportController extends Controller
 
                 $jenis_user = session()->get('jenis_user');
 
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
+
                 return view('report.report-list',[
                     'menu'              => 'laporan',
                     'sub'               => '/report-defect',
@@ -578,6 +623,11 @@ class ReportController extends Controller
 
                 $jenis_user = session()->get('jenis_user');
 
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
+
                 $pdf = PDF::loadview('report.ReportDefectPDF',[
                     'report_inl'        => $report_inl,
                     'report_fnl'        => $report_fnl,
@@ -610,7 +660,7 @@ class ReportController extends Controller
             break;
         }
 
-    }    
+    }
 
     // Filter Report Inspeksi
     public function FilterReportInspeksi(Request $request){
@@ -641,7 +691,12 @@ class ReportController extends Controller
                                 ->groupBy('id_departemen','nama_departemen')
                                 ->get();
 
-            $jenis_user = session()->get('jenis_user');
+                                $jenis_user = session()->get('jenis_user');
+
+                                if($jenis_user == "Inspektor"){
+                                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                                    return Redirect('/');
+                                }
 
             //Grafik
             $graf_ins = DB::select("SELECT 'Minggu - ' || minggu_ke as week, inline, final FROM report_total_inspeksi WHERE id_user =".session()->get('id_user'));
@@ -688,6 +743,11 @@ class ReportController extends Controller
                                 ->get();
 
             $jenis_user = session()->get('jenis_user');
+
+            if($jenis_user == "Inspektor"){
+                alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                return Redirect('/');
+            }
 
             $pdf = PDF::loadview('report.ReportInspeksiPDF',[
                 'report_summary'    => $report_summary,
@@ -740,6 +800,11 @@ class ReportController extends Controller
 
                 $jenis_user = session()->get('jenis_user');
 
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
+
                 //Grafik
                 $graf_crt = DB::select("SELECT 'Minggu - ' || minggu_ke as week, qty_inspek, qty_reject, qty_defect FROM report_rekap_critical WHERE id_user =".session()->get('id_user'));
 
@@ -784,6 +849,11 @@ class ReportController extends Controller
                                 ->get();
 
             $jenis_user = session()->get('jenis_user');
+
+            if($jenis_user == "Inspektor"){
+                alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                return Redirect('/');
+                                }
 
 
             $pdf = PDF::loadview('report.ReportCriticalPDF',[
@@ -838,6 +908,11 @@ class ReportController extends Controller
 
             $jenis_user = session()->get('jenis_user');
 
+            if($jenis_user == "Inspektor"){
+                alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                return Redirect('/');
+            }
+
             //Grafik
             $graf_rej = DB::select("SELECT bulan, sum(qty_inspek) as qty_inspek , sum(qty_reject) as qty_reject, sum(qty_critical) as qty_critical, sum(qty_defect) as qty_defect FROM report_rekap_reject WHERE id_user =".session()->get('id_user')." GROUP BY bulan");
 
@@ -880,6 +955,11 @@ class ReportController extends Controller
                                 ->get();
 
             $jenis_user = session()->get('jenis_user');
+
+            if($jenis_user == "Inspektor"){
+                alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                return Redirect('/');
+            }
 
             $pdf = PDF::loadview('report.ReportRejectPDF',[
                 'report_summary'    => $report_summary,
@@ -934,6 +1014,11 @@ class ReportController extends Controller
 
                 $jenis_user = session()->get('jenis_user');
 
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
+
                 return view('report.report-qty-defect',[
                     'menu'                      => 'laporan',
                     'sub'                       => '/report-qty-defect',
@@ -974,6 +1059,11 @@ class ReportController extends Controller
                                         ->get();
 
                 $jenis_user = session()->get('jenis_user');
+
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
 
                 $pdf = PDF::loadview('report.ReportQtyDefectPDF',[
                     'report_qty_defect_inline'  => $report_qty_defect_inline,
@@ -1031,7 +1121,7 @@ class ReportController extends Controller
             case 'submit':
                 $tahun = $request->tahun;
                 $s_tahun = $tahun;
-                
+
                 if($tahun == ''){
                     $tahun = '%';
                     $s_tahun = 'SEMUA TAHUN';
@@ -1041,8 +1131,15 @@ class ReportController extends Controller
                 $report   =  DB::table('report_inspeksi_thn')
                             ->where('id_user', '=', session()->get('id_user'))
                             ->get();
-                $jenis_user = session()->get('jenis_user');
+
                 $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+                $jenis_user = session()->get('jenis_user');
+
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
 
                 return view('report.report-inspeksi-thn',[
                     'menu'              => 'laporan',
@@ -1058,7 +1155,7 @@ class ReportController extends Controller
             case 'export_pdf':
                 $tahun = $request->tahun;
                 $s_tahun = $tahun;
-                
+
                 if($tahun == ''){
                     $tahun = '%';
                     $s_tahun = 'SEMUA TAHUN';
@@ -1068,8 +1165,15 @@ class ReportController extends Controller
                 $report   =  DB::table('report_inspeksi_thn')
                             ->where('id_user', '=', session()->get('id_user'))
                             ->get();
-                $jenis_user = session()->get('jenis_user');
+
                 $list_tahun = DB::select("SELECT * from vw_filter_tahun");
+
+                $jenis_user = session()->get('jenis_user');
+
+                if($jenis_user == "Inspektor"){
+                    alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+                    return Redirect('/');
+                }
 
                 $pdf = PDF::loadview('report.ReportInspeksiTahun',[
                     'report_inspeksi'   => $report,
