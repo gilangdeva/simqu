@@ -15,9 +15,9 @@
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">LIST MESIN</h3>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    {{-- <div class="col-sm-6 col-xs-12">
                         <a href="/mesin-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="table-responsive">
                     <table id="tablebasic" class="table table-striped">
@@ -28,7 +28,7 @@
                                 <th>Nama Sub Departemen</th>
                                 <th>Kode Mesin</th>
                                 <th>Nama Mesin</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -39,10 +39,10 @@
                                 <td>{{ $machine->nama_sub_departemen }}</td>
                                 <td>{{ $machine->kode_mesin }}</td>
                                 <td>{{ $machine->nama_mesin }}</td>
-                                <td>
+                                {{-- <td>
                                     <a href="/mesin-edit/{{ Crypt::encrypt($machine->id_mesin) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($machine->id_mesin) }}')"><i class="fa fa-times"></i></button>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
@@ -54,7 +54,7 @@
     <!-- end row -->
 </div>
 <!-- end container-fluid -->
-<script>
+{{-- <script>
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/mesin-delete/'+id;
         Swal.fire({
@@ -74,7 +74,7 @@
             }
         })
     }
-</script>
+</script> --}}
 @include('admin.footer')
 
 @endsection

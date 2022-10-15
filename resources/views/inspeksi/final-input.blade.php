@@ -351,7 +351,7 @@
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" onclick="CheckingValue()">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10">Reset</button>
-                            
+
                             {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
                     </div>
@@ -418,7 +418,6 @@
                                 <td>{{ $d->qty_ready_pack }} {{ $d->satuan_qty_ready_pack }} (Pck/Box)</td>
                                 <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }} (Pcs)</td>
                                 <td>{{ $d->qty_sample_riil }} {{ $d->satuan_qty_sample_riil }}</td>
-                                <td>{{ $d->qty_sample_aql }} {{ $d->satuan_qty_sample_aql }}</td>
                                 <td>{{ $d->defect }}</td>
                                 <td>{{ $d->kriteria }}</td>
                                 <td>{{ $d->qty_defect }} {{ $d->satuan_qty_temuan }}</td>
@@ -509,7 +508,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">JOP Edar List</h4>
             </div>
-            
+
             <div class="modal-body" style="overflow-y:auto;">
                 <div class="table-responsive">
                     <table class="table table-hover" id="joplist">
@@ -887,7 +886,7 @@
                     var jop = response['data'][i].jop;
                     var nama_barang = response['data'][i].nama_barang;
                     var pname = nama_barang .split(' ').join('_');
-                    
+
                     var tr_str = "<tr onclick=setJOPField('" + jop.trim() + "','"+pname.trim()+"')>" +
                         "<td align='left' id='code_value'>" + jop + "</td>" +
                         "<td align='left' id='name_value'>" + nama_barang + "</td>" +

@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 // Tambahkan source dibawah ini
 use Illuminate\Support\Facades\DB;
 use App\Models\UsersModel;
-use App\Models\DepartmentController;
-use App\Models\SubDepartmentController;
 use Carbon\Carbon;
 use Image;
 use File;
 use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
+use App\Http\Controllers\MesinController;
+use App\Http\Controllers\SatuanController;
 
 class UsersController extends Controller
 {
@@ -31,6 +33,12 @@ class UsersController extends Controller
 
     // Menampilkan list user
     public function UsersList(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         // Get all data from database
         $users = DB::select('SELECT * FROM vw_list_users');
         $jenis_user = session()->get('jenis_user');

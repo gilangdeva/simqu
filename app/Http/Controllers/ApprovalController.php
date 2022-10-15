@@ -13,7 +13,6 @@ use App\Models\MesinModel;
 use App\Models\DefectModel;
 use App\Models\DraftHeaderModel;
 use App\Models\DraftDetailModel;
-
 use Carbon\Carbon;
 use Image;
 use File;
@@ -21,11 +20,21 @@ use Crypt;
 use Redirect;
 use DateTime;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
+use App\Http\Controllers\MesinController;
+use App\Http\Controllers\SatuanController;
 
 class ApprovalController extends Controller
 {
     // Menampilkan list inspeksi inline
     public function ApprovalList(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $jenis_user = session()->get('jenis_user');
 
         if($jenis_user <> "Manager"){

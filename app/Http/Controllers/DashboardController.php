@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
+use App\Http\Controllers\MesinController;
+use App\Http\Controllers\SatuanController;
 
 class DashboardController extends Controller
 {
     public function Index(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $inspeksi_total = DB::select("SELECT * FROM vw_dashboard_total_inspeksi");
         $inspeksi_tahun = DB::select("SELECT sum(total) as total FROM vw_dashboard_periode_inspeksi WHERE tahun ='".date('Y', strtotime('+0 hours'))."' GROUP BY tahun");
         $inspeksi_bulan = DB::select("SELECT sum(total) as total FROM vw_dashboard_periode_inspeksi WHERE bulan ='".date('m', strtotime('+0 hours'))."' AND tahun ='".date('Y', strtotime('+0 hours'))."'");

@@ -203,9 +203,9 @@
                         <div class="col-sm-2 control-label"><label>UofM</label></div>
                         <div class="col-sm-4">
                             @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
+                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" style="background-color: #f4f4f4;" disabled>
                             @else
-                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
+                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
                             @endif
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
@@ -239,7 +239,7 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom:5px;">
-                        <div class="col-sm-2 control-label"><label>Ker.</label></div>
+                        <div class="col-sm-2 control-label"><label>Ket.</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="keterangan" placeholder="Keterangan" autocomplete="false"></textarea>
                         </div>
@@ -342,8 +342,8 @@
                                     <td>{{ $d->defect }}</td>
                                     <td>{{ $d->kriteria }}</td>
                                     <td>{{ $d->qty_defect }} {{ $d->satuan_qty_temuan }}</td>
-                                    <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }}</td>
-                                    <td>{{ $d->qty_sampling }} {{ $d->satuan_qty_sampling }}</td>
+                                    <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_temuan }}</td>
+                                    <td>{{ $d->qty_sampling }} {{ $d->satuan_qty_temuan }}</td>
                                     <td>{{ $d->penyebab }}</td>
                                     <td>{{ $d->keterangan }}</td>
                                     <td>
@@ -431,7 +431,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">JOP Edar List</h4>
             </div>
-            
+
             <div class="modal-body">
                 <div class="table-responsive" style="height: 50%">
                     <table class="table table-hover" id="joplist">
@@ -770,7 +770,7 @@
             $('.select2').css('background-color', '#f1f1f1');
         }
     });
-    
+
     function GetJOPData() {
         var text = document.getElementById('jop').value;
 
@@ -790,7 +790,7 @@
                     var jop = response['data'][i].jop;
                     var nama_barang = response['data'][i].nama_barang;
                     var pname = nama_barang .split(' ').join('_');
-                    
+
                     var tr_str = "<tr onclick=setJOPField('" + jop.trim() + "','"+pname.trim()+"')>" +
                         "<td align='left' id='code_value'>" + jop + "</td>" +
                         "<td align='left' id='name_value'>" + nama_barang + "</td>" +

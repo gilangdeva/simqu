@@ -15,9 +15,9 @@
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">LIST DEPARTEMEN</h3>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    {{-- <div class="col-sm-6 col-xs-12">
                         <a href="/department-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="table-responsive">
                     <table id="tablebasic" class="table table-striped">
@@ -26,7 +26,7 @@
                                 <th>No.</th>
                                 <th>Kode Departemen</th>
                                 <th>Nama Departemen</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -35,10 +35,10 @@
                                 <td align="center">{{ $loop->iteration }}</td>
                                 <td>{{ $departemen->kode_departemen }}</td>
                                 <td>{{ $departemen->nama_departemen }}</td>
-                                <td>
+                                {{-- <td>
                                     <a href="/department-edit/{{ Crypt::encrypt($departemen->id_departemen) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($departemen->id_departemen) }}')"><i class="fa fa-times"></i></button>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>

@@ -16,17 +16,9 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\AqlController;
 use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\OraController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/ora', [OraController::class, 'HalloDek']);
 
 // Auth
 Route::get('/login', [AuthController::class, 'LoginView']);
@@ -60,19 +52,19 @@ Route::post('/password-update/', [UsersController::class, 'SaveUserPassword'])->
 
 // Master Department
 Route::get('/department', [DepartmentController::class, 'DepartmentList'])->middleware('auth.check');
-Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput'])->middleware('auth.check');
-Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save')->middleware('auth.check');
-Route::get('/department-edit/{id}', [DepartmentController::class, 'EditDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
-Route::post('/department-update/', [DepartmentController::class, 'SaveEditDepartmentData'])->name('department.update')->middleware('auth.check'); //simpan perubahan data
-Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData'])->middleware('auth.check');
+// Route::get('/department-input/', [DepartmentController::class, 'DepartmentInput'])->middleware('auth.check');
+// Route::post('/department-input/', [DepartmentController::class, 'SaveDepartmentData'])->name('department.save')->middleware('auth.check');
+// Route::get('/department-edit/{id}', [DepartmentController::class, 'EditDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
+// Route::post('/department-update/', [DepartmentController::class, 'SaveEditDepartmentData'])->name('department.update')->middleware('auth.check'); //simpan perubahan data
+// Route::get('/department-delete/{id}', [DepartmentController::class, 'DeleteDepartmentData'])->middleware('auth.check');
 
 // Master Sub Department
 Route::get('/subdepartment', [SubDepartmentController::class, 'SubDepartmentList'])->middleware('auth.check');
-Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput'])->middleware('auth.check');
-Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save')->middleware('auth.check');
-Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
-Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update')->middleware('auth.check'); //simpan perubahan data
-Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData'])->middleware('auth.check');
+// Route::get('/subdepartment-input/', [SubDepartmentController::class, 'SubDepartmentInput'])->middleware('auth.check');
+// Route::post('/subdepartment-input/', [SubDepartmentController::class, 'SaveSubDepartmentData'])->name('subdepartment.save')->middleware('auth.check');
+// Route::get('/subdepartment-edit/{id}', [SubDepartmentController::class, 'EditSubDepartmentData'])->middleware('auth.check'); // mengarahkan ke window edit data
+// Route::post('/subdepartment-update/', [SubDepartmentController::class, 'SaveEditSubDepartmentData'])->name('subdepartment.update')->middleware('auth.check'); //simpan perubahan data
+// Route::get('/subdepartment-delete/{id}', [SubDepartmentController::class, 'DeleteSubDepartmentData'])->middleware('auth.check');
 
 // Master Periode
 Route::get('/periode', [PeriodeController::class, 'PeriodeList'])->middleware('auth.check');
@@ -84,11 +76,11 @@ Route::get('/periode-delete/{id}', [PeriodeController::class, 'DeletePeriodeData
 
 // Master Mesin
 Route::get('/mesin', [MesinController::class, 'MesinList'])->middleware('auth.check');
-Route::get('/mesin-input/', [MesinController::class, 'MesinInput'])->middleware('auth.check');
-Route::post('/mesin-input', [MesinController::class, 'SaveMesinData'])->name('mesin.save')->middleware('auth.check');
-Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData'])->middleware('auth.check');
-Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update')->middleware('auth.check');
-Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData'])->middleware('auth.check');
+// Route::get('/mesin-input/', [MesinController::class, 'MesinInput'])->middleware('auth.check');
+// Route::post('/mesin-input', [MesinController::class, 'SaveMesinData'])->name('mesin.save')->middleware('auth.check');
+// Route::get('/mesin-edit/{id}', [MesinController::class, 'EditMesinData'])->middleware('auth.check');
+// Route::post('/mesin-update/', [MesinController::class, 'SaveEditMesinData'])->name('mesin.update')->middleware('auth.check');
+// Route::get('/mesin-delete/{id}', [MesinController::class, 'DeleteMesinData'])->middleware('auth.check');
 
 // Master Defect
 Route::get('/defect', [DefectController::class, 'DefectList'])->middleware('auth.check');
@@ -100,11 +92,11 @@ Route::get('/defect-delete/{id}', [DefectController::class, 'DeleteDefectData'])
 
 // Master Satuan
 Route::get('/satuan', [SatuanController::class, 'SatuanList'])->middleware('auth.check');
-Route::get('/satuan-input/', [SatuanController::class, 'SatuanInput'])->middleware('auth.check');
-Route::post('/satuan-input', [SatuanController::class, 'SaveSatuanData'])->name('satuan.save')->middleware('auth.check');
-Route::get('/satuan-edit/{id}', [SatuanController::class, 'EditSatuanData'])->middleware('auth.check');
-Route::post('/satuan-update/', [SatuanController::class, 'SaveEditSatuanData'])->name('satuan.update')->middleware('auth.check');
-Route::get('/satuan-delete/{id}', [SatuanController::class, 'DeleteSatuanData'])->middleware('auth.check');
+// Route::get('/satuan-input/', [SatuanController::class, 'SatuanInput'])->middleware('auth.check');
+// Route::post('/satuan-input', [SatuanController::class, 'SaveSatuanData'])->name('satuan.save')->middleware('auth.check');
+// Route::get('/satuan-edit/{id}', [SatuanController::class, 'EditSatuanData'])->middleware('auth.check');
+// Route::post('/satuan-update/', [SatuanController::class, 'SaveEditSatuanData'])->name('satuan.update')->middleware('auth.check');
+// Route::get('/satuan-delete/{id}', [SatuanController::class, 'DeleteSatuanData'])->middleware('auth.check');
 
 // Master Aql
 Route::get('/aql', [AqlController::class, 'aqlList'])->middleware('auth.check');

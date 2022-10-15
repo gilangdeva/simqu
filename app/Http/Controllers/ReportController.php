@@ -27,6 +27,12 @@ class ReportController extends Controller
 {
     // Menampilkan list report
     public function ReportDefect(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
@@ -134,6 +140,12 @@ class ReportController extends Controller
 
     //Menampilkan report inspeksi
     public function ReportInspeksi(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
@@ -226,6 +238,12 @@ class ReportController extends Controller
 
     // menampilkan report temuan critical
     public function ReportCritical(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
@@ -316,6 +334,12 @@ class ReportController extends Controller
 
     // menampilkan report temuan reject
     public function ReportReject(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $dept = DB::select("SELECT nama_departemen FROM vw_top_departemen");
@@ -378,6 +402,12 @@ class ReportController extends Controller
 
     // menampilkan report qty defect
     public function ReportQtyDefect(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $bulan = date('m', strtotime('+0 hours'));
         $tahun = date('Y', strtotime('+0 hours'));
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
@@ -462,6 +492,12 @@ class ReportController extends Controller
 
     // menampilkan report historical by jop
     public function ReportJop(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $tahun = date('Y', strtotime('+0 hours'));
 
         $report_jop = DB::table('vw_rekap_defect_by_jop')
@@ -485,6 +521,12 @@ class ReportController extends Controller
     }
 
     public function ReportInspeksiThn() {
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $tahun    = date('Y', strtotime('+0 hours'));
         $s_tahun = $tahun;
 
@@ -519,6 +561,12 @@ class ReportController extends Controller
 
     //Fungsi Filter List
     public function FilterReportDefect(Request $request){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         switch ($request->input('action')) {
             case 'submit':
                 // Get value variable
@@ -661,6 +709,12 @@ class ReportController extends Controller
 
     // Filter Report Inspeksi
     public function FilterReportInspeksi(Request $request){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         switch ($request->input('action')) {
             case 'submit':
             // Get value variable
@@ -769,6 +823,12 @@ class ReportController extends Controller
 
     // Fungsi filter Report temuan critical
     public function FilterReportCritical(Request $request){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         switch ($request->input('action')) {
             case 'submit':
                 // Get value variable
@@ -878,6 +938,12 @@ class ReportController extends Controller
 
     // Fungsi filter Report rekap reject
     public function FilterReportReject(Request $request){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         switch ($request->input('action')) {
             case 'submit':
             // Get value variable
@@ -982,6 +1048,12 @@ class ReportController extends Controller
 
     // Fungsi filter Report qty defect
     public function FilterReportQtyDefect(Request $request){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         switch ($request->input('action')) {
             case 'submit':
                 // Get value variable
@@ -1083,6 +1155,12 @@ class ReportController extends Controller
 
     //Fungsi Filter Historical JOP
     public function FilterReportJop(Request $request){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
             $text_search    = strtoupper($request->text_search);
             $jenis_user     = session()->get('jenis_user');
 
@@ -1110,6 +1188,12 @@ class ReportController extends Controller
 
     // Fungsi filter rekapitulasi inspeksi tahun
     public function FilterReportInspeksiThn(Request $request) {
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         switch ($request->input('action')) {
             case 'submit':
                 $tahun = $request->tahun;

@@ -13,11 +13,21 @@ use date;
 use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
+use App\Http\Controllers\MesinController;
+use App\Http\Controllers\SatuanController;
 
 class DefectController extends Controller
 {
     // Menampilkan list defect
     public function defectlist() {
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         // Get all data from database
         $defect = DB::select("SELECT * FROM vg_list_defect");
         $jenis_user = session()->get('jenis_user');
@@ -47,6 +57,12 @@ class DefectController extends Controller
 
     // Redirect ke window input defect
     public function DefectInput(){
+        //call function get Ora Database
+        (new DepartmentController)->GetOraDepartemen();
+        (new SubDepartmentController)->GetOraSubDepartemen();
+        (new MesinController)->GetOraMesin();
+        (new SatuanController)->GetOraSatuan();
+
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $jenis_user = session()->get('jenis_user');
 

@@ -16,8 +16,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class PeriodeController extends Controller
 {
-
-
     // Menampilkan list periode
     public function PeriodeList(){
         // Get all data from database

@@ -64,7 +64,7 @@ class JOPEdarController extends Controller
     public function JOPSearch($text){
         $text = strtoupper($text);
         $jop = DB::select("SELECT jop, nama_barang FROM vw_list_jop_edar WHERE jop LIKE '%".$text."%' OR nama_barang LIKE '%".$text."%'");
-        
+
         // Fetch all records
         $productsData['data'] = $jop;
         echo json_encode($productsData);

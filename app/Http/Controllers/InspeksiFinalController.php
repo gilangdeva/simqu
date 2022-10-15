@@ -12,7 +12,6 @@ use App\Models\SatuanModel;
 use App\Models\MesinModel;
 use App\Models\DefectModel;
 use App\Models\AqlModel;
-
 use Carbon\Carbon;
 use Image;
 use File;
@@ -20,6 +19,11 @@ use Crypt;
 use Redirect;
 use DateTime;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
+use App\Http\Controllers\MesinController;
+use App\Http\Controllers\SatuanController;
+use Illuminate\Support\Facades\Http;
 
 class InspeksiFinalController extends Controller
 {
@@ -161,9 +165,11 @@ class InspeksiFinalController extends Controller
         $satuan_qty_ready_pcs = $request->satuan_qty_ready_pcs;
         $satuan_qty_ready_pack = $request->satuan_qty_ready_pack;
         $satuan_qty_reject_all = $request->satuan_qty_reject_all;
-
+        $satuan_qty_sample_riil = $request->satuan_qty_sample_riil;
         $jam_mulai = new DateTime($request->jam_mulai);
         $jam_selesai = new DateTime($request->jam_selesai);
+        $jam_mulai_ora = date('H:i:s', strtotime($request->jam_mulai));
+        $jam_selesai_ora = date('H:i:s', strtotime($request->jam_selesai));
         $interval = round(($jam_selesai->format('U') - $jam_mulai->format('U')) / 60);
         $lama_inspeksi = $interval;
         $jop = strtoupper($request->jop);
@@ -219,9 +225,6 @@ class InspeksiFinalController extends Controller
         } else if($kriteria == 'Critical'){
                 $status = 'REJECT';
         }
-
-        
-
 
         if ($picture_1 <> '') {
 
@@ -465,6 +468,7 @@ class InspeksiFinalController extends Controller
             'satuan_qty_ready_pcs'      => $satuan_qty_ready_pcs,
             'satuan_qty_ready_pack'     => $satuan_qty_ready_pack,
             'satuan_qty_reject_all'     => $satuan_qty_reject_all,
+            'satuan_qty_sample_riil'    => $satuan_qty_sample_riil,
             'video_1'                   => $name_v1,
             'video_2'                   => $name_v2
 
@@ -500,6 +504,7 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_ready_pcs'      => $satuan_qty_ready_pcs,
                 'satuan_qty_ready_pack'     => $satuan_qty_ready_pack,
                 'satuan_qty_reject_all'     => $satuan_qty_reject_all,
+                'satuan_qty_sample_riil'    => $satuan_qty_sample_riil,
                 'menu'                      => 'inspeksi',
                 'sub'                       => '/final',
                 'jenis_user'                => $jenis_user
@@ -619,9 +624,6 @@ class InspeksiFinalController extends Controller
             $jenis_user = session()->get('jenis_user');
             $status_approval = "Submitted";
 
-            $id_approval = DB::select("SELECT id_approval FROM vg_list_id_approval");
-            $id_approval = $id_approval[0]->id_approval;
-
             $picture_1 = $draft->picture_1;
             $picture_2 = $draft->picture_2;
             $picture_3 = $draft->picture_3;
@@ -659,6 +661,20 @@ class InspeksiFinalController extends Controller
             $submitted_by = session()->get('id_user');
             $submitted_by = DB::select("SELECT nama_user FROM tb_master_users WHERE id_user='".$submitted_by."'");
             $submitted_by = $submitted_by[0]->nama_user;
+
+            $id_approval = DB::select("SELECT id_approval FROM vg_list_id_approval");
+            $id_approval = $id_approval[0]->id_approval;
+            $cek_id_approval = DB::select("SELECT id_approval FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
+            $cek_id_approval = $cek_id_approval[0]->id_approval;
+
+            if (isset($cek_id_approval)) {
+                alert()->error('Data Pernah Di Submit!', 'Tunggu Approve Dari Manager!');
+                return Redirect::back();
+            } else {
+            // update status approval
+                DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->update([
+                'id_approval'     => $id_approval,
+            ]);
 
             // insert into database
             DB::table('tb_history_inspeksi')->insert([
@@ -704,13 +720,17 @@ class InspeksiFinalController extends Controller
                 'submitted_by'          => $submitted_by
             ]);
 
-            $cek_id_detail = DB::select("SELECT id_inspeksi_detail FROM tb_history_inspeksi WHERE id_inspeksi_detail='".$id_detail."'");
-            $cek_id_detail = $cek_id_detail[0]->id_inspeksi_detail;
-
-            if(($id_detail == $cek_id_detail)) {
-                alert()->error('Harap Tunggu!', 'Menunggu Approval Dari Manajer!');
-                return Redirect::back();
+            alert()->success('Pengajuan Berhasil!', 'Tunggu Approve Dari Manager!');
+            return Redirect::back();
             }
+
+            // $cek_id_detail = DB::select("SELECT id_inspeksi_detail FROM tb_history_inspeksi WHERE id_inspeksi_detail='".$id_detail."'");
+            // $cek_id_detail = $cek_id_detail[0]->id_inspeksi_detail;
+
+            // if(($id_detail == $cek_id_detail)) {
+            //     alert()->error('Harap Tunggu!', 'Menunggu Approval Dari Manajer!');
+            //     return Redirect::back();
+            // }
         }
 
             // Fungsi hapus data list approval
@@ -791,12 +811,17 @@ class InspeksiFinalController extends Controller
                     'approved_by'           => $approved_by
                 ]);
 
+                // delete data inspeksi di table oracle
+                $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+                $request = Http::delete($host->host.'/api/cdet/'.$id_detail);// Url of your choosing
+
                 alert()->success('Berhasil!', 'Data Berhasil Dihapus Dari List Inspeksi!');
                 return Redirect::back();
             }
 
         //Fungsi post final into list
         public function PostFinal(){
+            $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
             // Get ID Header
             $data = DB::select("SELECT COUNT(id_inspeksi_detail) as total_data, id_inspeksi_header  FROM vg_draft_final  WHERE id_user='".session()->get('id_user')."' GROUP BY id_inspeksi_header ");
             $id_header = $data[0]->id_inspeksi_header; // ID Header
@@ -812,8 +837,21 @@ class InspeksiFinalController extends Controller
             $id_sub_departemen = $draft_header->id_sub_departemen;
             $jenis_user = session()->get('jenis_user');
 
+            // Insert into ora DB
+		    $response = Http::asForm()->post($host->host.'/api/hd', [
+                'ID_INSPEKSI_HEADER'    => $id_header,
+                'TYPE_FORM'             => $type_form,
+                'TGL_INSPEKSI'          => $tgl_inspeksi,
+                'SHIFT'                 => $shift,
+                'ID_USER'               => $id_user,
+                'ID_DEPARTEMEN'         => $id_departemen,
+                'ID_SUB_DEPARTEMEN'     => $id_sub_departemen,
+                'CREATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'UPDATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+		]);
+
             // insert into database
-            DB::table('tb_inspeksi_header')->insert([
+        DB::table('tb_inspeksi_header')->insert([
             'id_inspeksi_header'    => $id_header,
             'type_form'             => $type_form,
             'tgl_inspeksi'          => $tgl_inspeksi,
@@ -858,14 +896,18 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_ready_pcs',
                 'satuan_qty_ready_pack',
                 'satuan_qty_reject_all',
+                'satuan_qty_sample_riil',
+                // 'satuan_qty_sample_aql',
+                // 'id_satuan',
                 'video_1',
                 'video_2'
             )->where('id_inspeksi_detail', $id_detail)->first();
 
             $jam_mulai = new DateTime($draft_detail->jam_mulai);
             $jam_selesai = new DateTime($draft_detail->jam_selesai);
-            // $interval = $jam_mulai->diff($jam_selesai);
-            // $lama_inspeksi = $interval->format('%i');
+
+            $jam_mulai_ora = date('H:i:s', strtotime($draft_detail->jam_mulai));
+            $jam_selesai_ora = date('H:i:s', strtotime($draft_detail->jam_selesai));
             $interval = round(($jam_selesai->format('U') - $jam_mulai->format('U')) / 60);
             $lama_inspeksi = $interval;
             $jop = $draft_detail->jop;
@@ -894,9 +936,51 @@ class InspeksiFinalController extends Controller
             $satuan_qty_ready_pcs = $draft_detail->satuan_qty_ready_pcs;
             $satuan_qty_ready_pack = $draft_detail->satuan_qty_ready_pack;
             $satuan_qty_reject_all = $draft_detail->satuan_qty_reject_all;
+            $satuan_qty_sample_riil = $draft_detail->satuan_qty_sample_riil;
+            // $satuan_qty_sample_aql = $draft_detail->satuan_qty_sample_aql;
+            // $id_satuan = $draft_detail->id_satuan;
             $jenis_user = session()->get('jenis_user');
             $video_1    = $draft_detail->video_1;
             $video_2    = $draft_detail->video_2;
+
+            // Insert into ora DB
+            $response = Http::asForm()->post($host->host.'/api/dt', [
+                'ID_INSPEKSI_DETAIL'        => $id_detail,
+                'ID_INSPEKSI_HEADER'        => $id_header,
+                'JAM_MULAI'                 => $jam_mulai_ora,
+                'JAM_SELESAI'               => $jam_selesai_ora,
+                'LAMA_INSPEKSI'             => $lama_inspeksi,
+                'JOP'                       => $jop,
+                'ITEM'                      => $item,
+                'ID_DEFECT'                 => $id_defect,
+                'KRITERIA'                  => $kriteria,
+                'QTY_DEFECT'                => $qty_defect,
+                'QTY_READY_PCS'             => $qty_ready_pcs,
+                'STATUS'                    => $status,
+                'KETERANGAN'                => $keterangan,
+                'CREATED_AT'                => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'UPDATED_AT'                => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'CREATOR'                   => $creator,
+                'UPDATER'                   => $updater,
+                'PICTURE_1'                 => $picture_1,
+                'PICTURE_2'                 => $picture_2,
+                'PICTURE_3'                 => $picture_3,
+                'PICTURE_4'                 => $picture_4,
+                'PICTURE_5'                 => $picture_5,
+                'VIDEO_1'                   => $video_1,
+                'VIDEO_2'                   => $video_2,
+                'SATUAN_QTY_TEMUAN'         => $satuan_qty_temuan,
+                'SATUAN_QTY_READY_PCS'      => $satuan_qty_ready_pcs,
+                'SATUAN_QTY_READY_PACK'     => $satuan_qty_ready_pack,
+                'SATUAN_QTY_SAMPLE_RIIL'    => $satuan_qty_sample_riil,
+                'SATUAN_QTY_REJECT_ALL'     => $satuan_qty_reject_all,
+                'QTY_READY_PACK'            => $qty_ready_pack,
+                'QTY_SAMPLE_AQL'            => $qty_sample_aql,
+                'QTY_SAMPLE_RIIL'           => $qty_sample_riil,
+                'QTY_REJECT_ALL'            => $qty_reject_all,
+                'HASIL_VERIFIKASI'          => $hasil_verifikasi
+                // 'SATUAN_QTY SAMPLING'       => $satuan_qty_sampling
+                ]);
 
             // insert into database
             DB::table('tb_inspeksi_detail')->insert([

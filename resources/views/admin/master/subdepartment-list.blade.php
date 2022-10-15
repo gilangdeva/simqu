@@ -15,9 +15,9 @@
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">LIST SUB DEPARTEMEN</h3>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    {{-- <div class="col-sm-6 col-xs-12">
                         <a href="/subdepartment-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="table-responsive">
                     <table id="tablebasic" class="table table-striped">
@@ -28,7 +28,7 @@
                                 <th>Kode Sub Departemen</th>
                                 <th>Nama Sub Departemen</th>
                                 <th>Klasifikasi Proses</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -39,10 +39,10 @@
                                 <td>{{ $subdepartemen->kode_sub_departemen }}</td>
                                 <td>{{ $subdepartemen->nama_sub_departemen }}</td>
                                 <td>{{ $subdepartemen->klasifikasi_proses }}</td>
-                                <td>
+                                {{-- <td>
                                     <a href="/subdepartment-edit/{{ Crypt::encrypt($subdepartemen->id_sub_departemen) }}"><button type="button" class="btn btn-info btn-circle"><i class="fa fa-edit"></i> </button></a>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($subdepartemen->id_sub_departemen) }}')"><i class="fa fa-times"></i></button>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
@@ -54,7 +54,7 @@
     <!-- end row -->
 </div>
 <!-- end container-fluid -->
-<script>
+{{-- <script>
     function deleteConfirmation(id) {
         var urlsite = "http://"+window.location.hostname+':8000/subdepartment-delete/'+id;
         Swal.fire({
@@ -74,7 +74,7 @@
             }
         })
     }
-</script>
+</script> --}}
 @include('admin.footer')
 
 @endsection
