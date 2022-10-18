@@ -17,6 +17,6 @@ class PeriodeModel extends Model
         'tgl_mulai_periode',
         'tgl_akhir_periode',
         'updated_at',
-        'urutan'
+        'urutan',
     ];
 }

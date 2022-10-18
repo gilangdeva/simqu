@@ -622,7 +622,7 @@ class InspeksiFinalController extends Controller
             $id_departemen = $draft->id_departemen;
             $id_sub_departemen = $draft->id_sub_departemen;
             $jenis_user = session()->get('jenis_user');
-            $status_approval = "Submitted";
+            $status_approval = $draft->status_approval;
 
             $picture_1 = $draft->picture_1;
             $picture_2 = $draft->picture_2;
@@ -667,15 +667,7 @@ class InspeksiFinalController extends Controller
             $cek_id_approval = DB::select("SELECT id_approval FROM vg_list_final WHERE id_inspeksi_detail='".$id_detail."'");
             $cek_id_approval = $cek_id_approval[0]->id_approval;
 
-            if (isset($cek_id_approval)) {
-                alert()->error('Data Pernah Di Submit!', 'Tunggu Approve Dari Manager!');
-                return Redirect::back();
-            } else {
-            // update status approval
-                DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->update([
-                'id_approval'     => $id_approval,
-            ]);
-
+            if ($status_approval == '') {
             // insert into database
             DB::table('tb_history_inspeksi')->insert([
                 'id_inspeksi_header'    => $id_header,
@@ -715,13 +707,20 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_reject_all' => $satuan_qty_reject_all,
                 'video_1'               => $video_1,
                 'video_2'               => $video_2,
-                'status_approval'       => $status_approval,
+                'status_approval'       => 'Submitted',
                 'id_approval'           => $id_approval,
                 'submitted_by'          => $submitted_by
             ]);
 
             alert()->success('Pengajuan Berhasil!', 'Tunggu Approve Dari Manager!');
             return Redirect::back();
+            } else {
+                DB::table('tb_history_inspeksi')->where('id_inspeksi_detail',$id_detail)->update([
+                    'status_approval'     => 'Submitted',
+                ]);
+
+                alert()->success('Pengajuan Berhasil!', 'Tunggu Approve Dari Manager!');
+                return Redirect::back();
             }
 
             // $cek_id_detail = DB::select("SELECT id_inspeksi_detail FROM tb_history_inspeksi WHERE id_inspeksi_detail='".$id_detail."'");

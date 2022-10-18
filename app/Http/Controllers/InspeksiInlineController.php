@@ -554,7 +554,7 @@ class InspeksiInlineController extends Controller
         $id_departemen = $draft->id_departemen;
         $id_sub_departemen = $draft->id_sub_departemen;
         $jenis_user = session()->get('jenis_user');
-        $status_approval = "Submitted";
+        $status_approval = $draft->status_approval;
         $id_mesin = $draft->id_mesin;
         $qty_1 = $draft->qty_1;
         $qty_5 = $draft->qty_1*5;
@@ -598,64 +598,62 @@ class InspeksiInlineController extends Controller
         $cek_id_approval = DB::select("SELECT id_approval FROM vw_list_inline WHERE id_inspeksi_detail='".$id_detail."'");
         $cek_id_approval = $cek_id_approval[0]->id_approval;
 
-        if (isset($cek_id_approval)) {
-            alert()->error('Data Pernah Di Submit!', 'Tunggu Approve Dari Manager!');
+        if ($status_approval == '') {
+            // insert into database
+            DB::table('tb_history_inspeksi')->insert([
+                'id_inspeksi_header'    => $id_header,
+                'type_form'             => $type_form,
+                'tgl_inspeksi'          => $tgl_inspeksi,
+                'shift'                 => $shift,
+                'id_user'               => $id_user,
+                'id_departemen'         => $id_departemen,
+                'id_sub_departemen'     => $id_sub_departemen,
+                'created_at'            => $created_at,
+                'updated_at'            => $updated_at,
+                'id_inspeksi_detail'    => $id_detail,
+                'id_mesin'              => $id_mesin,
+                'qty_1'                 => $qty_1,
+                'qty_5'                 => $qty_5,
+                'pic'                   => $pic,
+                'jam_mulai'             => $jam_mulai,
+                'jam_selesai'           => $jam_selesai,
+                'lama_inspeksi'         => $lama_inspeksi,
+                'jop'                   => $jop,
+                'item'                  => $item,
+                'id_defect'             => $id_defect,
+                'kriteria'              => $kriteria,
+                'qty_defect'            => $qty_defect,
+                'qty_ready_pcs'         => $qty_ready_pcs,
+                'qty_sampling'          => $qty_sampling,
+                'penyebab'              => $penyebab,
+                'status'                => $status,
+                'keterangan'            => $keterangan,
+                'creator'               => $creator,
+                'updater'               => $updater,
+                'picture_1'             => $picture_1,
+                'picture_2'             => $picture_2,
+                'picture_3'             => $picture_3,
+                'picture_4'             => $picture_4,
+                'picture_5'             => $picture_5,
+                'satuan_qty_temuan'     => $satuan_qty_temuan,
+                'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
+                'satuan_qty_sampling'   => $satuan_qty_sampling,
+                'video_1'               => $video_1,
+                'video_2'               => $video_2,
+                'status_approval'       => 'Submitted',
+                'id_approval'           => $id_approval,
+                'submitted_by'          => $submitted_by
+            ]);
+
+            alert()->success('Pengajuan Berhasil!', 'Tunggu Approve Dari Manager!');
             return Redirect::back();
         } else {
+            DB::table('tb_history_inspeksi')->where('id_inspeksi_detail',$id_detail)->update([
+                'status_approval'     => 'Submitted',
+            ]);
 
-        // update status approval
-        DB::table('tb_inspeksi_detail')->where('id_inspeksi_detail',$id_detail)->update([
-            'id_approval'     => $id_approval,
-        ]);
-
-        // insert into database
-        DB::table('tb_history_inspeksi')->insert([
-            'id_inspeksi_header'    => $id_header,
-            'type_form'             => $type_form,
-            'tgl_inspeksi'          => $tgl_inspeksi,
-            'shift'                 => $shift,
-            'id_user'               => $id_user,
-            'id_departemen'         => $id_departemen,
-            'id_sub_departemen'     => $id_sub_departemen,
-            'created_at'            => $created_at,
-            'updated_at'            => $updated_at,
-            'id_inspeksi_detail'    => $id_detail,
-            'id_mesin'              => $id_mesin,
-            'qty_1'                 => $qty_1,
-            'qty_5'                 => $qty_5,
-            'pic'                   => $pic,
-            'jam_mulai'             => $jam_mulai,
-            'jam_selesai'           => $jam_selesai,
-            'lama_inspeksi'         => $lama_inspeksi,
-            'jop'                   => $jop,
-            'item'                  => $item,
-            'id_defect'             => $id_defect,
-            'kriteria'              => $kriteria,
-            'qty_defect'            => $qty_defect,
-            'qty_ready_pcs'         => $qty_ready_pcs,
-            'qty_sampling'          => $qty_sampling,
-            'penyebab'              => $penyebab,
-            'status'                => $status,
-            'keterangan'            => $keterangan,
-            'creator'               => $creator,
-            'updater'               => $updater,
-            'picture_1'             => $picture_1,
-            'picture_2'             => $picture_2,
-            'picture_3'             => $picture_3,
-            'picture_4'             => $picture_4,
-            'picture_5'             => $picture_5,
-            'satuan_qty_temuan'     => $satuan_qty_temuan,
-            'satuan_qty_ready_pcs'  => $satuan_qty_ready_pcs,
-            'satuan_qty_sampling'   => $satuan_qty_sampling,
-            'video_1'               => $video_1,
-            'video_2'               => $video_2,
-            'status_approval'       => $status_approval,
-            'id_approval'           => $id_approval,
-            'submitted_by'          => $submitted_by
-        ]);
-
-        alert()->success('Pengajuan Berhasil!', 'Tunggu Approve Dari Manager!');
-        return Redirect::back();
+            alert()->success('Pengajuan Berhasil!', 'Tunggu Approve Dari Manager!');
+            return Redirect::back();
         }
     }
 
