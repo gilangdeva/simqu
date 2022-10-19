@@ -69,7 +69,7 @@
                         <option value="10">10</option>
                         <option value="15">15</option>
                         <option value="20" selected>20</option>
-                    </select> Data 
+                    </select> Data
                 </label>
 
                     <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" date-page-size="20">
@@ -129,23 +129,23 @@
                                     @if(isset($lf->picture_1))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_1 }}" alt="defect-img" width="200">Foto 1</a> /
                                     @endif
-                                    
+
                                     @if(isset($lf->picture_2))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_2 }}" alt="defect-img" width="200">Foto 2</a> /
                                     @endif
-                                    
+
                                     @if(isset($lf->picture_3))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_3 }}" alt="defect-img" width="200">Foto 3</a> /
                                     @endif
-                                    
+
                                     @if(isset($lf->picture_4))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_4 }}" alt="defect-img" width="200">Foto 4</a> /
                                     @endif
-                                    
+
                                     @if(isset($lf->picture_5))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $lf->picture_5 }}" alt="defect-img" width="200">Foto 5</a>
                                     @endif
-                                    
+
                                     @if((isset($lf->picture_1)) || (isset($lf->picture_2)) || (isset($lf->picture_3)) || (isset($lf->picture_4)) || (isset($lf->picture_5)))
                                         | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $lf->picture_1 }}','{{ $lf->picture_2 }}', '{{ $lf->picture_3 }}', '{{ $lf->picture_4 }}', '{{ $lf->picture_5 }}')">Lihat</button>
                                     @endif
@@ -158,7 +158,21 @@
                                         <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $lf->video_2 }}" alt="defect" width="200">Video 2</a> /
                                     @endif
                                 </td>
-                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
+                                <td>
+
+                                    @if($lf->status_approval == '')
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')" data-toggle="tooltip" data-placement="top" title="Hapus Data"><i class="fa fa-trash"></i></button>
+                                    @endif
+
+                                    @if($lf->status_approval == 'Submitted')
+                                    <button type="button" class="btn btn-info btn-circle" onclick="SubmitNotification()" data-toggle="tooltip" data-placement="top" title="Telah di Submit!"><i class="fa fa-info-circle"></i></button>
+                                    @endif
+
+                                    @if($lf->status_approval == 'Keeped')
+                                    <button type="button" class="btn btn-warning btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($lf->id_inspeksi_detail) }}')" data-toggle="tooltip" data-placement="top" title="Submit Ulang"><i class="fa fa-trash"></i></button>
+                                    @endif
+
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -228,6 +242,14 @@
                 }
             }
         })
+    }
+
+    function SubmitNotification() {
+        Swal.fire(
+            'Telah di Submit!',
+            'Data sudah diajukan penghapusan, menunggu approval dari Manager!',
+            'warning'
+        )
     }
 
     function checkPic(pic_1, pic_2, pic_3, pic_4, pic_5){

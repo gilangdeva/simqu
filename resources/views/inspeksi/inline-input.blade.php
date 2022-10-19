@@ -84,7 +84,7 @@
                             @else
                                 <select class="form-control select2" name="id_sub_departemen" id="id_sub_departemen">
                             @endif
-                                <option value="">Pilih Bagian Inspeksi</option>
+                                <option value="0">Pilih Bagian Inspeksi</option>
                                 @if(isset($id_sub_departemen))
                                     @foreach ($subdepartemen as $subdept)
                                         <option value="{{ $subdept->id_sub_departemen }}" {{ old('id_sub_departemen', $id_sub_departemen) == $subdept->id_sub_departemen ? 'selected':''}}>{{ $subdept->nama_sub_departemen }}</option>
@@ -100,7 +100,7 @@
                         <div class="col-sm-2 control-label"><label>Mesin</label></div>
                         <div class="col-sm-4">
                             <select class="form-control select2" name="id_mesin" id="id_mesin" required>
-                                <option value="">Pilih Mesin</option>
+                                <option value="0">Pilih Mesin</option>
                                 @if(isset($mesin))
                                     @foreach ($mesin as $machine)
                                         <option value="{{ $machine->id_mesin }}">{{ $machine->nama_mesin }}</option>
@@ -155,7 +155,7 @@
                         <div class="col-sm-2 control-label"><label>Defect</label></div>
                         <div class="col-sm-4">
                             <select class="form-control select2" name="id_defect" id="id_defect">
-                                <option>Pilih Defect</option>
+                                <option value="0">Pilih Defect</option>
                                 @if(isset($defect))
                                     @foreach ($defect as $def)
                                         <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
@@ -168,7 +168,7 @@
                         <div class="col-sm-2 control-label"><label>Kriteria</label></div>
                         <div class="col-sm-4">
                             <select class="form-control select2" name="kriteria" id="kriteria">
-                                <option>Pilih Kriteria</option>
+                                <option value="0">Pilih Kriteria</option>
                                 @if(isset($kriteria))
                                     @foreach ($kriteria as $krit)
                                         <option value="{{ $krit->kriteria }}" {{ old('kriteria', $kriteria) == $krit->kriteria ? 'selected':''}}>{{ $krit->kriteria }}</option>
@@ -466,7 +466,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="id_sub_departemen"]').empty();
-                            $('select[name="id_sub_departemen"]').append('<option value="" selected>Pilih Bagian Inspeksi</option>');
+                            $('select[name="id_sub_departemen"]').append('<option value="0" selected>Pilih Bagian Inspeksi</option>');
                             // Remove options
                             $('#id_sub_departemen').select2();
                             for (var i=0;i<data.length;i++) {
@@ -492,7 +492,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="id_mesin"]').empty();
-                            $('select[name="id_mesin"]').append('<option value="" selected>Pilih Mesin</option>');
+                            $('select[name="id_mesin"]').append('<option value="0" selected>Pilih Mesin</option>');
                             // Remove options
                             $('#id_mesin').select2();
                             for (var i=0;i<data.length;i++) {
@@ -518,7 +518,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="id_defect"]').empty();
-                            $('select[name="id_defect"]').append('<option value="" selected>Pilih Defect</option>');
+                            $('select[name="id_defect"]').append('<option value="0" selected>Pilih Defect</option>');
                             // Remove options
                             $('#id_defect').select2();
                             for (var i=0;i<data.length;i++) {
@@ -544,7 +544,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="kriteria"]').empty();
-                            $('select[name="kriteria"]').append('<option value="" selected>Pilih Kriteria</option>');
+                            $('select[name="kriteria"]').append('<option value="0" selected>Pilih Kriteria</option>');
                             // Remove options
                             $('#kriteria').select2();
                             for (var i=0;i<data.length;i++) {
@@ -614,7 +614,7 @@
             t1 = t1+1;
             t2 = "00";
         } else {
-            t2 = t2+1;
+            t2 = t2+5;
         }
 
         if (cek_jam < 10 ){
@@ -644,7 +644,7 @@
         var m = event.getMinutes();
         var m2 = event.getMinutes();
 
-        m2 = m2+2;
+        m2 = m2+5;
 
         if (h < 10) {
             h = "0"+h;
@@ -738,15 +738,15 @@
             return $('#id_mesin').select2('open');
         }
 
-        if(def == ''){
-            alert('Data defect tidak boleh kosong!')
-            return $('#id_defect').select2('open');
-        }
+        // if(def == ''){
+        //     alert('Data defect tidak boleh kosong!')
+        //     return $('#id_defect').select2('open');
+        // }
 
-        if(krt == ''){
-            alert('Data kriteria tidak boleh kosong!')
-            return $('#kriteria').select2('open');
-        }
+        // if(krt == ''){
+        //     alert('Data kriteria tidak boleh kosong!')
+        //     return $('#kriteria').select2('open');
+        // }
 
         if(sat == ''){
             alert('Data satuan tidak boleh kosong!')

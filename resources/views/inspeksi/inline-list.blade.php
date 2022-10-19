@@ -130,23 +130,23 @@
                                     @if(isset($li->picture_1))
                                         <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_1 }}" width="200">Picture 1</a>
                                     @endif
-                                    
+
                                     @if(isset($li->picture_2))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_2 }}" width="200">Picture 2</a>
                                     @endif
-                                    
+
                                     @if(isset($li->picture_3))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_3 }}" width="200">Picture 3</a>
                                     @endif
-                                    
+
                                     @if(isset($li->picture_4))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_4 }}" width="200">Picture 4</a>
                                     @endif
-                                    
+
                                     @if(isset($li->picture_5))
                                         / <a target="_blank" href="{{ url('/') }}/images/defect/{{ $li->picture_5 }}" width="200">Picture 5</a>
                                     @endif
-                                    
+
                                     @if((isset($li->picture_1)) || (isset($li->picture_2)) || (isset($li->picture_3)) || (isset($li->picture_4)) || (isset($li->picture_5)))
                                         | <button alt="default" data-toggle="modal" data-target="#myModal" onclick="checkPic('{{ $li->picture_1 }}','{{ $li->picture_2 }}', '{{ $li->picture_3 }}', '{{ $li->picture_4 }}', '{{ $li->picture_5 }}')">Lihat</button>
                                     @endif
@@ -155,12 +155,25 @@
                                     @if(isset($li->video_1))
                                         <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $li->video_1 }}" width="200">Video 1</a>
                                     @endif
-                                    
+
                                     @if(isset($li->picture_2))
                                         / <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $li->video_2 }}" width="200">Video 2</a>
                                     @endif
                                 </td>
-                                <td><button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button></td>
+                                <td>
+                                    @if($li->status_approval == '')
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')" data-toggle="tooltip" data-placement="top" title="Hapus Data"><i class="fa fa-trash"></i></button>
+                                    @endif
+
+                                    @if($li->status_approval == 'Submitted')
+                                    <button type="button" class="btn btn-info btn-circle" onclick="SubmitNotification()" data-toggle="tooltip" data-placement="top" title="Telah di Submit!"><i class="fa fa-info-circle"></i></button>
+                                    @endif
+
+                                    @if($li->status_approval == 'Keeped')
+                                    <button type="button" class="btn btn-warning btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($li->id_inspeksi_detail) }}')" data-toggle="tooltip" data-placement="top" title="Submit Ulang"><i class="fa fa-trash"></i></button>
+                                    @endif
+
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -228,6 +241,14 @@
                 }
             }
         })
+    }
+
+    function SubmitNotification() {
+        Swal.fire(
+            'Telah di Submit!',
+            'Data sudah diajukan penghapusan, menunggu approval dari Manager!',
+            'warning'
+        )
     }
 
     function checkPic(pic_1, pic_2, pic_3, pic_4, pic_5){

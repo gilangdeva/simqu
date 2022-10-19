@@ -28,18 +28,18 @@
                         <label class="col-sm-4 control-label">Bulan</label>
                         <div class="col-sm-8">
                             <select id="bulan" class="form-control select2" name="bulan" required>
-                                <option value="Januari"{{ old('bulan', $periode->bulan)== "Januari" ? 'selected':'' }}>Januari</option>
-                                <option value="Februari"{{ old('bulan', $periode->bulan)== "Februari" ? 'selected':'' }}>Februari</option>
-                                <option value="Maret"{{ old('bulan', $periode->bulan)== "Maret" ? 'selected':'' }}>Maret</option>
-                                <option value="April"{{ old('bulan', $periode->bulan)== "April" ? 'selected':'' }}>April</option>
-                                <option value="Mei"{{ old('bulan', $periode->bulan)== "Mei" ? 'selected':'' }}>Mei</option>
-                                <option value="Juni"{{ old('bulan', $periode->bulan)== "Juni" ? 'selected':'' }}>Juni</option>
-                                <option value="Juli"{{ old('bulan', $periode->bulan)== "Juli" ? 'selected':'' }}>Juli</option>
-                                <option value="Agustus"{{ old('bulan', $periode->bulan)== "Agustus" ? 'selected':'' }}>Agustus</option>
-                                <option value="September"{{ old('bulan', $periode->bulan)== "September" ? 'selected':'' }}>September</option>
-                                <option value="Oktober"{{ old('bulan', $periode->bulan)== "Oktober" ? 'selected':'' }}>Oktober</option>
-                                <option value="November"{{ old('bulan', $periode->bulan)== "November" ? 'selected':'' }}>November</option>
-                                <option value="Desember"{{ old('bulan', $periode->bulan)== "Desember" ? 'selected':'' }}>Desember</option>
+                                <option value="JANUARI"{{ old('bulan', $periode->bulan)== "JANUARI" ? 'selected':'' }}>Januari</option>
+                                <option value="FEBRUARI"{{ old('bulan', $periode->bulan)== "FEBRUARI" ? 'selected':'' }}>Februari</option>
+                                <option value="MARET"{{ old('bulan', $periode->bulan)== "MARET" ? 'selected':'' }}>Maret</option>
+                                <option value="APRIL"{{ old('bulan', $periode->bulan)== "APRIL" ? 'selected':'' }}>April</option>
+                                <option value="MEI"{{ old('bulan', $periode->bulan)== "MEI" ? 'selected':'' }}>Mei</option>
+                                <option value="JUNI"{{ old('bulan', $periode->bulan)== "JUNI" ? 'selected':'' }}>Juni</option>
+                                <option value="JULI"{{ old('bulan', $periode->bulan)== "JULI" ? 'selected':'' }}>Juli</option>
+                                <option value="AGUSTUS"{{ old('bulan', $periode->bulan)== "AGUSTUS" ? 'selected':'' }}>Agustus</option>
+                                <option value="SEPTEMBER"{{ old('bulan', $periode->bulan)== "SEPTEMBER" ? 'selected':'' }}>September</option>
+                                <option value="OKTOBER"{{ old('bulan', $periode->bulan)== "OKTOBER" ? 'selected':'' }}>Oktober</option>
+                                <option value="NOVEMBER"{{ old('bulan', $periode->bulan)== "NOVEMBER" ? 'selected':'' }}>November</option>
+                                <option value="DESEMBER"{{ old('bulan', $periode->bulan)== "DESEMBER" ? 'selected':'' }}>Desember</option>
                             </select>
                             <input type="hidden" class="form-control" name="original_bulan" maxlength="20" placeholder="Bulan" value="{{ $periode->bulan }}" required>
                         </div>
@@ -72,11 +72,11 @@
                         <div class="col-sm-8">
                             <input type="date" class="form-control" name="tgl_akhir_periode" maxlength="20" placeholder="Tanggal Akhir Periode" value="{{ $periode->tgl_akhir_periode }}" required>
                             <input type="hidden" class="form-control" name="original_tgl_akhir_periode" maxlength="20" placeholder="Tanggal Akhir Periode" value=" {{ $periode->tgl_akhir_periode }}" required>
-                        </div> 
+                        </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:3px;">
-                        <div class="col-sm-4"></div>        
+                        <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                             <a href="/periode"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a>

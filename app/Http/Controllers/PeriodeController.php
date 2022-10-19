@@ -13,19 +13,30 @@ use date;
 use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Http;
 
 class PeriodeController extends Controller
 {
     // Menampilkan list periode
     public function PeriodeList(){
         // Get all data from database
-        $periode = PeriodeModel::orderBy('urutan', 'ASC')->orderBy('minggu_ke', 'ASC')->groupBy('tahun', 'id_periode')->get();
+        // $periode = PeriodeModel::orderBy('urutan', 'ASC')->orderBy('minggu_ke', 'ASC')->groupBy('tahun', 'id_periode')->get();
+        $periode = DB::select("SELECT * from vg_periode");
         $jenis_user = session()->get('jenis_user');
+        $id_periode = DB::select("SELECT id_periode FROM tb_master_periode");
+        $tahun = DB::select("SELECT tahun FROM tb_master_periode");
+        $bulan = DB::select("SELECT bulan FROM tb_master_periode");
+        $minggu_ke = DB::select("SELECT minggu_ke FROM tb_master_periode");
 
         if($jenis_user <> "Administrator"){
             alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
             return Redirect('/');
         }
+
+        // // Insert into ora DB
+		// $response = Http::asForm()->where('tahun', $tahun AND 'bulan', $bulan)->update($host->host.'/api/prd', [
+		// 	'ID_PERIODE'            => $id_periode
+		// ]);
 
         return view('admin.master.periode-list',[
             'menu'          => 'master',
@@ -54,41 +65,56 @@ class PeriodeController extends Controller
     //Simpan data periode
     public function SavePeriodeData(Request $request){
         $periode = new PeriodeModel();
+        $id_periode = DB::select("SELECT id_periode FROM vid_periode");
+        $id_periode = $id_periode[0]->id_periode;
         $jenis_user = session()->get('jenis_user');
 
         // Parameters
         $periode->tahun = $request->tahun;
-        $periode->bulan = $request->bulan;
+        $periode->bulan = strtoupper($request->bulan);
+        $periode->id_periode = $id_periode;
         $periode->minggu_ke = $request->minggu_ke;
         $periode->tgl_mulai_periode = $request->tgl_mulai_periode;
         $periode->tgl_akhir_periode = $request->tgl_akhir_periode;
 
+        $host               = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+        $jenis_user         = session()->get('jenis_user');
+        $tahun              = $request->tahun;
+        $bulan              = strtoupper($periode->bulan);
+        $minggu_ke          = $request->minggu_ke;
+        $tgl_mulai_periode  = $request->tgl_mulai_periode;
+        $tgl_akhir_periode  = $request->tgl_akhir_periode;
+        $updated_at         = date('Y-m-d H:i:s', strtotime('+0 hours'));
 
-        if ($request->bulan =="Januari"){
+        if ($bulan =="JANUARI"){
             $periode->urutan = "1";
-        } else if($request->bulan == "Februari"){
+        } else if($bulan == "FEBRUARI"){
             $periode->urutan = "2";
-        } else if($request->bulan == "Maret"){
+        } else if($bulan == "MARET"){
             $periode->urutan = "3";
-        } else if($request->bulan == "April"){
+        } else if($bulan == "APRIL"){
             $periode->urutan = "4";
-        } else if($request->bulan == "Mei"){
+        } else if($bulan == "MEI"){
             $periode->urutan = "5";
-        } else if($request->bulan == "Juni"){
+        } else if($bulan == "JUNI"){
             $periode->urutan = "6";
-        } else if($request->bulan == "Juli"){
+        } else if($bulan == "JULI"){
             $periode->urutan = "7";
-        } else if($request->bulan == "Agustus"){
+        } else if($bulan == "AGUSTUS"){
             $periode->urutan = "8";
-        } else if($request->bulan == "September"){
+        } else if($bulan == "SEPTEMBER"){
             $periode->urutan = "9";
-        } else if($periode->bulan == "Oktober"){
+        } else if($bulan == "OKTOBER"){
             $periode->urutan = "10";
-        } else if($periode->bulan == "November"){
+        } else if($bulan == "NOVEMBER"){
             $periode->urutan = "11";
-        } else if($periode->bulan == "Desember"){
+        } else if($bulan == "DESEMBER"){
             $periode->urutan = "12";
+        }else{
+            $periode->urutan = "0";
         }
+
+        $urutan     = $periode->urutan;
 
         //Validasi data input
         if ($request->bulan == "0" || $request->minggu_ke == "0"){
@@ -114,10 +140,23 @@ class PeriodeController extends Controller
                 'jenis_user'    => $jenis_user
             ]);
         } else {
-            // Insert data into database
-            $periode->save();
-            alert()->success('Berhasil!', 'Data Sukses Disimpan!');
-            return redirect('/periode');
+        // Insert into ora DB
+        $response = Http::asForm()->post($host->host.'/api/prd', [
+            'ID_PERIODE'            => $id_periode,
+            'TAHUN'                 => $tahun,
+            'BULAN'                 => $bulan,
+            'MINGGU_KE'             => $minggu_ke,
+            'TGL_MULAI_PERIODE'     => $tgl_mulai_periode,
+            'TGL_AKHIR_PERIODE'     => $tgl_akhir_periode,
+            'URUTAN'                => $urutan,
+            'CREATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+            'UPDATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+        ]);
+
+        // Insert data into database
+        $periode->save();
+        alert()->success('Berhasil!', 'Data Sukses Disimpan!');
+        return redirect('/periode');
         }
     }
 
@@ -147,11 +186,41 @@ class PeriodeController extends Controller
         $jenis_user = session()->get('jenis_user');
         $id_periode = $request->id_periode;
         $tahun = $request->tahun;
-        $bulan = $request->bulan;
+        $bulan = strtoupper($request->bulan);
         $minggu_ke = $request->minggu_ke;
         $tgl_mulai_periode = $request->tgl_mulai_periode;
         $tgl_akhir_periode = $request->tgl_akhir_periode;
         $updated_at = date('Y-m-d H:i:s', strtotime('+0 hours'));
+
+        $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+
+        if ($bulan =="JANUARI"){
+            $urutan = "1";
+        } else if($bulan == "FEBRUARI"){
+            $urutan = "2";
+        } else if($bulan == "MARET"){
+            $urutan = "3";
+        } else if($bulan == "APRIL"){
+            $urutan = "4";
+        } else if($bulan == "MEI"){
+            $urutan = "5";
+        } else if($bulan == "JUNI"){
+            $urutan = "6";
+        } else if($bulan == "JULI"){
+            $urutan = "7";
+        } else if($bulan == "AGUSTUS"){
+            $urutan = "8";
+        } else if($bulan == "SEPTEMBER"){
+            $urutan = "9";
+        } else if($bulan == "OKTOBER"){
+            $urutan = "10";
+        } else if($bulan == "NOVEMBER"){
+            $urutan = "11";
+        } else if($bulan == "DESEMBER"){
+            $urutan = "12";
+        }else{
+            $urutan = "0";
+        }
 
         // Is there a change in date data?
         if ($request->tahun <> $request->original_tahun || $request->bulan <> $request->original_bulan || $request->minggu_ke <> $request->original_minggu_ke){
@@ -178,11 +247,25 @@ class PeriodeController extends Controller
                 'tgl_mulai_periode'       => $tgl_mulai_periode,
                 'tgl_akhir_periode'       => $tgl_akhir_periode,
                 'updated_at'              => $updated_at,
+                'urutan'                  => $urutan
                 ]);
-
-                alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
-                return redirect('/periode');
             }
+
+            // Update into ora DB
+            $response = Http::asForm()->put($host->host.'/api/pupd', [
+                'ID_PERIODE'            => $id_periode,
+                'TAHUN'                 => $tahun,
+                'BULAN'                 => $bulan,
+                'MINGGU_KE'             => $minggu_ke,
+                'TGL_MULAI_PERIODE'     => $tgl_mulai_periode,
+                'TGL_AKHIR_PERIODE'     => $tgl_akhir_periode,
+                'URUTAN'                => $urutan,
+                'CREATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'UPDATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+            ]);
+
+            alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
+            return redirect('/periode');
         } else {
             // Update data into database
             PeriodeModel::where('id_periode', $id_periode)->update([
@@ -207,6 +290,10 @@ class PeriodeController extends Controller
         // Delete process
         $period = PeriodeModel::find($id);
         $period->delete();
+
+        // delete data inspeksi di table oracle
+        $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+        $request = Http::delete($host->host.'/api/pdel/'.$id);// Url of your choosing
 
         // Move to periode list page
         alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
