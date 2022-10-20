@@ -265,7 +265,7 @@
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_temuan" id="qty_temuan" style="background-color: #f4f4f4f4;" disabled>
                             @else
-                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan" required>
+                            <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan">
                             @endif
                                 <option value="">Satuan</option>
                                 @foreach ($satuan as $sat)
@@ -289,7 +289,7 @@
                             @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_reject_all" id="qty_reject_all" style="background-color: #f4f4f4;" disabled>
                             @else
-                            <select class="form-control select2" name="satuan_qty_reject_all" id="satuan_qty_reject_all" required>
+                            <select class="form-control select2" name="satuan_qty_reject_all" id="satuan_qty_reject_all">
                             @endif
                                 <option>Satuan</option>
                                 @foreach ($satuan as $sat)
@@ -833,15 +833,15 @@
             return $('#satuan_qty_sample_riil').select2('open');
         }
 
-        if(def == ''){
-            alert('Data defect tidak boleh kosong!')
-            return $('#id_defect').select2('open');
-        }
+        // if(def == ''){
+        //     alert('Data defect tidak boleh kosong!')
+        //     return $('#id_defect').select2('open');
+        // }
 
-        if(krt == ''){
-            alert('Data kriteria tidak boleh kosong!')
-            return $('#kriteria').select2('open');
-        }
+        // if(krt == ''){
+        //     alert('Data kriteria tidak boleh kosong!')
+        //     return $('#kriteria').select2('open');
+        // }
 
         if(sat == ''){
             alert('Data satuan tidak boleh kosong!')

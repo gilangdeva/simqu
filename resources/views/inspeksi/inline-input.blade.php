@@ -610,9 +610,21 @@
         cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
 
-        if (cek_menit == 59){
+        if (cek_menit == 55){
             t1 = t1+1;
             t2 = "00";
+        } else if (cek_menit == 56){
+            t1 = t1+1;
+            t2 = "01";
+        } else if (cek_menit == 57){
+            t1 = t1+1;
+            t2 = "02";
+        } else if (cek_menit == 58){
+            t1 = t1+1;
+            t2 = "03";
+        } else if (cek_menit == 59){
+            t1 = t1+1;
+            t2 = "04";
         } else {
             t2 = t2+5;
         }
