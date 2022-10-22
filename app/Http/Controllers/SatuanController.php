@@ -22,7 +22,7 @@ class SatuanController extends Controller
 {
     public static function GetOraSatuan() {
         //Get data from REST API
-		$host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+		$host = DB::table("tb_master_host")->orderBy('id_host', 'desc')->first();
         $request = Http::get($host->host.'/api/uofm');// Url of your choosing
         $x = count(json_decode($request, true));
 
@@ -31,8 +31,9 @@ class SatuanController extends Controller
         // insert data to database postgres
         for ($i = 0; $i < $x; $i++) {
             $id_satuan      = $request[$i]['id_satuan'];
-            $kode_satuan    = $request[$i]['kode_satuan'];
+            $kode_satuan    = trim($request[$i]['kode_satuan']);
             $nama_satuan    = $request[$i]['nama_satuan'];
+            // $kode_satuan    = trim($kode_satuan);
 
             //insert into database master
             DB::select("INSERT INTO tb_master_satuan (id_satuan, kode_satuan, nama_satuan)

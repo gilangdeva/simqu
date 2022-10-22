@@ -224,8 +224,10 @@ class InspeksiFinalController extends Controller
             }
         } else if($kriteria == 'Critical'){
                 $status = 'REJECT';
+        } else if ($kriteria == '' || $kriteria == '0'){
+            $status = 'PASS';
         }
-
+// return $request;
         if ($picture_1 <> '') {
 
             $this->validate($request, [
@@ -897,7 +899,7 @@ class InspeksiFinalController extends Controller
                 'satuan_qty_reject_all',
                 'satuan_qty_sample_riil',
                 // 'satuan_qty_sample_aql',
-                // 'id_satuan',
+                'id_satuan',
                 'video_1',
                 'video_2'
             )->where('id_inspeksi_detail', $id_detail)->first();
@@ -937,7 +939,7 @@ class InspeksiFinalController extends Controller
             $satuan_qty_reject_all = $draft_detail->satuan_qty_reject_all;
             $satuan_qty_sample_riil = $draft_detail->satuan_qty_sample_riil;
             // $satuan_qty_sample_aql = $draft_detail->satuan_qty_sample_aql;
-            // $id_satuan = $draft_detail->id_satuan;
+            $id_satuan = $draft_detail->id_satuan;
             $jenis_user = session()->get('jenis_user');
             $video_1    = $draft_detail->video_1;
             $video_2    = $draft_detail->video_2;

@@ -180,7 +180,7 @@
                             <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs)">
                         </div>
                         <div class="col-sm-2">
-                            @if(isset($id_satuan))
+                            {{-- @if(isset($id_satuan))
                             <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
                             @else
                             <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
@@ -192,7 +192,7 @@
                                     @else
                                         <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
                                     @endif
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div> -->
@@ -211,12 +211,12 @@
                             @else
                             <select class="form-control select2" name="satuan_qty_sample_riil" id="satuan_qty_sample_riil" required>
                             @endif
-                                <option value="">Satuan</option>
+                                <option>Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
-                                    <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @else
-                                    <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
+                                        <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCS'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
                                     @endif
                                 @endforeach
                         </select>
@@ -267,14 +267,14 @@
                             @else
                             <select class="form-control select2" name="satuan_qty_temuan" id="satuan_qty_temuan">
                             @endif
-                                <option value="">Satuan</option>
-                                @foreach ($satuan as $sat)
-                                    @if(isset($id_satuan))
+                            <option value="">Satuan</option>
+                            @foreach ($satuan as $sat)
+                                @if(isset($id_satuan))
                                     <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
-                                    @else
-                                    <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
-                                    @endif
-                                @endforeach
+                                @else
+                                    <option value="{{ $sat->kode_satuan }}" {{ old('kode_satuan', $sat->kode_satuan) == 'PCS'  ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
+                                @endif
+                            @endforeach
                         </select>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
                             @else
                             <select class="form-control select2" name="satuan_qty_reject_all" id="satuan_qty_reject_all">
                             @endif
-                                <option>Satuan</option>
+                                <option value="">Satuan</option>
                                 @foreach ($satuan as $sat)
                                     @if(isset($id_satuan))
                                         <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
@@ -382,14 +382,15 @@
                             <th data-hide="phone">Area</th>
                             <th>JOP</th>
                             <th data-hide="phone">Hasil</th>
-                            <th data-hide="all">Item</th>
+                            <th data-hide="phone">Item</th>
+                            <th data-hide="phone">Action</th>
                             <th data-hide="all">Jam Mulai</th>
                             <th data-hide="all">Jam Selesai</th>
                             <th data-hide="all">Lama Inspeksi</th>
                             <th data-hide="all">Brg Siap (Pack)</th>
                             <th data-hide="all">Brg Siap (Pcs)</th>
                             <th data-hide="all">Qty Riil</th>
-                            <th data-hide="all">Qty Aql</th>
+                            {{-- <th data-hide="all">Qty Aql</th> --}}
                             <th data-hide="all">Jenis Temuan</th>
                             <th data-hide="all">Kriteria</th>
                             <th data-hide="all">Jml Temuan</th>
@@ -398,7 +399,6 @@
                             <th data-hide="all">Verifikasi</th>
                             <th data-hide="all">Foto</th>
                             <th data-hide="all">Video</th>
-                            <th data-hide="phone">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -412,11 +412,14 @@
                                 <td>{{ $d->jop }}</td>
                                 <td>{{ $d->status }}</td>
                                 <td>{{ $d->item }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
+                                </td>
                                 <td>{{ $d->jam_mulai }}</td>
                                 <td>{{ $d->jam_selesai }}</td>
                                 <td>{{ $d->lama_inspeksi }} Menit</td>
-                                <td>{{ $d->qty_ready_pack }} {{ $d->satuan_qty_ready_pack }} (Pck/Box)</td>
-                                <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }} (Pcs)</td>
+                                <td>{{ $d->qty_ready_pack }} {{ $d->satuan_qty_ready_pack }}</td>
+                                <td>{{ $d->qty_ready_pcs }} {{ $d->satuan_qty_ready_pcs }}</td>
                                 <td>{{ $d->qty_sample_riil }} {{ $d->satuan_qty_sample_riil }}</td>
                                 <td>{{ $d->defect }}</td>
                                 <td>{{ $d->kriteria }}</td>
@@ -457,9 +460,6 @@
                                     @if(isset($d->video_2))
                                         <a target="_blank" href="{{ url('/') }}/videos/defect/{{ $d->video_2 }}" alt="defect" width="200">Video 2</a> /
                                     @endif
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="deleteConfirmation('{{ Crypt::encryptString($d->id_inspeksi_detail) }}')"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                             @endforeach

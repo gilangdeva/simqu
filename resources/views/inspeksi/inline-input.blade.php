@@ -610,23 +610,11 @@
         cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
 
-        if (cek_menit == 55){
+        if (cek_menit == 59){
             t1 = t1+1;
             t2 = "00";
-        } else if (cek_menit == 56){
-            t1 = t1+1;
-            t2 = "01";
-        } else if (cek_menit == 57){
-            t1 = t1+1;
-            t2 = "02";
-        } else if (cek_menit == 58){
-            t1 = t1+1;
-            t2 = "03";
-        } else if (cek_menit == 59){
-            t1 = t1+1;
-            t2 = "04";
         } else {
-            t2 = t2+5;
+            t2 = t2+1;
         }
 
         if (cek_jam < 10 ){
@@ -656,7 +644,7 @@
         var m = event.getMinutes();
         var m2 = event.getMinutes();
 
-        m2 = m2+5;
+        m2 = m2+2;
 
         if (h < 10) {
             h = "0"+h;
@@ -755,7 +743,7 @@
         //     return $('#id_defect').select2('open');
         // }
 
-        // if(krt == ''){
+        // if(krt == '' || krt == '0'){
         //     alert('Data kriteria tidak boleh kosong!')
         //     return $('#kriteria').select2('open');
         // }

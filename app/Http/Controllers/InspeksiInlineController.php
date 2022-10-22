@@ -67,6 +67,7 @@ class InspeksiInlineController extends Controller
         $defect = DB::select("SELECT id_defect, defect, critical, major, minor FROM vg_list_defect");
         $draft = DB::select("SELECT * FROM vw_draft_inline WHERE id_user =".session()->get('id_user')); // Select untuk list draft sesuai session user login
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
+        $id_satuan  = DB::select("SELECT kode_satuan FROM vg_list_satuan");
         $jenis_user = session()->get('jenis_user');
 
         return view('inspeksi.inline-input',[
@@ -76,7 +77,8 @@ class InspeksiInlineController extends Controller
             'satuan'        => $satuan,
             'menu'          => 'inspeksi', // selalu ada di tiap function dan disesuaikan
             'sub'           => '/inline',
-            'jenis_user'    => $jenis_user
+            'jenis_user'    => $jenis_user,
+            'kode_satuan'   => $id_satuan
         ]);
     }
 

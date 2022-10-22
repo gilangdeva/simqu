@@ -21,7 +21,7 @@ class SubDepartmentController extends Controller
 {
     public static function GetOraSubDepartemen(){
         //Get data from REST API
-		$host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+		$host = DB::table("tb_master_host")->orderBy('id_host', 'desc')->first();
         $request = Http::get($host->host.'/api/divi');// Url of your choosing
         $x = count(json_decode($request, true));
 

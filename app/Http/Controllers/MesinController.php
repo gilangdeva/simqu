@@ -22,7 +22,7 @@ class MesinController extends Controller
 {
     public static function GetOraMesin(){
         //Get data from REST API
-		$host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+		$host = DB::table("tb_master_host")->orderBy('id_host', 'desc')->first();
         $request = Http::get($host->host.'/api/mchn');// Url of your choosing
         $x = count(json_decode($request, true));
 
