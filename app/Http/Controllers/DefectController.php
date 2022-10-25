@@ -13,6 +13,7 @@ use date;
 use Crypt;
 use Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubDepartmentController;
 use App\Http\Controllers\MesinController;
@@ -85,7 +86,11 @@ class DefectController extends Controller
         $departemen = DB::select('SELECT id_departemen, nama_departemen FROM vg_list_departemen');
         $jenis_user = session()->get('jenis_user');
 
+        $id_defect          = DB::select("SELECT id_defect FROM vid_defect");
+        $id_defect          = $id_defect[0]->id_defect;
+
         // Parameters
+        $defect->id_defect = $id_defect;
         $defect->id_departemen = $request->id_departemen;
         $defect->kode_defect = strtoupper($request->kode_defect);
         $defect->defect = strtoupper($request->defect);
@@ -122,7 +127,31 @@ class DefectController extends Controller
             ]);
         }
 
-       // Insert data into database
+        $host               = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+
+        $nama_defect        = strtoupper($request->defect);
+        $kode_defect        = strtoupper($request->kode_defect);
+        $id_departemen      = $request->id_departemen;
+        $critical           = $request->critical;
+        $major              = $request->major;
+        $minor              = $request->minor;
+        $created_at         = date('Y-m-d H:i:s', strtotime('+0 hours'));
+        $updated_at         = date('Y-m-d H:i:s', strtotime('+0 hours'));
+
+        // Insert into ora DB
+		$response = Http::asForm()->post($host->host.'/api/dfct', [
+			'ID_DEFECT'             => $id_defect,
+			'DEFECT'                => $nama_defect,
+			'KODE_DEFECT'           => $kode_defect,
+			'ID_DEPARTEMEN'         => $id_departemen,
+			'CRITICAL'              => $critical,
+			'MAJOR'                 => $major,
+			'MINOR'                 => $minor,
+			'CREATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+			'UPDATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+		]);
+
+       // Insert data into database postgres
         $defect->save();
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
 
@@ -167,7 +196,12 @@ class DefectController extends Controller
         $id_departemen          = $request->id_departemen;
         $kode_defect            = strtoupper($request->kode_defect);
         $defect                 = strtoupper($request->defect);
+        $critical               = $request->critical;
+        $major                  = $request->major;
+        $minor                  = $request->minor;
         $updated_at             = date('Y-m-d H:i:s', strtotime('+0 hours'));
+
+        $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
 
         // Is there a change in kode data?
         if ($request->defect <> $request->original_defect){
@@ -187,23 +221,55 @@ class DefectController extends Controller
                 ]);
 
             } else {
+                // Update into ora DB
+                $response = Http::asForm()->put($host->host.'/api/udfct', [
+                    'ID_DEFECT'             => $id_defect,
+                    'DEFECT'                => $defect,
+                    'KODE_DEFECT'           => $kode_defect,
+                    'ID_DEPARTEMEN'         => $id_departemen,
+                    'CRITICAL'              => $critical,
+                    'MAJOR'                 => $major,
+                    'MINOR'                 => $minor,
+                    'CREATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                    'UPDATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+                ]);
+
                 //update data into db
                 DefectModel::where('id_defect', $id_defect)->update([
                     'kode_defect'       => $kode_defect,
                     'defect'            => $defect,
                     'id_departemen'     => $id_departemen,
+                    'critical'          => $critical,
+                    'major'             => $major,
+                    'minor'             => $minor,
                     'updated_at'        => $updated_at,
                 ]);
                 alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
                 return redirect('/defect');
             }
         } else {
-             //update data into db
-             DefectModel::where('id_defect', $id_defect)->update([
+            // Update into ora DB
+            $response = Http::asForm()->put($host->host.'/api/udfct', [
+                'ID_DEFECT'             => $id_defect,
+                'DEFECT'                => $defect,
+                'KODE_DEFECT'           => $kode_defect,
+                'ID_DEPARTEMEN'         => $id_departemen,
+                'CRITICAL'              => $critical,
+                'MAJOR'                 => $major,
+                'MINOR'                 => $minor,
+                'CREATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours')),
+                'UPDATED_AT'            => date('Y-m-d H:i:s', strtotime('+0 hours'))
+            ]);
+
+            //update data into db
+            DefectModel::where('id_defect', $id_defect)->update([
                 'kode_defect'       => $kode_defect,
                 'defect'            => $defect,
                 'id_departemen'     => $id_departemen,
-                'updated_at'        => $updated_at,
+                'critical'          => $critical,
+                'major'             => $major,
+                'minor'             => $minor,
+                'updated_at'        => $updated_at
             ]);
             alert()->success('Sukses!', 'Data Berhasil Diperbarui!');
             return redirect('/defect');
@@ -224,6 +290,10 @@ class DefectController extends Controller
             // Delete process
             $defect = DefectModel::find($id);
             $defect->delete();
+
+            // delete data inspeksi di table oracle
+            $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
+            $request = Http::delete($host->host.'/api/hdfct/'.$id_defect);// Url of your choosing
 
             // Move to department list page
             alert()->success('Berhasil!', 'Berhasil Menghapus Data!');

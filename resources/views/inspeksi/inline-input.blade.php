@@ -610,6 +610,15 @@
         cek_jam = parseInt(sh.slice(0,2));
         cek_menit = parseInt(sh.slice(3,5));
 
+        cek_menit2 = parseInt(sh.slice(3,4));
+        cek_jam2 = parseInt(eh.slice(0,2));
+        t3 = parseInt(eh.slice(0,2));
+        t4 = parseInt(eh.slice(3,5));
+
+        // if (cek_jam == "23" && cek_menit2 == "5" && cek_jam2 == "00") {
+        //     t3 = "24";
+        // }
+
         if (cek_menit == 59){
             t1 = t1+1;
             t2 = "00";
@@ -631,7 +640,9 @@
         var endt = new Date("November 13, 2013 " + eh);
         endt = endt.getTime();
 
-        if (stt >= endt) {
+        if (t1 == 23 && t2 > 30 ) {
+
+        } else if (stt >= endt) {
             alert('Jam Selesai harus lebih besar dari Jam Mulai');
             document.getElementById("jam_selesai").value = t1+":"+t2;
             document.getElementById("jam_selesai").focus();

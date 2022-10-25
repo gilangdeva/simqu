@@ -175,4 +175,4 @@ Route::get('/approval-list/', [ApprovalController::class, 'FilterApproval'])->na
 Route::get('/rekap-inspeksi', [ReportController::class, 'ReportInspeksiThn'])->middleware('auth.check');
 Route::get('/filter-rekap-inspeksi/', [ReportController::class, 'FilterReportInspeksiThn'])->name('rekap.inspeksi')->middleware('auth.check');
 
-// Route::get('/ora', [OraController::class, 'index']);
+Route::get('/ora', [OraController::class, 'index']);

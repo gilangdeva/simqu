@@ -227,7 +227,7 @@ class InspeksiFinalController extends Controller
         } else if ($kriteria == '' || $kriteria == '0'){
             $status = 'PASS';
         }
-// return $request;
+
         if ($picture_1 <> '') {
 
             $this->validate($request, [
