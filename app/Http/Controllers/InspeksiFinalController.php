@@ -44,17 +44,20 @@ class InspeksiFinalController extends Controller
         $start_date     = date('Y-m-01', strtotime('+0 hours'));
         $end_date       = date('Y-m-d', strtotime('+0 hours'));
 
-        $list_final = DB::table('vg_list_final')
-        ->where('tgl_inspeksi', '>=', $start_date)
-        ->where('tgl_inspeksi', '<=', $end_date)
-        ->where('id_user', '=', session()->get('id_user'))
-        ->get();
-
         $jenis_user = session()->get('jenis_user');
 
-        if($jenis_user == "Manager"){
-            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
-            return Redirect('/');
+        // Menampilkan list lengkap untuk manager & admin
+        if($jenis_user == "Manager" || $jenis_user == "Administrator"){
+            $list_final = DB::table('vg_list_final')
+            ->where('tgl_inspeksi', '>=', $start_date)
+            ->where('tgl_inspeksi', '<=', $end_date)
+            ->get();
+        } else {
+            $list_final = DB::table('vg_list_final')
+            ->where('tgl_inspeksi', '>=', $start_date)
+            ->where('tgl_inspeksi', '<=', $end_date)
+            ->where('id_user', '=', session()->get('id_user'))
+            ->get();
         }
 
         return view('inspeksi.final-list',
@@ -76,7 +79,7 @@ class InspeksiFinalController extends Controller
 
         if($jenis_user == "Manager"){
             alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
-            return Redirect('/');
+            return Redirect('/final');
         }
 
         return view('inspeksi.final-input',[

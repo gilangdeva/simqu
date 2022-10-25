@@ -44,13 +44,21 @@ class InspeksiInlineController extends Controller
         $start_date     = date('Y-m-01', strtotime('+0 hours'));
         $end_date       = date('Y-m-d', strtotime('+0 hours'));
 
-        $list_inline = DB::table('vw_list_inline')
-        ->where('tgl_inspeksi', '>=', $start_date)
-        ->where('tgl_inspeksi', '<=', $end_date)
-        ->where('id_user', '=', session()->get('id_user'))
-        ->get();
-
         $jenis_user = session()->get('jenis_user');
+
+        // Menampilkan list lengkap untuk manager & admin
+        if ($jenis_user == "Manager" || $jenis_user == "Administrator") {
+            $list_inline = DB::table('vw_list_inline')
+            ->where('tgl_inspeksi', '>=', $start_date)
+            ->where('tgl_inspeksi', '<=', $end_date)
+            ->get();
+        } else {
+            $list_inline = DB::table('vw_list_inline')
+            ->where('tgl_inspeksi', '>=', $start_date)
+            ->where('tgl_inspeksi', '<=', $end_date)
+            ->where('id_user', '=', session()->get('id_user'))
+            ->get();
+        }
 
         return view('inspeksi.inline-list',
         [
@@ -69,6 +77,11 @@ class InspeksiInlineController extends Controller
         $satuan = DB::select("SELECT id_satuan, nama_satuan, kode_satuan FROM vg_list_satuan");
         $id_satuan  = DB::select("SELECT kode_satuan FROM vg_list_satuan");
         $jenis_user = session()->get('jenis_user');
+
+        if($jenis_user == "Manager"){
+            alert()->warning('GAGAL!', 'Anda Tidak Memiliki Akses!');
+            return Redirect('/inline');
+        }
 
         return view('inspeksi.inline-input',[
             'departemen'    => $departemen,
