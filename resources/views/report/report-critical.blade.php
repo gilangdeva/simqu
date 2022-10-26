@@ -32,18 +32,18 @@
                         <div class="col-sm-3">
                             <select class="form-control select2" name="bulan" id="bulan">
                                 <option value="0">PILIH BULAN</option>
-                                <option value="Januari" {{ old('bulan', $bulan) == "Januari" ? 'selected':''}}>JANUARI</option>
-                                <option value="Februari" {{ old('bulan', $bulan) == "Februari" ? 'selected':''}}>FEBRUARI</option>
-                                <option value="Maret" {{ old('bulan', $bulan) == "Maret" ? 'selected':''}}>MARET</option>
-                                <option value="April" {{ old('bulan', $bulan) == "April" ? 'selected':''}}>APRIL</option>
-                                <option value="Mei" {{ old('bulan', $bulan) == "Mei" ? 'selected':''}}>MEI</option>
-                                <option value="Juni" {{ old('bulan', $bulan) == "Juni" ? 'selected':''}}>JUNI</option>
-                                <option value="Juli" {{ old('bulan', $bulan) == "Juli" ? 'selected':''}}>JULI</option>
-                                <option value="Agustus" {{ old('bulan', $bulan) == "Agustus" ? 'selected':''}}>AGUSTUS</option>
-                                <option value="September" {{ old('bulan', $bulan) == "September" ? 'selected':''}}>SEPTEMBER</option>
-                                <option value="Oktober" {{ old('bulan', $bulan) == "Oktober" ? 'selected':''}}>OKTOBER</option>
-                                <option value="November" {{ old('bulan', $bulan) == "November" ? 'selected':''}}>NOVEMBER</option>
-                                <option value="Desember" {{ old('bulan', $bulan) == "Desember" ? 'selected':''}}>DESEMBER</option>
+                                <option value="JANUARI" {{ old('bulan', $bulan) == "JANUARI" ? 'selected':''}}>JANUARI</option>
+                                <option value="FEBRUARI" {{ old('bulan', $bulan) == "FEBRUARI" ? 'selected':''}}>FEBRUARI</option>
+                                <option value="MARET" {{ old('bulan', $bulan) == "MARET" ? 'selected':''}}>MARET</option>
+                                <option value="APRIL" {{ old('bulan', $bulan) == "APRIL" ? 'selected':''}}>APRIL</option>
+                                <option value="MEI" {{ old('bulan', $bulan) == "MEI" ? 'selected':''}}>MEI</option>
+                                <option value="JUNI" {{ old('bulan', $bulan) == "JUNI" ? 'selected':''}}>JUNI</option>
+                                <option value="JULI" {{ old('bulan', $bulan) == "JULI" ? 'selected':''}}>JULI</option>
+                                <option value="AGUSTUS" {{ old('bulan', $bulan) == "AGUSTUS" ? 'selected':''}}>AGUSTUS</option>
+                                <option value="SEPTEMBER" {{ old('bulan', $bulan) == "SEPTEMBER" ? 'selected':''}}>SEPTEMBER</option>
+                                <option value="OKTOBER" {{ old('bulan', $bulan) == "OKTOBER" ? 'selected':''}}>OKTOBER</option>
+                                <option value="NOVEMBER" {{ old('bulan', $bulan) == "NOVEMBER" ? 'selected':''}}>NOVEMBER</option>
+                                <option value="DESEMBER" {{ old('bulan', $bulan) == "DESEMBER" ? 'selected':''}}>DESEMBER</option>
                             </select>
                         </div>
 

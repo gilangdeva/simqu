@@ -58,11 +58,11 @@
                     <div class="col-sm-6 col-xs-12">
                         <h3 class="box-title">LIST INSPEKSI FINAL</h3>
                     </div>
-                    @if ($jenis_user == "Inspektor" || $jenis_user == "Administrator") {
+                    @if ($jenis_user == "Inspektor" || $jenis_user == "Administrator")
                         <div class="col-sm-6 col-xs-12">
                             <a href="/final-input"><button type="button" class="btn btn-info waves-effect pull-right waves-light">Tambah Data</button></a>
                         </div>
-                    }@endif
+                    @endif
                 </div>
 
                 <label class="form-inline">Tampilkan

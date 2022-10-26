@@ -36,6 +36,9 @@ class JOPEdarController extends Controller
     }
 
     public function UploadDataJOPEdar(Request $request){
+        $check_file = $request->upload_file;
+
+        if (isset($check_file)) {
         // Get file etension excel/csv
         set_time_limit(600);
         $validator = Validator::make([
@@ -57,6 +60,10 @@ class JOPEdarController extends Controller
 
         // import all data in excel file into database tbl_stock
         Excel::import(new JOPEdarImport, $new_path);
+
+        } else {
+            alert()->warning('GAGAL!', 'Harap Masukkan File Terlebih Dahulu!');
+        }
 
         return redirect('/jop');
     }

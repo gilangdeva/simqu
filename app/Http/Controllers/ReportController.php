@@ -60,29 +60,29 @@ class ReportController extends Controller
         }
 
         if ($bulan == '01') {
-            $bulan = 'Januari';
+            $bulan = 'JANUARI';
         } else if ($bulan == '02'){
-            $bulan = 'Februari';
+            $bulan = 'FEBRUARI';
         } else if ($bulan == '03'){
-            $bulan = 'Maret';
+            $bulan = 'MARET';
         } else if ($bulan == '04'){
-            $bulan = 'April';
+            $bulan = 'APRIL';
         } else if ($bulan == '05'){
-            $bulan = 'Mei';
+            $bulan = 'MEI';
         } else if ($bulan == '06'){
-            $bulan = 'Juni';
+            $bulan = 'JUNI';
         } else if ($bulan == '07'){
-            $bulan = 'Juli';
+            $bulan = 'JULI';
         } else if ($bulan == '08'){
-            $bulan = 'Agustus';
+            $bulan = 'AGUSTUS';
         } else if ($bulan == '09'){
-            $bulan = 'September';
+            $bulan = 'SEPTEMBER';
         } else if ($bulan == '10'){
-            $bulan = 'Oktober';
+            $bulan = 'OKTOBER';
         } else if ($bulan == '11'){
-            $bulan = 'November';
+            $bulan = 'NOVEMBER';
         } else if ($bulan == '12'){
-            $bulan = 'Desember';
+            $bulan = 'DESEMBER';
         }
 
         $report_inl = DB::select("SELECT * FROM sp_report_defect_inline('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
@@ -172,29 +172,29 @@ class ReportController extends Controller
         }
 
         if ($bulan == '01') {
-            $bulan = 'Januari';
+            $bulan = 'JANUARI';
         } else if ($bulan == '02'){
-            $bulan = 'Februari';
+            $bulan = 'FEBRUARI';
         } else if ($bulan == '03'){
-            $bulan = 'Maret';
+            $bulan = 'MARET';
         } else if ($bulan == '04'){
-            $bulan = 'April';
+            $bulan = 'APRIL';
         } else if ($bulan == '05'){
-            $bulan = 'Mei';
+            $bulan = 'MEI';
         } else if ($bulan == '06'){
-            $bulan = 'Juni';
+            $bulan = 'JUNI';
         } else if ($bulan == '07'){
-            $bulan = 'Juli';
+            $bulan = 'JULI';
         } else if ($bulan == '08'){
-            $bulan = 'Agustus';
+            $bulan = 'AGUSTUS';
         } else if ($bulan == '09'){
-            $bulan = 'September';
+            $bulan = 'SEPTEMBER';
         } else if ($bulan == '10'){
-            $bulan = 'Oktober';
+            $bulan = 'OKTOBER';
         } else if ($bulan == '11'){
-            $bulan = 'November';
+            $bulan = 'NOVEMBER';
         } else if ($bulan == '12'){
-            $bulan = 'Desember';
+            $bulan = 'DESEMBER';
         }
 
         $call_sp = DB::select("SELECT * FROM sp_report_inspeksi('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
@@ -270,29 +270,29 @@ class ReportController extends Controller
         }
 
         if ($bulan == '01') {
-            $bulan = 'Januari';
+            $bulan = 'JANUARI';
         } else if ($bulan == '02'){
-            $bulan = 'Februari';
+            $bulan = 'FEBRUARI';
         } else if ($bulan == '03'){
-            $bulan = 'Maret';
+            $bulan = 'MARET';
         } else if ($bulan == '04'){
-            $bulan = 'April';
+            $bulan = 'APRIL';
         } else if ($bulan == '05'){
-            $bulan = 'Mei';
+            $bulan = 'MEI';
         } else if ($bulan == '06'){
-            $bulan = 'Juni';
+            $bulan = 'JUNI';
         } else if ($bulan == '07'){
-            $bulan = 'Juli';
+            $bulan = 'JULI';
         } else if ($bulan == '08'){
-            $bulan = 'Agustus';
+            $bulan = 'AGUSTUS';
         } else if ($bulan == '09'){
-            $bulan = 'September';
+            $bulan = 'SEPTEMBER';
         } else if ($bulan == '10'){
-            $bulan = 'Oktober';
+            $bulan = 'OKTOBER';
         } else if ($bulan == '11'){
-            $bulan = 'November';
+            $bulan = 'NOVEMBER';
         } else if ($bulan == '12'){
-            $bulan = 'Desember';
+            $bulan = 'DESEMBER';
         }
 
         $call_sp = DB::select("SELECT * FROM sp_report_critical('%".$bulan."%', '%".$tahun."%', '%".$dept."%', '".session()->get('id_user')."')");
@@ -434,29 +434,29 @@ class ReportController extends Controller
         }
 
         if ($bulan == '01') {
-            $bulan = 'Januari';
+            $bulan = 'JANUARI';
         } else if ($bulan == '02'){
-            $bulan = 'Februari';
+            $bulan = 'FEBRUARI';
         } else if ($bulan == '03'){
-            $bulan = 'Maret';
+            $bulan = 'MARET';
         } else if ($bulan == '04'){
-            $bulan = 'April';
+            $bulan = 'APRIL';
         } else if ($bulan == '05'){
-            $bulan = 'Mei';
+            $bulan = 'MEI';
         } else if ($bulan == '06'){
-            $bulan = 'Juni';
+            $bulan = 'JUNI';
         } else if ($bulan == '07'){
-            $bulan = 'Juli';
+            $bulan = 'JULI';
         } else if ($bulan == '08'){
-            $bulan = 'Agustus';
+            $bulan = 'AGUSTUS';
         } else if ($bulan == '09'){
-            $bulan = 'September';
+            $bulan = 'SEPTEMBER';
         } else if ($bulan == '10'){
-            $bulan = 'Oktober';
+            $bulan = 'OKTOBER';
         } else if ($bulan == '11'){
-            $bulan = 'November';
+            $bulan = 'NOVEMBER';
         } else if ($bulan == '12'){
-            $bulan = 'Desember';
+            $bulan = 'DESEMBER';
         }
 
         $report_qty_defect_inline = DB::table('vw_rekap_defect')
