@@ -173,6 +173,9 @@ class InspeksiFinalController extends Controller
         $jam_selesai = new DateTime($request->jam_selesai);
         $jam_mulai_ora = date('H:i:s', strtotime($request->jam_mulai));
         $jam_selesai_ora = date('H:i:s', strtotime($request->jam_selesai));
+        $h1 = date('H', strtotime($request->jam_mulai));
+        $h2 = date('H', strtotime($request->jam_selesai));
+
         $interval = round(($jam_selesai->format('U') - $jam_mulai->format('U')) / 60);
         $lama_inspeksi = $interval;
         $jop = strtoupper($request->jop);
@@ -229,6 +232,12 @@ class InspeksiFinalController extends Controller
                 $status = 'REJECT';
         } else if ($kriteria == '' || $kriteria == '0'){
             $status = 'PASS';
+        }
+
+        if ($h1 == '23' && $h2 == '00'){
+            $lama_inspeksi = $interval + 1440;
+        } else {
+            $lama_inspeksi = $interval;
         }
 
         if ($picture_1 <> '') {
