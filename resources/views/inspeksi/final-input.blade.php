@@ -152,7 +152,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Pcs</label></div>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="2" placeholder="Qty Barang Siap (Pcs)">
+                            <input type="number" class="form-control" id="qty_ready_pcs" name="qty_ready_pcs" maxlength="6" min="2" placeholder="Qty Barang Siap (Pcs)">
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -173,36 +173,10 @@
                         </div>
                     </div>
 
-
-                    <!-- <div class="form-group" style="margin-bottom:1px;">
-                        <div class="col-sm-2 control-label"><label>Brg Siap (Pcs)</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_ready_pcs" maxlength="6" min="0" placeholder="Barang Siap (Pcs)">
-                        </div>
-                        <div class="col-sm-2">
-                            {{-- @if(isset($id_satuan))
-                            <select class="form-control select2" name="qty_ready_pcs" id="qty_ready_pcs" style="background-color: #f4f4f4;" disabled>
-                            @else
-                            <select class="form-control select2" name="satuan_qty_ready_pcs" id="satuan_qty_ready_pcs" required>
-                            @endif
-                                <option>Satuan</option>
-                                @foreach ($satuan as $sat)
-                                    @if(isset($id_satuan))
-                                        <option value="{{ $sat->kode_satuan }}" {{ old('id_satuan', $kode_satuan) == $sat->kode_satuan ? 'selected':''}}>{{ $sat->kode_satuan }}</option>
-                                    @else
-                                        <option value="{{ $sat->kode_satuan }}">{{ $sat->kode_satuan }}</option>
-                                    @endif
-                                @endforeach --}}
-                            </select>
-                        </div>
-                    </div> -->
-
-
-
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Riil</label></div>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_sample_riil" maxlength="6" min="0" placeholder="Qty Riil" required>
+                            <input type="number" class="form-control" id="qty_sample_riil" name="qty_sample_riil" maxlength="6" min="0" placeholder="Qty Riil" required>
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -222,10 +196,6 @@
                         </select>
                         </div>
 
-                        {{-- <div class="col-sm-2 control-label"><label>Qty Aql</label></div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_sample_aql" maxlength="6" min="0" placeholder="Qty Aql" required>
-                        </div> --}}
                     </div>
 
                     <br>
@@ -233,8 +203,8 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Defect</label></div>
                         <div class="col-sm-6">
-                            <select class="form-control select2" name="id_defect">
-                                <option value="">Pilih Defect</option>
+                            <select class="form-control select2" id="id_defect" name="id_defect">
+                                <option value="0">Pilih Defect</option>
                                 @foreach ($defect as $def)
                                     <option value="{{ $def->id_defect }}">{{ $def->defect }}</option>
                                 @endforeach
@@ -257,8 +227,8 @@
 
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Def'</label></div>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
+                        <div class="col-sm-4">
+                            <input type="number" id="qdef" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -282,7 +252,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Rj'ct</label></div>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject">
+                            <input type="number" id="qty_reject_all" class="form-control" name="qty_reject_all" maxlength="6" min="0" placeholder="Qty Reject">
                         </div>
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
@@ -306,14 +276,6 @@
                     <br>
 
                     <div class="form-group" style="margin-bottom:1px;">
-                        {{-- <div class="col-sm-2 control-label"><label>Hasil</label></div>
-                        <div class="col-sm-4">
-                            <select id="status" class="form-control select2" name="status" maxlength="10" required="">
-                                <option value="">Pilih Hasil</option>
-                                <option value="PASS">Pass</option>
-                                <option value="REJECT">Reject</option>
-                            </select>
-                        </div> --}}
                         <div class="col-sm-2 control-label"><label>Recom'd</label></div>
                         <div class="col-sm-4">
                             <textarea class="form-control" rows="2" name="keterangan" placeholder="Rekomendasi" autocomplete="false"></textarea>
@@ -352,7 +314,6 @@
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" onclick="CheckingValue()">Submit</button>
                             <button type="button" onclick="resetdata()" value="reset" class="btn btn-warning waves-effect waves-light m-r-10">Reset</button>
 
-                            {{-- <a href="/final-input"><button type="button" class="btn btn-inverse waves-effect waves-light">Cancel</button></a> --}}
                         </div>
                     </div>
                 </form>
@@ -569,7 +530,7 @@
                     success:function(data) {
                         if (data){
                             $('select[name="id_defect"]').empty();
-                            $('select[name="id_defect"]').append('<option value="" selected>Pilih Defect</option>');
+                            $('select[name="id_defect"]').append('<option value="0" selected>Pilih Defect</option>');
                             // Remove options
                             $('#id_defect').select2();
                             for (var i=0;i<data.length;i++) {
@@ -770,10 +731,11 @@
         var shift   = $('#shift').select2('val');
         var dept    = $('#id_departemen').select2('val');
         var sub     = $('#id_sub_departemen').select2('val');
-        var srl     = $('#satuan_qty_sample_riil').select2('val');
+        var msn     = $('#id_mesin').select2('val');
         var def     = $('#id_defect').select2('val');
         var krt     = $('#kriteria').select2('val');
-        var sat     = $('#satuan_qty_reject_all').select2('val');
+        var sat     = $('#satuan_qty_ready_pcs').select2('val');
+        var sts     = $('#status').select2('val');
 
         if(shift == ''){
             alert('Data shift tidak boleh kosong!')
@@ -790,24 +752,23 @@
             return $('#id_sub_departemen').select2('open');
         }
 
-        if(srl == ''){
-            alert('Data satuan Qty riil tidak boleh kosong!')
-            return $('#satuan_qty_sample_riil').select2('open');
+        if(msn == ''){
+            alert('Data mesin tidak boleh kosong!')
+            return $('#id_mesin').select2('open');
         }
 
-        // if(def == ''){
-        //     alert('Data defect tidak boleh kosong!')
-        //     return $('#id_defect').select2('open');
-        // }
-
-        // if(krt == ''){
-        //     alert('Data kriteria tidak boleh kosong!')
-        //     return $('#kriteria').select2('open');
-        // }
+        if(def != "0"){
+            document.getElementById("qdef").required = true;
+        }
 
         if(sat == ''){
             alert('Data satuan tidak boleh kosong!')
             return $('#satuan_qty_ready_pcs').select2('open');
+        }
+
+        if(sts == ''){
+            alert('Data status tidak boleh kosong!')
+            return $('#status').select2('open');
         }
     }
 

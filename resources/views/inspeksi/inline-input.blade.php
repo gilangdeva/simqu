@@ -183,7 +183,7 @@
                     <div class="form-group" style="margin-bottom:1px;">
                         <div class="col-sm-2 control-label"><label>Qty Temuan</label></div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
+                            <input type="number" id="qdef" class="form-control" name="qty_defect" maxlength="6" min="0" placeholder="Qty Temuan">
                         </div>
 
                         <div class="col-sm-2 control-label"><label>Brg Siap</label></div>
@@ -751,15 +751,9 @@
             return $('#id_mesin').select2('open');
         }
 
-        // if(def == ''){
-        //     alert('Data defect tidak boleh kosong!')
-        //     return $('#id_defect').select2('open');
-        // }
-
-        // if(krt == '' || krt == '0'){
-        //     alert('Data kriteria tidak boleh kosong!')
-        //     return $('#kriteria').select2('open');
-        // }
+        if(def != "0"){
+            document.getElementById("qdef").required = true;
+        }
 
         if(sat == ''){
             alert('Data satuan tidak boleh kosong!')

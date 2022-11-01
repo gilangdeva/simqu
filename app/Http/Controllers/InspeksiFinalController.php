@@ -485,8 +485,8 @@ class InspeksiFinalController extends Controller
             'satuan_qty_sample_riil'    => $satuan_qty_sample_riil,
             'video_1'                   => $name_v1,
             'video_2'                   => $name_v2
-
         ]);
+        // return $request;
 
         if(($row == 0) || ($row == '')){
             alert()->success('Berhasil!', 'Data Sukses Disimpan!');
