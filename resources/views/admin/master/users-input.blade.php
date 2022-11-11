@@ -31,9 +31,9 @@
                             @if (isset($select))
                                 <input type="text" class="form-control" name="nama_user" maxlength="20" value="{{ $select->nama_user }}" required>
                             @else
-                                <input type="text" class="form-control" name="nama_user" maxlength="20" placeholder="Nama Lengkap" required>    
+                                <input type="text" class="form-control" name="nama_user" maxlength="20" placeholder="Nama Lengkap" required>
                             @endif
-                            
+
                         </div>
                     </div>
 
@@ -48,12 +48,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-bottom:3px;">
+                    {{-- <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Password</label>
                         <div class="col-sm-9">
                             <input type="password" class="form-control" name="password" maxlength="20" placeholder="Password" required>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group" style="margin-bottom:3px;">
                         <label class="col-sm-3 control-label">Jenis Pengguna</label>
@@ -64,14 +64,14 @@
                                     <option>Pilih Jenis Pengguna</option>
                                     <option value="Inspektor" {{ old('jenis_user', $select->jenis_user) == 'Inspektor' ? 'selected':''}}>Inspektor</option>
                                     <option value="Manager" {{ old('jenis_user', $select->jenis_user) == 'Manager' ? 'selected':''}}>Manager</option>
-                                    <option value="Administrator" {{ old('jenis_user', $select->jenis_user) == 'Administrator' ? 'selected':''}}>Administrator</option>    
+                                    <option value="Administrator" {{ old('jenis_user', $select->jenis_user) == 'Administrator' ? 'selected':''}}>Administrator</option>
                                 @else
                                     <option>Pilih Jenis Pengguna</option>
                                     <option value="Inspektor">Inspektor</option>
                                     <option value="Manager">Manager</option>
-                                    <option value="Administrator">Administrator</option>    
+                                    <option value="Administrator">Administrator</option>
                                 @endif
-                                
+
                             </select>
                         </div>
                     </div>
