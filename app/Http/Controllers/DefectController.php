@@ -293,7 +293,7 @@ class DefectController extends Controller
 
             // delete data inspeksi di table oracle
             $host = DB::table("tb_master_host")->orderBy('id_host','asc')->first();
-            $request = Http::delete($host->host.'/api/hdfct/'.$id_defect);// Url of your choosing
+            $request = Http::delete($host->host.'/api/hdfct/'.$id);// Url of your choosing
 
             // Move to department list page
             alert()->success('Berhasil!', 'Berhasil Menghapus Data!');
